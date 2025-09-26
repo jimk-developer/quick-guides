@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Quick Guide</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .example {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .example h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .grid-demo {
+            border: 2px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+            background: #ecf0f1;
+            border-radius: 6px;
+        }
+
+        .grid-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+            font-size: 14px;
+        }
+
+        .grid-item:nth-child(2n) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .grid-item:nth-child(3n) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .grid-item:nth-child(4n) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .grid-item:nth-child(5n) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* Grid Examples */
+        .basic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .fixed-grid {
+            display: grid;
+            grid-template-columns: 200px 200px 200px;
+            gap: 15px;
+        }
+
+        .mixed-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr 100px;
+            gap: 15px;
+        }
+
+        .repeat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .minmax-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .gap-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .area-grid {
+            display: grid;
+            grid-template-areas: 
+                "header header header"
+                "sidebar content ads"
+                "footer footer footer";
+            grid-template-rows: 80px 200px 60px;
+            grid-template-columns: 150px 1fr 100px;
+            gap: 15px;
+            height: 400px;
+        }
+
+        .header { grid-area: header; }
+        .sidebar { grid-area: sidebar; }
+        .content { grid-area: content; }
+        .ads { grid-area: ads; }
+        .footer { grid-area: footer; }
+
+        .span-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        .span-3 {
+            grid-column: span 3;
+        }
+
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .alignment-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            gap: 15px;
+            height: 200px;
+            justify-content: center;
+            align-items: center;
+            background: #e8f4f8;
+        }
+
+        .dense-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-flow: dense;
+            gap: 15px;
+        }
+
+        .tall { grid-row: span 2; }
+        .wide { grid-column: span 2; }
+
+        .overlay-demo {
+            position: relative;
+            font-size: 12px;
+        }
+
+        .overlay-demo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(52, 152, 219, 0.1) 0%, 
+                rgba(52, 152, 219, 0.1) 33.33%, 
+                transparent 33.33%, 
+                transparent 66.66%, 
+                rgba(52, 152, 219, 0.1) 66.66%);
+            pointer-events: none;
+            border: 1px dashed #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .fixed-grid, .mixed-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .area-grid {
+                grid-template-areas: 
+                    "header"
+                    "content"
+                    "sidebar"
+                    "ads"
+                    "footer";
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(5, auto);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 CSS Grid Quick Guide</h1>
+        
+        <div class="section">
+            <h2>Basic Grid Layouts</h2>
+            
+            <div class="example">
+                <h3>1. Equal Columns with Fractional Units</h3>
+                <div class="code">grid-template-columns: 1fr 1fr 1fr;</div>
+                <div class="grid-demo basic-grid overlay-demo">
+                    <div class="grid-item">Item 1</div>
+                    <div class="grid-item">Item 2</div>
+                    <div class="grid-item">Item 3</div>
+                    <div class="grid-item">Item 4</div>
+                    <div class="grid-item">Item 5</div>
+                    <div class="grid-item">Item 6</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>2. Fixed Width Columns</h3>
+                <div class="code">grid-template-columns: 200px 200px 200px;</div>
+                <div class="grid-demo fixed-grid overlay-demo">
+                    <div class="grid-item">200px</div>
+                    <div class="grid-item">200px</div>
+                    <div class="grid-item">200px</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>3. Mixed Units (Fixed + Flexible)</h3>
+                <div class="code">grid-template-columns: 100px 1fr 100px;</div>
+                <div class="grid-demo mixed-grid overlay-demo">
+                    <div class="grid-item">100px</div>
+                    <div class="grid-item">Flexible</div>
+                    <div class="grid-item">100px</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>4. Repeat Function</h3>
+                <div class="code">grid-template-columns: repeat(4, 1fr);</div>
+                <div class="grid-demo repeat-grid overlay-demo">
+                    <div class="grid-item">1</div>
+                    <div class="grid-item">2</div>
+                    <div class="grid-item">3</div>
+                    <div class="grid-item">4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Advanced Sizing</h2>
+            
+            <div class="example">
+                <h3>MinMax Function</h3>
+                <div class="code">grid-template-columns: repeat(3, minmax(150px, 1fr));</div>
+                <div class="grid-demo minmax-grid overlay-demo">
+                    <div class="grid-item">Min 150px</div>
+                    <div class="grid-item">Min 150px</div>
+                    <div class="grid-item">Min 150px</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Responsive Auto-Fit</h3>
+                <div class="code">grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));</div>
+                <div class="grid-demo responsive-grid overlay-demo">
+                    <div class="grid-item">Auto-fit</div>
+                    <div class="grid-item">Auto-fit</div>
+                    <div class="grid-item">Auto-fit</div>
+                    <div class="grid-item">Auto-fit</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Grid Gap</h2>
+            
+            <div class="example">
+                <h3>Large Gap Between Items</h3>
+                <div class="code">gap: 30px;</div>
+                <div class="grid-demo gap-demo overlay-demo">
+                    <div class="grid-item">Item 1</div>
+                    <div class="grid-item">Item 2</div>
+                    <div class="grid-item">Item 3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Grid Template Areas</h2>
+            
+            <div class="example">
+                <h3>Named Grid Areas (Holy Grail Layout)</h3>
+                <div class="code">grid-template-areas: 
+    "header header header"
+    "sidebar content ads"
+    "footer footer footer";</div>
+                <div class="grid-demo area-grid">
+                    <div class="grid-item header">Header</div>
+                    <div class="grid-item sidebar">Sidebar</div>
+                    <div class="grid-item content">Main Content</div>
+                    <div class="grid-item ads">Ads</div>
+                    <div class="grid-item footer">Footer</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Item Spanning</h2>
+            
+            <div class="example">
+                <h3>Column Spanning</h3>
+                <div class="code">grid-column: span 2; /* spans 2 columns */
+grid-column: span 3; /* spans 3 columns */</div>
+                <div class="grid-demo span-grid overlay-demo">
+                    <div class="grid-item">Item 1</div>
+                    <div class="grid-item span-2">Spans 2 Columns</div>
+                    <div class="grid-item">Item 3</div>
+                    <div class="grid-item span-3">Spans 3 Columns</div>
+                    <div class="grid-item">Item 5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Alignment</h2>
+            
+            <div class="example">
+                <h3>Center Alignment</h3>
+                <div class="code">justify-content: center;
+align-items: center;</div>
+                <div class="grid-demo alignment-grid">
+                    <div class="grid-item">Centered</div>
+                    <div class="grid-item">Centered</div>
+                    <div class="grid-item">Centered</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Grid Auto Flow</h2>
+            
+            <div class="example">
+                <h3>Dense Packing</h3>
+                <div class="code">grid-auto-flow: dense;</div>
+                <div class="grid-demo dense-grid overlay-demo">
+                    <div class="grid-item">1</div>
+                    <div class="grid-item wide">2 (wide)</div>
+                    <div class="grid-item">3</div>
+                    <div class="grid-item tall">4 (tall)</div>
+                    <div class="grid-item">5</div>
+                    <div class="grid-item">6</div>
+                    <div class="grid-item">7</div>
+                    <div class="grid-item">8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quick Reference</h2>
+            <div class="example">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>🏗️ Container Properties</h4>
+                        <div class="code" style="font-size: 12px;">
+display: grid;
+grid-template-columns: ...;
+grid-template-rows: ...;
+gap: 20px;
+justify-content: center;
+align-items: center;
+                        </div>
+                    </div>
+                    <div>
+                        <h4>📦 Item Properties</h4>
+                        <div class="code" style="font-size: 12px;">
+grid-column: span 2;
+grid-row: span 3;
+grid-area: header;
+justify-self: center;
+align-self: start;
+                        </div>
+                    </div>
+                    <div>
+                        <h4>📏 Common Units</h4>
+                        <div class="code" style="font-size: 12px;">
+fr - fractional unit
+px - pixels
+% - percentage
+auto - content size
+min-content, max-content
+                        </div>
+                    </div>
+                    <div>
+                        <h4>🔧 Functions</h4>
+                        <div class="code" style="font-size: 12px;">
+repeat(3, 1fr)
+minmax(100px, 1fr)
+auto-fit, auto-fill
+fit-content(300px)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.grid-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+                this.style.transition = 'transform 0.2s ease';
+                this.style.zIndex = '10';
+                this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.2)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.zIndex = '1';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Responsive behavior demo
+        window.addEventListener('resize', function() {
+            const width = window.innerWidth;
+            const message = width < 768 ? 'Mobile View' : 'Desktop View';
+            
+            // Update a status indicator if needed
+            console.log(`Current view: ${message} (${width}px)`);
+        });
+    </script>
+</body>
+</html>
