@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Quick Guide</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+
+        .example {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+        }
+
+        .example h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .flex-demo {
+            border: 2px solid #9b59b6;
+            padding: 15px;
+            margin: 15px 0;
+            background: #ecf0f1;
+            border-radius: 6px;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .flex-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            margin: 2px;
+            min-width: 80px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .flex-item:nth-child(2n) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .flex-item:nth-child(3n) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .flex-item:nth-child(4n) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .flex-item:nth-child(5n) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* Direction Examples */
+        .flex-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .flex-row-reverse {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .flex-column {
+            display: flex;
+            flex-direction: column;
+            height: 250px;
+        }
+
+        .flex-column-reverse {
+            display: flex;
+            flex-direction: column-reverse;
+            height: 250px;
+        }
+
+        /* Justify Content Examples */
+        .justify-start {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .justify-end {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .justify-center {
+            display: flex;
+            justify-content: center;
+        }
+
+        .justify-between {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .justify-around {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .justify-evenly {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        /* Align Items Examples */
+        .align-start {
+            display: flex;
+            align-items: flex-start;
+            height: 150px;
+        }
+
+        .align-end {
+            display: flex;
+            align-items: flex-end;
+            height: 150px;
+        }
+
+        .align-center {
+            display: flex;
+            align-items: center;
+            height: 150px;
+        }
+
+        .align-stretch {
+            display: flex;
+            align-items: stretch;
+            height: 150px;
+        }
+
+        .align-baseline {
+            display: flex;
+            align-items: baseline;
+            height: 150px;
+        }
+
+        /* Wrap Examples */
+        .flex-nowrap {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .flex-wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .flex-wrap-reverse {
+            display: flex;
+            flex-wrap: wrap-reverse;
+            height: 200px;
+        }
+
+        /* Flex Item Properties */
+        .flex-grow-demo {
+            display: flex;
+        }
+
+        .flex-grow-1 {
+            flex-grow: 1;
+        }
+
+        .flex-grow-2 {
+            flex-grow: 2;
+        }
+
+        .flex-shrink-demo {
+            display: flex;
+            width: 300px;
+        }
+
+        .flex-shrink-0 {
+            flex-shrink: 0;
+            width: 150px;
+        }
+
+        .flex-basis-demo {
+            display: flex;
+        }
+
+        .flex-basis-200 {
+            flex-basis: 200px;
+        }
+
+        .flex-basis-100 {
+            flex-basis: 100px;
+        }
+
+        /* Self Alignment */
+        .align-self-demo {
+            display: flex;
+            height: 150px;
+            align-items: flex-start;
+        }
+
+        .align-self-end {
+            align-self: flex-end;
+        }
+
+        .align-self-center {
+            align-self: center;
+        }
+
+        .align-self-stretch {
+            align-self: stretch;
+        }
+
+        /* Perfect Center */
+        .perfect-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Navbar Example */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #34495e;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+        }
+
+        .nav-brand {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Card Layout */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            flex: 0 1 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
+        }
+
+        /* Responsive utilities */
+        .flex-item.wide {
+            width: 120px;
+        }
+
+        .flex-item.tall {
+            height: 100px;
+        }
+
+        .flex-item.small-text {
+            font-size: 12px;
+        }
+
+        .flex-item.large-text {
+            font-size: 18px;
+        }
+
+        /* Interactive elements */
+        .flex-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Direction indicators */
+        .direction-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(155, 89, 182, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .axis-labels {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+
+        .main-axis::before {
+            content: "→ Main Axis";
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .cross-axis::before {
+            content: "↓ Cross Axis";
+            color: #3498db;
+            font-weight: bold;
+            transform: rotate(90deg);
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .flex-demo {
+                padding: 10px;
+            }
+            
+            .flex-item {
+                min-width: 60px;
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .card {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 CSS Flexbox Quick Guide</h1>
+        
+        <div class="section">
+            <h2>Flex Direction</h2>
+            
+            <div class="example">
+                <h3>1. Row (Default)</h3>
+                <div class="code">display: flex;
+flex-direction: row;</div>
+                <div class="axis-labels">
+                    <span class="main-axis"></span> &nbsp;&nbsp;&nbsp; <span class="cross-axis"></span>
+                </div>
+                <div class="flex-demo flex-row">
+                    <div class="direction-indicator">ROW</div>
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>2. Row Reverse</h3>
+                <div class="code">flex-direction: row-reverse;</div>
+                <div class="flex-demo flex-row-reverse">
+                    <div class="direction-indicator">ROW-REV</div>
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>3. Column</h3>
+                <div class="code">flex-direction: column;</div>
+                <div class="flex-demo flex-column">
+                    <div class="direction-indicator">COL</div>
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>4. Column Reverse</h3>
+                <div class="code">flex-direction: column-reverse;</div>
+                <div class="flex-demo flex-column-reverse">
+                    <div class="direction-indicator">COL-REV</div>
+                    <div class="flex-item">1</div>
+                    <div class="flex-item">2</div>
+                    <div class="flex-item">3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Justify Content (Main Axis)</h2>
+            
+            <div class="example">
+                <h3>Flex-Start (Default)</h3>
+                <div class="code">justify-content: flex-start;</div>
+                <div class="flex-demo justify-start">
+                    <div class="flex-item">Start</div>
+                    <div class="flex-item">Items</div>
+                    <div class="flex-item">Here</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Flex-End</h3>
+                <div class="code">justify-content: flex-end;</div>
+                <div class="flex-demo justify-end">
+                    <div class="flex-item">End</div>
+                    <div class="flex-item">Items</div>
+                    <div class="flex-item">Here</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Center</h3>
+                <div class="code">justify-content: center;</div>
+                <div class="flex-demo justify-center">
+                    <div class="flex-item">Center</div>
+                    <div class="flex-item">Items</div>
+                    <div class="flex-item">Here</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Space-Between</h3>
+                <div class="code">justify-content: space-between;</div>
+                <div class="flex-demo justify-between">
+                    <div class="flex-item">Space</div>
+                    <div class="flex-item">Between</div>
+                    <div class="flex-item">Items</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Space-Around</h3>
+                <div class="code">justify-content: space-around;</div>
+                <div class="flex-demo justify-around">
+                    <div class="flex-item">Space</div>
+                    <div class="flex-item">Around</div>
+                    <div class="flex-item">Items</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Space-Evenly</h3>
+                <div class="code">justify-content: space-evenly;</div>
+                <div class="flex-demo justify-evenly">
+                    <div class="flex-item">Space</div>
+                    <div class="flex-item">Evenly</div>
+                    <div class="flex-item">Items</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Align Items (Cross Axis)</h2>
+            
+            <div class="example">
+                <h3>Flex-Start</h3>
+                <div class="code">align-items: flex-start;</div>
+                <div class="flex-demo align-start">
+                    <div class="flex-item">Top</div>
+                    <div class="flex-item tall">Tall Item</div>
+                    <div class="flex-item">Top</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Flex-End</h3>
+                <div class="code">align-items: flex-end;</div>
+                <div class="flex-demo align-end">
+                    <div class="flex-item">Bottom</div>
+                    <div class="flex-item tall">Tall Item</div>
+                    <div class="flex-item">Bottom</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Center</h3>
+                <div class="code">align-items: center;</div>
+                <div class="flex-demo align-center">
+                    <div class="flex-item">Middle</div>
+                    <div class="flex-item tall">Tall Item</div>
+                    <div class="flex-item">Middle</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Stretch (Default)</h3>
+                <div class="code">align-items: stretch;</div>
+                <div class="flex-demo align-stretch">
+                    <div class="flex-item">Stretch</div>
+                    <div class="flex-item">All Same</div>
+                    <div class="flex-item">Height</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Baseline</h3>
+                <div class="code">align-items: baseline;</div>
+                <div class="flex-demo align-baseline">
+                    <div class="flex-item small-text">Small</div>
+                    <div class="flex-item large-text">Large Text</div>
+                    <div class="flex-item">Normal</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Flex Wrap</h2>
+            
+            <div class="example">
+                <h3>No Wrap (Default)</h3>
+                <div class="code">flex-wrap: nowrap;</div>
+                <div class="flex-demo flex-nowrap">
+                    <div class="flex-item wide">Item 1</div>
+                    <div class="flex-item wide">Item 2</div>
+                    <div class="flex-item wide">Item 3</div>
+                    <div class="flex-item wide">Item 4</div>
+                    <div class="flex-item wide">Item 5</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Wrap</h3>
+                <div class="code">flex-wrap: wrap;</div>
+                <div class="flex-demo flex-wrap">
+                    <div class="flex-item wide">Item 1</div>
+                    <div class="flex-item wide">Item 2</div>
+                    <div class="flex-item wide">Item 3</div>
+                    <div class="flex-item wide">Item 4</div>
+                    <div class="flex-item wide">Item 5</div>
+                    <div class="flex-item wide">Item 6</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Wrap Reverse</h3>
+                <div class="code">flex-wrap: wrap-reverse;</div>
+                <div class="flex-demo flex-wrap-reverse">
+                    <div class="flex-item wide">Item 1</div>
+                    <div class="flex-item wide">Item 2</div>
+                    <div class="flex-item wide">Item 3</div>
+                    <div class="flex-item wide">Item 4</div>
+                    <div class="flex-item wide">Item 5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Flex Item Properties</h2>
+            
+            <div class="example">
+                <h3>Flex Grow</h3>
+                <div class="code">flex-grow: 1; /* grows to fill space */
+flex-grow: 2; /* grows twice as much */</div>
+                <div class="flex-demo flex-grow-demo">
+                    <div class="flex-item">Fixed</div>
+                    <div class="flex-item flex-grow-1">Grow 1</div>
+                    <div class="flex-item flex-grow-2">Grow 2</div>
+                    <div class="flex-item">Fixed</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Flex Shrink</h3>
+                <div class="code">flex-shrink: 0; /* won't shrink */</div>
+                <div class="flex-demo flex-shrink-demo">
+                    <div class="flex-item flex-shrink-0">No Shrink</div>
+                    <div class="flex-item">Can Shrink</div>
+                    <div class="flex-item">Can Shrink</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Flex Basis</h3>
+                <div class="code">flex-basis: 200px; /* initial size */
+flex-basis: 100px;</div>
+                <div class="flex-demo flex-basis-demo">
+                    <div class="flex-item flex-basis-200">Basis 200px</div>
+                    <div class="flex-item flex-basis-100">Basis 100px</div>
+                    <div class="flex-item">Auto</div>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Align Self</h3>
+                <div class="code">align-self: flex-end;
+align-self: center;
+align-self: stretch;</div>
+                <div class="flex-demo align-self-demo">
+                    <div class="flex-item">Start</div>
+                    <div class="flex-item align-self-end">End</div>
+                    <div class="flex-item align-self-center">Center</div>
+                    <div class="flex-item align-self-stretch">Stretch</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Perfect Centering</h2>
+            
+            <div class="example">
+                <h3>Center Everything</h3>
+                <div class="code">display: flex;
+justify-content: center;
+align-items: center;</div>
+                <div class="perfect-center">
+                    PERFECTLY CENTERED! 🎯
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Real-World Examples</h2>
+            
+            <div class="example">
+                <h3>Navigation Bar</h3>
+                <div class="code">display: flex;
+justify-content: space-between;
+align-items: center;</div>
+                <nav class="navbar">
+                    <div class="nav-brand">Brand</div>
+                    <div class="nav-links">
+                        <a href="#" class="nav-link">Home</a>
+                        <a href="#" class="nav-link">About</a>
+                        <a href="#" class="nav-link">Contact</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="example">
+                <h3>Responsive Card Layout</h3>
+                <div class="code">display: flex;
+flex-wrap: wrap;
+justify-content: center;
+flex: 0 1 300px;</div>
+                <div class="card-container">
+                    <div class="card">
+                        <h4>Card 1</h4>
+                        <p>This card will wrap to new line on smaller screens and grow/shrink as needed.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Card 2</h4>
+                        <p>Flexible card layout that adapts to screen size beautifully.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Card 3</h4>
+                        <p>Perfect for responsive design patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quick Reference</h2>
+            <div class="example">
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <div style="flex: 1 1 300px;">
+                        <h4>🏗️ Container Properties</h4>
+                        <div class="code" style="font-size: 12px;">
+display: flex;
+flex-direction: row | column;
+justify-content: center;
+align-items: center;
+flex-wrap: wrap;
+gap: 20px;
+                        </div>
+                    </div>
+                    <div style="flex: 1 1 300px;">
+                        <h4>📦 Item Properties</h4>
+                        <div class="code" style="font-size: 12px;">
+flex-grow: 1;
+flex-shrink: 1;
+flex-basis: auto;
+align-self: center;
+order: 2;
+                        </div>
+                    </div>
+                    <div style="flex: 1 1 300px;">
+                        <h4>🎯 Common Patterns</h4>
+                        <div class="code" style="font-size: 12px;">
+/* Perfect Center */
+justify-content: center;
+align-items: center;
+
+/* Equal Width Items */
+flex: 1;
+                        </div>
+                    </div>
+                    <div style="flex: 1 1 300px;">
+                        <h4>🔧 Shorthand</h4>
+                        <div class="code" style="font-size: 12px;">
+flex: 1;
+/* = flex-grow: 1, 
+     flex-shrink: 1, 
+     flex-basis: 0% */
+
+flex: 0 1 auto; /* default */
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.flex-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Show flex properties in console for learning
+                const computedStyle = getComputedStyle(this);
+                console.log('Flex Item Properties:', {
+                    'flex-grow': computedStyle.flexGrow,
+                    'flex-shrink': computedStyle.flexShrink,
+                    'flex-basis': computedStyle.flexBasis,
+                    'align-self': computedStyle.alignSelf
+                });
+                
+                // Visual feedback
+                this.style.outline = '2px solid #e74c3c';
+                setTimeout(() => {
+                    this.style.outline = 'none';
+                }, 1000);
+            });
+        });
+
+        // Responsive indicator
+        function updateResponsiveIndicator() {
+            const width = window.innerWidth;
+            const indicator = document.querySelector('.responsive-indicator');
+            if (indicator) {
+                indicator.textContent = width < 768 ? 'Mobile Layout' : 'Desktop Layout';
+            }
+        }
+
+        window.addEventListener('resize', updateResponsiveIndicator);
+        updateResponsiveIndicator();
+
+        // Add visual axis indicators on hover
+        document.querySelectorAll('.flex-demo').forEach(demo => {
+            demo.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 0 15px rgba(155, 89, 182, 0.3)';
+            });
+            
+            demo.addEventListener('mouseleave', function() {
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
