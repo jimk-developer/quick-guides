@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Arrays Quick Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #667eea;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .method {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .syntax-pattern {
+            background: #fffbea;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .array-visual {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .array-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .array-box {
+            border: 2px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 5px;
+            background: #f0f4ff;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .index-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 JavaScript Arrays</h1>
+            <p>A Beginner's Guide to Arrays</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What are Arrays?</h2>
+            <p>An <strong>array</strong> is a special type of variable that can hold multiple values in a single container. Think of an array as a numbered list where each item has a position (called an index).</p>
+
+            <div class="array-visual">
+                <h4>Array Structure Visualization</h4>
+                <p style="margin: 10px 0; font-family: 'Courier New', monospace;">let fruits = ["apple", "banana", "orange"];</p>
+                <div class="array-boxes">
+                    <div>
+                        <div class="array-box">"apple"</div>
+                        <div class="index-label">Index: 0</div>
+                    </div>
+                    <div>
+                        <div class="array-box">"banana"</div>
+                        <div class="index-label">Index: 1</div>
+                    </div>
+                    <div>
+                        <div class="array-box">"orange"</div>
+                        <div class="index-label">Index: 2</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>💡 Key Array Concepts:</strong>
+                <ul>
+                    <li><strong>Zero-indexed</strong> - Arrays start counting at 0, not 1</li>
+                    <li><strong>Ordered</strong> - Items stay in the order you put them</li>
+                    <li><strong>Dynamic size</strong> - Arrays can grow or shrink as needed</li>
+                    <li><strong>Mixed types</strong> - Can hold different data types (though usually you use one type)</li>
+                </ul>
+            </div>
+
+            <h2>📝 Creating Arrays</h2>
+            <p>There are multiple ways to create arrays in JavaScript.</p>
+
+            <h3>Array Literal (Most Common)</h3>
+            <div class="code-block">
+<code><span class="comment">// Empty array</span>
+<span class="keyword">let</span> emptyArray = [];
+
+<span class="comment">// Array with numbers</span>
+<span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Array with strings</span>
+<span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+
+<span class="comment">// Array with mixed types (possible but not recommended)</span>
+<span class="keyword">let</span> mixed = [<span class="number">42</span>, <span class="string">"hello"</span>, <span class="keyword">true</span>];
+
+<span class="comment">// Array with multiple elements</span>
+<span class="keyword">let</span> weekdays = [
+    <span class="string">"Monday"</span>,
+    <span class="string">"Tuesday"</span>,
+    <span class="string">"Wednesday"</span>,
+    <span class="string">"Thursday"</span>,
+    <span class="string">"Friday"</span>
+];</code>
+            </div>
+
+            <h3>Array Constructor</h3>
+            <div class="code-block">
+<code><span class="comment">// Using the Array constructor</span>
+<span class="keyword">let</span> arr1 = <span class="keyword">new</span> Array(<span class="number">3</span>);        <span class="comment">// Creates array with 3 empty slots</span>
+<span class="keyword">let</span> arr2 = <span class="keyword">new</span> Array(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);  <span class="comment">// Creates [1, 2, 3]</span>
+
+<span class="comment">// Array literal is preferred for simplicity</span>
+<span class="keyword">let</span> preferred = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Best Practice:</strong> Use array literals <code>[]</code> instead of the Array constructor. It's simpler and less confusing.
+            </div>
+
+            <h2>🔍 Accessing Array Elements</h2>
+            <p>Access array elements using square brackets and the index number. Remember: arrays are zero-indexed!</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
+
+<span class="comment">// Accessing individual elements</span>
+console.log(fruits[<span class="number">0</span>]);  <span class="comment">// Output: "apple"</span>
+console.log(fruits[<span class="number">1</span>]);  <span class="comment">// Output: "banana"</span>
+console.log(fruits[<span class="number">2</span>]);  <span class="comment">// Output: "orange"</span>
+console.log(fruits[<span class="number">3</span>]);  <span class="comment">// Output: "grape"</span>
+
+<span class="comment">// Storing an element in a variable</span>
+<span class="keyword">let</span> firstFruit = fruits[<span class="number">0</span>];
+console.log(firstFruit);  <span class="comment">// Output: "apple"</span>
+
+<span class="comment">// Accessing out of bounds returns undefined</span>
+console.log(fruits[<span class="number">10</span>]);  <span class="comment">// Output: undefined</span></code>
+            </div>
+
+            <h3>Array Length</h3>
+            <p>The <code>length</code> property tells you how many elements are in an array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+
+console.log(colors.length);  <span class="comment">// Output: 3</span>
+
+<span class="comment">// Access the last element</span>
+<span class="keyword">let</span> lastColor = colors[colors.length - <span class="number">1</span>];
+console.log(lastColor);  <span class="comment">// Output: "blue"</span>
+
+<span class="comment">// Empty array has length 0</span>
+<span class="keyword">let</span> empty = [];
+console.log(empty.length);  <span class="comment">// Output: 0</span></code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Important:</strong> Array length is always 1 more than the highest index because arrays start at 0. An array with 5 elements has indices 0-4.
+            </div>
+
+            <h2>✏️ Modifying Arrays</h2>
+            
+            <h3>Changing Elements</h3>
+            <p>You can change any element by assigning a new value to that index.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> pets = [<span class="string">"dog"</span>, <span class="string">"cat"</span>, <span class="string">"bird"</span>];
+
+<span class="comment">// Change the second element</span>
+pets[<span class="number">1</span>] = <span class="string">"hamster"</span>;
+console.log(pets);  <span class="comment">// Output: ["dog", "hamster", "bird"]</span>
+
+<span class="comment">// Change the first element</span>
+pets[<span class="number">0</span>] = <span class="string">"fish"</span>;
+console.log(pets);  <span class="comment">// Output: ["fish", "hamster", "bird"]</span></code>
+            </div>
+
+            <h2>➕ Adding Elements</h2>
+
+            <h3>push() - Add to End</h3>
+            <p>The <code>push()</code> method adds one or more elements to the end of an array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// Add one element</span>
+numbers.<span class="method">push</span>(<span class="number">4</span>);
+console.log(numbers);  <span class="comment">// Output: [1, 2, 3, 4]</span>
+
+<span class="comment">// Add multiple elements</span>
+numbers.<span class="method">push</span>(<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);
+console.log(numbers);  <span class="comment">// Output: [1, 2, 3, 4, 5, 6, 7]</span>
+
+<span class="comment">// push() returns the new length</span>
+<span class="keyword">let</span> newLength = numbers.<span class="method">push</span>(<span class="number">8</span>);
+console.log(newLength);  <span class="comment">// Output: 8</span></code>
+            </div>
+
+            <h3>unshift() - Add to Beginning</h3>
+            <p>The <code>unshift()</code> method adds one or more elements to the beginning of an array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> letters = [<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>];
+
+<span class="comment">// Add to the beginning</span>
+letters.<span class="method">unshift</span>(<span class="string">"a"</span>);
+console.log(letters);  <span class="comment">// Output: ["a", "b", "c", "d"]</span>
+
+<span class="comment">// Add multiple elements</span>
+letters.<span class="method">unshift</span>(<span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>);
+console.log(letters);  <span class="comment">// Output: ["x", "y", "z", "a", "b", "c", "d"]</span></code>
+            </div>
+
+            <h2>➖ Removing Elements</h2>
+
+            <h3>pop() - Remove from End</h3>
+            <p>The <code>pop()</code> method removes and returns the last element from an array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
+
+<span class="comment">// Remove the last element</span>
+<span class="keyword">let</span> removed = fruits.<span class="method">pop</span>();
+console.log(removed);  <span class="comment">// Output: "orange"</span>
+console.log(fruits);   <span class="comment">// Output: ["apple", "banana"]</span>
+
+<span class="comment">// Remove another</span>
+fruits.<span class="method">pop</span>();
+console.log(fruits);   <span class="comment">// Output: ["apple"]</span></code>
+            </div>
+
+            <h3>shift() - Remove from Beginning</h3>
+            <p>The <code>shift()</code> method removes and returns the first element from an array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+
+<span class="comment">// Remove the first element</span>
+<span class="keyword">let</span> removed = colors.<span class="method">shift</span>();
+console.log(removed);  <span class="comment">// Output: "red"</span>
+console.log(colors);   <span class="comment">// Output: ["green", "blue"]</span>
+
+<span class="comment">// Remove another</span>
+colors.<span class="method">shift</span>();
+console.log(colors);   <span class="comment">// Output: ["blue"]</span></code>
+            </div>
+
+            <h3>Summary of Add/Remove Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>What It Does</th>
+                        <th>Returns</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>push()</code></td>
+                        <td>Adds to end</td>
+                        <td>New length</td>
+                        <td><code>arr.push(5)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>pop()</code></td>
+                        <td>Removes from end</td>
+                        <td>Removed element</td>
+                        <td><code>arr.pop()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>unshift()</code></td>
+                        <td>Adds to beginning</td>
+                        <td>New length</td>
+                        <td><code>arr.unshift(1)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>shift()</code></td>
+                        <td>Removes from beginning</td>
+                        <td>Removed element</td>
+                        <td><code>arr.shift()</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🔄 Common Array Methods</h2>
+
+            <h3>indexOf() - Find Position</h3>
+            <p>Returns the index of the first occurrence of an element, or -1 if not found.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> animals = [<span class="string">"cat"</span>, <span class="string">"dog"</span>, <span class="string">"bird"</span>, <span class="string">"cat"</span>];
+
+console.log(animals.<span class="method">indexOf</span>(<span class="string">"dog"</span>));   <span class="comment">// Output: 1</span>
+console.log(animals.<span class="method">indexOf</span>(<span class="string">"cat"</span>));   <span class="comment">// Output: 0 (first occurrence)</span>
+console.log(animals.<span class="method">indexOf</span>(<span class="string">"fish"</span>));  <span class="comment">// Output: -1 (not found)</span></code>
+            </div>
+
+            <h3>includes() - Check if Element Exists</h3>
+            <p>Returns <code>true</code> if the array contains the element, <code>false</code> otherwise.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
+
+console.log(fruits.<span class="method">includes</span>(<span class="string">"banana"</span>));  <span class="comment">// Output: true</span>
+console.log(fruits.<span class="method">includes</span>(<span class="string">"grape"</span>));   <span class="comment">// Output: false</span></code>
+            </div>
+
+            <h3>slice() - Copy Portion</h3>
+            <p>Returns a shallow copy of a portion of an array. Does not modify the original array.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Get elements from index 1 to 3 (not including 3)</span>
+<span class="keyword">let</span> sliced = numbers.<span class="method">slice</span>(<span class="number">1</span>, <span class="number">3</span>);
+console.log(sliced);   <span class="comment">// Output: [2, 3]</span>
+console.log(numbers);  <span class="comment">// Output: [1, 2, 3, 4, 5] (unchanged)</span>
+
+<span class="comment">// Get from index 2 to end</span>
+<span class="keyword">let</span> sliced2 = numbers.<span class="method">slice</span>(<span class="number">2</span>);
+console.log(sliced2);  <span class="comment">// Output: [3, 4, 5]</span>
+
+<span class="comment">// Copy entire array</span>
+<span class="keyword">let</span> copy = numbers.<span class="method">slice</span>();
+console.log(copy);     <span class="comment">// Output: [1, 2, 3, 4, 5]</span></code>
+            </div>
+
+            <h3>concat() - Combine Arrays</h3>
+            <p>Combines two or more arrays into a new array. Does not modify the original arrays.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="keyword">let</span> arr2 = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
+<span class="keyword">let</span> arr3 = [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];
+
+<span class="comment">// Combine two arrays</span>
+<span class="keyword">let</span> combined = arr1.<span class="method">concat</span>(arr2);
+console.log(combined);  <span class="comment">// Output: [1, 2, 3, 4, 5, 6]</span>
+
+<span class="comment">// Combine multiple arrays</span>
+<span class="keyword">let</span> all = arr1.<span class="method">concat</span>(arr2, arr3);
+console.log(all);       <span class="comment">// Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+
+<span class="comment">// Original arrays unchanged</span>
+console.log(arr1);      <span class="comment">// Output: [1, 2, 3]</span></code>
+            </div>
+
+            <h3>join() - Convert to String</h3>
+            <p>Joins all array elements into a single string, separated by a specified separator.</p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
+
+<span class="comment">// Join with space</span>
+<span class="keyword">let</span> sentence = words.<span class="method">join</span>(<span class="string">" "</span>);
+console.log(sentence);  <span class="comment">// Output: "Hello World JavaScript"</span>
+
+<span class="comment">// Join with comma</span>
+<span class="keyword">let</span> list = words.<span class="method">join</span>(<span class="string">", "</span>);
+console.log(list);      <span class="comment">// Output: "Hello, World, JavaScript"</span>
+
+<span class="comment">// Join with no separator</span>
+<span class="keyword">let</span> combined = words.<span class="method">join</span>(<span class="string">""</span>);
+console.log(combined);  <span class="comment">// Output: "HelloWorldJavaScript"</span>
+
+<span class="comment">// Default separator is comma</span>
+console.log(words.<span class="method">join</span>());  <span class="comment">// Output: "Hello,World,JavaScript"</span></code>
+            </div>
+
+            <h3>reverse() - Reverse Order</h3>
+            <p>Reverses the order of elements in an array. <strong>This modifies the original array.</strong></p>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+numbers.<span class="method">reverse</span>();
+console.log(numbers);  <span class="comment">// Output: [5, 4, 3, 2, 1]</span>
+
+<span class="keyword">let</span> letters = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];
+letters.<span class="method">reverse</span>();
+console.log(letters);  <span class="comment">// Output: ["c", "b", "a"]</span></code>
+            </div>
+
+            <h3>sort() - Sort Elements</h3>
+            <p>Sorts the elements of an array. <strong>This modifies the original array.</strong> By default, sorts as strings.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Sorting strings (alphabetically)</span>
+<span class="keyword">let</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
+fruits.<span class="method">sort</span>();
+console.log(fruits);  <span class="comment">// Output: ["apple", "banana", "grape", "orange"]</span>
+
+<span class="comment">// Sorting numbers requires a compare function</span>
+<span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">3</span>, <span class="number">15</span>];
+numbers.<span class="method">sort</span>(<span class="keyword">function</span>(a, b) {
+    <span class="keyword">return</span> a - b;  <span class="comment">// Ascending order</span>
+});
+console.log(numbers);  <span class="comment">// Output: [3, 5, 10, 15, 20]</span></code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Warning:</strong> <code>sort()</code> without a compare function converts numbers to strings. <code>[10, 5, 20]</code> becomes <code>[10, 20, 5]</code> because "10" comes before "5" alphabetically!
+            </div>
+
+            <h2>📚 Practical Examples</h2>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Example 1: Shopping List</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> shopping = [<span class="string">"milk"</span>, <span class="string">"eggs"</span>, <span class="string">"bread"</span>];
+
+<span class="comment">// Add items</span>
+shopping.<span class="method">push</span>(<span class="string">"butter"</span>);
+shopping.<span class="method">push</span>(<span class="string">"cheese"</span>);
+
+console.log(shopping);
+<span class="comment">// ["milk", "eggs", "bread", "butter", "cheese"]</span>
+
+console.log(<span class="string">"Items: "</span> + shopping.length);
+<span class="comment">// Items: 5</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 2: Student Grades</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> grades = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">90</span>, <span class="number">88</span>];
+
+<span class="comment">// Add a new grade</span>
+grades.<span class="method">push</span>(<span class="number">95</span>);
+
+<span class="comment">// Get first and last grades</span>
+console.log(<span class="string">"First: "</span> + grades[<span class="number">0</span>]);
+console.log(<span class="string">"Last: "</span> + grades[grades.length - <span class="number">1</span>]);</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 3: Playlist</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> playlist = [<span class="string">"Song A"</span>, <span class="string">"Song B"</span>, <span class="string">"Song C"</span>];
+
+<span class="comment">// Add to end</span>
+playlist.<span class="method">push</span>(<span class="string">"Song D"</span>);
+
+<span class="comment">// Add to beginning</span>
+playlist.<span class="method">unshift</span>(<span class="string">"Intro"</span>);
+
+console.log(playlist);
+<span class="comment">// ["Intro", "Song A", "Song B", "Song C", "Song D"]</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 4: Favorite Colors</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"red"</span>, <span class="string">"green"</span>];
+
+<span class="comment">// Check if color exists</span>
+console.log(colors.<span class="method">includes</span>(<span class="string">"red"</span>));    <span class="comment">// true</span>
+console.log(colors.<span class="method">includes</span>(<span class="string">"yellow"</span>)); <span class="comment">// false</span>
+
+<span class="comment">// Find position</span>
+console.log(colors.<span class="method">indexOf</span>(<span class="string">"green"</span>));   <span class="comment">// 2</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 5: Todo List</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> todos = [<span class="string">"Study"</span>, <span class="string">"Exercise"</span>, <span class="string">"Code"</span>];
+
+<span class="comment">// Complete first task (remove it)</span>
+<span class="keyword">let</span> completed = todos.<span class="method">shift</span>();
+console.log(<span class="string">"Completed: "</span> + completed);
+
+<span class="comment">// Add new task</span>
+todos.<span class="method">push</span>(<span class="string">"Read"</span>);
+
+console.log(todos);
+<span class="comment">// ["Exercise", "Code", "Read"]</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 6: Combining Lists</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> morningClasses = [<span class="string">"Math"</span>, <span class="string">"English"</span>];
+<span class="keyword">let</span> afternoonClasses = [<span class="string">"Science"</span>, <span class="string">"History"</span>];
+
+<span class="keyword">let</span> allClasses = morningClasses.<span class="method">concat</span>(afternoonClasses);
+
+console.log(allClasses);
+<span class="comment">// ["Math", "English", "Science", "History"]</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Use descriptive names</strong> - Array names should be plural nouns
+                    <div class="code-block">
+<code><span class="comment">// ❌ Bad</span>
+<span class="keyword">let</span> x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// ✅ Good</span>
+<span class="keyword">let</span> scores = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</code>
+                    </div>
+                </li>
+                <li><strong>Keep arrays homogeneous</strong> - Store the same type of data in each array</li>
+                <li><strong>Use const for arrays you don't reassign</strong> - You can still modify the contents
+                    <div class="code-block">
+<code><span class="keyword">const</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>];
+fruits.<span class="method">push</span>(<span class="string">"orange"</span>);  <span class="comment">// ✅ This works</span>
+<span class="comment">// fruits = [];  // ❌ This would cause an error</span></code>
+                    </div>
+                </li>
+                <li><strong>Check array length before accessing</strong> - Avoid accessing indices that don't exist</li>
+                <li><strong>Use array methods instead of manual loops</strong> - Methods like push, pop are more readable</li>
+                <li><strong>Remember arrays are zero-indexed</strong> - First element is at index 0</li>
+            </ol>
+
+            <h2>🚫 Common Mistakes</h2>
+
+            <div class="error">
+                <h4>1. Forgetting Arrays Start at 0</h4>
+                <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];
+
+<span class="comment">// ❌ Wrong - trying to get "first" with 1</span>
+console.log(numbers[<span class="number">1</span>]);  <span class="comment">// Output: 20 (second element!)</span>
+
+<span class="comment">// ✅ Correct - first element is at 0</span>
+console.log(numbers[<span class="number">0</span>]);  <span class="comment">// Output: 10</span></code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>2. Modifying Array While Getting Length</h4>
+                <div class="code-block">
+<code><span class="keyword">let</span> items = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];
+
+<span class="comment">// Length is 3, but last index is 2</span>
+<span class="comment">// console.log(items[items.length]); // ❌ undefined</span>
+
+<span class="comment">// ✅ Correct - subtract 1 for last index</span>
+console.log(items[items.length - <span class="number">1</span>]);  <span class="comment">// "c"</span></code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>3. Confusing push/pop with shift/unshift</h4>
+                <div class="code-block">
+<code><span class="keyword">let</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// push/pop work on the END</span>
+nums.<span class="method">push</span>(<span class="number">4</span>);      <span class="comment">// [1, 2, 3, 4]</span>
+nums.<span class="method">pop</span>();         <span class="comment">// [1, 2, 3]</span>
+
+<span class="comment">// shift/unshift work on the BEGINNING</span>
+nums.<span class="method">unshift</span>(<span class="number">0</span>);   <span class="comment">// [0, 1, 2, 3]</span>
+nums.<span class="method">shift</span>();       <span class="comment">// [1, 2, 3]</span></code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>4. Forgetting That Some Methods Modify the Array</h4>
+                <div class="code-block">
+<code><span class="keyword">let</span> original = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>];
+
+<span class="comment">// reverse() and sort() MODIFY the original</span>
+original.<span class="method">reverse</span>();
+console.log(original);  <span class="comment">// [2, 1, 3] - CHANGED!</span>
+
+<span class="comment">// slice() and concat() DO NOT modify the original</span>
+<span class="keyword">let</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="keyword">let</span> sliced = nums.<span class="method">slice</span>(<span class="number">0</span>, <span class="number">2</span>);
+console.log(nums);      <span class="comment">// [1, 2, 3] - unchanged</span></code>
+                </div>
+            </div>
+
+            <h2>📊 Array Methods Quick Reference</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Modifies Array?</th>
+                        <th>Returns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>push(item)</code></td>
+                        <td>Add to end</td>
+                        <td>✅ Yes</td>
+                        <td>New length</td>
+                    </tr>
+                    <tr>
+                        <td><code>pop()</code></td>
+                        <td>Remove from end</td>
+                        <td>✅ Yes</td>
+                        <td>Removed item</td>
+                    </tr>
+                    <tr>
+                        <td><code>unshift(item)</code></td>
+                        <td>Add to beginning</td>
+                        <td>✅ Yes</td>
+                        <td>New length</td>
+                    </tr>
+                    <tr>
+                        <td><code>shift()</code></td>
+                        <td>Remove from beginning</td>
+                        <td>✅ Yes</td>
+                        <td>Removed item</td>
+                    </tr>
+                    <tr>
+                        <td><code>indexOf(item)</code></td>
+                        <td>Find index of item</td>
+                        <td>❌ No</td>
+                        <td>Index or -1</td>
+                    </tr>
+                    <tr>
+                        <td><code>includes(item)</code></td>
+                        <td>Check if exists</td>
+                        <td>❌ No</td>
+                        <td>true/false</td>
+                    </tr>
+                    <tr>
+                        <td><code>slice(start, end)</code></td>
+                        <td>Copy portion</td>
+                        <td>❌ No</td>
+                        <td>New array</td>
+                    </tr>
+                    <tr>
+                        <td><code>concat(arr)</code></td>
+                        <td>Combine arrays</td>
+                        <td>❌ No</td>
+                        <td>New array</td>
+                    </tr>
+                    <tr>
+                        <td><code>join(separator)</code></td>
+                        <td>Array to string</td>
+                        <td>❌ No</td>
+                        <td>String</td>
+                    </tr>
+                    <tr>
+                        <td><code>reverse()</code></td>
+                        <td>Reverse order</td>
+                        <td>✅ Yes</td>
+                        <td>Reversed array</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort()</code></td>
+                        <td>Sort elements</td>
+                        <td>✅ Yes</td>
+                        <td>Sorted array</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>Arrays Cheat Sheet</h3>
+                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+<code style="color: white;"><span class="comment">// Creating arrays</span>
+<span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="keyword">let</span> empty = [];
+
+<span class="comment">// Accessing elements</span>
+arr[<span class="number">0</span>]              <span class="comment">// First element</span>
+arr[arr.length - <span class="number">1</span>]  <span class="comment">// Last element</span>
+arr.length          <span class="comment">// Number of elements</span>
+
+<span class="comment">// Adding elements</span>
+arr.<span class="method">push</span>(item)      <span class="comment">// Add to end</span>
+arr.<span class="method">unshift</span>(item)   <span class="comment">// Add to beginning</span>
+
+<span class="comment">// Removing elements</span>
+arr.<span class="method">pop</span>()           <span class="comment">// Remove from end</span>
+arr.<span class="method">shift</span>()         <span class="comment">// Remove from beginning</span>
+
+<span class="comment">// Searching</span>
+arr.<span class="method">indexOf</span>(item)   <span class="comment">// Find index (-1 if not found)</span>
+arr.<span class="method">includes</span>(item)  <span class="comment">// Check if exists (true/false)</span>
+
+<span class="comment">// Copying/Combining</span>
+arr.<span class="method">slice</span>(<span class="number">1</span>, <span class="number">3</span>)      <span class="comment">// Copy portion</span>
+arr1.<span class="method">concat</span>(arr2)   <span class="comment">// Combine arrays</span>
+
+<span class="comment">// Converting</span>
+arr.<span class="method">join</span>(<span class="string">", "</span>)       <span class="comment">// Array to string</span>
+
+<span class="comment">// Modifying</span>
+arr[<span class="number">0</span>] = <span class="number">10</span>          <span class="comment">// Change element</span>
+arr.<span class="method">reverse</span>()        <span class="comment">// Reverse order</span>
+arr.<span class="method">sort</span>()           <span class="comment">// Sort elements</span></code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>Arrays store multiple values in a single variable</li>
+                    <li>Arrays are zero-indexed (first element is at index 0)</li>
+                    <li>Use <code>length</code> property to get the number of elements</li>
+                    <li>Use <code>push()</code> and <code>pop()</code> for end operations</li>
+                    <li>Use <code>unshift()</code> and <code>shift()</code> for beginning operations</li>
+                    <li>Some methods modify the array, others return new arrays</li>
+                    <li>Arrays can grow and shrink dynamically</li>
+                    <li>Access elements with square brackets: <code>array[index]</code></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>JavaScript Arrays Quick Reference Guide | Master the basics! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>

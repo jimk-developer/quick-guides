@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Conditional Statements Quick Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #FA8BFF;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #FA8BFF;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #2BD2FF;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #FA8BFF;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #FA8BFF;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .function-name {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 90%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #FA8BFF;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .syntax-pattern {
+            background: #fffbea;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .flowchart {
+            background: white;
+            border: 2px solid #FA8BFF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-box {
+            display: inline-block;
+            border: 2px solid #2BD2FF;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background: #f0f9ff;
+            margin: 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #FA8BFF;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔀 JavaScript Conditional Statements</h1>
+            <p>A Beginner's Guide to Making Decisions in Code</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What are Conditional Statements?</h2>
+            <p><strong>Conditional statements</strong> allow your program to make decisions and execute different code based on whether certain conditions are true or false. Think of them as the "if this, then that" logic in programming.</p>
+
+            <div class="flowchart">
+                <h4>How Conditionals Work</h4>
+                <div class="flow-box">Check Condition</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Condition True?</div>
+                <div style="display: flex; justify-content: center; gap: 50px; margin-top: 20px;">
+                    <div>
+                        <div style="color: #28a745; font-weight: bold;">✓ YES</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-box">Execute This Code</div>
+                    </div>
+                    <div>
+                        <div style="color: #dc3545; font-weight: bold;">✗ NO</div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="flow-box">Skip or Execute Else</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>💡 Why Use Conditionals?</strong>
+                <ul>
+                    <li><strong>Make decisions</strong> - Execute different code based on conditions</li>
+                    <li><strong>Control flow</strong> - Determine which parts of code run</li>
+                    <li><strong>Handle different scenarios</strong> - Respond to various user inputs or situations</li>
+                    <li><strong>Validate data</strong> - Check if inputs meet certain criteria</li>
+                </ul>
+            </div>
+
+            <h2>📝 The if Statement</h2>
+            <p>The <code>if</code> statement executes a block of code only if a specified condition is true.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> if (condition) {
+    // code to execute if condition is true
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Simple if statement</span>
+<span class="keyword">let</span> temperature = <span class="number">75</span>;
+
+<span class="keyword">if</span> (temperature > <span class="number">70</span>) {
+    console.log(<span class="string">"It's warm outside!"</span>);
+}
+<span class="comment">// Output: It's warm outside!</span>
+
+<span class="comment">// Another example</span>
+<span class="keyword">let</span> age = <span class="number">20</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"You are an adult"</span>);
+}
+<span class="comment">// Output: You are an adult</span>
+
+<span class="comment">// If condition is false, nothing happens</span>
+<span class="keyword">let</span> score = <span class="number">45</span>;
+
+<span class="keyword">if</span> (score >= <span class="number">60</span>) {
+    console.log(<span class="string">"You passed!"</span>);
+}
+<span class="comment">// No output - condition is false</span></code>
+            </div>
+
+            <h3>Conditions in if Statements</h3>
+            <p>Conditions are expressions that evaluate to <code>true</code> or <code>false</code>. You can use comparison operators to create conditions.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Using different comparison operators</span>
+<span class="keyword">let</span> x = <span class="number">10</span>;
+
+<span class="keyword">if</span> (x === <span class="number">10</span>) {
+    console.log(<span class="string">"x is equal to 10"</span>);
+}
+
+<span class="keyword">if</span> (x !== <span class="number">5</span>) {
+    console.log(<span class="string">"x is not equal to 5"</span>);
+}
+
+<span class="keyword">if</span> (x > <span class="number">5</span>) {
+    console.log(<span class="string">"x is greater than 5"</span>);
+}
+
+<span class="keyword">if</span> (x <= <span class="number">20</span>) {
+    console.log(<span class="string">"x is less than or equal to 20"</span>);
+}</code>
+            </div>
+
+            <h2>🔄 The if...else Statement</h2>
+            <p>The <code>if...else</code> statement executes one block of code if the condition is true, and another block if it's false.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> if (condition) {
+    // code if condition is true
+} else {
+    // code if condition is false
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// if...else example</span>
+<span class="keyword">let</span> age = <span class="number">15</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"You can vote"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"You cannot vote yet"</span>);
+}
+<span class="comment">// Output: You cannot vote yet</span>
+
+<span class="comment">// Another example</span>
+<span class="keyword">let</span> temperature = <span class="number">55</span>;
+
+<span class="keyword">if</span> (temperature > <span class="number">70</span>) {
+    console.log(<span class="string">"Wear shorts"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Wear a jacket"</span>);
+}
+<span class="comment">// Output: Wear a jacket</span>
+
+<span class="comment">// With variables</span>
+<span class="keyword">let</span> score = <span class="number">85</span>;
+<span class="keyword">let</span> result;
+
+<span class="keyword">if</span> (score >= <span class="number">60</span>) {
+    result = <span class="string">"Pass"</span>;
+} <span class="keyword">else</span> {
+    result = <span class="string">"Fail"</span>;
+}
+
+console.log(result);  <span class="comment">// Output: Pass</span></code>
+            </div>
+
+            <h2>🔀 The if...else if...else Statement</h2>
+            <p>Use <code>else if</code> to test multiple conditions in sequence. The first condition that is true will execute, and the rest will be skipped.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> if (condition1) {
+    // code if condition1 is true
+} else if (condition2) {
+    // code if condition2 is true
+} else {
+    // code if all conditions are false
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Multiple conditions example</span>
+<span class="keyword">let</span> score = <span class="number">85</span>;
+
+<span class="keyword">if</span> (score >= <span class="number">90</span>) {
+    console.log(<span class="string">"Grade: A"</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">80</span>) {
+    console.log(<span class="string">"Grade: B"</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">70</span>) {
+    console.log(<span class="string">"Grade: C"</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">60</span>) {
+    console.log(<span class="string">"Grade: D"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Grade: F"</span>);
+}
+<span class="comment">// Output: Grade: B</span>
+
+<span class="comment">// Temperature example</span>
+<span class="keyword">let</span> temp = <span class="number">45</span>;
+
+<span class="keyword">if</span> (temp > <span class="number">80</span>) {
+    console.log(<span class="string">"It's hot!"</span>);
+} <span class="keyword">else if</span> (temp > <span class="number">60</span>) {
+    console.log(<span class="string">"It's nice"</span>);
+} <span class="keyword">else if</span> (temp > <span class="number">40</span>) {
+    console.log(<span class="string">"It's cool"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"It's cold!"</span>);
+}
+<span class="comment">// Output: It's cool</span></code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Tip:</strong> Conditions are checked from top to bottom. Once a condition is true, that block executes and the rest are skipped!
+            </div>
+
+            <h2>🎛️ Logical Operators in Conditionals</h2>
+            <p>You can combine multiple conditions using logical operators.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&&</code></td>
+                        <td>AND</td>
+                        <td>True if both conditions are true</td>
+                        <td><code>x > 5 && x < 10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>||</code></td>
+                        <td>OR</td>
+                        <td>True if at least one condition is true</td>
+                        <td><code>x < 5 || x > 10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>!</code></td>
+                        <td>NOT</td>
+                        <td>Reverses the boolean value</td>
+                        <td><code>!(x === 5)</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>AND Operator (&&)</h3>
+            <p>Both conditions must be true for the entire expression to be true.</p>
+
+            <div class="code-block">
+<code><span class="comment">// AND operator - both must be true</span>
+<span class="keyword">let</span> age = <span class="number">25</span>;
+<span class="keyword">let</span> hasLicense = <span class="keyword">true</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">16</span> && hasLicense === <span class="keyword">true</span>) {
+    console.log(<span class="string">"You can drive"</span>);
+}
+<span class="comment">// Output: You can drive</span>
+
+<span class="comment">// Range checking</span>
+<span class="keyword">let</span> temperature = <span class="number">72</span>;
+
+<span class="keyword">if</span> (temperature >= <span class="number">60</span> && temperature <= <span class="number">80</span>) {
+    console.log(<span class="string">"Perfect weather!"</span>);
+}
+<span class="comment">// Output: Perfect weather!</span>
+
+<span class="comment">// Multiple conditions</span>
+<span class="keyword">let</span> score = <span class="number">85</span>;
+<span class="keyword">let</span> attendance = <span class="number">95</span>;
+
+<span class="keyword">if</span> (score >= <span class="number">80</span> && attendance >= <span class="number">90</span>) {
+    console.log(<span class="string">"Excellent student!"</span>);
+}
+<span class="comment">// Output: Excellent student!</span></code>
+            </div>
+
+            <h3>OR Operator (||)</h3>
+            <p>At least one condition must be true for the entire expression to be true.</p>
+
+            <div class="code-block">
+<code><span class="comment">// OR operator - at least one must be true</span>
+<span class="keyword">let</span> day = <span class="string">"Saturday"</span>;
+
+<span class="keyword">if</span> (day === <span class="string">"Saturday"</span> || day === <span class="string">"Sunday"</span>) {
+    console.log(<span class="string">"It's the weekend!"</span>);
+}
+<span class="comment">// Output: It's the weekend!</span>
+
+<span class="comment">// Multiple options</span>
+<span class="keyword">let</span> grade = <span class="string">"A"</span>;
+
+<span class="keyword">if</span> (grade === <span class="string">"A"</span> || grade === <span class="string">"B"</span> || grade === <span class="string">"C"</span>) {
+    console.log(<span class="string">"Passing grade"</span>);
+}
+<span class="comment">// Output: Passing grade</span>
+
+<span class="comment">// Age groups</span>
+<span class="keyword">let</span> age = <span class="number">70</span>;
+
+<span class="keyword">if</span> (age < <span class="number">12</span> || age > <span class="number">65</span>) {
+    console.log(<span class="string">"Discount available"</span>);
+}
+<span class="comment">// Output: Discount available</span></code>
+            </div>
+
+            <h3>NOT Operator (!)</h3>
+            <p>Reverses a boolean value (true becomes false, false becomes true).</p>
+
+            <div class="code-block">
+<code><span class="comment">// NOT operator - reverses boolean</span>
+<span class="keyword">let</span> isRaining = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> (!isRaining) {
+    console.log(<span class="string">"Go for a walk!"</span>);
+}
+<span class="comment">// Output: Go for a walk!</span>
+
+<span class="comment">// Double negative</span>
+<span class="keyword">let</span> isLoggedIn = <span class="keyword">true</span>;
+
+<span class="keyword">if</span> (!isLoggedIn) {
+    console.log(<span class="string">"Please log in"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Welcome back!"</span>);
+}
+<span class="comment">// Output: Welcome back!</span>
+
+<span class="comment">// Combining with other operators</span>
+<span class="keyword">let</span> age = <span class="number">25</span>;
+
+<span class="keyword">if</span> (!(age < <span class="number">18</span>)) {
+    console.log(<span class="string">"Adult"</span>);
+}
+<span class="comment">// Output: Adult</span></code>
+            </div>
+
+            <h3>Combining Logical Operators</h3>
+            <div class="code-block">
+<code><span class="comment">// Combining AND and OR</span>
+<span class="keyword">let</span> age = <span class="number">20</span>;
+<span class="keyword">let</span> hasTicket = <span class="keyword">true</span>;
+<span class="keyword">let</span> hasInvitation = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span> && (hasTicket || hasInvitation)) {
+    console.log(<span class="string">"You can enter"</span>);
+}
+<span class="comment">// Output: You can enter</span>
+
+<span class="comment">// Complex condition</span>
+<span class="keyword">let</span> temperature = <span class="number">75</span>;
+<span class="keyword">let</span> isSunny = <span class="keyword">true</span>;
+<span class="keyword">let</span> isWeekend = <span class="keyword">true</span>;
+
+<span class="keyword">if</span> ((temperature > <span class="number">70</span> && isSunny) || isWeekend) {
+    console.log(<span class="string">"Great day for outdoor activities!"</span>);
+}
+<span class="comment">// Output: Great day for outdoor activities!</span></code>
+            </div>
+
+            <h2>🔀 The switch Statement</h2>
+            <p>The <code>switch</code> statement is used to perform different actions based on different values. It's useful when you have many possible values to check.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> switch (expression) {
+    case value1:
+        // code for value1
+        break;
+    case value2:
+        // code for value2
+        break;
+    default:
+        // code if no cases match
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Basic switch statement</span>
+<span class="keyword">let</span> day = <span class="number">3</span>;
+<span class="keyword">let</span> dayName;
+
+<span class="keyword">switch</span> (day) {
+    <span class="keyword">case</span> <span class="number">1</span>:
+        dayName = <span class="string">"Monday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        dayName = <span class="string">"Tuesday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+        dayName = <span class="string">"Wednesday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">4</span>:
+        dayName = <span class="string">"Thursday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">5</span>:
+        dayName = <span class="string">"Friday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">6</span>:
+        dayName = <span class="string">"Saturday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">7</span>:
+        dayName = <span class="string">"Sunday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        dayName = <span class="string">"Invalid day"</span>;
+}
+
+console.log(dayName);  <span class="comment">// Output: Wednesday</span></code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Important:</strong> Always use <code>break</code> at the end of each case! Without it, execution will "fall through" to the next case.
+            </div>
+
+            <h3>switch with Strings</h3>
+            <div class="code-block">
+<code><span class="comment">// Switch with string values</span>
+<span class="keyword">let</span> fruit = <span class="string">"apple"</span>;
+
+<span class="keyword">switch</span> (fruit) {
+    <span class="keyword">case</span> <span class="string">"banana"</span>:
+        console.log(<span class="string">"Bananas are $0.50"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"apple"</span>:
+        console.log(<span class="string">"Apples are $0.75"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"orange"</span>:
+        console.log(<span class="string">"Oranges are $0.60"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        console.log(<span class="string">"Sorry, we don't have that fruit"</span>);
+}
+<span class="comment">// Output: Apples are $0.75</span></code>
+            </div>
+
+            <h3>Multiple Cases with Same Code</h3>
+            <div class="code-block">
+<code><span class="comment">// Group multiple cases together</span>
+<span class="keyword">let</span> grade = <span class="string">"B"</span>;
+
+<span class="keyword">switch</span> (grade) {
+    <span class="keyword">case</span> <span class="string">"A"</span>:
+    <span class="keyword">case</span> <span class="string">"B"</span>:
+    <span class="keyword">case</span> <span class="string">"C"</span>:
+        console.log(<span class="string">"You passed!"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"D"</span>:
+    <span class="keyword">case</span> <span class="string">"F"</span>:
+        console.log(<span class="string">"You failed"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        console.log(<span class="string">"Invalid grade"</span>);
+}
+<span class="comment">// Output: You passed!</span>
+
+<span class="comment">// Day type example</span>
+<span class="keyword">let</span> day = <span class="string">"Saturday"</span>;
+
+<span class="keyword">switch</span> (day) {
+    <span class="keyword">case</span> <span class="string">"Monday"</span>:
+    <span class="keyword">case</span> <span class="string">"Tuesday"</span>:
+    <span class="keyword">case</span> <span class="string">"Wednesday"</span>:
+    <span class="keyword">case</span> <span class="string">"Thursday"</span>:
+    <span class="keyword">case</span> <span class="string">"Friday"</span>:
+        console.log(<span class="string">"It's a weekday"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"Saturday"</span>:
+    <span class="keyword">case</span> <span class="string">"Sunday"</span>:
+        console.log(<span class="string">"It's the weekend!"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        console.log(<span class="string">"Invalid day"</span>);
+}
+<span class="comment">// Output: It's the weekend!</span></code>
+            </div>
+
+            <h2>🆚 if vs switch</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>if...else if...else</th>
+                        <th>switch</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Best for</strong></td>
+                        <td>Ranges, complex conditions</td>
+                        <td>Specific values, many options</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Comparison types</strong></td>
+                        <td>Any comparison (>, <, >=, etc.)</td>
+                        <td>Equality only (===)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Readability</strong></td>
+                        <td>Good for few conditions</td>
+                        <td>Better for many specific values</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Checks each condition</td>
+                        <td>Can be faster with many cases</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>📚 Practical Examples</h2>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Example 1: Age Categories</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> age = <span class="number">35</span>;
+
+<span class="keyword">if</span> (age < <span class="number">13</span>) {
+    console.log(<span class="string">"Child"</span>);
+} <span class="keyword">else if</span> (age < <span class="number">20</span>) {
+    console.log(<span class="string">"Teenager"</span>);
+} <span class="keyword">else if</span> (age < <span class="number">65</span>) {
+    console.log(<span class="string">"Adult"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Senior"</span>);
+}
+<span class="comment">// Output: Adult</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 2: Login Validation</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> username = <span class="string">"admin"</span>;
+<span class="keyword">let</span> password = <span class="string">"pass123"</span>;
+
+<span class="keyword">if</span> (username === <span class="string">"admin"</span> && password === <span class="string">"pass123"</span>) {
+    console.log(<span class="string">"Login successful!"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Invalid credentials"</span>);
+}
+<span class="comment">// Output: Login successful!</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 3: Temperature Alert</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> temp = <span class="number">95</span>;
+
+<span class="keyword">if</span> (temp > <span class="number">90</span>) {
+    console.log(<span class="string">"Heat warning!"</span>);
+} <span class="keyword">else if</span> (temp < <span class="number">32</span>) {
+    console.log(<span class="string">"Freeze warning!"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Normal temperature"</span>);
+}
+<span class="comment">// Output: Heat warning!</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 4: Traffic Light</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> light = <span class="string">"yellow"</span>;
+
+<span class="keyword">switch</span> (light) {
+    <span class="keyword">case</span> <span class="string">"green"</span>:
+        console.log(<span class="string">"Go"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"yellow"</span>:
+        console.log(<span class="string">"Slow down"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"red"</span>:
+        console.log(<span class="string">"Stop"</span>);
+        <span class="keyword">break</span>;
+}
+<span class="comment">// Output: Slow down</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 5: Number Sign</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> number = <span class="number">-5</span>;
+
+<span class="keyword">if</span> (number > <span class="number">0</span>) {
+    console.log(<span class="string">"Positive"</span>);
+} <span class="keyword">else if</span> (number < <span class="number">0</span>) {
+    console.log(<span class="string">"Negative"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Zero"</span>);
+}
+<span class="comment">// Output: Negative</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 6: Discount Calculator</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> totalPurchase = <span class="number">150</span>;
+<span class="keyword">let</span> discount = <span class="number">0</span>;
+
+<span class="keyword">if</span> (totalPurchase >= <span class="number">100</span>) {
+    discount = <span class="number">20</span>;
+} <span class="keyword">else if</span> (totalPurchase >= <span class="number">50</span>) {
+    discount = <span class="number">10</span>;
+}
+
+console.log(<span class="string">"Discount: "</span> + discount + <span class="string">"%"</span>);
+<span class="comment">// Output: Discount: 20%</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Use === for comparisons</strong> - Avoid == to prevent type coercion issues
+                    <div class="code-block">
+<code><span class="comment">// ❌ Bad - can cause unexpected results</span>
+<span class="keyword">if</span> (x == <span class="string">"5"</span>) { }
+
+<span class="comment">// ✅ Good - strict equality</span>
+<span class="keyword">if</span> (x === <span class="number">5</span>) { }</code>
+                    </div>
+                </li>
+                <li><strong>Put most likely conditions first</strong> - For better performance</li>
+                <li><strong>Use switch for many specific values</strong> - More readable than many else if statements</li>
+                <li><strong>Always include else or default</strong> - Handle unexpected cases
+                    <div class="code-block">
+<code><span class="comment">// ✅ Good - handles all cases</span>
+<span class="keyword">if</span> (condition) {
+    <span class="comment">// do something</span>
+} <span class="keyword">else</span> {
+    <span class="comment">// handle other cases</span>
+}</code>
+                    </div>
+                </li>
+                <li><strong>Keep conditions simple</strong> - Break complex conditions into separate checks</li>
+                <li><strong>Use meaningful variable names in conditions</strong> - Makes code self-documenting</li>
+            </ol>
+
+            <h2>🚫 Common Mistakes</h2>
+
+            <div class="error">
+                <h4>1. Forgetting Braces</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Dangerous - only first line is in if</span>
+<span class="keyword">if</span> (age >= <span class="number">18</span>)
+    console.log(<span class="string">"You can vote"</span>);
+    console.log(<span class="string">"This always runs!"</span>);
+
+<span class="comment">// ✅ Correct - use braces</span>
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"You can vote"</span>);
+    console.log(<span class="string">"Register today!"</span>);
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>2. Using = Instead of ===</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - assigns instead of compares</span>
+<span class="keyword">if</span> (x = <span class="number">5</span>) {
+    console.log(<span class="string">"This always runs!"</span>);
+}
+
+<span class="comment">// ✅ Correct - compares values</span>
+<span class="keyword">if</span> (x === <span class="number">5</span>) {
+    console.log(<span class="string">"x is 5"</span>);
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>3. Forgetting break in switch</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - falls through to next case</span>
+<span class="keyword">switch</span> (day) {
+    <span class="keyword">case</span> <span class="number">1</span>:
+        console.log(<span class="string">"Monday"</span>);
+        <span class="comment">// Missing break!</span>
+    <span class="keyword">case</span> <span class="number">2</span>:
+        console.log(<span class="string">"Tuesday"</span>);
+}
+
+<span class="comment">// ✅ Correct - includes break</span>
+<span class="keyword">switch</span> (day) {
+    <span class="keyword">case</span> <span class="number">1</span>:
+        console.log(<span class="string">"Monday"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        console.log(<span class="string">"Tuesday"</span>);
+        <span class="keyword">break</span>;
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>4. Incorrect Logical Operator</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - this is always false!</span>
+<span class="keyword">if</span> (x > <span class="number">10</span> && x < <span class="number">5</span>) {
+    console.log(<span class="string">"Never runs"</span>);
+}
+
+<span class="comment">// ✅ Correct - using OR</span>
+<span class="keyword">if</span> (x > <span class="number">10</span> || x < <span class="number">5</span>) {
+    console.log(<span class="string">"Outside 5-10 range"</span>);
+}</code>
+                </div>
+            </div>
+
+            <h2>📊 Comparison Operators Reference</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Name</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>===</code></td>
+                        <td>Equal value and type</td>
+                        <td><code>5 === "5"</code></td>
+                        <td><code>false</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>!==</code></td>
+                        <td>Not equal value or type</td>
+                        <td><code>5 !== "5"</code></td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>></code></td>
+                        <td>Greater than</td>
+                        <td><code>10 > 5</code></td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code><</code></td>
+                        <td>Less than</td>
+                        <td><code>5 < 10</code></td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>>=</code></td>
+                        <td>Greater than or equal</td>
+                        <td><code>10 >= 10</code></td>
+                        <td><code>true</code></td>
+                    </tr>
+                    <tr>
+                        <td><code><=</code></td>
+                        <td>Less than or equal</td>
+                        <td><code>5 <= 10</code></td>
+                        <td><code>true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>Conditionals Cheat Sheet</h3>
+                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+<code style="color: white;"><span class="comment">// Simple if</span>
+<span class="keyword">if</span> (condition) {
+    <span class="comment">// code if true</span>
+}
+
+<span class="comment">// if...else</span>
+<span class="keyword">if</span> (condition) {
+    <span class="comment">// code if true</span>
+} <span class="keyword">else</span> {
+    <span class="comment">// code if false</span>
+}
+
+<span class="comment">// if...else if...else</span>
+<span class="keyword">if</span> (condition1) {
+    <span class="comment">// code if condition1 true</span>
+} <span class="keyword">else if</span> (condition2) {
+    <span class="comment">// code if condition2 true</span>
+} <span class="keyword">else</span> {
+    <span class="comment">// code if all false</span>
+}
+
+<span class="comment">// Logical operators</span>
+x > <span class="number">5</span> && x < <span class="number">10</span>   <span class="comment">// AND (both must be true)</span>
+x < <span class="number">5</span> || x > <span class="number">10</span>   <span class="comment">// OR (at least one true)</span>
+!(x === <span class="number">5</span>)          <span class="comment">// NOT (reverse boolean)</span>
+
+<span class="comment">// Switch statement</span>
+<span class="keyword">switch</span> (value) {
+    <span class="keyword">case</span> option1:
+        <span class="comment">// code</span>
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> option2:
+        <span class="comment">// code</span>
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="comment">// code</span>
+}</code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>Conditionals let your code make decisions</li>
+                    <li>Use <code>if</code> for simple true/false checks</li>
+                    <li>Use <code>else if</code> to check multiple conditions</li>
+                    <li>Use <code>else</code> to handle all other cases</li>
+                    <li>Use <code>&&</code> when all conditions must be true</li>
+                    <li>Use <code>||</code> when at least one condition must be true</li>
+                    <li>Use <code>switch</code> for many specific value checks</li>
+                    <li>Always use <code>===</code> for comparisons (strict equality)</li>
+                    <li>Don't forget <code>break</code> in switch statements!</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>JavaScript Conditional Statements Quick Reference Guide | Master the basics! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>

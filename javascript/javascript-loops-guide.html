@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loops Quick Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #f093fb;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f093fb;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #f5576c;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #f093fb;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #f093fb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .method {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f093fb;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .syntax-pattern {
+            background: #fffbea;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .loop-visual {
+            background: white;
+            border: 2px solid #f093fb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .iteration-box {
+            display: inline-block;
+            border: 2px solid #f5576c;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: #fff0f6;
+            margin: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔁 JavaScript Loops</h1>
+            <p>A Beginner's Guide to Loops</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What are Loops?</h2>
+            <p><strong>Loops</strong> are used to execute a block of code repeatedly. Instead of writing the same code multiple times, you can use a loop to run it as many times as needed. Loops are essential for working with arrays, processing data, and automating repetitive tasks.</p>
+
+            <div class="loop-visual">
+                <h4>Loop Execution Visualization</h4>
+                <p style="margin: 10px 0;">Loop runs the same code multiple times:</p>
+                <div style="margin: 20px 0;">
+                    <div class="iteration-box">Iteration 1</div>
+                    <div class="iteration-box">Iteration 2</div>
+                    <div class="iteration-box">Iteration 3</div>
+                    <div class="iteration-box">Iteration 4</div>
+                    <div class="iteration-box">Iteration 5</div>
+                </div>
+                <p style="margin: 10px 0; font-size: 0.9em; color: #666;">Each box represents one execution of the loop body</p>
+            </div>
+
+            <div class="info">
+                <strong>💡 Why Use Loops?</strong>
+                <ul>
+                    <li><strong>Avoid repetition</strong> - Write code once, run it many times</li>
+                    <li><strong>Process arrays</strong> - Iterate through every element</li>
+                    <li><strong>Count and calculate</strong> - Perform operations multiple times</li>
+                    <li><strong>Save time</strong> - Much shorter than writing duplicate code</li>
+                </ul>
+            </div>
+
+            <h2>📝 The for Loop</h2>
+            <p>The <code>for</code> loop is the most common type of loop. It repeats a block of code a specific number of times.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> for (initialization; condition; increment) {
+    // code to repeat
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Basic for loop - count from 0 to 4</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    console.log(<span class="string">"Iteration: "</span> + i);
+}
+<span class="comment">/* Output:
+   Iteration: 0
+   Iteration: 1
+   Iteration: 2
+   Iteration: 3
+   Iteration: 4
+*/</span>
+
+<span class="comment">// Count from 1 to 10</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
+    console.log(i);
+}
+<span class="comment">// Output: 1 2 3 4 5 6 7 8 9 10</span>
+
+<span class="comment">// Count by 2s</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i <= <span class="number">10</span>; i += <span class="number">2</span>) {
+    console.log(i);
+}
+<span class="comment">// Output: 0 2 4 6 8 10</span></code>
+            </div>
+
+            <h3>How for Loops Work</h3>
+            <div class="info">
+                <strong>Understanding the three parts:</strong>
+                <ol>
+                    <li><strong>Initialization:</strong> <code>let i = 0</code> - Runs once at the start, creates loop variable</li>
+                    <li><strong>Condition:</strong> <code>i < 5</code> - Checked before each iteration, continues if true</li>
+                    <li><strong>Increment:</strong> <code>i++</code> - Runs after each iteration, updates loop variable</li>
+                </ol>
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Step-by-step breakdown</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
+    console.log(<span class="string">"i is now: "</span> + i);
+}
+
+<span class="comment">/* Execution:
+   1. Initialize: i = 0
+   2. Check: i < 3? (0 < 3 = true)
+   3. Execute: console.log("i is now: 0")
+   4. Increment: i++ (i becomes 1)
+   
+   5. Check: i < 3? (1 < 3 = true)
+   6. Execute: console.log("i is now: 1")
+   7. Increment: i++ (i becomes 2)
+   
+   8. Check: i < 3? (2 < 3 = true)
+   9. Execute: console.log("i is now: 2")
+   10. Increment: i++ (i becomes 3)
+   
+   11. Check: i < 3? (3 < 3 = false)
+   12. Loop ends
+*/</span></code>
+            </div>
+
+            <h2>📚 Looping Through Arrays</h2>
+            <p>One of the most common uses of loops is to iterate through arrays.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Loop through an array</span>
+<span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < fruits.length; i++) {
+    console.log(fruits[i]);
+}
+<span class="comment">/* Output:
+   apple
+   banana
+   orange
+   grape
+*/</span>
+
+<span class="comment">// Loop with index</span>
+<span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < colors.length; i++) {
+    console.log(<span class="string">"Color "</span> + i + <span class="string">": "</span> + colors[i]);
+}
+<span class="comment">/* Output:
+   Color 0: red
+   Color 1: green
+   Color 2: blue
+*/</span>
+
+<span class="comment">// Calculate sum of array</span>
+<span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];
+<span class="keyword">let</span> sum = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
+    sum += numbers[i];
+}
+
+console.log(<span class="string">"Total: "</span> + sum);  <span class="comment">// Output: Total: 100</span></code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> Always use <code>array.length</code> as your condition when looping through arrays. This ensures you process every element, regardless of array size.
+            </div>
+
+            <h2>🔄 Loops with Conditionals</h2>
+            <p>Combining loops with conditional statements allows you to process specific elements or skip certain iterations.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Print only even numbers</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
+    <span class="keyword">if</span> (i % <span class="number">2</span> === <span class="number">0</span>) {
+        console.log(i);
+    }
+}
+<span class="comment">// Output: 2 4 6 8 10</span>
+
+<span class="comment">// Find numbers greater than 50</span>
+<span class="keyword">let</span> scores = [<span class="number">45</span>, <span class="number">67</span>, <span class="number">82</span>, <span class="number">39</span>, <span class="number">91</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < scores.length; i++) {
+    <span class="keyword">if</span> (scores[i] > <span class="number">50</span>) {
+        console.log(scores[i] + <span class="string">" is a passing grade"</span>);
+    }
+}
+<span class="comment">/* Output:
+   67 is a passing grade
+   82 is a passing grade
+   91 is a passing grade
+*/</span>
+
+<span class="comment">// Count specific items</span>
+<span class="keyword">let</span> grades = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"A"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>, <span class="string">"B"</span>];
+<span class="keyword">let</span> countA = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < grades.length; i++) {
+    <span class="keyword">if</span> (grades[i] === <span class="string">"A"</span>) {
+        countA++;
+    }
+}
+
+console.log(<span class="string">"Number of A's: "</span> + countA);  <span class="comment">// Output: Number of A's: 3</span></code>
+            </div>
+
+            <h3>Using else if in Loops</h3>
+            <div class="code-block">
+<code><span class="comment">// Categorize numbers</span>
+<span class="keyword">let</span> numbers = [<span class="number">5</span>, <span class="number">15</span>, <span class="number">25</span>, <span class="number">35</span>, <span class="number">45</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
+    <span class="keyword">if</span> (numbers[i] < <span class="number">10</span>) {
+        console.log(numbers[i] + <span class="string">" is small"</span>);
+    } <span class="keyword">else if</span> (numbers[i] < <span class="number">30</span>) {
+        console.log(numbers[i] + <span class="string">" is medium"</span>);
+    } <span class="keyword">else</span> {
+        console.log(numbers[i] + <span class="string">" is large"</span>);
+    }
+}
+<span class="comment">/* Output:
+   5 is small
+   15 is medium
+   25 is medium
+   35 is large
+   45 is large
+*/</span></code>
+            </div>
+
+            <h2>⏸️ break and continue</h2>
+            <p>Special keywords to control loop execution.</p>
+
+            <h3>break - Exit the Loop</h3>
+            <p>The <code>break</code> statement immediately exits the loop completely.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Stop when we find a specific value</span>
+<span class="keyword">let</span> numbers = [<span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">25</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
+    <span class="keyword">if</span> (numbers[i] === <span class="number">15</span>) {
+        console.log(<span class="string">"Found 15!"</span>);
+        <span class="keyword">break</span>;  <span class="comment">// Exit the loop</span>
+    }
+    console.log(numbers[i]);
+}
+<span class="comment">/* Output:
+   5
+   10
+   Found 15!
+*/</span>
+
+<span class="comment">// Search for a name</span>
+<span class="keyword">let</span> names = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Charlie"</span>, <span class="string">"David"</span>];
+<span class="keyword">let</span> searchName = <span class="string">"Charlie"</span>;
+<span class="keyword">let</span> found = <span class="keyword">false</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < names.length; i++) {
+    <span class="keyword">if</span> (names[i] === searchName) {
+        console.log(<span class="string">"Found at index: "</span> + i);
+        found = <span class="keyword">true</span>;
+        <span class="keyword">break</span>;
+    }
+}
+<span class="comment">// Output: Found at index: 2</span></code>
+            </div>
+
+            <h3>continue - Skip to Next Iteration</h3>
+            <p>The <code>continue</code> statement skips the rest of the current iteration and moves to the next one.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Skip odd numbers</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
+    <span class="keyword">if</span> (i % <span class="number">2</span> !== <span class="number">0</span>) {
+        <span class="keyword">continue</span>;  <span class="comment">// Skip odd numbers</span>
+    }
+    console.log(i);
+}
+<span class="comment">// Output: 2 4 6 8 10</span>
+
+<span class="comment">// Skip negative numbers</span>
+<span class="keyword">let</span> numbers = [<span class="number">5</span>, <span class="number">-3</span>, <span class="number">8</span>, <span class="number">-1</span>, <span class="number">12</span>, <span class="number">-7</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
+    <span class="keyword">if</span> (numbers[i] < <span class="number">0</span>) {
+        <span class="keyword">continue</span>;  <span class="comment">// Skip negative numbers</span>
+    }
+    console.log(numbers[i]);
+}
+<span class="comment">// Output: 5 8 12</span>
+
+<span class="comment">// Process only valid data</span>
+<span class="keyword">let</span> scores = [<span class="number">85</span>, <span class="number">0</span>, <span class="number">92</span>, <span class="number">0</span>, <span class="number">78</span>];
+<span class="keyword">let</span> validCount = <span class="number">0</span>;
+<span class="keyword">let</span> sum = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < scores.length; i++) {
+    <span class="keyword">if</span> (scores[i] === <span class="number">0</span>) {
+        <span class="keyword">continue</span>;  <span class="comment">// Skip zero scores</span>
+    }
+    sum += scores[i];
+    validCount++;
+}
+
+<span class="keyword">let</span> average = sum / validCount;
+console.log(<span class="string">"Average: "</span> + average);  <span class="comment">// Output: Average: 85</span></code>
+            </div>
+
+            <h2>🔄 The while Loop</h2>
+            <p>The <code>while</code> loop repeats as long as a condition is true. Use it when you don't know how many times you need to loop.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> while (condition) {
+    // code to repeat
+    // don't forget to update condition!
+}
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Basic while loop</span>
+<span class="keyword">let</span> count = <span class="number">0</span>;
+
+<span class="keyword">while</span> (count < <span class="number">5</span>) {
+    console.log(<span class="string">"Count: "</span> + count);
+    count++;
+}
+<span class="comment">/* Output:
+   Count: 0
+   Count: 1
+   Count: 2
+   Count: 3
+   Count: 4
+*/</span>
+
+<span class="comment">// Countdown</span>
+<span class="keyword">let</span> countdown = <span class="number">5</span>;
+
+<span class="keyword">while</span> (countdown > <span class="number">0</span>) {
+    console.log(countdown);
+    countdown--;
+}
+console.log(<span class="string">"Blast off!"</span>);
+<span class="comment">// Output: 5 4 3 2 1 Blast off!</span>
+
+<span class="comment">// Double until reaching a value</span>
+<span class="keyword">let</span> number = <span class="number">1</span>;
+
+<span class="keyword">while</span> (number < <span class="number">100</span>) {
+    console.log(number);
+    number *= <span class="number">2</span>;
+}
+<span class="comment">// Output: 1 2 4 8 16 32 64</span></code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Warning:</strong> Make sure your while loop condition eventually becomes false! Otherwise, you'll create an infinite loop that never stops.
+            </div>
+
+            <h3>while with Arrays</h3>
+            <div class="code-block">
+<code><span class="comment">// Process array with while loop</span>
+<span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
+<span class="keyword">let</span> i = <span class="number">0</span>;
+
+<span class="keyword">while</span> (i < fruits.length) {
+    console.log(fruits[i]);
+    i++;
+}
+<span class="comment">/* Output:
+   apple
+   banana
+   orange
+*/</span></code>
+            </div>
+
+            <h2>🔁 The do...while Loop</h2>
+            <p>The <code>do...while</code> loop is similar to while, but it always executes at least once because the condition is checked after the code runs.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> do {
+    // code to repeat
+} while (condition);
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Basic do...while loop</span>
+<span class="keyword">let</span> count = <span class="number">0</span>;
+
+<span class="keyword">do</span> {
+    console.log(<span class="string">"Count: "</span> + count);
+    count++;
+} <span class="keyword">while</span> (count < <span class="number">5</span>);
+<span class="comment">/* Output:
+   Count: 0
+   Count: 1
+   Count: 2
+   Count: 3
+   Count: 4
+*/</span>
+
+<span class="comment">// Runs at least once, even if condition is false</span>
+<span class="keyword">let</span> x = <span class="number">10</span>;
+
+<span class="keyword">do</span> {
+    console.log(<span class="string">"This runs once"</span>);
+    x++;
+} <span class="keyword">while</span> (x < <span class="number">5</span>);
+<span class="comment">// Output: This runs once (even though 10 < 5 is false)</span></code>
+            </div>
+
+            <h3>Difference Between while and do...while</h3>
+            <div class="code-block">
+<code><span class="comment">// while loop - might not run at all</span>
+<span class="keyword">let</span> a = <span class="number">10</span>;
+<span class="keyword">while</span> (a < <span class="number">5</span>) {
+    console.log(<span class="string">"This never runs"</span>);
+    a++;
+}
+<span class="comment">// No output - condition false from start</span>
+
+<span class="comment">// do...while loop - runs at least once</span>
+<span class="keyword">let</span> b = <span class="number">10</span>;
+<span class="keyword">do</span> {
+    console.log(<span class="string">"This runs once"</span>);
+    b++;
+} <span class="keyword">while</span> (b < <span class="number">5</span>);
+<span class="comment">// Output: This runs once</span></code>
+            </div>
+
+            <h2>🔢 Nested Loops</h2>
+            <p>A loop inside another loop. Useful for working with multi-dimensional data or creating patterns.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Simple nested loop</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">3</span>; i++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j <= <span class="number">3</span>; j++) {
+        console.log(<span class="string">"i="</span> + i + <span class="string">", j="</span> + j);
+    }
+}
+<span class="comment">/* Output:
+   i=1, j=1
+   i=1, j=2
+   i=1, j=3
+   i=2, j=1
+   i=2, j=2
+   i=2, j=3
+   i=3, j=1
+   i=3, j=2
+   i=3, j=3
+*/</span>
+
+<span class="comment">// Multiplication table</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">5</span>; i++) {
+    <span class="keyword">let</span> row = <span class="string">""</span>;
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j <= <span class="number">5</span>; j++) {
+        row += (i * j) + <span class="string">" "</span>;
+    }
+    console.log(row);
+}
+<span class="comment">/* Output:
+   1 2 3 4 5 
+   2 4 6 8 10 
+   3 6 9 12 15 
+   4 8 12 16 20 
+   5 10 15 20 25 
+*/</span>
+
+<span class="comment">// Pattern with stars</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">4</span>; i++) {
+    <span class="keyword">let</span> stars = <span class="string">""</span>;
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j <= i; j++) {
+        stars += <span class="string">"* "</span>;
+    }
+    console.log(stars);
+}
+<span class="comment">/* Output:
+   * 
+   * * 
+   * * * 
+   * * * * 
+*/</span></code>
+            </div>
+
+            <h2>📚 Practical Examples</h2>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Example 1: Find Maximum</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">23</span>, <span class="number">67</span>, <span class="number">45</span>, <span class="number">91</span>, <span class="number">12</span>];
+<span class="keyword">let</span> max = numbers[<span class="number">0</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < numbers.length; i++) {
+    <span class="keyword">if</span> (numbers[i] > max) {
+        max = numbers[i];
+    }
+}
+
+console.log(<span class="string">"Maximum: "</span> + max);
+<span class="comment">// Output: Maximum: 91</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 2: Count Vowels</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> word = <span class="string">"JavaScript"</span>;
+<span class="keyword">let</span> vowels = <span class="string">"aeiouAEIOU"</span>;
+<span class="keyword">let</span> count = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < word.length; i++) {
+    <span class="keyword">if</span> (vowels.<span class="method">includes</span>(word[i])) {
+        count++;
+    }
+}
+
+console.log(<span class="string">"Vowels: "</span> + count);
+<span class="comment">// Output: Vowels: 3</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 3: Reverse Array</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> original = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+<span class="keyword">let</span> reversed = [];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = original.length - <span class="number">1</span>; i >= <span class="number">0</span>; i--) {
+    reversed.<span class="method">push</span>(original[i]);
+}
+
+console.log(reversed);
+<span class="comment">// Output: [5, 4, 3, 2, 1]</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 4: Sum Even Numbers</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
+<span class="keyword">let</span> sum = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
+    <span class="keyword">if</span> (numbers[i] % <span class="number">2</span> === <span class="number">0</span>) {
+        sum += numbers[i];
+    }
+}
+
+console.log(<span class="string">"Sum of evens: "</span> + sum);
+<span class="comment">// Output: Sum of evens: 12</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 5: Build String</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
+<span class="keyword">let</span> sentence = <span class="string">""</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < words.length; i++) {
+    sentence += words[i] + <span class="string">" "</span>;
+}
+
+console.log(sentence);
+<span class="comment">// Output: Hello World JavaScript </span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 6: Grade Counter</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> grades = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"A"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>];
+<span class="keyword">let</span> countA = <span class="number">0</span>;
+<span class="keyword">let</span> countB = <span class="number">0</span>;
+<span class="keyword">let</span> countC = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < grades.length; i++) {
+    <span class="keyword">if</span> (grades[i] === <span class="string">"A"</span>) countA++;
+    <span class="keyword">else if</span> (grades[i] === <span class="string">"B"</span>) countB++;
+    <span class="keyword">else if</span> (grades[i] === <span class="string">"C"</span>) countC++;
+}
+
+console.log(<span class="string">"A's: "</span> + countA);
+<span class="comment">// Output: A's: 3</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Use descriptive loop variable names</strong> - For clarity in nested loops
+                    <div class="code-block">
+<code><span class="comment">// ❌ Bad - unclear what i and j represent</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < rows; i++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j < cols; j++) { }
+}
+
+<span class="comment">// ✅ Good - clear variable names</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> row = <span class="number">0</span>; row < rows; row++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> col = <span class="number">0</span>; col < cols; col++) { }
+}</code>
+                    </div>
+                </li>
+                <li><strong>Use for loops for arrays</strong> - Most common and readable for array iteration</li>
+                <li><strong>Cache array length if needed</strong> - For very large arrays in performance-critical code
+                    <div class="code-block">
+<code><span class="keyword">let</span> len = array.length;
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < len; i++) {
+    <span class="comment">// process array[i]</span>
+}</code>
+                    </div>
+                </li>
+                <li><strong>Avoid infinite loops</strong> - Always ensure your loop condition will eventually be false</li>
+                <li><strong>Keep loop bodies simple</strong> - Extract complex logic into functions</li>
+                <li><strong>Use break wisely</strong> - Exit loops early when you've found what you're looking for</li>
+            </ol>
+
+            <h2>🚫 Common Mistakes</h2>
+
+            <div class="error">
+                <h4>1. Off-by-One Errors</h4>
+                <div class="code-block">
+<code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// ❌ Wrong - goes past array end</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i <= arr.length; i++) {
+    console.log(arr[i]);  <span class="comment">// Last iteration: undefined</span>
+}
+
+<span class="comment">// ✅ Correct - stops at length</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < arr.length; i++) {
+    console.log(arr[i]);
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>2. Forgetting to Increment</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - infinite loop!</span>
+<span class="keyword">let</span> i = <span class="number">0</span>;
+<span class="keyword">while</span> (i < <span class="number">5</span>) {
+    console.log(i);
+    <span class="comment">// Forgot: i++</span>
+}
+
+<span class="comment">// ✅ Correct - loop ends</span>
+<span class="keyword">let</span> i = <span class="number">0</span>;
+<span class="keyword">while</span> (i < <span class="number">5</span>) {
+    console.log(i);
+    i++;
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>3. Modifying Loop Variable Incorrectly</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - skips elements</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
+    console.log(i);
+    i++;  <span class="comment">// Extra increment - bad!</span>
+}
+
+<span class="comment">// ✅ Correct - let the loop handle it</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
+    console.log(i);
+}</code>
+                </div>
+            </div>
+
+            <div class="error">
+                <h4>4. Using = Instead of === in Conditions</h4>
+                <div class="code-block">
+<code><span class="comment">// ❌ Wrong - assigns instead of compares</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    <span class="keyword">if</span> (i = <span class="number">3</span>) {  <span class="comment">// Assignment!</span>
+        console.log(<span class="string">"Found"</span>);
+    }
+}
+
+<span class="comment">// ✅ Correct - comparison</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    <span class="keyword">if</span> (i === <span class="number">3</span>) {
+        console.log(<span class="string">"Found"</span>);
+    }
+}</code>
+                </div>
+            </div>
+
+            <h2>📊 Loop Types Comparison</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loop Type</th>
+                        <th>Best For</th>
+                        <th>When to Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>for</code></td>
+                        <td>Arrays, known iterations</td>
+                        <td>When you know how many times to loop</td>
+                    </tr>
+                    <tr>
+                        <td><code>while</code></td>
+                        <td>Unknown iterations</td>
+                        <td>When you don't know iteration count</td>
+                    </tr>
+                    <tr>
+                        <td><code>do...while</code></td>
+                        <td>Must run at least once</td>
+                        <td>When loop body should execute first</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>Loops Cheat Sheet</h3>
+                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+<code><span class="comment">// for loop</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    <span class="comment">// code here</span>
+}
+
+<span class="comment">// Loop through array</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < array.length; i++) {
+    console.log(array[i]);
+}
+
+<span class="comment">// while loop</span>
+<span class="keyword">while</span> (condition) {
+    <span class="comment">// code here</span>
+    <span class="comment">// update condition!</span>
+}
+
+<span class="comment">// do...while loop</span>
+<span class="keyword">do</span> {
+    <span class="comment">// code here</span>
+} <span class="keyword">while</span> (condition);
+
+<span class="comment">// break - exit loop</span>
+<span class="keyword">if</span> (condition) {
+    <span class="keyword">break</span>;
+}
+
+<span class="comment">// continue - skip iteration</span>
+<span class="keyword">if</span> (condition) {
+    <span class="keyword">continue</span>;
+}
+
+<span class="comment">// Nested loop</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < rows; i++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j < cols; j++) {
+        <span class="comment">// inner loop code</span>
+    }
+}</code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>Loops execute code repeatedly - avoid writing duplicate code</li>
+                    <li>Use <code>for</code> loops when you know the number of iterations</li>
+                    <li>Use <code>while</code> loops when iterations depend on a condition</li>
+                    <li><code>do...while</code> always runs at least once</li>
+                    <li>Use <code>i < array.length</code> to loop through entire arrays</li>
+                    <li>Combine loops with conditionals for powerful data processing</li>
+                    <li>Use <code>break</code> to exit loops early</li>
+                    <li>Use <code>continue</code> to skip iterations</li>
+                    <li>Always ensure loop conditions will eventually become false</li>
+                    <li>Watch out for off-by-one errors with array indices</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>JavaScript Loops Quick Reference Guide | Master the basics! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
