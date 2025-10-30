@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript DOM Quick Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #11998e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #11998e;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #38ef7d;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #11998e;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #11998e;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .method {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #11998e;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .syntax-pattern {
+            background: #fffbea;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .tree-visual {
+            background: white;
+            border: 2px solid #11998e;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .node-box {
+            display: inline-block;
+            border: 2px solid #38ef7d;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: #e8f9f0;
+            margin: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 JavaScript DOM</h1>
+            <p>A Beginner's Guide to the Document Object Model</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What is the DOM?</h2>
+            <p>The <strong>Document Object Model (DOM)</strong> is a programming interface that represents an HTML document as a tree structure of objects. It allows JavaScript to access and manipulate the content, structure, and style of web pages dynamically.</p>
+
+            <div class="info">
+                <strong>💡 Why the DOM Matters:</strong>
+                <ul>
+                    <li><strong>Dynamic content</strong> - Change page content without reloading</li>
+                    <li><strong>Interactive apps</strong> - Respond to user actions in real-time</li>
+                    <li><strong>Create elements</strong> - Build page content with JavaScript</li>
+                    <li><strong>Manipulate styles</strong> - Change appearance dynamically</li>
+                </ul>
+            </div>
+
+            <h2>🏗️ Building a Web App</h2>
+            <p>A web app consists of four main components working together:</p>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>1. HTML Code</h4>
+                    <p><strong>Purpose:</strong> The app's container and structure</p>
+                    <p>Defines the basic elements and layout of your application.</p>
+                </div>
+
+                <div class="example-card">
+                    <h4>2. CSS Code</h4>
+                    <p><strong>Purpose:</strong> The app's appearance</p>
+                    <p>Controls colors, fonts, spacing, and visual design.</p>
+                </div>
+
+                <div class="example-card">
+                    <h4>3. JavaScript Code</h4>
+                    <p><strong>Purpose:</strong> The app's operation</p>
+                    <p>Manages logic, interactivity, and dynamic content.</p>
+                </div>
+
+                <div class="example-card">
+                    <h4>4. Data</h4>
+                    <p><strong>Purpose:</strong> The app's content</p>
+                    <p>Often comes from external files, databases, or APIs.</p>
+                </div>
+            </div>
+
+            <h2>🌲 Understanding Nodes and the Node Tree</h2>
+            <p>In the DOM, everything is a <strong>node</strong>. A node is a distinct entity representing elements, attributes, text, comments, or other document parts. These nodes are organized in a hierarchical <strong>node tree</strong>.</p>
+
+            <h3>Node Tree Example</h3>
+            <div class="tree-visual">
+                <div style="text-align: center;">
+                    <div class="node-box">document</div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div class="node-box">html</div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div>
+                        <div class="node-box" style="margin-right: 20px;">head</div>
+                        <div class="node-box">body</div>
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div>
+                        <div class="node-box">h1</div>
+                        <div class="node-box">p</div>
+                        <div class="node-box">div</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Node Relationships</h3>
+            <p>Nodes have familial relationships with each other:</p>
+
+            <div class="code-block">
+<code><span class="comment">&lt;!-- HTML Structure --&gt;</span>
+&lt;div id=<span class="string">"parent"</span>&gt;
+    &lt;p id=<span class="string">"child1"</span>&gt;First paragraph&lt;/p&gt;
+    &lt;p id=<span class="string">"child2"</span>&gt;Second paragraph&lt;/p&gt;
+&lt;/div&gt;</code>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Relationship</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Root</strong></td>
+                        <td>Top node in the tree</td>
+                        <td><code>document</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parent</strong></td>
+                        <td>Node that contains other nodes</td>
+                        <td><code>&lt;div&gt;</code> is parent of <code>&lt;p&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Child</strong></td>
+                        <td>Node contained within another</td>
+                        <td><code>&lt;p&gt;</code> elements are children</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Siblings</strong></td>
+                        <td>Nodes with same parent</td>
+                        <td>The two <code>&lt;p&gt;</code> elements</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🔍 Selecting Nodes</h2>
+            <p>Before you can manipulate nodes, you need to select them. JavaScript provides several methods for this.</p>
+
+            <h3>Basic Selection Methods</h3>
+            <div class="code-block">
+<code><span class="comment">// Select by ID</span>
+<span class="keyword">let</span> element = document.<span class="method">getElementById</span>(<span class="string">"myId"</span>);
+
+<span class="comment">// Select by class name (returns HTMLCollection)</span>
+<span class="keyword">let</span> elements = document.<span class="method">getElementsByClassName</span>(<span class="string">"myClass"</span>);
+
+<span class="comment">// Select by tag name (returns HTMLCollection)</span>
+<span class="keyword">let</span> paragraphs = document.<span class="method">getElementsByTagName</span>(<span class="string">"p"</span>);
+
+<span class="comment">// Select first match with CSS selector</span>
+<span class="keyword">let</span> firstDiv = document.<span class="method">querySelector</span>(<span class="string">"div.container"</span>);
+
+<span class="comment">// Select all matches with CSS selector (returns NodeList)</span>
+<span class="keyword">let</span> allDivs = document.<span class="method">querySelectorAll</span>(<span class="string">"div.container"</span>);</code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 querySelector vs querySelectorAll:</strong>
+                <ul>
+                    <li><code>querySelector()</code> - Returns the first matching element</li>
+                    <li><code>querySelectorAll()</code> - Returns all matching elements as a NodeList</li>
+                    <li>Both use CSS selector syntax (IDs, classes, tags, etc.)</li>
+                </ul>
+            </div>
+
+            <h3>Node Properties for Navigation</h3>
+            <div class="code-block">
+<code><span class="comment">// Accessing related nodes</span>
+<span class="keyword">let</span> parent = element.<span class="method">parentNode</span>;
+<span class="keyword">let</span> children = element.<span class="method">children</span>;  <span class="comment">// Only element children</span>
+<span class="keyword">let</span> allChildren = element.<span class="method">childNodes</span>;  <span class="comment">// All nodes including text</span>
+<span class="keyword">let</span> firstChild = element.<span class="method">firstElementChild</span>;
+<span class="keyword">let</span> lastChild = element.<span class="method">lastElementChild</span>;
+<span class="keyword">let</span> nextSibling = element.<span class="method">nextElementSibling</span>;
+<span class="keyword">let</span> prevSibling = element.<span class="method">previousElementSibling</span>;</code>
+            </div>
+
+            <h2>➕ Creating and Adding Nodes</h2>
+            <p>You can create new HTML elements dynamically and add them to the page.</p>
+
+            <h3>Creating Elements</h3>
+            <div class="code-block">
+<code><span class="comment">// Create a new element</span>
+<span class="keyword">let</span> newDiv = document.<span class="method">createElement</span>(<span class="string">"div"</span>);
+<span class="keyword">let</span> newParagraph = document.<span class="method">createElement</span>(<span class="string">"p"</span>);
+<span class="keyword">let</span> newImage = document.<span class="method">createElement</span>(<span class="string">"img"</span>);
+
+<span class="comment">// Create a text node</span>
+<span class="keyword">let</span> textNode = document.<span class="method">createTextNode</span>(<span class="string">"Hello World"</span>);
+
+<span class="comment">// Create a document fragment (temporary container)</span>
+<span class="keyword">let</span> fragment = document.<span class="method">createDocumentFragment</span>();</code>
+            </div>
+
+            <h3>Adding Content to Elements</h3>
+            <div class="code-block">
+<code><span class="comment">// Set text content</span>
+newParagraph.<span class="method">textContent</span> = <span class="string">"This is a new paragraph"</span>;
+
+<span class="comment">// Set HTML content (including tags)</span>
+newDiv.<span class="method">innerHTML</span> = <span class="string">"&lt;strong&gt;Bold text&lt;/strong&gt;"</span>;
+
+<span class="comment">// Append text node</span>
+newParagraph.<span class="method">appendChild</span>(textNode);</code>
+            </div>
+
+            <h3>Appending Elements to the Page</h3>
+            <div class="code-block">
+<code><span class="comment">// Get parent element</span>
+<span class="keyword">let</span> container = document.<span class="method">getElementById</span>(<span class="string">"container"</span>);
+
+<span class="comment">// Append child to end</span>
+container.<span class="method">appendChild</span>(newParagraph);
+
+<span class="comment">// Insert before a specific child</span>
+<span class="keyword">let</span> firstChild = container.<span class="method">firstElementChild</span>;
+container.<span class="method">insertBefore</span>(newDiv, firstChild);
+
+<span class="comment">// Complete example: build and append</span>
+<span class="keyword">let</span> list = document.<span class="method">createElement</span>(<span class="string">"ul"</span>);
+<span class="keyword">let</span> item1 = document.<span class="method">createElement</span>(<span class="string">"li"</span>);
+<span class="keyword">let</span> item2 = document.<span class="method">createElement</span>(<span class="string">"li"</span>);
+
+item1.<span class="method">textContent</span> = <span class="string">"First item"</span>;
+item2.<span class="method">textContent</span> = <span class="string">"Second item"</span>;
+
+list.<span class="method">appendChild</span>(item1);
+list.<span class="method">appendChild</span>(item2);
+
+document.body.<span class="method">appendChild</span>(list);</code>
+            </div>
+
+            <h3>Using Document Fragments</h3>
+            <p>A <strong>document fragment</strong> is a lightweight container for building complex structures before adding them to the DOM. This is more efficient than adding elements one at a time.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Create fragment</span>
+<span class="keyword">let</span> fragment = document.<span class="method">createDocumentFragment</span>();
+
+<span class="comment">// Build structure in fragment</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    <span class="keyword">let</span> item = document.<span class="method">createElement</span>(<span class="string">"li"</span>);
+    item.<span class="method">textContent</span> = <span class="string">"Item "</span> + (i + <span class="number">1</span>);
+    fragment.<span class="method">appendChild</span>(item);
+}
+
+<span class="comment">// Add entire fragment to DOM at once</span>
+<span class="keyword">let</span> list = document.<span class="method">getElementById</span>(<span class="string">"myList"</span>);
+list.<span class="method">appendChild</span>(fragment);</code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Why Use Fragments?</strong> Adding elements one at a time causes the browser to repaint the page multiple times. Using a fragment builds the structure in memory first, then adds everything at once, improving performance.
+            </div>
+
+            <h2>🎨 Working with Attributes and Styles</h2>
+
+            <h3>Setting Attributes</h3>
+            <div class="code-block">
+<code><span class="comment">// Direct property assignment</span>
+newImage.<span class="method">src</span> = <span class="string">"photo.jpg"</span>;
+newImage.<span class="method">alt</span> = <span class="string">"A photo"</span>;
+newDiv.<span class="method">id</span> = <span class="string">"myDiv"</span>;
+
+<span class="comment">// Using setAttribute method</span>
+newImage.<span class="method">setAttribute</span>(<span class="string">"width"</span>, <span class="string">"300"</span>);
+newImage.<span class="method">setAttribute</span>(<span class="string">"height"</span>, <span class="string">"200"</span>);
+
+<span class="comment">// Working with classes</span>
+newDiv.<span class="method">className</span> = <span class="string">"container highlight"</span>;  <span class="comment">// Replace all classes</span>
+
+<span class="comment">// Better: use classList for adding/removing classes</span>
+newDiv.classList.<span class="method">add</span>(<span class="string">"active"</span>);
+newDiv.classList.<span class="method">remove</span>(<span class="string">"highlight"</span>);
+newDiv.classList.<span class="method">toggle</span>(<span class="string">"visible"</span>);  <span class="comment">// Add if absent, remove if present</span>
+console.log(newDiv.classList.<span class="method">contains</span>(<span class="string">"active"</span>));  <span class="comment">// Check if class exists</span></code>
+            </div>
+
+            <h3>Inline Styles</h3>
+            <div class="code-block">
+<code><span class="comment">// Setting individual style properties</span>
+newDiv.style.<span class="method">color</span> = <span class="string">"blue"</span>;
+newDiv.style.<span class="method">fontSize</span> = <span class="string">"20px"</span>;
+newDiv.style.<span class="method">backgroundColor</span> = <span class="string">"yellow"</span>;
+newDiv.style.<span class="method">padding</span> = <span class="string">"10px"</span>;
+newDiv.style.<span class="method">border</span> = <span class="string">"1px solid black"</span>;
+
+<span class="comment">// Note: CSS properties with hyphens become camelCase</span>
+<span class="comment">// CSS: background-color → JavaScript: backgroundColor</span>
+<span class="comment">// CSS: font-size → JavaScript: fontSize</span></code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Best Practice:</strong> Use CSS classes instead of inline styles when possible. Inline styles are harder to maintain and override CSS specificity rules.
+            </div>
+
+            <h2>🔄 Restructuring the Node Tree</h2>
+
+            <h3>Moving Nodes with appendChild()</h3>
+            <p>When you use <code>appendChild()</code> on an existing node, it moves that node to a new location.</p>
+
+            <div class="code-block">
+<code><span class="comment">// HTML: &lt;div id="container1"&gt;&lt;p id="para"&gt;Text&lt;/p&gt;&lt;/div&gt;</span>
+<span class="comment">//       &lt;div id="container2"&gt;&lt;/div&gt;</span>
+
+<span class="keyword">let</span> para = document.<span class="method">getElementById</span>(<span class="string">"para"</span>);
+<span class="keyword">let</span> container2 = document.<span class="method">getElementById</span>(<span class="string">"container2"</span>);
+
+<span class="comment">// This MOVES para from container1 to container2</span>
+container2.<span class="method">appendChild</span>(para);
+
+<span class="comment">// Real example: Moving images in a slideshow</span>
+<span class="keyword">function</span> <span class="method">slideNext</span>() {
+    <span class="keyword">let</span> slideshow = document.<span class="method">getElementById</span>(<span class="string">"slideshow"</span>);
+    <span class="keyword">let</span> firstImage = slideshow.<span class="method">firstElementChild</span>;
+    
+    <span class="comment">// Move first image to end (creates scrolling effect)</span>
+    slideshow.<span class="method">appendChild</span>(firstImage);
+}</code>
+            </div>
+
+            <h3>Inserting Nodes with insertBefore()</h3>
+            <p>Use <code>insertBefore()</code> to insert a node before a specific child.</p>
+
+            <div class="syntax-pattern">
+<strong>Syntax:</strong> parentNode.insertBefore(newNode, referenceNode);
+            </div>
+
+            <div class="code-block">
+<code><span class="comment">// Insert at the beginning</span>
+<span class="keyword">let</span> container = document.<span class="method">getElementById</span>(<span class="string">"container"</span>);
+<span class="keyword">let</span> newElement = document.<span class="method">createElement</span>(<span class="string">"div"</span>);
+<span class="keyword">let</span> firstChild = container.<span class="method">firstElementChild</span>;
+
+container.<span class="method">insertBefore</span>(newElement, firstChild);
+
+<span class="comment">// Move existing element to beginning</span>
+<span class="keyword">function</span> <span class="method">slidePrevious</span>() {
+    <span class="keyword">let</span> slideshow = document.<span class="method">getElementById</span>(<span class="string">"slideshow"</span>);
+    <span class="keyword">let</span> lastImage = slideshow.<span class="method">lastElementChild</span>;
+    <span class="keyword">let</span> firstImage = slideshow.<span class="method">firstElementChild</span>;
+    
+    <span class="comment">// Move last image to beginning</span>
+    slideshow.<span class="method">insertBefore</span>(lastImage, firstImage);
+}</code>
+            </div>
+
+            <h3>Cloning Nodes</h3>
+            <p>Create a copy of a node using <code>cloneNode()</code>.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Shallow copy (element only, no children)</span>
+<span class="keyword">let</span> original = document.<span class="method">getElementById</span>(<span class="string">"original"</span>);
+<span class="keyword">let</span> shallowCopy = original.<span class="method">cloneNode</span>(<span class="keyword">false</span>);
+
+<span class="comment">// Deep copy (element and all descendants)</span>
+<span class="keyword">let</span> deepCopy = original.<span class="method">cloneNode</span>(<span class="keyword">true</span>);
+
+<span class="comment">// Example: Clone a card element</span>
+<span class="keyword">let</span> card = document.<span class="method">querySelector</span>(<span class="string">".card"</span>);
+<span class="keyword">let</span> newCard = card.<span class="method">cloneNode</span>(<span class="keyword">true</span>);
+newCard.<span class="method">querySelector</span>(<span class="string">".title"</span>).textContent = <span class="string">"New Title"</span>;
+document.body.<span class="method">appendChild</span>(newCard);</code>
+            </div>
+
+            <h3>Removing Nodes</h3>
+            <div class="code-block">
+<code><span class="comment">// Remove a child from parent</span>
+<span class="keyword">let</span> parent = document.<span class="method">getElementById</span>(<span class="string">"parent"</span>);
+<span class="keyword">let</span> child = document.<span class="method">getElementById</span>(<span class="string">"child"</span>);
+parent.<span class="method">removeChild</span>(child);
+
+<span class="comment">// Modern method: remove element directly</span>
+child.<span class="method">remove</span>();
+
+<span class="comment">// Remove all children</span>
+<span class="keyword">while</span> (parent.<span class="method">firstChild</span>) {
+    parent.<span class="method">removeChild</span>(parent.firstChild);
+}
+
+<span class="comment">// Or simply:</span>
+parent.<span class="method">innerHTML</span> = <span class="string">""</span>;</code>
+            </div>
+
+            <h2>⏰ Timed Commands</h2>
+            <p>Execute code after a delay or at regular intervals.</p>
+
+            <h3>setTimeout() - Run Once After Delay</h3>
+            <div class="code-block">
+<code><span class="comment">// Basic syntax</span>
+<span class="method">setTimeout</span>(<span class="keyword">function</span>, delay);
+
+<span class="comment">// Run after 3 seconds</span>
+<span class="method">setTimeout</span>(<span class="keyword">function</span>() {
+    console.log(<span class="string">"3 seconds passed"</span>);
+}, <span class="number">3000</span>);
+
+<span class="comment">// With a named function</span>
+<span class="keyword">function</span> <span class="method">showMessage</span>() {
+    <span class="method">alert</span>(<span class="string">"Time's up!"</span>);
+}
+<span class="method">setTimeout</span>(showMessage, <span class="number">5000</span>);
+
+<span class="comment">// Cancel a timeout</span>
+<span class="keyword">let</span> timeoutId = <span class="method">setTimeout</span>(showMessage, <span class="number">5000</span>);
+<span class="method">clearTimeout</span>(timeoutId);  <span class="comment">// Cancels the timeout</span></code>
+            </div>
+
+            <h3>setInterval() - Repeat at Intervals</h3>
+            <div class="code-block">
+<code><span class="comment">// Basic syntax</span>
+<span class="method">setInterval</span>(<span class="keyword">function</span>, interval);
+
+<span class="comment">// Run every 2 seconds</span>
+<span class="keyword">let</span> counter = <span class="number">0</span>;
+<span class="keyword">let</span> intervalId = <span class="method">setInterval</span>(<span class="keyword">function</span>() {
+    counter++;
+    console.log(<span class="string">"Count: "</span> + counter);
+}, <span class="number">2000</span>);
+
+<span class="comment">// Stop the interval</span>
+<span class="method">clearInterval</span>(intervalId);
+
+<span class="comment">// Example: Simple countdown timer</span>
+<span class="keyword">let</span> seconds = <span class="number">10</span>;
+<span class="keyword">let</span> timer = <span class="method">setInterval</span>(<span class="keyword">function</span>() {
+    seconds--;
+    console.log(seconds);
+    
+    <span class="keyword">if</span> (seconds <= <span class="number">0</span>) {
+        <span class="method">clearInterval</span>(timer);
+        console.log(<span class="string">"Done!"</span>);
+    }
+}, <span class="number">1000</span>);</code>
+            </div>
+
+            <h3>Practical Timer Example</h3>
+            <div class="code-block">
+<code><span class="comment">// Auto-advance slideshow</span>
+<span class="keyword">let</span> isPlaying = <span class="keyword">false</span>;
+<span class="keyword">let</span> slideshowTimer;
+
+<span class="keyword">function</span> <span class="method">startSlideshow</span>() {
+    <span class="keyword">if</span> (!isPlaying) {
+        isPlaying = <span class="keyword">true</span>;
+        slideshowTimer = <span class="method">setInterval</span>(slideNext, <span class="number">3000</span>);
+    }
+}
+
+<span class="keyword">function</span> <span class="method">stopSlideshow</span>() {
+    <span class="keyword">if</span> (isPlaying) {
+        isPlaying = <span class="keyword">false</span>;
+        <span class="method">clearInterval</span>(slideshowTimer);
+    }
+}</code>
+            </div>
+
+            <h2>💬 Dialog Boxes</h2>
+            <p>JavaScript provides three types of dialog boxes for user interaction.</p>
+
+            <h3>1. Alert - Display Message</h3>
+            <div class="code-block">
+<code><span class="comment">// Simple alert</span>
+<span class="method">alert</span>(<span class="string">"Welcome to our site!"</span>);
+
+<span class="comment">// Alert with variable</span>
+<span class="keyword">let</span> username = <span class="string">"John"</span>;
+<span class="method">alert</span>(<span class="string">"Hello, "</span> + username + <span class="string">"!"</span>);</code>
+            </div>
+
+            <h3>2. Confirm - Get Yes/No</h3>
+            <div class="code-block">
+<code><span class="comment">// Returns true if OK, false if Cancel</span>
+<span class="keyword">let</span> result = <span class="method">confirm</span>(<span class="string">"Are you sure you want to delete?"</span>);
+
+<span class="keyword">if</span> (result) {
+    console.log(<span class="string">"Deleted"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Cancelled"</span>);
+}
+
+<span class="comment">// Practical example</span>
+<span class="keyword">function</span> <span class="method">deleteItem</span>() {
+    <span class="keyword">if</span> (<span class="method">confirm</span>(<span class="string">"Delete this item?"</span>)) {
+        <span class="comment">// Delete code here</span>
+        console.log(<span class="string">"Item deleted"</span>);
+    }
+}</code>
+            </div>
+
+            <h3>3. Prompt - Get User Input</h3>
+            <div class="code-block">
+<code><span class="comment">// Returns string or null if cancelled</span>
+<span class="keyword">let</span> name = <span class="method">prompt</span>(<span class="string">"What is your name?"</span>);
+
+<span class="keyword">if</span> (name !== <span class="keyword">null</span>) {
+    console.log(<span class="string">"Hello, "</span> + name);
+}
+
+<span class="comment">// With default value</span>
+<span class="keyword">let</span> age = <span class="method">prompt</span>(<span class="string">"How old are you?"</span>, <span class="string">"18"</span>);
+
+<span class="comment">// Validate input</span>
+<span class="keyword">let</span> quantity = <span class="method">prompt</span>(<span class="string">"How many?"</span>);
+quantity = <span class="method">parseInt</span>(quantity);
+
+<span class="keyword">if</span> (<span class="method">isNaN</span>(quantity)) {
+    <span class="method">alert</span>(<span class="string">"Please enter a number"</span>);
+}</code>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Dialog Box Limitations:</strong>
+                <ul>
+                    <li>Block all page interaction until closed</li>
+                    <li>Can't be styled with CSS</li>
+                    <li>Can look different in different browsers</li>
+                    <li>Consider using custom modals for better UX</li>
+                </ul>
+            </div>
+
+            <h2>🪟 Creating Overlays</h2>
+            <p>An <strong>overlay</strong> is an element that appears on top of page content, creating a modal-like experience.</p>
+
+            <h3>Basic Overlay Example</h3>
+            <div class="code-block">
+<code><span class="comment">// HTML structure</span>
+<span class="comment">// &lt;div id="overlay" class="overlay"&gt;</span>
+<span class="comment">//   &lt;div class="overlay-content"&gt;</span>
+<span class="comment">//     &lt;span class="close"&gt;&times;&lt;/span&gt;</span>
+<span class="comment">//     &lt;img id="overlay-image"&gt;</span>
+<span class="comment">//   &lt;/div&gt;</span>
+<span class="comment">// &lt;/div&gt;</span>
+
+<span class="comment">// CSS (add to stylesheet)</span>
+<span class="comment">/*
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.overlay-content {
+    position: relative;
+    margin: 50px auto;
+    max-width: 80%;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+*/</span>
+
+<span class="comment">// JavaScript to show/hide overlay</span>
+<span class="keyword">function</span> <span class="method">showOverlay</span>(imageSrc) {
+    <span class="keyword">let</span> overlay = document.<span class="method">getElementById</span>(<span class="string">"overlay"</span>);
+    <span class="keyword">let</span> overlayImage = document.<span class="method">getElementById</span>(<span class="string">"overlay-image"</span>);
+    
+    overlayImage.src = imageSrc;
+    overlay.style.display = <span class="string">"block"</span>;
+}
+
+<span class="keyword">function</span> <span class="method">hideOverlay</span>() {
+    <span class="keyword">let</span> overlay = document.<span class="method">getElementById</span>(<span class="string">"overlay"</span>);
+    overlay.style.display = <span class="string">"none"</span>;
+}
+
+<span class="comment">// Event listeners</span>
+document.<span class="method">querySelector</span>(<span class="string">".close"</span>).onclick = hideOverlay;
+document.<span class="method">getElementById</span>(<span class="string">"overlay"</span>).onclick = hideOverlay;</code>
+            </div>
+
+            <h3>The this Object</h3>
+            <p>The <code>this</code> object references the owner of the currently running code.</p>
+
+            <div class="code-block">
+<code><span class="comment">// In an event handler, this refers to the element</span>
+<span class="keyword">let</span> images = document.<span class="method">querySelectorAll</span>(<span class="string">"img"</span>);
+
+images.<span class="method">forEach</span>(<span class="keyword">function</span>(img) {
+    img.onclick = <span class="keyword">function</span>() {
+        <span class="comment">// this refers to the clicked image</span>
+        <span class="method">showOverlay</span>(<span class="keyword">this</span>.src);
+    };
+});
+
+<span class="comment">// Example: Highlight clicked button</span>
+<span class="keyword">let</span> buttons = document.<span class="method">querySelectorAll</span>(<span class="string">"button"</span>);
+
+buttons.<span class="method">forEach</span>(<span class="keyword">function</span>(btn) {
+    btn.onclick = <span class="keyword">function</span>() {
+        <span class="comment">// Remove active class from all</span>
+        buttons.<span class="method">forEach</span>(b => b.classList.<span class="method">remove</span>(<span class="string">"active"</span>));
+        
+        <span class="comment">// Add to clicked button</span>
+        <span class="keyword">this</span>.classList.<span class="method">add</span>(<span class="string">"active"</span>);
+    };
+});</code>
+            </div>
+
+            <h2>🌐 Browser Object Model (BOM)</h2>
+            <p>The <strong>Browser Object Model</strong> provides objects for interacting with the browser itself, not just the document.</p>
+
+            <h3>The window Object</h3>
+            <p>The global object that represents the browser window. All other BOM objects are properties of window.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Window properties</span>
+console.log(window.innerWidth);   <span class="comment">// Browser width</span>
+console.log(window.innerHeight);  <span class="comment">// Browser height</span>
+
+<span class="comment">// Open new window</span>
+<span class="keyword">let</span> popup = window.<span class="method">open</span>(<span class="string">"page.html"</span>, <span class="string">"_blank"</span>, <span class="string">"width=500,height=400"</span>);
+
+<span class="comment">// Close window</span>
+popup.<span class="method">close</span>();</code>
+            </div>
+
+            <h3>The history Object</h3>
+            <p>Stores the browser's navigation history for the current session.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Navigate history</span>
+window.history.<span class="method">back</span>();     <span class="comment">// Go back one page</span>
+window.history.<span class="method">forward</span>();  <span class="comment">// Go forward one page</span>
+window.history.<span class="method">go</span>(<span class="number">-2</span>);      <span class="comment">// Go back 2 pages</span>
+window.history.<span class="method">go</span>(<span class="number">1</span>);       <span class="comment">// Go forward 1 page</span>
+
+<span class="comment">// Check history length</span>
+console.log(history.length);  <span class="comment">// Number of pages in history</span></code>
+            </div>
+
+            <h3>The location Object</h3>
+            <p>Contains information about the current URL.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Current URL properties</span>
+console.log(location.href);      <span class="comment">// Full URL</span>
+console.log(location.hostname);  <span class="comment">// Domain name</span>
+console.log(location.pathname);  <span class="comment">// Path</span>
+console.log(location.protocol);  <span class="comment">// http: or https:</span>
+
+<span class="comment">// Navigate to new URL</span>
+location.href = <span class="string">"https://example.com"</span>;
+
+<span class="comment">// Reload page</span>
+location.<span class="method">reload</span>();</code>
+            </div>
+
+            <h3>The navigator Object</h3>
+            <p>Provides information about the browser.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Browser information</span>
+console.log(navigator.userAgent);   <span class="comment">// Browser ID string</span>
+console.log(navigator.language);    <span class="comment">// Browser language</span>
+console.log(navigator.onLine);      <span class="comment">// Online status</span>
+console.log(navigator.platform);    <span class="comment">// Operating system</span>
+
+<span class="comment">// Check browser features</span>
+<span class="keyword">if</span> (navigator.geolocation) {
+    console.log(<span class="string">"Geolocation supported"</span>);
+}</code>
+            </div>
+
+            <h3>The screen Object</h3>
+            <p>Contains information about the user's screen.</p>
+
+            <div class="code-block">
+<code><span class="comment">// Screen properties</span>
+console.log(screen.width);        <span class="comment">// Total screen width</span>
+console.log(screen.height);       <span class="comment">// Total screen height</span>
+console.log(screen.availWidth);   <span class="comment">// Available width</span>
+console.log(screen.availHeight);  <span class="comment">// Available height</span>
+
+<span class="comment">// Example: Center a popup window</span>
+<span class="keyword">function</span> <span class="method">openCenteredWindow</span>(url, width, height) {
+    <span class="keyword">let</span> left = (screen.width - width) / <span class="number">2</span>;
+    <span class="keyword">let</span> top = (screen.height - height) / <span class="number">2</span>;
+    
+    <span class="keyword">let</span> options = <span class="string">`width=</span>${width}<span class="string">,height=</span>${height}<span class="string">,left=</span>${left}<span class="string">,top=</span>${top}<span class="string">`</span>;
+    window.<span class="method">open</span>(url, <span class="string">"_blank"</span>, options);
+}</code>
+            </div>
+
+            <h2>📚 Practical Examples</h2>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Example 1: Dynamic List</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> items = [<span class="string">"Apple"</span>, <span class="string">"Banana"</span>, <span class="string">"Orange"</span>];
+<span class="keyword">let</span> list = document.<span class="method">createElement</span>(<span class="string">"ul"</span>);
+
+items.<span class="method">forEach</span>(<span class="keyword">function</span>(item) {
+    <span class="keyword">let</span> li = document.<span class="method">createElement</span>(<span class="string">"li"</span>);
+    li.<span class="method">textContent</span> = item;
+    list.<span class="method">appendChild</span>(li);
+});
+
+document.body.<span class="method">appendChild</span>(list);</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 2: Image Gallery</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> images = [<span class="string">"1.jpg"</span>, <span class="string">"2.jpg"</span>, <span class="string">"3.jpg"</span>];
+<span class="keyword">let</span> gallery = document.<span class="method">getElementById</span>(<span class="string">"gallery"</span>);
+
+images.<span class="method">forEach</span>(<span class="keyword">function</span>(src) {
+    <span class="keyword">let</span> img = document.<span class="method">createElement</span>(<span class="string">"img"</span>);
+    img.src = src;
+    img.onclick = <span class="keyword">function</span>() {
+        <span class="method">showOverlay</span>(<span class="keyword">this</span>.src);
+    };
+    gallery.<span class="method">appendChild</span>(img);
+});</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 3: Clock</h4>
+                    <div class="code-block">
+<code><span class="keyword">function</span> <span class="method">updateClock</span>() {
+    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="method">Date</span>();
+    <span class="keyword">let</span> time = now.<span class="method">toLocaleTimeString</span>();
+    document.<span class="method">getElementById</span>(<span class="string">"clock"</span>)
+        .textContent = time;
+}
+
+<span class="comment">// Update every second</span>
+<span class="method">setInterval</span>(updateClock, <span class="number">1000</span>);
+<span class="method">updateClock</span>();  <span class="comment">// Initial call</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 4: Tab System</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> tabs = document.<span class="method">querySelectorAll</span>(<span class="string">".tab"</span>);
+<span class="keyword">let</span> contents = document.<span class="method">querySelectorAll</span>(<span class="string">".content"</span>);
+
+tabs.<span class="method">forEach</span>(<span class="keyword">function</span>(tab, index) {
+    tab.onclick = <span class="keyword">function</span>() {
+        tabs.<span class="method">forEach</span>(t => t.classList.<span class="method">remove</span>(<span class="string">"active"</span>));
+        contents.<span class="method">forEach</span>(c => c.style.display = <span class="string">"none"</span>);
+        
+        <span class="keyword">this</span>.classList.<span class="method">add</span>(<span class="string">"active"</span>);
+        contents[index].style.display = <span class="string">"block"</span>;
+    };
+});</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 5: Form Builder</h4>
+                    <div class="code-block">
+<code><span class="keyword">function</span> <span class="method">createInput</span>(type, name) {
+    <span class="keyword">let</span> input = document.<span class="method">createElement</span>(<span class="string">"input"</span>);
+    input.type = type;
+    input.name = name;
+    input.id = name;
+    
+    <span class="keyword">let</span> label = document.<span class="method">createElement</span>(<span class="string">"label"</span>);
+    label.<span class="method">textContent</span> = name + <span class="string">": "</span>;
+    label.htmlFor = name;
+    
+    <span class="keyword">let</span> div = document.<span class="method">createElement</span>(<span class="string">"div"</span>);
+    div.<span class="method">appendChild</span>(label);
+    div.<span class="method">appendChild</span>(input);
+    
+    <span class="keyword">return</span> div;
+}</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Example 6: Countdown</h4>
+                    <div class="code-block">
+<code><span class="keyword">function</span> <span class="method">startCountdown</span>(seconds) {
+    <span class="keyword">let</span> display = document.<span class="method">getElementById</span>(<span class="string">"timer"</span>);
+    
+    <span class="keyword">let</span> timer = <span class="method">setInterval</span>(<span class="keyword">function</span>() {
+        display.<span class="method">textContent</span> = seconds;
+        seconds--;
+        
+        <span class="keyword">if</span> (seconds < <span class="number">0</span>) {
+            <span class="method">clearInterval</span>(timer);
+            <span class="method">alert</span>(<span class="string">"Time's up!"</span>);
+        }
+    }, <span class="number">1000</span>);
+}</code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Use document fragments for multiple elements</strong>
+                    <div class="code-block">
+<code><span class="comment">// ✅ Efficient - one DOM update</span>
+<span class="keyword">let</span> fragment = document.<span class="method">createDocumentFragment</span>();
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">100</span>; i++) {
+    <span class="keyword">let</span> item = document.<span class="method">createElement</span>(<span class="string">"div"</span>);
+    fragment.<span class="method">appendChild</span>(item);
+}
+container.<span class="method">appendChild</span>(fragment);</code>
+                    </div>
+                </li>
+                <li><strong>Cache DOM references</strong>
+                    <div class="code-block">
+<code><span class="comment">// ❌ Bad - searches DOM repeatedly</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
+    document.<span class="method">getElementById</span>(<span class="string">"list"</span>).<span class="method">innerHTML</span> += <span class="string">"&lt;li&gt;Item&lt;/li&gt;"</span>;
+}
+
+<span class="comment">// ✅ Good - cache reference</span>
+<span class="keyword">let</span> list = document.<span class="method">getElementById</span>(<span class="string">"list"</span>);
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
+    <span class="keyword">let</span> item = document.<span class="method">createElement</span>(<span class="string">"li"</span>);
+    list.<span class="method">appendChild</span>(item);
+}</code>
+                    </div>
+                </li>
+                <li><strong>Use classList instead of className</strong></li>
+                <li><strong>Always clear timers when done</strong></li>
+                <li><strong>Use textContent for plain text (safer than innerHTML)</strong></li>
+                <li><strong>Consider accessibility when creating dynamic content</strong></li>
+            </ol>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>DOM Cheat Sheet</h3>
+                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+<code><span class="comment">// Selection</span>
+document.<span class="method">getElementById</span>(<span class="string">"id"</span>)
+document.<span class="method">querySelector</span>(<span class="string">".class"</span>)
+document.<span class="method">querySelectorAll</span>(<span class="string">"div"</span>)
+
+<span class="comment">// Creation</span>
+document.<span class="method">createElement</span>(<span class="string">"div"</span>)
+document.<span class="method">createTextNode</span>(<span class="string">"text"</span>)
+document.<span class="method">createDocumentFragment</span>()
+
+<span class="comment">// Adding/Moving</span>
+parent.<span class="method">appendChild</span>(child)
+parent.<span class="method">insertBefore</span>(new, ref)
+element.<span class="method">remove</span>()
+
+<span class="comment">// Attributes</span>
+element.<span class="method">setAttribute</span>(<span class="string">"attr"</span>, <span class="string">"value"</span>)
+element.classList.<span class="method">add</span>(<span class="string">"class"</span>)
+element.style.<span class="method">color</span> = <span class="string">"red"</span>
+
+<span class="comment">// Timers</span>
+<span class="method">setTimeout</span>(fn, delay)
+<span class="method">setInterval</span>(fn, interval)
+<span class="method">clearTimeout</span>(id)
+<span class="method">clearInterval</span>(id)
+
+<span class="comment">// Dialog boxes</span>
+<span class="method">alert</span>(<span class="string">"message"</span>)
+<span class="method">confirm</span>(<span class="string">"question?"</span>)
+<span class="method">prompt</span>(<span class="string">"question?"</span>)</code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>The DOM represents HTML as a tree of nodes</li>
+                    <li>Use querySelector() and querySelectorAll() for flexible selection</li>
+                    <li>Create elements with createElement() and add with appendChild()</li>
+                    <li>Use document fragments for efficient bulk operations</li>
+                    <li>appendChild() on existing nodes moves them</li>
+                    <li>Use classList for managing CSS classes</li>
+                    <li>setInterval() repeats, setTimeout() runs once</li>
+                    <li>Dialog boxes block page interaction</li>
+                    <li>Overlays provide better UX than popups</li>
+                    <li>The BOM provides access to browser features</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>JavaScript DOM Quick Reference Guide | Master the basics! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
