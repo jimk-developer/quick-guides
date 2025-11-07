@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Strings, Arrays & Objects Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #4facfe;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4facfe;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #00d4ff;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #4facfe;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #4facfe;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .method {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .syntax-pattern {
+            background: #fffbea;
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .regex-box {
+            background: #fff5f5;
+            border: 2px solid #4facfe;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔤 JavaScript Strings, Arrays & Objects</h1>
+            <p>A Beginner's Guide to Data Manipulation</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What You'll Learn</h2>
+            <p>This guide covers essential techniques for manipulating data in JavaScript, including working with strings, using regular expressions, array manipulation methods, and built-in objects like Math and Date.</p>
+
+            <div class="info">
+                <strong>💡 Topics Covered:</strong>
+                <ul>
+                    <li><strong>Strings</strong> - Search, extract, modify, and compare text</li>
+                    <li><strong>Regular Expressions</strong> - Pattern matching and text validation</li>
+                    <li><strong>Arrays</strong> - Sort, reverse, slice, and manipulate collections</li>
+                    <li><strong>Math Object</strong> - Mathematical operations and constants</li>
+                    <li><strong>Date Object</strong> - Work with dates and times</li>
+                    <li><strong>Template Literals</strong> - Modern string formatting</li>
+                </ul>
+            </div>
+
+            <h2>📝 Working with Strings</h2>
+            <p>Strings are <strong>immutable</strong> in JavaScript - they cannot be changed, only replaced. String methods return new strings rather than modifying the original.</p>
+
+            <h3>String Properties and Basic Info</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"Hello World"</span>;
+
+<span class="comment">// Get string length</span>
+console.log(text.length);  <span class="comment">// 11</span>
+
+<span class="comment">// Access characters by index</span>
+console.log(text[<span class="number">0</span>]);      <span class="comment">// "H"</span>
+console.log(text.<span class="method">charAt</span>(<span class="number">0</span>));  <span class="comment">// "H"</span>
+
+<span class="comment">// Get character code (Unicode value)</span>
+console.log(text.<span class="method">charCodeAt</span>(<span class="number">0</span>));  <span class="comment">// 72</span></code>
+            </div>
+
+            <h3>Searching in Strings</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Returns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>indexOf(str)</code></td>
+                        <td>Find first occurrence</td>
+                        <td>Index or -1</td>
+                    </tr>
+                    <tr>
+                        <td><code>lastIndexOf(str)</code></td>
+                        <td>Find last occurrence</td>
+                        <td>Index or -1</td>
+                    </tr>
+                    <tr>
+                        <td><code>includes(str)</code></td>
+                        <td>Check if contains</td>
+                        <td>true/false</td>
+                    </tr>
+                    <tr>
+                        <td><code>startsWith(str)</code></td>
+                        <td>Check if starts with</td>
+                        <td>true/false</td>
+                    </tr>
+                    <tr>
+                        <td><code>endsWith(str)</code></td>
+                        <td>Check if ends with</td>
+                        <td>true/false</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"The quick brown fox jumps over the lazy dog"</span>;
+
+<span class="comment">// Find substring</span>
+console.log(text.<span class="method">indexOf</span>(<span class="string">"fox"</span>));       <span class="comment">// 16</span>
+console.log(text.<span class="method">lastIndexOf</span>(<span class="string">"the"</span>));  <span class="comment">// 31</span>
+
+<span class="comment">// Check if contains</span>
+console.log(text.<span class="method">includes</span>(<span class="string">"quick"</span>));    <span class="comment">// true</span>
+console.log(text.<span class="method">startsWith</span>(<span class="string">"The"</span>));   <span class="comment">// true</span>
+console.log(text.<span class="method">endsWith</span>(<span class="string">"dog"</span>));     <span class="comment">// true</span>
+
+<span class="comment">// Find with starting position</span>
+console.log(text.<span class="method">indexOf</span>(<span class="string">"the"</span>, <span class="number">10</span>));  <span class="comment">// 31 (starts search at index 10)</span></code>
+            </div>
+
+            <h3>Modifying Strings</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"  Hello World  "</span>;
+
+<span class="comment">// Change case</span>
+console.log(text.<span class="method">toUpperCase</span>());  <span class="comment">// "  HELLO WORLD  "</span>
+console.log(text.<span class="method">toLowerCase</span>());  <span class="comment">// "  hello world  "</span>
+
+<span class="comment">// Remove whitespace</span>
+console.log(text.<span class="method">trim</span>());       <span class="comment">// "Hello World"</span>
+console.log(text.<span class="method">trimStart</span>());  <span class="comment">// "Hello World  "</span>
+console.log(text.<span class="method">trimEnd</span>());    <span class="comment">// "  Hello World"</span>
+
+<span class="comment">// Replace text</span>
+<span class="keyword">let</span> str = <span class="string">"I like cats. Cats are great."</span>;
+console.log(str.<span class="method">replace</span>(<span class="string">"cats"</span>, <span class="string">"dogs"</span>));  <span class="comment">// Replaces first only</span>
+console.log(str.<span class="method">replaceAll</span>(<span class="string">"cats"</span>, <span class="string">"dogs"</span>));  <span class="comment">// Replaces all</span>
+
+<span class="comment">// Repeat string</span>
+console.log(<span class="string">"Ha"</span>.<span class="method">repeat</span>(<span class="number">3</span>));  <span class="comment">// "HaHaHa"</span>
+
+<span class="comment">// Pad strings</span>
+console.log(<span class="string">"5"</span>.<span class="method">padStart</span>(<span class="number">3</span>, <span class="string">"0"</span>));   <span class="comment">// "005"</span>
+console.log(<span class="string">"5"</span>.<span class="method">padEnd</span>(<span class="number">3</span>, <span class="string">"0"</span>));     <span class="comment">// "500"</span></code>
+            </div>
+
+            <h3>Extracting Substrings</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"JavaScript"</span>;
+
+<span class="comment">// slice(start, end) - extracts from start to end</span>
+console.log(text.<span class="method">slice</span>(<span class="number">0</span>, <span class="number">4</span>));    <span class="comment">// "Java"</span>
+console.log(text.<span class="method">slice</span>(<span class="number">4</span>));       <span class="comment">// "Script"</span>
+console.log(text.<span class="method">slice</span>(<span class="number">-6</span>));      <span class="comment">// "Script" (negative = from end)</span>
+
+<span class="comment">// substring(start, end) - similar to slice, no negative</span>
+console.log(text.<span class="method">substring</span>(<span class="number">0</span>, <span class="number">4</span>));  <span class="comment">// "Java"</span>
+console.log(text.<span class="method">substring</span>(<span class="number">4</span>));     <span class="comment">// "Script"</span>
+
+<span class="comment">// substr(start, length) - DEPRECATED, use slice instead</span>
+console.log(text.<span class="method">substr</span>(<span class="number">0</span>, <span class="number">4</span>));    <span class="comment">// "Java"</span>
+console.log(text.<span class="method">substr</span>(<span class="number">4</span>, <span class="number">6</span>));    <span class="comment">// "Script"</span></code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Best Practice:</strong> Use <code>slice()</code> for extracting substrings. It's more flexible and supports negative indices.
+            </div>
+
+            <h3>Splitting and Joining</h3>
+            <div class="code-block">
+<code><span class="comment">// Split string into array</span>
+<span class="keyword">let</span> sentence = <span class="string">"The quick brown fox"</span>;
+<span class="keyword">let</span> words = sentence.<span class="method">split</span>(<span class="string">" "</span>);
+console.log(words);  <span class="comment">// ["The", "quick", "brown", "fox"]</span>
+
+<span class="comment">// Split into characters</span>
+<span class="keyword">let</span> chars = <span class="string">"Hello"</span>.<span class="method">split</span>(<span class="string">""</span>);
+console.log(chars);  <span class="comment">// ["H", "e", "l", "l", "o"]</span>
+
+<span class="comment">// Split with limit</span>
+<span class="keyword">let</span> limited = sentence.<span class="method">split</span>(<span class="string">" "</span>, <span class="number">2</span>);
+console.log(limited);  <span class="comment">// ["The", "quick"]</span>
+
+<span class="comment">// Join array into string</span>
+<span class="keyword">let</span> arr = [<span class="string">"JavaScript"</span>, <span class="string">"is"</span>, <span class="string">"awesome"</span>];
+console.log(arr.<span class="method">join</span>(<span class="string">" "</span>));  <span class="comment">// "JavaScript is awesome"</span></code>
+            </div>
+
+            <h3>Combining Strings</h3>
+            <div class="code-block">
+<code><span class="comment">// Concatenation with +</span>
+<span class="keyword">let</span> first = <span class="string">"Hello"</span>;
+<span class="keyword">let</span> last = <span class="string">"World"</span>;
+console.log(first + <span class="string">" "</span> + last);  <span class="comment">// "Hello World"</span>
+
+<span class="comment">// concat() method</span>
+console.log(first.<span class="method">concat</span>(<span class="string">" "</span>, last));  <span class="comment">// "Hello World"</span>
+
+<span class="comment">// Template literals (modern way)</span>
+console.log(<span class="string">`</span>${first}<span class="string"> </span>${last}<span class="string">`</span>);  <span class="comment">// "Hello World"</span></code>
+            </div>
+
+            <h3>Comparing Strings</h3>
+            <div class="code-block">
+<code><span class="comment">// Equality comparison</span>
+console.log(<span class="string">"hello"</span> === <span class="string">"hello"</span>);  <span class="comment">// true</span>
+console.log(<span class="string">"hello"</span> === <span class="string">"Hello"</span>);  <span class="comment">// false (case-sensitive)</span>
+
+<span class="comment">// Lexicographical comparison (Unicode order)</span>
+console.log(<span class="string">"a"</span> < <span class="string">"b"</span>);     <span class="comment">// true</span>
+console.log(<span class="string">"A"</span> < <span class="string">"a"</span>);     <span class="comment">// true (uppercase comes first)</span>
+console.log(<span class="string">"10"</span> < <span class="string">"2"</span>);    <span class="comment">// true (string comparison, not numeric)</span>
+
+<span class="comment">// localeCompare() - language-aware comparison</span>
+<span class="keyword">let</span> str1 = <span class="string">"apple"</span>;
+<span class="keyword">let</span> str2 = <span class="string">"banana"</span>;
+console.log(str1.<span class="method">localeCompare</span>(str2));  <span class="comment">// -1 (str1 comes before str2)</span>
+console.log(str2.<span class="method">localeCompare</span>(str1));  <span class="comment">// 1 (str2 comes after str1)</span>
+console.log(str1.<span class="method">localeCompare</span>(str1));  <span class="comment">// 0 (equal)</span></code>
+            </div>
+
+            <h2>🔍 Regular Expressions</h2>
+            <p><strong>Regular expressions</strong> (regex) are patterns used to match character combinations in strings. They're powerful for validation, searching, and text manipulation.</p>
+
+            <h3>Creating Regular Expressions</h3>
+            <div class="code-block">
+<code><span class="comment">// Method 1: Literal notation</span>
+<span class="keyword">let</span> regex1 = <span class="string">/hello/</span>;
+
+<span class="comment">// Method 2: Constructor</span>
+<span class="keyword">let</span> regex2 = <span class="keyword">new</span> <span class="method">RegExp</span>(<span class="string">"hello"</span>);
+
+<span class="comment">// With flags</span>
+<span class="keyword">let</span> caseInsensitive = <span class="string">/hello/i</span>;  <span class="comment">// i = ignore case</span>
+<span class="keyword">let</span> global = <span class="string">/hello/g</span>;           <span class="comment">// g = find all matches</span>
+<span class="keyword">let</span> both = <span class="string">/hello/gi</span>;            <span class="comment">// combine flags</span></code>
+            </div>
+
+            <h3>Common Regex Patterns</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Meaning</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>\d</code></td>
+                        <td>Any digit (0-9)</td>
+                        <td><code>/\d{3}/</code> matches "123"</td>
+                    </tr>
+                    <tr>
+                        <td><code>\w</code></td>
+                        <td>Word character (a-z, A-Z, 0-9, _)</td>
+                        <td><code>/\w+/</code> matches "hello"</td>
+                    </tr>
+                    <tr>
+                        <td><code>\s</code></td>
+                        <td>Whitespace (space, tab, newline)</td>
+                        <td><code>/\s+/</code> matches spaces</td>
+                    </tr>
+                    <tr>
+                        <td><code>.</code></td>
+                        <td>Any character except newline</td>
+                        <td><code>/h.t/</code> matches "hat", "hot"</td>
+                    </tr>
+                    <tr>
+                        <td><code>^</code></td>
+                        <td>Start of string</td>
+                        <td><code>/^Hello/</code> matches start</td>
+                    </tr>
+                    <tr>
+                        <td><code>$</code></td>
+                        <td>End of string</td>
+                        <td><code>/world$/</code> matches end</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Regex Quantifiers</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quantifier</th>
+                        <th>Meaning</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>0 or more</td>
+                        <td><code>/bo*/</code> matches "b", "bo", "boo"</td>
+                    </tr>
+                    <tr>
+                        <td><code>+</code></td>
+                        <td>1 or more</td>
+                        <td><code>/bo+/</code> matches "bo", "boo"</td>
+                    </tr>
+                    <tr>
+                        <td><code>?</code></td>
+                        <td>0 or 1</td>
+                        <td><code>/colou?r/</code> matches "color", "colour"</td>
+                    </tr>
+                    <tr>
+                        <td><code>{n}</code></td>
+                        <td>Exactly n times</td>
+                        <td><code>/\d{3}/</code> matches "123"</td>
+                    </tr>
+                    <tr>
+                        <td><code>{n,}</code></td>
+                        <td>n or more times</td>
+                        <td><code>/\d{3,}/</code> matches 3+ digits</td>
+                    </tr>
+                    <tr>
+                        <td><code>{n,m}</code></td>
+                        <td>Between n and m</td>
+                        <td><code>/\d{2,4}/</code> matches 2-4 digits</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Character Classes</h3>
+            <div class="code-block">
+<code><span class="comment">// [abc] - matches any character in brackets</span>
+<span class="keyword">let</span> vowels = <span class="string">/[aeiou]/</span>;
+console.log(vowels.<span class="method">test</span>(<span class="string">"hello"</span>));  <span class="comment">// true</span>
+
+<span class="comment">// [^abc] - matches any character NOT in brackets</span>
+<span class="keyword">let</span> notVowels = <span class="string">/[^aeiou]/</span>;
+console.log(notVowels.<span class="method">test</span>(<span class="string">"hello"</span>));  <span class="comment">// true (matches "h", "l", etc.)</span>
+
+<span class="comment">// [a-z] - range of characters</span>
+<span class="keyword">let</span> lowercase = <span class="string">/[a-z]+/</span>;
+<span class="keyword">let</span> uppercase = <span class="string">/[A-Z]+/</span>;
+<span class="keyword">let</span> digit = <span class="string">/[0-9]+/</span>;
+
+<span class="comment">// Combine ranges</span>
+<span class="keyword">let</span> alphanumeric = <span class="string">/[a-zA-Z0-9]+/</span>;</code>
+            </div>
+
+            <h3>Regex Methods</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"The phone number is 555-123-4567"</span>;
+
+<span class="comment">// test() - returns true/false</span>
+<span class="keyword">let</span> hasNumber = <span class="string">/\d+/</span>.<span class="method">test</span>(text);
+console.log(hasNumber);  <span class="comment">// true</span>
+
+<span class="comment">// search() - returns index of match or -1</span>
+<span class="keyword">let</span> index = text.<span class="method">search</span>(<span class="string">/\d{3}/</span>);
+console.log(index);  <span class="comment">// 20 (position of "555")</span>
+
+<span class="comment">// match() - returns array of matches</span>
+<span class="keyword">let</span> matches = text.<span class="method">match</span>(<span class="string">/\d+/g</span>);
+console.log(matches);  <span class="comment">// ["555", "123", "4567"]</span>
+
+<span class="comment">// replace() - replace matches</span>
+<span class="keyword">let</span> censored = text.<span class="method">replace</span>(<span class="string">/\d/g</span>, <span class="string">"X"</span>);
+console.log(censored);  <span class="comment">// "The phone number is XXX-XXX-XXXX"</span>
+
+<span class="comment">// exec() - detailed match info</span>
+<span class="keyword">let</span> pattern = <span class="string">/\d{3}/g</span>;
+<span class="keyword">let</span> result = pattern.<span class="method">exec</span>(text);
+console.log(result);  <span class="comment">// ["555", index: 20, input: "...", groups: undefined]</span></code>
+            </div>
+
+            <h3>Practical Regex Examples</h3>
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Email Validation</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> email = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;
+
+console.log(email.<span class="method">test</span>(<span class="string">"user@email.com"</span>));  <span class="comment">// true</span>
+console.log(email.<span class="method">test</span>(<span class="string">"invalid"</span>));        <span class="comment">// false</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Phone Number</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> phone = <span class="string">/^\d{3}-\d{3}-\d{4}$/</span>;
+
+console.log(phone.<span class="method">test</span>(<span class="string">"555-123-4567"</span>));  <span class="comment">// true</span>
+console.log(phone.<span class="method">test</span>(<span class="string">"5551234567"</span>));    <span class="comment">// false</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>URL Validation</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> url = <span class="string">/^https?:\/\/.+/</span>;
+
+console.log(url.<span class="method">test</span>(<span class="string">"https://google.com"</span>));  <span class="comment">// true</span>
+console.log(url.<span class="method">test</span>(<span class="string">"ftp://site.com"</span>));     <span class="comment">// false</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Password Strength</h4>
+                    <div class="code-block">
+<code><span class="comment">// 8+ chars, uppercase, lowercase, digit</span>
+<span class="keyword">let</span> hasUpper = <span class="string">/[A-Z]/</span>;
+<span class="keyword">let</span> hasLower = <span class="string">/[a-z]/</span>;
+<span class="keyword">let</span> hasDigit = <span class="string">/\d/</span>;
+<span class="keyword">let</span> minLength = <span class="string">/.{8,}/</span>;
+
+<span class="keyword">function</span> <span class="method">isStrongPassword</span>(pwd) {
+    <span class="keyword">return</span> hasUpper.<span class="method">test</span>(pwd) && 
+           hasLower.<span class="method">test</span>(pwd) && 
+           hasDigit.<span class="method">test</span>(pwd) && 
+           minLength.<span class="method">test</span>(pwd);
+}</code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Extract Numbers</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> text = <span class="string">"I have 3 cats and 2 dogs"</span>;
+<span class="keyword">let</span> numbers = text.<span class="method">match</span>(<span class="string">/\d+/g</span>);
+console.log(numbers);  <span class="comment">// ["3", "2"]</span></code>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <h4>Remove HTML Tags</h4>
+                    <div class="code-block">
+<code><span class="keyword">let</span> html = <span class="string">"&lt;p&gt;Hello&lt;/p&gt;"</span>;
+<span class="keyword">let</span> clean = html.<span class="method">replace</span>(<span class="string">/&lt;[^&gt;]+&gt;/g</span>, <span class="string">""</span>);
+console.log(clean);  <span class="comment">// "Hello"</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>📊 Array Methods</h2>
+            <p>Arrays have many built-in methods for manipulation and transformation.</p>
+
+            <h3>Sorting Arrays</h3>
+            <div class="code-block">
+<code><span class="comment">// Default sort (lexicographical)</span>
+<span class="keyword">let</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"cherry"</span>];
+fruits.<span class="method">sort</span>();
+console.log(fruits);  <span class="comment">// ["apple", "banana", "cherry"]</span>
+
+<span class="comment">// Reverse</span>
+fruits.<span class="method">reverse</span>();
+console.log(fruits);  <span class="comment">// ["cherry", "banana", "apple"]</span>
+
+<span class="comment">// Problem: Numbers sort as strings!</span>
+<span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">5</span>, <span class="number">100</span>, <span class="number">1</span>];
+numbers.<span class="method">sort</span>();
+console.log(numbers);  <span class="comment">// [1, 10, 100, 5] - WRONG!</span>
+
+<span class="comment">// Solution: Use compare function</span>
+<span class="comment">// Ascending order</span>
+numbers.<span class="method">sort</span>(<span class="keyword">function</span>(a, b) {
+    <span class="keyword">return</span> a - b;
+});
+console.log(numbers);  <span class="comment">// [1, 5, 10, 100] - CORRECT!</span>
+
+<span class="comment">// Descending order</span>
+numbers.<span class="method">sort</span>(<span class="keyword">function</span>(a, b) {
+    <span class="keyword">return</span> b - a;
+});
+console.log(numbers);  <span class="comment">// [100, 10, 5, 1]</span>
+
+<span class="comment">// Modern arrow function syntax</span>
+numbers.<span class="method">sort</span>((a, b) => a - b);  <span class="comment">// Ascending</span>
+numbers.<span class="method">sort</span>((a, b) => b - a);  <span class="comment">// Descending</span></code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Compare Function Logic:</strong>
+                <ul>
+                    <li>Return negative: a comes before b</li>
+                    <li>Return positive: b comes before a</li>
+                    <li>Return 0: order unchanged</li>
+                </ul>
+            </div>
+
+            <h3>Extracting and Modifying</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// slice(start, end) - extract without modifying</span>
+<span class="keyword">let</span> subarray = arr.<span class="method">slice</span>(<span class="number">1</span>, <span class="number">4</span>);
+console.log(subarray);  <span class="comment">// [2, 3, 4]</span>
+console.log(arr);       <span class="comment">// [1, 2, 3, 4, 5] - unchanged</span>
+
+<span class="comment">// splice(start, deleteCount, items...) - modify array</span>
+<span class="keyword">let</span> arr2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Remove 2 elements starting at index 1</span>
+<span class="keyword">let</span> removed = arr2.<span class="method">splice</span>(<span class="number">1</span>, <span class="number">2</span>);
+console.log(removed);  <span class="comment">// [2, 3]</span>
+console.log(arr2);     <span class="comment">// [1, 4, 5]</span>
+
+<span class="comment">// Insert elements</span>
+arr2.<span class="method">splice</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">20</span>);  <span class="comment">// Insert at index 1</span>
+console.log(arr2);  <span class="comment">// [1, 10, 20, 4, 5]</span>
+
+<span class="comment">// Replace elements</span>
+arr2.<span class="method">splice</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">99</span>);  <span class="comment">// Remove 2, insert 99</span>
+console.log(arr2);  <span class="comment">// [1, 99, 4, 5]</span></code>
+            </div>
+
+            <h3>Stacks and Queues</h3>
+            <p><strong>Stack (LIFO)</strong> - Last In, First Out:</p>
+            <div class="code-block">
+<code><span class="keyword">let</span> stack = [];
+
+<span class="comment">// Add to top (end)</span>
+stack.<span class="method">push</span>(<span class="number">1</span>);
+stack.<span class="method">push</span>(<span class="number">2</span>);
+stack.<span class="method">push</span>(<span class="number">3</span>);
+console.log(stack);  <span class="comment">// [1, 2, 3]</span>
+
+<span class="comment">// Remove from top (end)</span>
+<span class="keyword">let</span> last = stack.<span class="method">pop</span>();
+console.log(last);   <span class="comment">// 3</span>
+console.log(stack);  <span class="comment">// [1, 2]</span></code>
+            </div>
+
+            <p><strong>Queue (FIFO)</strong> - First In, First Out:</p>
+            <div class="code-block">
+<code><span class="keyword">let</span> queue = [];
+
+<span class="comment">// Add to end</span>
+queue.<span class="method">push</span>(<span class="number">1</span>);
+queue.<span class="method">push</span>(<span class="number">2</span>);
+queue.<span class="method">push</span>(<span class="number">3</span>);
+console.log(queue);  <span class="comment">// [1, 2, 3]</span>
+
+<span class="comment">// Remove from beginning</span>
+<span class="keyword">let</span> first = queue.<span class="method">shift</span>();
+console.log(first);  <span class="comment">// 1</span>
+console.log(queue);  <span class="comment">// [2, 3]</span>
+
+<span class="comment">// Add to beginning</span>
+queue.<span class="method">unshift</span>(<span class="number">0</span>);
+console.log(queue);  <span class="comment">// [0, 2, 3]</span></code>
+            </div>
+
+            <h3>Array Method Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Modifies?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>push()</code></td>
+                        <td>Add to end</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>pop()</code></td>
+                        <td>Remove from end</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>unshift()</code></td>
+                        <td>Add to beginning</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>shift()</code></td>
+                        <td>Remove from beginning</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>slice()</code></td>
+                        <td>Extract subarray</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><code>splice()</code></td>
+                        <td>Remove/insert elements</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort()</code></td>
+                        <td>Sort array</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td><code>reverse()</code></td>
+                        <td>Reverse order</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>🔢 Math Object</h2>
+            <p>The Math object provides mathematical constants and functions.</p>
+
+            <h3>Common Math Methods</h3>
+            <div class="code-block">
+<code><span class="comment">// Rounding</span>
+console.log(Math.<span class="method">round</span>(<span class="number">4.7</span>));   <span class="comment">// 5</span>
+console.log(Math.<span class="method">round</span>(<span class="number">4.4</span>));   <span class="comment">// 4</span>
+console.log(Math.<span class="method">ceil</span>(<span class="number">4.1</span>));    <span class="comment">// 5 (round up)</span>
+console.log(Math.<span class="method">floor</span>(<span class="number">4.9</span>));   <span class="comment">// 4 (round down)</span>
+console.log(Math.<span class="method">trunc</span>(<span class="number">4.9</span>));   <span class="comment">// 4 (remove decimals)</span>
+
+<span class="comment">// Absolute value</span>
+console.log(Math.<span class="method">abs</span>(<span class="number">-5</span>));      <span class="comment">// 5</span>
+
+<span class="comment">// Power and roots</span>
+console.log(Math.<span class="method">pow</span>(<span class="number">2</span>, <span class="number">3</span>));    <span class="comment">// 8 (2³)</span>
+console.log(Math.<span class="method">sqrt</span>(<span class="number">16</span>));     <span class="comment">// 4</span>
+console.log(Math.<span class="method">cbrt</span>(<span class="number">27</span>));     <span class="comment">// 3 (cube root)</span>
+
+<span class="comment">// Min and max</span>
+console.log(Math.<span class="method">min</span>(<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>));  <span class="comment">// 1</span>
+console.log(Math.<span class="method">max</span>(<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>));  <span class="comment">// 5</span>
+
+<span class="comment">// Min/max of array</span>
+<span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">9</span>, <span class="number">2</span>];
+console.log(Math.<span class="method">max</span>(...numbers));  <span class="comment">// 9 (spread operator)</span>
+console.log(Math.<span class="method">min</span>(...numbers));  <span class="comment">// 1</span></code>
+            </div>
+
+            <h3>Math Constants</h3>
+            <div class="code-block">
+<code>console.log(Math.PI);       <span class="comment">// 3.141592653589793</span>
+console.log(Math.E);        <span class="comment">// 2.718281828459045</span>
+console.log(Math.LN2);      <span class="comment">// 0.6931471805599453</span>
+console.log(Math.LN10);     <span class="comment">// 2.302585092994046</span>
+console.log(Math.SQRT2);    <span class="comment">// 1.4142135623730951</span></code>
+            </div>
+
+            <h3>Random Numbers</h3>
+            <div class="code-block">
+<code><span class="comment">// Random number between 0 and 1</span>
+<span class="keyword">let</span> random = Math.<span class="method">random</span>();
+console.log(random);  <span class="comment">// e.g., 0.7234...</span>
+
+<span class="comment">// Random integer from 0 to 9</span>
+<span class="keyword">let</span> dice = Math.<span class="method">floor</span>(Math.<span class="method">random</span>() * <span class="number">10</span>);
+
+<span class="comment">// Random integer from 1 to 6 (dice)</span>
+<span class="keyword">let</span> roll = Math.<span class="method">floor</span>(Math.<span class="method">random</span>() * <span class="number">6</span>) + <span class="number">1</span>;
+
+<span class="comment">// Random integer between min and max (inclusive)</span>
+<span class="keyword">function</span> <span class="method">randomInt</span>(min, max) {
+    <span class="keyword">return</span> Math.<span class="method">floor</span>(Math.<span class="method">random</span>() * (max - min + <span class="number">1</span>)) + min;
+}
+
+console.log(<span class="method">randomInt</span>(<span class="number">1</span>, <span class="number">100</span>));  <span class="comment">// Random number 1-100</span>
+
+<span class="comment">// Shuffle array randomly</span>
+<span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+arr.<span class="method">sort</span>(() => Math.<span class="method">random</span>() - <span class="number">0.5</span>);
+console.log(arr);  <span class="comment">// Randomly shuffled</span></code>
+            </div>
+
+            <h2>📅 Date Object</h2>
+            <p>The Date object works with dates and times.</p>
+
+            <h3>Creating Dates</h3>
+            <div class="code-block">
+<code><span class="comment">// Current date and time</span>
+<span class="keyword">let</span> now = <span class="keyword">new</span> <span class="method">Date</span>();
+console.log(now);
+
+<span class="comment">// From string</span>
+<span class="keyword">let</span> date1 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"2024-12-25"</span>);
+<span class="keyword">let</span> date2 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"December 25, 2024"</span>);
+
+<span class="comment">// From numbers (year, month, day, hour, min, sec, ms)</span>
+<span class="comment">// Note: Month is 0-indexed (0 = January, 11 = December)</span>
+<span class="keyword">let</span> date3 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">2024</span>, <span class="number">11</span>, <span class="number">25</span>);  <span class="comment">// Dec 25, 2024</span>
+<span class="keyword">let</span> date4 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">2024</span>, <span class="number">11</span>, <span class="number">25</span>, <span class="number">14</span>, <span class="number">30</span>, <span class="number">0</span>);  <span class="comment">// 2:30 PM</span>
+
+<span class="comment">// From timestamp (milliseconds since Jan 1, 1970)</span>
+<span class="keyword">let</span> date5 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">1609459200000</span>);</code>
+            </div>
+
+            <h3>Getting Date Components</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">2024</span>, <span class="number">11</span>, <span class="number">25</span>, <span class="number">14</span>, <span class="number">30</span>, <span class="number">45</span>);
+
+console.log(date.<span class="method">getFullYear</span>());   <span class="comment">// 2024</span>
+console.log(date.<span class="method">getMonth</span>());      <span class="comment">// 11 (December)</span>
+console.log(date.<span class="method">getDate</span>());       <span class="comment">// 25 (day of month)</span>
+console.log(date.<span class="method">getDay</span>());        <span class="comment">// 3 (Wed: 0=Sun, 6=Sat)</span>
+console.log(date.<span class="method">getHours</span>());      <span class="comment">// 14</span>
+console.log(date.<span class="method">getMinutes</span>());    <span class="comment">// 30</span>
+console.log(date.<span class="method">getSeconds</span>());    <span class="comment">// 45</span>
+console.log(date.<span class="method">getTime</span>());       <span class="comment">// Timestamp in ms</span></code>
+            </div>
+
+            <h3>Setting Date Components</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
+
+date.<span class="method">setFullYear</span>(<span class="number">2025</span>);
+date.<span class="method">setMonth</span>(<span class="number">0</span>);         <span class="comment">// January</span>
+date.<span class="method">setDate</span>(<span class="number">1</span>);          <span class="comment">// 1st day</span>
+date.<span class="method">setHours</span>(<span class="number">12</span>);
+date.<span class="method">setMinutes</span>(<span class="number">0</span>);
+date.<span class="method">setSeconds</span>(<span class="number">0</span>);
+
+console.log(date);  <span class="comment">// Jan 1, 2025, 12:00:00</span></code>
+            </div>
+
+            <h3>Date Formatting</h3>
+            <div class="code-block">
+<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
+
+<span class="comment">// Default string</span>
+console.log(date.<span class="method">toString</span>());
+<span class="comment">// "Wed Dec 25 2024 14:30:45 GMT-0500"</span>
+
+<span class="comment">// Date only</span>
+console.log(date.<span class="method">toDateString</span>());
+<span class="comment">// "Wed Dec 25 2024"</span>
+
+<span class="comment">// Time only</span>
+console.log(date.<span class="method">toTimeString</span>());
+<span class="comment">// "14:30:45 GMT-0500"</span>
+
+<span class="comment">// Locale format</span>
+console.log(date.<span class="method">toLocaleString</span>());
+<span class="comment">// "12/25/2024, 2:30:45 PM"</span>
+
+console.log(date.<span class="method">toLocaleDateString</span>());
+<span class="comment">// "12/25/2024"</span>
+
+console.log(date.<span class="method">toLocaleTimeString</span>());
+<span class="comment">// "2:30:45 PM"</span>
+
+<span class="comment">// ISO format</span>
+console.log(date.<span class="method">toISOString</span>());
+<span class="comment">// "2024-12-25T19:30:45.000Z"</span></code>
+            </div>
+
+            <h3>Date Calculations</h3>
+            <div class="code-block">
+<code><span class="comment">// Days between dates</span>
+<span class="keyword">let</span> date1 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"2024-01-01"</span>);
+<span class="keyword">let</span> date2 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"2024-12-31"</span>);
+
+<span class="keyword">let</span> diff = date2 - date1;  <span class="comment">// Difference in milliseconds</span>
+<span class="keyword">let</span> days = diff / (<span class="number">1000</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span>);
+console.log(days);  <span class="comment">// 365</span>
+
+<span class="comment">// Add days to date</span>
+<span class="keyword">let</span> today = <span class="keyword">new</span> <span class="method">Date</span>();
+<span class="keyword">let</span> tomorrow = <span class="keyword">new</span> <span class="method">Date</span>(today);
+tomorrow.<span class="method">setDate</span>(tomorrow.<span class="method">getDate</span>() + <span class="number">1</span>);
+
+<span class="comment">// Countdown timer</span>
+<span class="keyword">function</span> <span class="method">daysUntil</span>(targetDate) {
+    <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="method">Date</span>();
+    <span class="keyword">let</span> target = <span class="keyword">new</span> <span class="method">Date</span>(targetDate);
+    <span class="keyword">let</span> diff = target - now;
+    <span class="keyword">return</span> Math.<span class="method">ceil</span>(diff / (<span class="number">1000</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span>));
+}
+
+console.log(<span class="method">daysUntil</span>(<span class="string">"2025-01-01"</span>));</code>
+            </div>
+
+            <h2>📜 Template Literals</h2>
+            <p>Template literals provide a more powerful way to work with strings.</p>
+
+            <h3>Basic Template Literals</h3>
+            <div class="code-block">
+<code><span class="comment">// Use backticks instead of quotes</span>
+<span class="keyword">let</span> greeting = <span class="string">`Hello World`</span>;
+
+<span class="comment">// Multi-line strings</span>
+<span class="keyword">let</span> multiline = <span class="string">`This is
+a multi-line
+string`</span>;
+
+<span class="comment">// No need for escaping quotes</span>
+<span class="keyword">let</span> quote = <span class="string">`He said "Hello" and I said 'Hi'`</span>;</code>
+            </div>
+
+            <h3>Placeholders (String Interpolation)</h3>
+            <div class="code-block">
+<code><span class="comment">// Embed variables</span>
+<span class="keyword">let</span> name = <span class="string">"John"</span>;
+<span class="keyword">let</span> age = <span class="number">30</span>;
+console.log(<span class="string">`My name is </span>${name}<span class="string"> and I am </span>${age}<span class="string"> years old`</span>);
+
+<span class="comment">// Embed expressions</span>
+<span class="keyword">let</span> price = <span class="number">19.99</span>;
+<span class="keyword">let</span> quantity = <span class="number">3</span>;
+console.log(<span class="string">`Total: $</span>${price * quantity}<span class="string">`</span>);  <span class="comment">// "Total: $59.97"</span>
+
+<span class="comment">// Call functions</span>
+<span class="keyword">function</span> <span class="method">formatName</span>(name) {
+    <span class="keyword">return</span> name.<span class="method">toUpperCase</span>();
+}
+console.log(<span class="string">`Hello, </span>${<span class="method">formatName</span>(name)}<span class="string">!`</span>);  <span class="comment">// "Hello, JOHN!"</span>
+
+<span class="comment">// Conditional expressions</span>
+<span class="keyword">let</span> score = <span class="number">85</span>;
+console.log(<span class="string">`You </span>${score >= <span class="number">60</span> ? <span class="string">"passed"</span> : <span class="string">"failed"</span>}<span class="string">`</span>);</code>
+            </div>
+
+            <h3>Practical Examples</h3>
+            <div class="code-block">
+<code><span class="comment">// HTML generation</span>
+<span class="keyword">let</span> user = {name: <span class="string">"Alice"</span>, email: <span class="string">"alice@email.com"</span>};
+<span class="keyword">let</span> html = <span class="string">`
+    &lt;div class="user"&gt;
+        &lt;h2&gt;</span>${user.name}<span class="string">&lt;/h2&gt;
+        &lt;p&gt;</span>${user.email}<span class="string">&lt;/p&gt;
+    &lt;/div&gt;
+`</span>;
+
+<span class="comment">// URL building</span>
+<span class="keyword">let</span> userId = <span class="number">123</span>;
+<span class="keyword">let</span> url = <span class="string">`https://api.example.com/users/</span>${userId}<span class="string">`</span>;
+
+<span class="comment">// SQL queries (use with caution!)</span>
+<span class="keyword">let</span> username = <span class="string">"john"</span>;
+<span class="keyword">let</span> query = <span class="string">`SELECT * FROM users WHERE name = '</span>${username}<span class="string">'`</span>;
+
+<span class="comment">// Messages</span>
+<span class="keyword">let</span> items = <span class="number">5</span>;
+console.log(<span class="string">`You have </span>${items}<span class="string"> item</span>${items !== <span class="number">1</span> ? <span class="string">"s"</span> : <span class="string">""</span>}<span class="string"> in your cart`</span>);</code>
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Use const for regex patterns</strong>
+                    <div class="code-block">
+<code><span class="keyword">const</span> EMAIL_PATTERN = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;</code>
+                    </div>
+                </li>
+                <li><strong>Test regex patterns thoroughly</strong></li>
+                <li><strong>Use template literals for complex strings</strong></li>
+                <li><strong>Remember: strings are immutable</strong></li>
+                <li><strong>Use arrow functions for compare functions</strong>
+                    <div class="code-block">
+<code>arr.<span class="method">sort</span>((a, b) => a - b);</code>
+                    </div>
+                </li>
+                <li><strong>Cache Date objects when doing multiple calculations</strong></li>
+                <li><strong>Use spread operator for array operations</strong></li>
+            </ol>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>Strings, Arrays & Objects Cheat Sheet</h3>
+                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+<code><span class="comment">// Strings</span>
+str.length
+str.<span class="method">indexOf</span>(sub)
+str.<span class="method">slice</span>(start, end)
+str.<span class="method">split</span>(separator)
+str.<span class="method">replace</span>(old, new)
+str.<span class="method">toLowerCase</span>()
+str.<span class="method">trim</span>()
+
+<span class="comment">// Regular Expressions</span>
+<span class="string">/pattern/flags</span>
+regex.<span class="method">test</span>(str)
+str.<span class="method">match</span>(regex)
+str.<span class="method">replace</span>(regex, replacement)
+
+<span class="comment">// Arrays</span>
+arr.<span class="method">sort</span>((a, b) => a - b)
+arr.<span class="method">reverse</span>()
+arr.<span class="method">slice</span>(start, end)
+arr.<span class="method">splice</span>(start, count)
+arr.<span class="method">push</span>(item)
+arr.<span class="method">pop</span>()
+
+<span class="comment">// Math</span>
+Math.<span class="method">round</span>(x)
+Math.<span class="method">random</span>()
+Math.<span class="method">max</span>(...arr)
+Math.PI
+
+<span class="comment">// Date</span>
+<span class="keyword">new</span> <span class="method">Date</span>()
+date.<span class="method">getFullYear</span>()
+date.<span class="method">toLocaleDateString</span>()
+
+<span class="comment">// Template Literals</span>
+<span class="string">`Text </span>${variable}<span class="string">`</span></code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>Strings are immutable - methods return new strings</li>
+                    <li>Regular expressions are powerful for pattern matching</li>
+                    <li>Arrays have many built-in manipulation methods</li>
+                    <li>Use compare functions for proper numeric sorting</li>
+                    <li>Math object provides constants and mathematical functions</li>
+                    <li>Date objects store time as milliseconds since 1970</li>
+                    <li>Template literals allow embedded expressions</li>
+                    <li>Spread operator (...) is useful for arrays</li>
+                    <li>Stack (LIFO): push/pop, Queue (FIFO): push/shift</li>
+                    <li>Test and validate regex patterns carefully</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>JavaScript Strings, Arrays & Objects Quick Reference Guide | Master the basics! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
