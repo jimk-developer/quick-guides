@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript Loops Quick Guide</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -181,7 +182,8 @@
             background: #f5f5f5;
         }
 
-        ul, ol {
+        ul,
+        ol {
             margin-left: 30px;
             margin-bottom: 15px;
         }
@@ -268,6 +270,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -277,11 +280,16 @@
 
         <div class="content">
             <h2>🎯 What are Loops?</h2>
-            <p><strong>Loops</strong> are used to execute a block of code repeatedly. Instead of writing the same code multiple times, you can use a loop to run it as many times as needed. Loops are essential for working with arrays, processing data, and automating repetitive tasks.</p>
+            <p><strong>Loops</strong> are used to execute a block of code
+                repeatedly. Instead of writing the same code multiple times, you
+                can use a loop to run it as many times as needed. Loops are
+                essential for working with arrays, processing data, and
+                automating repetitive tasks.</p>
 
             <div class="loop-visual">
                 <h4>Loop Execution Visualization</h4>
-                <p style="margin: 10px 0;">Loop runs the same code multiple times:</p>
+                <p style="margin: 10px 0;">Loop runs the same code multiple
+                    times:</p>
                 <div style="margin: 20px 0;">
                     <div class="iteration-box">Iteration 1</div>
                     <div class="iteration-box">Iteration 2</div>
@@ -289,30 +297,37 @@
                     <div class="iteration-box">Iteration 4</div>
                     <div class="iteration-box">Iteration 5</div>
                 </div>
-                <p style="margin: 10px 0; font-size: 0.9em; color: #666;">Each box represents one execution of the loop body</p>
+                <p style="margin: 10px 0; font-size: 0.9em; color: #666;">Each
+                    box represents one execution of the loop body</p>
             </div>
 
             <div class="info">
                 <strong>💡 Why Use Loops?</strong>
                 <ul>
-                    <li><strong>Avoid repetition</strong> - Write code once, run it many times</li>
-                    <li><strong>Process arrays</strong> - Iterate through every element</li>
-                    <li><strong>Count and calculate</strong> - Perform operations multiple times</li>
-                    <li><strong>Save time</strong> - Much shorter than writing duplicate code</li>
+                    <li><strong>Avoid repetition</strong> - Write code once, run
+                        it many times</li>
+                    <li><strong>Process arrays</strong> - Iterate through every
+                        element</li>
+                    <li><strong>Count and calculate</strong> - Perform
+                        operations multiple times</li>
+                    <li><strong>Save time</strong> - Much shorter than writing
+                        duplicate code</li>
                 </ul>
             </div>
 
             <h2>📝 The for Loop</h2>
-            <p>The <code>for</code> loop is the most common type of loop. It repeats a block of code a specific number of times.</p>
+            <p>The <code>for</code> loop is the most common type of loop. It
+                repeats a block of code a specific number of times.</p>
 
             <div class="syntax-pattern">
-<strong>Syntax:</strong> for (initialization; condition; increment) {
-    // code to repeat
-}
+                <strong>Syntax:</strong> for (initialization; condition;
+                increment) {
+                // code to repeat
+                }
             </div>
 
             <div class="code-block">
-<code><span class="comment">// Basic for loop - count from 0 to 4</span>
+                <code><span class="comment">// Basic for loop - count from 0 to 4</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
     console.log(<span class="string">"Iteration: "</span> + i);
 }
@@ -341,14 +356,17 @@
             <div class="info">
                 <strong>Understanding the three parts:</strong>
                 <ol>
-                    <li><strong>Initialization:</strong> <code>let i = 0</code> - Runs once at the start, creates loop variable</li>
-                    <li><strong>Condition:</strong> <code>i < 5</code> - Checked before each iteration, continues if true</li>
-                    <li><strong>Increment:</strong> <code>i++</code> - Runs after each iteration, updates loop variable</li>
+                    <li><strong>Initialization:</strong> <code>let i = 0</code>
+                        - Runs once at the start, creates loop variable</li>
+                    <li><strong>Condition:</strong> <code>i < 5</code> - Checked
+                        before each iteration, continues if true</li>
+                    <li><strong>Increment:</strong> <code>i++</code> - Runs
+                        after each iteration, updates loop variable</li>
                 </ol>
             </div>
 
             <div class="code-block">
-<code><span class="comment">// Step-by-step breakdown</span>
+                <code><span class="comment">// Step-by-step breakdown</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
     console.log(<span class="string">"i is now: "</span> + i);
 }
@@ -373,10 +391,11 @@
             </div>
 
             <h2>📚 Looping Through Arrays</h2>
-            <p>One of the most common uses of loops is to iterate through arrays.</p>
+            <p>One of the most common uses of loops is to iterate through
+                arrays.</p>
 
             <div class="code-block">
-<code><span class="comment">// Loop through an array</span>
+                <code><span class="comment">// Loop through an array</span>
 <span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < fruits.length; i++) {
@@ -413,14 +432,18 @@ console.log(<span class="string">"Total: "</span> + sum);  <span class="comment"
             </div>
 
             <div class="tip">
-                <strong>💡 Pro Tip:</strong> Always use <code>array.length</code> as your condition when looping through arrays. This ensures you process every element, regardless of array size.
+                <strong>💡 Pro Tip:</strong> Always use
+                <code>array.length</code> as your condition when looping through
+                arrays. This ensures you process every element, regardless of
+                array size.
             </div>
 
             <h2>🔄 Loops with Conditionals</h2>
-            <p>Combining loops with conditional statements allows you to process specific elements or skip certain iterations.</p>
+            <p>Combining loops with conditional statements allows you to process
+                specific elements or skip certain iterations.</p>
 
             <div class="code-block">
-<code><span class="comment">// Print only even numbers</span>
+                <code><span class="comment">// Print only even numbers</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
     <span class="keyword">if</span> (i % <span class="number">2</span> === <span class="number">0</span>) {
         console.log(i);
@@ -457,7 +480,7 @@ console.log(<span class="string">"Number of A's: "</span> + countA);  <span clas
 
             <h3>Using else if in Loops</h3>
             <div class="code-block">
-<code><span class="comment">// Categorize numbers</span>
+                <code><span class="comment">// Categorize numbers</span>
 <span class="keyword">let</span> numbers = [<span class="number">5</span>, <span class="number">15</span>, <span class="number">25</span>, <span class="number">35</span>, <span class="number">45</span>];
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
@@ -482,10 +505,11 @@ console.log(<span class="string">"Number of A's: "</span> + countA);  <span clas
             <p>Special keywords to control loop execution.</p>
 
             <h3>break - Exit the Loop</h3>
-            <p>The <code>break</code> statement immediately exits the loop completely.</p>
+            <p>The <code>break</code> statement immediately exits the loop
+                completely.</p>
 
             <div class="code-block">
-<code><span class="comment">// Stop when we find a specific value</span>
+                <code><span class="comment">// Stop when we find a specific value</span>
 <span class="keyword">let</span> numbers = [<span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">25</span>];
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
@@ -517,10 +541,11 @@ console.log(<span class="string">"Number of A's: "</span> + countA);  <span clas
             </div>
 
             <h3>continue - Skip to Next Iteration</h3>
-            <p>The <code>continue</code> statement skips the rest of the current iteration and moves to the next one.</p>
+            <p>The <code>continue</code> statement skips the rest of the current
+                iteration and moves to the next one.</p>
 
             <div class="code-block">
-<code><span class="comment">// Skip odd numbers</span>
+                <code><span class="comment">// Skip odd numbers</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
     <span class="keyword">if</span> (i % <span class="number">2</span> !== <span class="number">0</span>) {
         <span class="keyword">continue</span>;  <span class="comment">// Skip odd numbers</span>
@@ -558,17 +583,19 @@ console.log(<span class="string">"Average: "</span> + average);  <span class="co
             </div>
 
             <h2>🔄 The while Loop</h2>
-            <p>The <code>while</code> loop repeats as long as a condition is true. Use it when you don't know how many times you need to loop.</p>
+            <p>The <code>while</code> loop repeats as long as a condition is
+                true. Use it when you don't know how many times you need to
+                loop.</p>
 
             <div class="syntax-pattern">
-<strong>Syntax:</strong> while (condition) {
-    // code to repeat
-    // don't forget to update condition!
-}
+                <strong>Syntax:</strong> while (condition) {
+                // code to repeat
+                // don't forget to update condition!
+                }
             </div>
 
             <div class="code-block">
-<code><span class="comment">// Basic while loop</span>
+                <code><span class="comment">// Basic while loop</span>
 <span class="keyword">let</span> count = <span class="number">0</span>;
 
 <span class="keyword">while</span> (count < <span class="number">5</span>) {
@@ -604,12 +631,14 @@ console.log(<span class="string">"Blast off!"</span>);
             </div>
 
             <div class="warning">
-                <strong>⚠️ Warning:</strong> Make sure your while loop condition eventually becomes false! Otherwise, you'll create an infinite loop that never stops.
+                <strong>⚠️ Warning:</strong> Make sure your while loop condition
+                eventually becomes false! Otherwise, you'll create an infinite
+                loop that never stops.
             </div>
 
             <h3>while with Arrays</h3>
             <div class="code-block">
-<code><span class="comment">// Process array with while loop</span>
+                <code><span class="comment">// Process array with while loop</span>
 <span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
 <span class="keyword">let</span> i = <span class="number">0</span>;
 
@@ -625,16 +654,18 @@ console.log(<span class="string">"Blast off!"</span>);
             </div>
 
             <h2>🔁 The do...while Loop</h2>
-            <p>The <code>do...while</code> loop is similar to while, but it always executes at least once because the condition is checked after the code runs.</p>
+            <p>The <code>do...while</code> loop is similar to while, but it
+                always executes at least once because the condition is checked
+                after the code runs.</p>
 
             <div class="syntax-pattern">
-<strong>Syntax:</strong> do {
-    // code to repeat
-} while (condition);
+                <strong>Syntax:</strong> do {
+                // code to repeat
+                } while (condition);
             </div>
 
             <div class="code-block">
-<code><span class="comment">// Basic do...while loop</span>
+                <code><span class="comment">// Basic do...while loop</span>
 <span class="keyword">let</span> count = <span class="number">0</span>;
 
 <span class="keyword">do</span> {
@@ -661,7 +692,7 @@ console.log(<span class="string">"Blast off!"</span>);
 
             <h3>Difference Between while and do...while</h3>
             <div class="code-block">
-<code><span class="comment">// while loop - might not run at all</span>
+                <code><span class="comment">// while loop - might not run at all</span>
 <span class="keyword">let</span> a = <span class="number">10</span>;
 <span class="keyword">while</span> (a < <span class="number">5</span>) {
     console.log(<span class="string">"This never runs"</span>);
@@ -679,10 +710,11 @@ console.log(<span class="string">"Blast off!"</span>);
             </div>
 
             <h2>🔢 Nested Loops</h2>
-            <p>A loop inside another loop. Useful for working with multi-dimensional data or creating patterns.</p>
+            <p>A loop inside another loop. Useful for working with
+                multi-dimensional data or creating patterns.</p>
 
             <div class="code-block">
-<code><span class="comment">// Simple nested loop</span>
+                <code><span class="comment">// Simple nested loop</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">3</span>; i++) {
     <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j <= <span class="number">3</span>; j++) {
         console.log(<span class="string">"i="</span> + i + <span class="string">", j="</span> + j);
@@ -738,7 +770,7 @@ console.log(<span class="string">"Blast off!"</span>);
                 <div class="example-card">
                     <h4>Example 1: Find Maximum</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">23</span>, <span class="number">67</span>, <span class="number">45</span>, <span class="number">91</span>, <span class="number">12</span>];
+                        <code><span class="keyword">let</span> numbers = [<span class="number">23</span>, <span class="number">67</span>, <span class="number">45</span>, <span class="number">91</span>, <span class="number">12</span>];
 <span class="keyword">let</span> max = numbers[<span class="number">0</span>];
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < numbers.length; i++) {
@@ -755,7 +787,7 @@ console.log(<span class="string">"Maximum: "</span> + max);
                 <div class="example-card">
                     <h4>Example 2: Count Vowels</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> word = <span class="string">"JavaScript"</span>;
+                        <code><span class="keyword">let</span> word = <span class="string">"JavaScript"</span>;
 <span class="keyword">let</span> vowels = <span class="string">"aeiouAEIOU"</span>;
 <span class="keyword">let</span> count = <span class="number">0</span>;
 
@@ -773,7 +805,7 @@ console.log(<span class="string">"Vowels: "</span> + count);
                 <div class="example-card">
                     <h4>Example 3: Reverse Array</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> original = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+                        <code><span class="keyword">let</span> original = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 <span class="keyword">let</span> reversed = [];
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = original.length - <span class="number">1</span>; i >= <span class="number">0</span>; i--) {
@@ -788,7 +820,7 @@ console.log(reversed);
                 <div class="example-card">
                     <h4>Example 4: Sum Even Numbers</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
+                        <code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
 <span class="keyword">let</span> sum = <span class="number">0</span>;
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < numbers.length; i++) {
@@ -805,7 +837,7 @@ console.log(<span class="string">"Sum of evens: "</span> + sum);
                 <div class="example-card">
                     <h4>Example 5: Build String</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
+                        <code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
 <span class="keyword">let</span> sentence = <span class="string">""</span>;
 
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < words.length; i++) {
@@ -820,7 +852,7 @@ console.log(sentence);
                 <div class="example-card">
                     <h4>Example 6: Grade Counter</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> grades = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"A"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>];
+                        <code><span class="keyword">let</span> grades = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"A"</span>, <span class="string">"C"</span>, <span class="string">"A"</span>];
 <span class="keyword">let</span> countA = <span class="number">0</span>;
 <span class="keyword">let</span> countB = <span class="number">0</span>;
 <span class="keyword">let</span> countC = <span class="number">0</span>;
@@ -839,9 +871,10 @@ console.log(<span class="string">"A's: "</span> + countA);
 
             <h2>💡 Best Practices</h2>
             <ol>
-                <li><strong>Use descriptive loop variable names</strong> - For clarity in nested loops
+                <li><strong>Use descriptive loop variable names</strong> - For
+                    clarity in nested loops
                     <div class="code-block">
-<code><span class="comment">// ❌ Bad - unclear what i and j represent</span>
+                        <code><span class="comment">// ❌ Bad - unclear what i and j represent</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < rows; i++) {
     <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j < cols; j++) { }
 }
@@ -852,18 +885,23 @@ console.log(<span class="string">"A's: "</span> + countA);
 }</code>
                     </div>
                 </li>
-                <li><strong>Use for loops for arrays</strong> - Most common and readable for array iteration</li>
-                <li><strong>Cache array length if needed</strong> - For very large arrays in performance-critical code
+                <li><strong>Use for loops for arrays</strong> - Most common and
+                    readable for array iteration</li>
+                <li><strong>Cache array length if needed</strong> - For very
+                    large arrays in performance-critical code
                     <div class="code-block">
-<code><span class="keyword">let</span> len = array.length;
+                        <code><span class="keyword">let</span> len = array.length;
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < len; i++) {
     <span class="comment">// process array[i]</span>
 }</code>
                     </div>
                 </li>
-                <li><strong>Avoid infinite loops</strong> - Always ensure your loop condition will eventually be false</li>
-                <li><strong>Keep loop bodies simple</strong> - Extract complex logic into functions</li>
-                <li><strong>Use break wisely</strong> - Exit loops early when you've found what you're looking for</li>
+                <li><strong>Avoid infinite loops</strong> - Always ensure your
+                    loop condition will eventually be false</li>
+                <li><strong>Keep loop bodies simple</strong> - Extract complex
+                    logic into functions</li>
+                <li><strong>Use break wisely</strong> - Exit loops early when
+                    you've found what you're looking for</li>
             </ol>
 
             <h2>🚫 Common Mistakes</h2>
@@ -871,7 +909,7 @@ console.log(<span class="string">"A's: "</span> + countA);
             <div class="error">
                 <h4>1. Off-by-One Errors</h4>
                 <div class="code-block">
-<code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+                    <code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 
 <span class="comment">// ❌ Wrong - goes past array end</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i <= arr.length; i++) {
@@ -888,7 +926,7 @@ console.log(<span class="string">"A's: "</span> + countA);
             <div class="error">
                 <h4>2. Forgetting to Increment</h4>
                 <div class="code-block">
-<code><span class="comment">// ❌ Wrong - infinite loop!</span>
+                    <code><span class="comment">// ❌ Wrong - infinite loop!</span>
 <span class="keyword">let</span> i = <span class="number">0</span>;
 <span class="keyword">while</span> (i < <span class="number">5</span>) {
     console.log(i);
@@ -907,7 +945,7 @@ console.log(<span class="string">"A's: "</span> + countA);
             <div class="error">
                 <h4>3. Modifying Loop Variable Incorrectly</h4>
                 <div class="code-block">
-<code><span class="comment">// ❌ Wrong - skips elements</span>
+                    <code><span class="comment">// ❌ Wrong - skips elements</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++) {
     console.log(i);
     i++;  <span class="comment">// Extra increment - bad!</span>
@@ -923,7 +961,7 @@ console.log(<span class="string">"A's: "</span> + countA);
             <div class="error">
                 <h4>4. Using = Instead of === in Conditions</h4>
                 <div class="code-block">
-<code><span class="comment">// ❌ Wrong - assigns instead of compares</span>
+                    <code><span class="comment">// ❌ Wrong - assigns instead of compares</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
     <span class="keyword">if</span> (i = <span class="number">3</span>) {  <span class="comment">// Assignment!</span>
         console.log(<span class="string">"Found"</span>);
@@ -972,8 +1010,9 @@ console.log(<span class="string">"A's: "</span> + countA);
 
             <div class="visual-box">
                 <h3>Loops Cheat Sheet</h3>
-                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
-<code><span class="comment">// for loop</span>
+                <div class="code-block"
+                    style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                    <code><span class="comment">// for loop</span>
 <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
     <span class="comment">// code here</span>
 }
@@ -1016,15 +1055,21 @@ console.log(<span class="string">"A's: "</span> + countA);
             <div class="info">
                 <strong>📝 Key Takeaways:</strong>
                 <ul>
-                    <li>Loops execute code repeatedly - avoid writing duplicate code</li>
-                    <li>Use <code>for</code> loops when you know the number of iterations</li>
-                    <li>Use <code>while</code> loops when iterations depend on a condition</li>
+                    <li>Loops execute code repeatedly - avoid writing duplicate
+                        code</li>
+                    <li>Use <code>for</code> loops when you know the number of
+                        iterations</li>
+                    <li>Use <code>while</code> loops when iterations depend on a
+                        condition</li>
                     <li><code>do...while</code> always runs at least once</li>
-                    <li>Use <code>i < array.length</code> to loop through entire arrays</li>
-                    <li>Combine loops with conditionals for powerful data processing</li>
+                    <li>Use <code>i < array.length</code> to loop through entire
+                        arrays</li>
+                    <li>Combine loops with conditionals for powerful data
+                        processing</li>
                     <li>Use <code>break</code> to exit loops early</li>
                     <li>Use <code>continue</code> to skip iterations</li>
-                    <li>Always ensure loop conditions will eventually become false</li>
+                    <li>Always ensure loop conditions will eventually become
+                        false</li>
                     <li>Watch out for off-by-one errors with array indices</li>
                 </ul>
             </div>
@@ -1032,8 +1077,10 @@ console.log(<span class="string">"A's: "</span> + countA);
         </div>
 
         <footer>
-            <p>JavaScript Loops Quick Reference Guide | Master the basics! 🚀</p>
+            <p>JavaScript Loops Quick Reference Guide | Master the basics! 🚀
+            </p>
         </footer>
     </div>
 </body>
+
 </html>

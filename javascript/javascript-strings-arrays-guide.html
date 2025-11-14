@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript Strings, Arrays & Objects Guide</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -166,7 +167,8 @@
             background: #f5f5f5;
         }
 
-        ul, ol {
+        ul,
+        ol {
             margin-left: 30px;
             margin-bottom: 15px;
         }
@@ -242,6 +244,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -251,26 +254,37 @@
 
         <div class="content">
             <h2>🎯 What You'll Learn</h2>
-            <p>This guide covers essential techniques for manipulating data in JavaScript, including working with strings, using regular expressions, array manipulation methods, and built-in objects like Math and Date.</p>
+            <p>This guide covers essential techniques for manipulating data in
+                JavaScript, including working with strings, using regular
+                expressions, array manipulation methods, and built-in objects
+                like Math and Date.</p>
 
             <div class="info">
                 <strong>💡 Topics Covered:</strong>
                 <ul>
-                    <li><strong>Strings</strong> - Search, extract, modify, and compare text</li>
-                    <li><strong>Regular Expressions</strong> - Pattern matching and text validation</li>
-                    <li><strong>Arrays</strong> - Sort, reverse, slice, and manipulate collections</li>
-                    <li><strong>Math Object</strong> - Mathematical operations and constants</li>
-                    <li><strong>Date Object</strong> - Work with dates and times</li>
-                    <li><strong>Template Literals</strong> - Modern string formatting</li>
+                    <li><strong>Strings</strong> - Search, extract, modify, and
+                        compare text</li>
+                    <li><strong>Regular Expressions</strong> - Pattern matching
+                        and text validation</li>
+                    <li><strong>Arrays</strong> - Sort, reverse, slice, and
+                        manipulate collections</li>
+                    <li><strong>Math Object</strong> - Mathematical operations
+                        and constants</li>
+                    <li><strong>Date Object</strong> - Work with dates and times
+                    </li>
+                    <li><strong>Template Literals</strong> - Modern string
+                        formatting</li>
                 </ul>
             </div>
 
             <h2>📝 Working with Strings</h2>
-            <p>Strings are <strong>immutable</strong> in JavaScript - they cannot be changed, only replaced. String methods return new strings rather than modifying the original.</p>
+            <p>Strings are <strong>immutable</strong> in JavaScript - they
+                cannot be changed, only replaced. String methods return new
+                strings rather than modifying the original.</p>
 
             <h3>String Properties and Basic Info</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"Hello World"</span>;
+                <code><span class="keyword">let</span> text = <span class="string">"Hello World"</span>;
 
 <span class="comment">// Get string length</span>
 console.log(text.length);  <span class="comment">// 11</span>
@@ -322,7 +336,7 @@ console.log(text.<span class="method">charCodeAt</span>(<span class="number">0</
             </table>
 
             <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"The quick brown fox jumps over the lazy dog"</span>;
+                <code><span class="keyword">let</span> text = <span class="string">"The quick brown fox jumps over the lazy dog"</span>;
 
 <span class="comment">// Find substring</span>
 console.log(text.<span class="method">indexOf</span>(<span class="string">"fox"</span>));       <span class="comment">// 16</span>
@@ -339,7 +353,7 @@ console.log(text.<span class="method">indexOf</span>(<span class="string">"the"<
 
             <h3>Modifying Strings</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"  Hello World  "</span>;
+                <code><span class="keyword">let</span> text = <span class="string">"  Hello World  "</span>;
 
 <span class="comment">// Change case</span>
 console.log(text.<span class="method">toUpperCase</span>());  <span class="comment">// "  HELLO WORLD  "</span>
@@ -365,7 +379,7 @@ console.log(<span class="string">"5"</span>.<span class="method">padEnd</span>(<
 
             <h3>Extracting Substrings</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"JavaScript"</span>;
+                <code><span class="keyword">let</span> text = <span class="string">"JavaScript"</span>;
 
 <span class="comment">// slice(start, end) - extracts from start to end</span>
 console.log(text.<span class="method">slice</span>(<span class="number">0</span>, <span class="number">4</span>));    <span class="comment">// "Java"</span>
@@ -382,12 +396,14 @@ console.log(text.<span class="method">substr</span>(<span class="number">4</span
             </div>
 
             <div class="tip">
-                <strong>💡 Best Practice:</strong> Use <code>slice()</code> for extracting substrings. It's more flexible and supports negative indices.
+                <strong>💡 Best Practice:</strong> Use <code>slice()</code> for
+                extracting substrings. It's more flexible and supports negative
+                indices.
             </div>
 
             <h3>Splitting and Joining</h3>
             <div class="code-block">
-<code><span class="comment">// Split string into array</span>
+                <code><span class="comment">// Split string into array</span>
 <span class="keyword">let</span> sentence = <span class="string">"The quick brown fox"</span>;
 <span class="keyword">let</span> words = sentence.<span class="method">split</span>(<span class="string">" "</span>);
 console.log(words);  <span class="comment">// ["The", "quick", "brown", "fox"]</span>
@@ -407,7 +423,7 @@ console.log(arr.<span class="method">join</span>(<span class="string">" "</span>
 
             <h3>Combining Strings</h3>
             <div class="code-block">
-<code><span class="comment">// Concatenation with +</span>
+                <code><span class="comment">// Concatenation with +</span>
 <span class="keyword">let</span> first = <span class="string">"Hello"</span>;
 <span class="keyword">let</span> last = <span class="string">"World"</span>;
 console.log(first + <span class="string">" "</span> + last);  <span class="comment">// "Hello World"</span>
@@ -421,7 +437,7 @@ console.log(<span class="string">`</span>${first}<span class="string"> </span>${
 
             <h3>Comparing Strings</h3>
             <div class="code-block">
-<code><span class="comment">// Equality comparison</span>
+                <code><span class="comment">// Equality comparison</span>
 console.log(<span class="string">"hello"</span> === <span class="string">"hello"</span>);  <span class="comment">// true</span>
 console.log(<span class="string">"hello"</span> === <span class="string">"Hello"</span>);  <span class="comment">// false (case-sensitive)</span>
 
@@ -439,11 +455,13 @@ console.log(str1.<span class="method">localeCompare</span>(str1));  <span class=
             </div>
 
             <h2>🔍 Regular Expressions</h2>
-            <p><strong>Regular expressions</strong> (regex) are patterns used to match character combinations in strings. They're powerful for validation, searching, and text manipulation.</p>
+            <p><strong>Regular expressions</strong> (regex) are patterns used to
+                match character combinations in strings. They're powerful for
+                validation, searching, and text manipulation.</p>
 
             <h3>Creating Regular Expressions</h3>
             <div class="code-block">
-<code><span class="comment">// Method 1: Literal notation</span>
+                <code><span class="comment">// Method 1: Literal notation</span>
 <span class="keyword">let</span> regex1 = <span class="string">/hello/</span>;
 
 <span class="comment">// Method 2: Constructor</span>
@@ -521,7 +539,8 @@ console.log(str1.<span class="method">localeCompare</span>(str1));  <span class=
                     <tr>
                         <td><code>?</code></td>
                         <td>0 or 1</td>
-                        <td><code>/colou?r/</code> matches "color", "colour"</td>
+                        <td><code>/colou?r/</code> matches "color", "colour"
+                        </td>
                     </tr>
                     <tr>
                         <td><code>{n}</code></td>
@@ -543,7 +562,7 @@ console.log(str1.<span class="method">localeCompare</span>(str1));  <span class=
 
             <h3>Character Classes</h3>
             <div class="code-block">
-<code><span class="comment">// [abc] - matches any character in brackets</span>
+                <code><span class="comment">// [abc] - matches any character in brackets</span>
 <span class="keyword">let</span> vowels = <span class="string">/[aeiou]/</span>;
 console.log(vowels.<span class="method">test</span>(<span class="string">"hello"</span>));  <span class="comment">// true</span>
 
@@ -562,7 +581,7 @@ console.log(notVowels.<span class="method">test</span>(<span class="string">"hel
 
             <h3>Regex Methods</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"The phone number is 555-123-4567"</span>;
+                <code><span class="keyword">let</span> text = <span class="string">"The phone number is 555-123-4567"</span>;
 
 <span class="comment">// test() - returns true/false</span>
 <span class="keyword">let</span> hasNumber = <span class="string">/\d+/</span>.<span class="method">test</span>(text);
@@ -591,7 +610,7 @@ console.log(result);  <span class="comment">// ["555", index: 20, input: "...", 
                 <div class="example-card">
                     <h4>Email Validation</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> email = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;
+                        <code><span class="keyword">let</span> email = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;
 
 console.log(email.<span class="method">test</span>(<span class="string">"user@email.com"</span>));  <span class="comment">// true</span>
 console.log(email.<span class="method">test</span>(<span class="string">"invalid"</span>));        <span class="comment">// false</span></code>
@@ -601,7 +620,7 @@ console.log(email.<span class="method">test</span>(<span class="string">"invalid
                 <div class="example-card">
                     <h4>Phone Number</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> phone = <span class="string">/^\d{3}-\d{3}-\d{4}$/</span>;
+                        <code><span class="keyword">let</span> phone = <span class="string">/^\d{3}-\d{3}-\d{4}$/</span>;
 
 console.log(phone.<span class="method">test</span>(<span class="string">"555-123-4567"</span>));  <span class="comment">// true</span>
 console.log(phone.<span class="method">test</span>(<span class="string">"5551234567"</span>));    <span class="comment">// false</span></code>
@@ -611,7 +630,7 @@ console.log(phone.<span class="method">test</span>(<span class="string">"5551234
                 <div class="example-card">
                     <h4>URL Validation</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> url = <span class="string">/^https?:\/\/.+/</span>;
+                        <code><span class="keyword">let</span> url = <span class="string">/^https?:\/\/.+/</span>;
 
 console.log(url.<span class="method">test</span>(<span class="string">"https://google.com"</span>));  <span class="comment">// true</span>
 console.log(url.<span class="method">test</span>(<span class="string">"ftp://site.com"</span>));     <span class="comment">// false</span></code>
@@ -621,7 +640,7 @@ console.log(url.<span class="method">test</span>(<span class="string">"ftp://sit
                 <div class="example-card">
                     <h4>Password Strength</h4>
                     <div class="code-block">
-<code><span class="comment">// 8+ chars, uppercase, lowercase, digit</span>
+                        <code><span class="comment">// 8+ chars, uppercase, lowercase, digit</span>
 <span class="keyword">let</span> hasUpper = <span class="string">/[A-Z]/</span>;
 <span class="keyword">let</span> hasLower = <span class="string">/[a-z]/</span>;
 <span class="keyword">let</span> hasDigit = <span class="string">/\d/</span>;
@@ -639,7 +658,7 @@ console.log(url.<span class="method">test</span>(<span class="string">"ftp://sit
                 <div class="example-card">
                     <h4>Extract Numbers</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> text = <span class="string">"I have 3 cats and 2 dogs"</span>;
+                        <code><span class="keyword">let</span> text = <span class="string">"I have 3 cats and 2 dogs"</span>;
 <span class="keyword">let</span> numbers = text.<span class="method">match</span>(<span class="string">/\d+/g</span>);
 console.log(numbers);  <span class="comment">// ["3", "2"]</span></code>
                     </div>
@@ -648,7 +667,7 @@ console.log(numbers);  <span class="comment">// ["3", "2"]</span></code>
                 <div class="example-card">
                     <h4>Remove HTML Tags</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> html = <span class="string">"&lt;p&gt;Hello&lt;/p&gt;"</span>;
+                        <code><span class="keyword">let</span> html = <span class="string">"&lt;p&gt;Hello&lt;/p&gt;"</span>;
 <span class="keyword">let</span> clean = html.<span class="method">replace</span>(<span class="string">/&lt;[^&gt;]+&gt;/g</span>, <span class="string">""</span>);
 console.log(clean);  <span class="comment">// "Hello"</span></code>
                     </div>
@@ -656,11 +675,12 @@ console.log(clean);  <span class="comment">// "Hello"</span></code>
             </div>
 
             <h2>📊 Array Methods</h2>
-            <p>Arrays have many built-in methods for manipulation and transformation.</p>
+            <p>Arrays have many built-in methods for manipulation and
+                transformation.</p>
 
             <h3>Sorting Arrays</h3>
             <div class="code-block">
-<code><span class="comment">// Default sort (lexicographical)</span>
+                <code><span class="comment">// Default sort (lexicographical)</span>
 <span class="keyword">let</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"cherry"</span>];
 fruits.<span class="method">sort</span>();
 console.log(fruits);  <span class="comment">// ["apple", "banana", "cherry"]</span>
@@ -703,7 +723,7 @@ numbers.<span class="method">sort</span>((a, b) => b - a);  <span class="comment
 
             <h3>Extracting and Modifying</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+                <code><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 
 <span class="comment">// slice(start, end) - extract without modifying</span>
 <span class="keyword">let</span> subarray = arr.<span class="method">slice</span>(<span class="number">1</span>, <span class="number">4</span>);
@@ -730,7 +750,7 @@ console.log(arr2);  <span class="comment">// [1, 99, 4, 5]</span></code>
             <h3>Stacks and Queues</h3>
             <p><strong>Stack (LIFO)</strong> - Last In, First Out:</p>
             <div class="code-block">
-<code><span class="keyword">let</span> stack = [];
+                <code><span class="keyword">let</span> stack = [];
 
 <span class="comment">// Add to top (end)</span>
 stack.<span class="method">push</span>(<span class="number">1</span>);
@@ -746,7 +766,7 @@ console.log(stack);  <span class="comment">// [1, 2]</span></code>
 
             <p><strong>Queue (FIFO)</strong> - First In, First Out:</p>
             <div class="code-block">
-<code><span class="keyword">let</span> queue = [];
+                <code><span class="keyword">let</span> queue = [];
 
 <span class="comment">// Add to end</span>
 queue.<span class="method">push</span>(<span class="number">1</span>);
@@ -818,11 +838,12 @@ console.log(queue);  <span class="comment">// [0, 2, 3]</span></code>
             </table>
 
             <h2>🔢 Math Object</h2>
-            <p>The Math object provides mathematical constants and functions.</p>
+            <p>The Math object provides mathematical constants and functions.
+            </p>
 
             <h3>Common Math Methods</h3>
             <div class="code-block">
-<code><span class="comment">// Rounding</span>
+                <code><span class="comment">// Rounding</span>
 console.log(Math.<span class="method">round</span>(<span class="number">4.7</span>));   <span class="comment">// 5</span>
 console.log(Math.<span class="method">round</span>(<span class="number">4.4</span>));   <span class="comment">// 4</span>
 console.log(Math.<span class="method">ceil</span>(<span class="number">4.1</span>));    <span class="comment">// 5 (round up)</span>
@@ -849,7 +870,7 @@ console.log(Math.<span class="method">min</span>(...numbers));  <span class="com
 
             <h3>Math Constants</h3>
             <div class="code-block">
-<code>console.log(Math.PI);       <span class="comment">// 3.141592653589793</span>
+                <code>console.log(Math.PI);       <span class="comment">// 3.141592653589793</span>
 console.log(Math.E);        <span class="comment">// 2.718281828459045</span>
 console.log(Math.LN2);      <span class="comment">// 0.6931471805599453</span>
 console.log(Math.LN10);     <span class="comment">// 2.302585092994046</span>
@@ -858,7 +879,7 @@ console.log(Math.SQRT2);    <span class="comment">// 1.4142135623730951</span></
 
             <h3>Random Numbers</h3>
             <div class="code-block">
-<code><span class="comment">// Random number between 0 and 1</span>
+                <code><span class="comment">// Random number between 0 and 1</span>
 <span class="keyword">let</span> random = Math.<span class="method">random</span>();
 console.log(random);  <span class="comment">// e.g., 0.7234...</span>
 
@@ -886,7 +907,7 @@ console.log(arr);  <span class="comment">// Randomly shuffled</span></code>
 
             <h3>Creating Dates</h3>
             <div class="code-block">
-<code><span class="comment">// Current date and time</span>
+                <code><span class="comment">// Current date and time</span>
 <span class="keyword">let</span> now = <span class="keyword">new</span> <span class="method">Date</span>();
 console.log(now);
 
@@ -905,7 +926,7 @@ console.log(now);
 
             <h3>Getting Date Components</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">2024</span>, <span class="number">11</span>, <span class="number">25</span>, <span class="number">14</span>, <span class="number">30</span>, <span class="number">45</span>);
+                <code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>(<span class="number">2024</span>, <span class="number">11</span>, <span class="number">25</span>, <span class="number">14</span>, <span class="number">30</span>, <span class="number">45</span>);
 
 console.log(date.<span class="method">getFullYear</span>());   <span class="comment">// 2024</span>
 console.log(date.<span class="method">getMonth</span>());      <span class="comment">// 11 (December)</span>
@@ -919,7 +940,7 @@ console.log(date.<span class="method">getTime</span>());       <span class="comm
 
             <h3>Setting Date Components</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
+                <code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
 
 date.<span class="method">setFullYear</span>(<span class="number">2025</span>);
 date.<span class="method">setMonth</span>(<span class="number">0</span>);         <span class="comment">// January</span>
@@ -933,7 +954,7 @@ console.log(date);  <span class="comment">// Jan 1, 2025, 12:00:00</span></code>
 
             <h3>Date Formatting</h3>
             <div class="code-block">
-<code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
+                <code><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="method">Date</span>();
 
 <span class="comment">// Default string</span>
 console.log(date.<span class="method">toString</span>());
@@ -964,7 +985,7 @@ console.log(date.<span class="method">toISOString</span>());
 
             <h3>Date Calculations</h3>
             <div class="code-block">
-<code><span class="comment">// Days between dates</span>
+                <code><span class="comment">// Days between dates</span>
 <span class="keyword">let</span> date1 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"2024-01-01"</span>);
 <span class="keyword">let</span> date2 = <span class="keyword">new</span> <span class="method">Date</span>(<span class="string">"2024-12-31"</span>);
 
@@ -989,11 +1010,12 @@ console.log(<span class="method">daysUntil</span>(<span class="string">"2025-01-
             </div>
 
             <h2>📜 Template Literals</h2>
-            <p>Template literals provide a more powerful way to work with strings.</p>
+            <p>Template literals provide a more powerful way to work with
+                strings.</p>
 
             <h3>Basic Template Literals</h3>
             <div class="code-block">
-<code><span class="comment">// Use backticks instead of quotes</span>
+                <code><span class="comment">// Use backticks instead of quotes</span>
 <span class="keyword">let</span> greeting = <span class="string">`Hello World`</span>;
 
 <span class="comment">// Multi-line strings</span>
@@ -1007,7 +1029,7 @@ string`</span>;
 
             <h3>Placeholders (String Interpolation)</h3>
             <div class="code-block">
-<code><span class="comment">// Embed variables</span>
+                <code><span class="comment">// Embed variables</span>
 <span class="keyword">let</span> name = <span class="string">"John"</span>;
 <span class="keyword">let</span> age = <span class="number">30</span>;
 console.log(<span class="string">`My name is </span>${name}<span class="string"> and I am </span>${age}<span class="string"> years old`</span>);
@@ -1030,7 +1052,7 @@ console.log(<span class="string">`You </span>${score >= <span class="number">60<
 
             <h3>Practical Examples</h3>
             <div class="code-block">
-<code><span class="comment">// HTML generation</span>
+                <code><span class="comment">// HTML generation</span>
 <span class="keyword">let</span> user = {name: <span class="string">"Alice"</span>, email: <span class="string">"alice@email.com"</span>};
 <span class="keyword">let</span> html = <span class="string">`
     &lt;div class="user"&gt;
@@ -1056,27 +1078,31 @@ console.log(<span class="string">`You have </span>${items}<span class="string"> 
             <ol>
                 <li><strong>Use const for regex patterns</strong>
                     <div class="code-block">
-<code><span class="keyword">const</span> EMAIL_PATTERN = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;</code>
+                        <code><span class="keyword">const</span> EMAIL_PATTERN = <span class="string">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</span>;</code>
                     </div>
                 </li>
                 <li><strong>Test regex patterns thoroughly</strong></li>
-                <li><strong>Use template literals for complex strings</strong></li>
+                <li><strong>Use template literals for complex strings</strong>
+                </li>
                 <li><strong>Remember: strings are immutable</strong></li>
                 <li><strong>Use arrow functions for compare functions</strong>
                     <div class="code-block">
-<code>arr.<span class="method">sort</span>((a, b) => a - b);</code>
+                        <code>arr.<span class="method">sort</span>((a, b) => a - b);</code>
                     </div>
                 </li>
-                <li><strong>Cache Date objects when doing multiple calculations</strong></li>
-                <li><strong>Use spread operator for array operations</strong></li>
+                <li><strong>Cache Date objects when doing multiple
+                        calculations</strong></li>
+                <li><strong>Use spread operator for array operations</strong>
+                </li>
             </ol>
 
             <h2>🎓 Quick Reference</h2>
 
             <div class="visual-box">
                 <h3>Strings, Arrays & Objects Cheat Sheet</h3>
-                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
-<code><span class="comment">// Strings</span>
+                <div class="code-block"
+                    style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                    <code><span class="comment">// Strings</span>
 str.length
 str.<span class="method">indexOf</span>(sub)
 str.<span class="method">slice</span>(start, end)
@@ -1119,10 +1145,12 @@ date.<span class="method">toLocaleDateString</span>()
                 <strong>📝 Key Takeaways:</strong>
                 <ul>
                     <li>Strings are immutable - methods return new strings</li>
-                    <li>Regular expressions are powerful for pattern matching</li>
+                    <li>Regular expressions are powerful for pattern matching
+                    </li>
                     <li>Arrays have many built-in manipulation methods</li>
                     <li>Use compare functions for proper numeric sorting</li>
-                    <li>Math object provides constants and mathematical functions</li>
+                    <li>Math object provides constants and mathematical
+                        functions</li>
                     <li>Date objects store time as milliseconds since 1970</li>
                     <li>Template literals allow embedded expressions</li>
                     <li>Spread operator (...) is useful for arrays</li>
@@ -1134,8 +1162,10 @@ date.<span class="method">toLocaleDateString</span>()
         </div>
 
         <footer>
-            <p>JavaScript Strings, Arrays & Objects Quick Reference Guide | Master the basics! 🚀</p>
+            <p>JavaScript Strings, Arrays & Objects Quick Reference Guide |
+                Master the basics! 🚀</p>
         </footer>
     </div>
 </body>
+
 </html>

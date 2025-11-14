@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript Arrays Quick Guide</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
         * {
             margin: 0;
@@ -181,7 +182,8 @@
             background: #f5f5f5;
         }
 
-        ul, ol {
+        ul,
+        ol {
             margin-left: 30px;
             margin-bottom: 15px;
         }
@@ -280,6 +282,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -289,11 +292,16 @@
 
         <div class="content">
             <h2>🎯 What are Arrays?</h2>
-            <p>An <strong>array</strong> is a special type of variable that can hold multiple values in a single container. Think of an array as a numbered list where each item has a position (called an index).</p>
+            <p>An <strong>array</strong> is a special type of variable that can
+                hold multiple values in a single container. Think of an array as
+                a numbered list where each item has a position (called an
+                index).</p>
 
             <div class="array-visual">
                 <h4>Array Structure Visualization</h4>
-                <p style="margin: 10px 0; font-family: 'Courier New', monospace;">let fruits = ["apple", "banana", "orange"];</p>
+                <p
+                    style="margin: 10px 0; font-family: 'Courier New', monospace;">
+                    let fruits = ["apple", "banana", "orange"];</p>
                 <div class="array-boxes">
                     <div>
                         <div class="array-box">"apple"</div>
@@ -313,10 +321,14 @@
             <div class="info">
                 <strong>💡 Key Array Concepts:</strong>
                 <ul>
-                    <li><strong>Zero-indexed</strong> - Arrays start counting at 0, not 1</li>
-                    <li><strong>Ordered</strong> - Items stay in the order you put them</li>
-                    <li><strong>Dynamic size</strong> - Arrays can grow or shrink as needed</li>
-                    <li><strong>Mixed types</strong> - Can hold different data types (though usually you use one type)</li>
+                    <li><strong>Zero-indexed</strong> - Arrays start counting at
+                        0, not 1</li>
+                    <li><strong>Ordered</strong> - Items stay in the order you
+                        put them</li>
+                    <li><strong>Dynamic size</strong> - Arrays can grow or
+                        shrink as needed</li>
+                    <li><strong>Mixed types</strong> - Can hold different data
+                        types (though usually you use one type)</li>
                 </ul>
             </div>
 
@@ -325,7 +337,7 @@
 
             <h3>Array Literal (Most Common)</h3>
             <div class="code-block">
-<code><span class="comment">// Empty array</span>
+                <code><span class="comment">// Empty array</span>
 <span class="keyword">let</span> emptyArray = [];
 
 <span class="comment">// Array with numbers</span>
@@ -349,7 +361,7 @@
 
             <h3>Array Constructor</h3>
             <div class="code-block">
-<code><span class="comment">// Using the Array constructor</span>
+                <code><span class="comment">// Using the Array constructor</span>
 <span class="keyword">let</span> arr1 = <span class="keyword">new</span> Array(<span class="number">3</span>);        <span class="comment">// Creates array with 3 empty slots</span>
 <span class="keyword">let</span> arr2 = <span class="keyword">new</span> Array(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);  <span class="comment">// Creates [1, 2, 3]</span>
 
@@ -358,14 +370,17 @@
             </div>
 
             <div class="tip">
-                <strong>💡 Best Practice:</strong> Use array literals <code>[]</code> instead of the Array constructor. It's simpler and less confusing.
+                <strong>💡 Best Practice:</strong> Use array literals
+                <code>[]</code> instead of the Array constructor. It's simpler
+                and less confusing.
             </div>
 
             <h2>🔍 Accessing Array Elements</h2>
-            <p>Access array elements using square brackets and the index number. Remember: arrays are zero-indexed!</p>
+            <p>Access array elements using square brackets and the index number.
+                Remember: arrays are zero-indexed!</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
+                <code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
 
 <span class="comment">// Accessing individual elements</span>
 console.log(fruits[<span class="number">0</span>]);  <span class="comment">// Output: "apple"</span>
@@ -382,10 +397,11 @@ console.log(fruits[<span class="number">10</span>]);  <span class="comment">// O
             </div>
 
             <h3>Array Length</h3>
-            <p>The <code>length</code> property tells you how many elements are in an array.</p>
+            <p>The <code>length</code> property tells you how many elements are
+                in an array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+                <code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
 
 console.log(colors.length);  <span class="comment">// Output: 3</span>
 
@@ -399,16 +415,19 @@ console.log(empty.length);  <span class="comment">// Output: 0</span></code>
             </div>
 
             <div class="warning">
-                <strong>⚠️ Important:</strong> Array length is always 1 more than the highest index because arrays start at 0. An array with 5 elements has indices 0-4.
+                <strong>⚠️ Important:</strong> Array length is always 1 more
+                than the highest index because arrays start at 0. An array with
+                5 elements has indices 0-4.
             </div>
 
             <h2>✏️ Modifying Arrays</h2>
-            
+
             <h3>Changing Elements</h3>
-            <p>You can change any element by assigning a new value to that index.</p>
+            <p>You can change any element by assigning a new value to that
+                index.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> pets = [<span class="string">"dog"</span>, <span class="string">"cat"</span>, <span class="string">"bird"</span>];
+                <code><span class="keyword">let</span> pets = [<span class="string">"dog"</span>, <span class="string">"cat"</span>, <span class="string">"bird"</span>];
 
 <span class="comment">// Change the second element</span>
 pets[<span class="number">1</span>] = <span class="string">"hamster"</span>;
@@ -422,10 +441,11 @@ console.log(pets);  <span class="comment">// Output: ["fish", "hamster", "bird"]
             <h2>➕ Adding Elements</h2>
 
             <h3>push() - Add to End</h3>
-            <p>The <code>push()</code> method adds one or more elements to the end of an array.</p>
+            <p>The <code>push()</code> method adds one or more elements to the
+                end of an array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+                <code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 
 <span class="comment">// Add one element</span>
 numbers.<span class="method">push</span>(<span class="number">4</span>);
@@ -441,10 +461,11 @@ console.log(newLength);  <span class="comment">// Output: 8</span></code>
             </div>
 
             <h3>unshift() - Add to Beginning</h3>
-            <p>The <code>unshift()</code> method adds one or more elements to the beginning of an array.</p>
+            <p>The <code>unshift()</code> method adds one or more elements to
+                the beginning of an array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> letters = [<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>];
+                <code><span class="keyword">let</span> letters = [<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>];
 
 <span class="comment">// Add to the beginning</span>
 letters.<span class="method">unshift</span>(<span class="string">"a"</span>);
@@ -458,10 +479,11 @@ console.log(letters);  <span class="comment">// Output: ["x", "y", "z", "a", "b"
             <h2>➖ Removing Elements</h2>
 
             <h3>pop() - Remove from End</h3>
-            <p>The <code>pop()</code> method removes and returns the last element from an array.</p>
+            <p>The <code>pop()</code> method removes and returns the last
+                element from an array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
+                <code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
 
 <span class="comment">// Remove the last element</span>
 <span class="keyword">let</span> removed = fruits.<span class="method">pop</span>();
@@ -474,10 +496,11 @@ console.log(fruits);   <span class="comment">// Output: ["apple"]</span></code>
             </div>
 
             <h3>shift() - Remove from Beginning</h3>
-            <p>The <code>shift()</code> method removes and returns the first element from an array.</p>
+            <p>The <code>shift()</code> method removes and returns the first
+                element from an array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+                <code><span class="keyword">let</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
 
 <span class="comment">// Remove the first element</span>
 <span class="keyword">let</span> removed = colors.<span class="method">shift</span>();
@@ -530,10 +553,11 @@ console.log(colors);   <span class="comment">// Output: ["blue"]</span></code>
             <h2>🔄 Common Array Methods</h2>
 
             <h3>indexOf() - Find Position</h3>
-            <p>Returns the index of the first occurrence of an element, or -1 if not found.</p>
+            <p>Returns the index of the first occurrence of an element, or -1 if
+                not found.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> animals = [<span class="string">"cat"</span>, <span class="string">"dog"</span>, <span class="string">"bird"</span>, <span class="string">"cat"</span>];
+                <code><span class="keyword">let</span> animals = [<span class="string">"cat"</span>, <span class="string">"dog"</span>, <span class="string">"bird"</span>, <span class="string">"cat"</span>];
 
 console.log(animals.<span class="method">indexOf</span>(<span class="string">"dog"</span>));   <span class="comment">// Output: 1</span>
 console.log(animals.<span class="method">indexOf</span>(<span class="string">"cat"</span>));   <span class="comment">// Output: 0 (first occurrence)</span>
@@ -541,20 +565,22 @@ console.log(animals.<span class="method">indexOf</span>(<span class="string">"fi
             </div>
 
             <h3>includes() - Check if Element Exists</h3>
-            <p>Returns <code>true</code> if the array contains the element, <code>false</code> otherwise.</p>
+            <p>Returns <code>true</code> if the array contains the element,
+                <code>false</code> otherwise.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
+                <code><span class="keyword">let</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"orange"</span>];
 
 console.log(fruits.<span class="method">includes</span>(<span class="string">"banana"</span>));  <span class="comment">// Output: true</span>
 console.log(fruits.<span class="method">includes</span>(<span class="string">"grape"</span>));   <span class="comment">// Output: false</span></code>
             </div>
 
             <h3>slice() - Copy Portion</h3>
-            <p>Returns a shallow copy of a portion of an array. Does not modify the original array.</p>
+            <p>Returns a shallow copy of a portion of an array. Does not modify
+                the original array.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+                <code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 
 <span class="comment">// Get elements from index 1 to 3 (not including 3)</span>
 <span class="keyword">let</span> sliced = numbers.<span class="method">slice</span>(<span class="number">1</span>, <span class="number">3</span>);
@@ -571,10 +597,11 @@ console.log(copy);     <span class="comment">// Output: [1, 2, 3, 4, 5]</span></
             </div>
 
             <h3>concat() - Combine Arrays</h3>
-            <p>Combines two or more arrays into a new array. Does not modify the original arrays.</p>
+            <p>Combines two or more arrays into a new array. Does not modify the
+                original arrays.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+                <code><span class="keyword">let</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 <span class="keyword">let</span> arr2 = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
 <span class="keyword">let</span> arr3 = [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];
 
@@ -591,10 +618,11 @@ console.log(arr1);      <span class="comment">// Output: [1, 2, 3]</span></code>
             </div>
 
             <h3>join() - Convert to String</h3>
-            <p>Joins all array elements into a single string, separated by a specified separator.</p>
+            <p>Joins all array elements into a single string, separated by a
+                specified separator.</p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
+                <code><span class="keyword">let</span> words = [<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"JavaScript"</span>];
 
 <span class="comment">// Join with space</span>
 <span class="keyword">let</span> sentence = words.<span class="method">join</span>(<span class="string">" "</span>);
@@ -613,10 +641,11 @@ console.log(words.<span class="method">join</span>());  <span class="comment">//
             </div>
 
             <h3>reverse() - Reverse Order</h3>
-            <p>Reverses the order of elements in an array. <strong>This modifies the original array.</strong></p>
+            <p>Reverses the order of elements in an array. <strong>This modifies
+                    the original array.</strong></p>
 
             <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+                <code><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 
 numbers.<span class="method">reverse</span>();
 console.log(numbers);  <span class="comment">// Output: [5, 4, 3, 2, 1]</span>
@@ -627,10 +656,11 @@ console.log(letters);  <span class="comment">// Output: ["c", "b", "a"]</span></
             </div>
 
             <h3>sort() - Sort Elements</h3>
-            <p>Sorts the elements of an array. <strong>This modifies the original array.</strong> By default, sorts as strings.</p>
+            <p>Sorts the elements of an array. <strong>This modifies the
+                    original array.</strong> By default, sorts as strings.</p>
 
             <div class="code-block">
-<code><span class="comment">// Sorting strings (alphabetically)</span>
+                <code><span class="comment">// Sorting strings (alphabetically)</span>
 <span class="keyword">let</span> fruits = [<span class="string">"banana"</span>, <span class="string">"apple"</span>, <span class="string">"orange"</span>, <span class="string">"grape"</span>];
 fruits.<span class="method">sort</span>();
 console.log(fruits);  <span class="comment">// Output: ["apple", "banana", "grape", "orange"]</span>
@@ -644,7 +674,10 @@ console.log(numbers);  <span class="comment">// Output: [3, 5, 10, 15, 20]</span
             </div>
 
             <div class="warning">
-                <strong>⚠️ Warning:</strong> <code>sort()</code> without a compare function converts numbers to strings. <code>[10, 5, 20]</code> becomes <code>[10, 20, 5]</code> because "10" comes before "5" alphabetically!
+                <strong>⚠️ Warning:</strong> <code>sort()</code> without a
+                compare function converts numbers to strings.
+                <code>[10, 5, 20]</code> becomes <code>[10, 20, 5]</code>
+                because "10" comes before "5" alphabetically!
             </div>
 
             <h2>📚 Practical Examples</h2>
@@ -653,7 +686,7 @@ console.log(numbers);  <span class="comment">// Output: [3, 5, 10, 15, 20]</span
                 <div class="example-card">
                     <h4>Example 1: Shopping List</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> shopping = [<span class="string">"milk"</span>, <span class="string">"eggs"</span>, <span class="string">"bread"</span>];
+                        <code><span class="keyword">let</span> shopping = [<span class="string">"milk"</span>, <span class="string">"eggs"</span>, <span class="string">"bread"</span>];
 
 <span class="comment">// Add items</span>
 shopping.<span class="method">push</span>(<span class="string">"butter"</span>);
@@ -670,7 +703,7 @@ console.log(<span class="string">"Items: "</span> + shopping.length);
                 <div class="example-card">
                     <h4>Example 2: Student Grades</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> grades = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">90</span>, <span class="number">88</span>];
+                        <code><span class="keyword">let</span> grades = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">90</span>, <span class="number">88</span>];
 
 <span class="comment">// Add a new grade</span>
 grades.<span class="method">push</span>(<span class="number">95</span>);
@@ -684,7 +717,7 @@ console.log(<span class="string">"Last: "</span> + grades[grades.length - <span 
                 <div class="example-card">
                     <h4>Example 3: Playlist</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> playlist = [<span class="string">"Song A"</span>, <span class="string">"Song B"</span>, <span class="string">"Song C"</span>];
+                        <code><span class="keyword">let</span> playlist = [<span class="string">"Song A"</span>, <span class="string">"Song B"</span>, <span class="string">"Song C"</span>];
 
 <span class="comment">// Add to end</span>
 playlist.<span class="method">push</span>(<span class="string">"Song D"</span>);
@@ -700,7 +733,7 @@ console.log(playlist);
                 <div class="example-card">
                     <h4>Example 4: Favorite Colors</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"red"</span>, <span class="string">"green"</span>];
+                        <code><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"red"</span>, <span class="string">"green"</span>];
 
 <span class="comment">// Check if color exists</span>
 console.log(colors.<span class="method">includes</span>(<span class="string">"red"</span>));    <span class="comment">// true</span>
@@ -714,7 +747,7 @@ console.log(colors.<span class="method">indexOf</span>(<span class="string">"gre
                 <div class="example-card">
                     <h4>Example 5: Todo List</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> todos = [<span class="string">"Study"</span>, <span class="string">"Exercise"</span>, <span class="string">"Code"</span>];
+                        <code><span class="keyword">let</span> todos = [<span class="string">"Study"</span>, <span class="string">"Exercise"</span>, <span class="string">"Code"</span>];
 
 <span class="comment">// Complete first task (remove it)</span>
 <span class="keyword">let</span> completed = todos.<span class="method">shift</span>();
@@ -731,7 +764,7 @@ console.log(todos);
                 <div class="example-card">
                     <h4>Example 6: Combining Lists</h4>
                     <div class="code-block">
-<code><span class="keyword">let</span> morningClasses = [<span class="string">"Math"</span>, <span class="string">"English"</span>];
+                        <code><span class="keyword">let</span> morningClasses = [<span class="string">"Math"</span>, <span class="string">"English"</span>];
 <span class="keyword">let</span> afternoonClasses = [<span class="string">"Science"</span>, <span class="string">"History"</span>];
 
 <span class="keyword">let</span> allClasses = morningClasses.<span class="method">concat</span>(afternoonClasses);
@@ -744,26 +777,32 @@ console.log(allClasses);
 
             <h2>💡 Best Practices</h2>
             <ol>
-                <li><strong>Use descriptive names</strong> - Array names should be plural nouns
+                <li><strong>Use descriptive names</strong> - Array names should
+                    be plural nouns
                     <div class="code-block">
-<code><span class="comment">// ❌ Bad</span>
+                        <code><span class="comment">// ❌ Bad</span>
 <span class="keyword">let</span> x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 
 <span class="comment">// ✅ Good</span>
 <span class="keyword">let</span> scores = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</code>
                     </div>
                 </li>
-                <li><strong>Keep arrays homogeneous</strong> - Store the same type of data in each array</li>
-                <li><strong>Use const for arrays you don't reassign</strong> - You can still modify the contents
+                <li><strong>Keep arrays homogeneous</strong> - Store the same
+                    type of data in each array</li>
+                <li><strong>Use const for arrays you don't reassign</strong> -
+                    You can still modify the contents
                     <div class="code-block">
-<code><span class="keyword">const</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>];
+                        <code><span class="keyword">const</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>];
 fruits.<span class="method">push</span>(<span class="string">"orange"</span>);  <span class="comment">// ✅ This works</span>
 <span class="comment">// fruits = [];  // ❌ This would cause an error</span></code>
                     </div>
                 </li>
-                <li><strong>Check array length before accessing</strong> - Avoid accessing indices that don't exist</li>
-                <li><strong>Use array methods instead of manual loops</strong> - Methods like push, pop are more readable</li>
-                <li><strong>Remember arrays are zero-indexed</strong> - First element is at index 0</li>
+                <li><strong>Check array length before accessing</strong> - Avoid
+                    accessing indices that don't exist</li>
+                <li><strong>Use array methods instead of manual loops</strong> -
+                    Methods like push, pop are more readable</li>
+                <li><strong>Remember arrays are zero-indexed</strong> - First
+                    element is at index 0</li>
             </ol>
 
             <h2>🚫 Common Mistakes</h2>
@@ -771,7 +810,7 @@ fruits.<span class="method">push</span>(<span class="string">"orange"</span>);  
             <div class="error">
                 <h4>1. Forgetting Arrays Start at 0</h4>
                 <div class="code-block">
-<code><span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];
+                    <code><span class="keyword">let</span> numbers = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];
 
 <span class="comment">// ❌ Wrong - trying to get "first" with 1</span>
 console.log(numbers[<span class="number">1</span>]);  <span class="comment">// Output: 20 (second element!)</span>
@@ -784,7 +823,7 @@ console.log(numbers[<span class="number">0</span>]);  <span class="comment">// O
             <div class="error">
                 <h4>2. Modifying Array While Getting Length</h4>
                 <div class="code-block">
-<code><span class="keyword">let</span> items = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];
+                    <code><span class="keyword">let</span> items = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];
 
 <span class="comment">// Length is 3, but last index is 2</span>
 <span class="comment">// console.log(items[items.length]); // ❌ undefined</span>
@@ -797,7 +836,7 @@ console.log(items[items.length - <span class="number">1</span>]);  <span class="
             <div class="error">
                 <h4>3. Confusing push/pop with shift/unshift</h4>
                 <div class="code-block">
-<code><span class="keyword">let</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+                    <code><span class="keyword">let</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 
 <span class="comment">// push/pop work on the END</span>
 nums.<span class="method">push</span>(<span class="number">4</span>);      <span class="comment">// [1, 2, 3, 4]</span>
@@ -812,7 +851,7 @@ nums.<span class="method">shift</span>();       <span class="comment">// [1, 2, 
             <div class="error">
                 <h4>4. Forgetting That Some Methods Modify the Array</h4>
                 <div class="code-block">
-<code><span class="keyword">let</span> original = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>];
+                    <code><span class="keyword">let</span> original = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>];
 
 <span class="comment">// reverse() and sort() MODIFY the original</span>
 original.<span class="method">reverse</span>();
@@ -910,8 +949,10 @@ console.log(nums);      <span class="comment">// [1, 2, 3] - unchanged</span></c
 
             <div class="visual-box">
                 <h3>Arrays Cheat Sheet</h3>
-                <div class="code-block" style="background: rgba(255,255,255,0.2); border-left-color: white;">
-<code style="color: white;"><span class="comment">// Creating arrays</span>
+                <div class="code-block"
+                    style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                    <code
+                        style="color: white;"><span class="comment">// Creating arrays</span>
 <span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 <span class="keyword">let</span> empty = [];
 
@@ -950,21 +991,29 @@ arr.<span class="method">sort</span>()           <span class="comment">// Sort e
                 <strong>📝 Key Takeaways:</strong>
                 <ul>
                     <li>Arrays store multiple values in a single variable</li>
-                    <li>Arrays are zero-indexed (first element is at index 0)</li>
-                    <li>Use <code>length</code> property to get the number of elements</li>
-                    <li>Use <code>push()</code> and <code>pop()</code> for end operations</li>
-                    <li>Use <code>unshift()</code> and <code>shift()</code> for beginning operations</li>
-                    <li>Some methods modify the array, others return new arrays</li>
+                    <li>Arrays are zero-indexed (first element is at index 0)
+                    </li>
+                    <li>Use <code>length</code> property to get the number of
+                        elements</li>
+                    <li>Use <code>push()</code> and <code>pop()</code> for end
+                        operations</li>
+                    <li>Use <code>unshift()</code> and <code>shift()</code> for
+                        beginning operations</li>
+                    <li>Some methods modify the array, others return new arrays
+                    </li>
                     <li>Arrays can grow and shrink dynamically</li>
-                    <li>Access elements with square brackets: <code>array[index]</code></li>
+                    <li>Access elements with square brackets:
+                        <code>array[index]</code></li>
                 </ul>
             </div>
 
         </div>
 
         <footer>
-            <p>JavaScript Arrays Quick Reference Guide | Master the basics! 🚀</p>
+            <p>JavaScript Arrays Quick Reference Guide | Master the basics! 🚀
+            </p>
         </footer>
     </div>
 </body>
+
 </html>
