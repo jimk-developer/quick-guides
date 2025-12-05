@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌨️ How to Code and Test a Windows Forms App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078D4;
+            --primary-dark: #005A9E;
+            --accent: #FFB900;
+            --success: #107C10;
+            --danger: #D83B01;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.9rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .highlight-box ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .highlight-box li {
+            margin-bottom: 8px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFDE7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF5F5 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: var(--danger);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .keyword { color: #569CD6; }
+        .string { color: #CE9178; }
+        .comment { color: #6A9955; }
+        .method { color: #DCDCAA; }
+        .class { color: #4EC9B0; }
+        .number { color: #B5CEA8; }
+        .property { color: #9CDCFE; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            margin: 25px 0;
+        }
+
+        .comparison-table th:first-child {
+            width: 30%;
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Step indicators */
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 25px;
+            min-height: 45px;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 120, 212, 0.3);
+        }
+
+        /* Error type badges */
+        .error-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .error-badge.syntax {
+            background: #FFE0B2;
+            color: #E65100;
+        }
+
+        .error-badge.runtime {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer p {
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⌨️ How to Code and Test a Windows Forms App</h1>
+        <p>Object-Oriented Programming, Events, and Debugging in C#</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- OOP Concepts -->
+            <h2>🎯 Object-Oriented Programming Concepts</h2>
+            
+            <p>C# is an object-oriented programming language. Understanding these fundamental concepts is essential for writing Windows Forms applications.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📦 Class</h4>
+                    <p>Code that defines the characteristics of an object. Think of it as a blueprint or template that specifies what properties and methods an object will have.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔷 Object</h4>
+                    <p>An instance of a class. When you create an object from a class, you're creating a specific item based on that blueprint.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ Instantiation</h4>
+                    <p>The process of creating an object from a class. When you instantiate a class, you create a new instance of that class.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📋 Instance</h4>
+                    <p>A specific object created from a class. Each instance is independent and has its own set of property values.</p>
+                </div>
+            </div>
+
+            <h3>Class Members</h3>
+            <p>A class defines several types of members that give objects their capabilities:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Member Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Property</strong></td>
+                        <td>A characteristic of an object and its associated data</td>
+                        <td><code>txtName.Text</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Method</strong></td>
+                        <td>An operation that an object can perform</td>
+                        <td><code>txtName.Focus()</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Event</strong></td>
+                        <td>A signal that something has happened (user action or system occurrence)</td>
+                        <td><code>Click</code>, <code>Load</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Remember:</strong> Properties, methods, and events are all <em>members</em> of a class. "Notices" are NOT defined by a class—they don't exist in C# programming!
+            </div>
+
+            <!-- Accessing Members -->
+            <h2>🔗 Accessing Object Members</h2>
+
+            <p>To refer to a property or method of an object in C#, use dot notation: the object name, followed by a period (dot), followed by the property or method name.</p>
+
+            <h3>Syntax for Properties</h3>
+            <pre><code><span class="comment">// Getting a property value</span>
+<span class="keyword">string</span> <span class="property">name</span> = txtName.<span class="property">Text</span>;
+
+<span class="comment">// Setting a property value</span>
+lblResult.<span class="property">Text</span> = <span class="string">"Hello!"</span>;</code></pre>
+
+            <h3>Syntax for Methods</h3>
+            <pre><code><span class="comment">// Calling a method with no parameters</span>
+txtMonthlyInvestment.<span class="method">Focus</span>();
+
+<span class="comment">// Calling a method to close the current form</span>
+<span class="keyword">this</span>.<span class="method">Close</span>();</code></pre>
+
+            <div class="highlight-box">
+                <h3>The <code>this</code> Keyword</h3>
+                <p>The <code>this</code> keyword refers to the current instance of the class (the current form). Use <code>this.Close()</code> to close the current form.</p>
+            </div>
+
+            <!-- Events and Event Handlers -->
+            <h2>🎪 Events and Event Handlers</h2>
+
+            <p>A Windows Forms application is <strong>event-driven</strong>, meaning it responds to events. These include both user events (like clicking a button) and other types of events (like the form loading).</p>
+
+            <h3>What is an Event Handler?</h3>
+            <p>An <strong>event handler</strong> is a method that responds to events. When an event occurs, the corresponding event handler code executes.</p>
+
+            <h3>Creating Event Handlers</h3>
+            <p>The easiest way to create an event handler is to double-click a control in the Form Designer:</p>
+
+            <ol class="steps">
+                <li><strong>Double-click the control</strong> in the Form Designer (e.g., a button)</li>
+                <li><strong>Visual Studio generates</strong> the event handler skeleton code automatically</li>
+                <li><strong>Add your code</strong> inside the curly braces of the event handler</li>
+            </ol>
+
+            <div class="success-box">
+                <strong>Default Event:</strong> When you double-click a Button, Visual Studio generates code for the <code>Click</code> event (not DoubleClick!). The Click event is the button's default event.
+            </div>
+
+            <h3>Event Handler Naming Convention</h3>
+            <p>Visual Studio automatically names event handlers using this pattern:</p>
+            <pre><code><span class="comment">// Pattern: ControlName_EventName</span>
+<span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> sender, <span class="class">EventArgs</span> e)
+{
+    <span class="comment">// Your code goes here</span>
+}
+
+<span class="comment">// Another example</span>
+<span class="keyword">private void</span> <span class="method">btnExit_Click</span>(<span class="keyword">object</span> sender, <span class="class">EventArgs</span> e)
+{
+    <span class="keyword">this</span>.<span class="method">Close</span>();
+}</code></pre>
+
+            <!-- C# Syntax Essentials -->
+            <h2>📝 C# Syntax Essentials</h2>
+
+            <h3>Statements and Blocks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Statement terminator</td>
+                        <td><code>;</code> (semicolon)</td>
+                        <td>Every C# statement must end with a semicolon</td>
+                    </tr>
+                    <tr>
+                        <td>Code blocks</td>
+                        <td><code>{ }</code> (braces)</td>
+                        <td>Blocks of code are enclosed in curly braces</td>
+                    </tr>
+                    <tr>
+                        <td>Method calls</td>
+                        <td><code>( )</code> (parentheses)</td>
+                        <td>Method parameters are enclosed in parentheses</td>
+                    </tr>
+                    <tr>
+                        <td>Member access</td>
+                        <td><code>.</code> (period/dot)</td>
+                        <td>Separates object name from property/method</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Code Example with Syntax Elements</h3>
+            <pre><code><span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> sender, <span class="class">EventArgs</span> e)
+{                                                    <span class="comment">// Opening brace starts block</span>
+    <span class="keyword">decimal</span> total = <span class="number">100.50m</span>;                       <span class="comment">// Statement ends with semicolon</span>
+    <span class="keyword">string</span> amount = total.<span class="method">ToString</span>(<span class="string">"c"</span>);           <span class="comment">// Method call with parameter</span>
+    lblResult.<span class="property">Text</span> = amount;                        <span class="comment">// Property assignment</span>
+}                                                    <span class="comment">// Closing brace ends block</span></code></pre>
+
+            <!-- Code Formatting -->
+            <h2>✨ Code Formatting Best Practices</h2>
+
+            <p>Well-formatted code is easier to read, understand, and maintain. Follow these guidelines:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📏 Indentation</h4>
+                    <p>Use indentation to align related elements of code. Code inside braces should be indented one level.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📄 Blank Lines</h4>
+                    <p>Use blank lines before and after groups of related statements to visually separate logical sections.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>↔️ Spacing</h4>
+                    <p>Use spaces to separate words, values, and operators for better readability.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Avoid:</strong> Using all capital letters for variable names is NOT a recommended practice for code readability in C#.
+            </div>
+
+            <!-- Comments -->
+            <h2>💬 Comments</h2>
+
+            <p>Comments document your code and are ignored by the compiler. They don't affect how your application runs.</p>
+
+            <h3>Single-Line Comments</h3>
+            <pre><code><span class="comment">// This is a single-line comment</span>
+<span class="keyword">string</span> amount = total.<span class="method">ToString</span>(<span class="string">"c"</span>);   <span class="comment">// currency format</span></code></pre>
+
+            <h3>Multi-Line Comments</h3>
+            <pre><code><span class="comment">/*
+ * This is a multi-line comment
+ * It can span multiple lines
+ * Use it for longer explanations
+ */</span></code></pre>
+
+            <div class="quick-ref">
+                <h3>⚡ Comment Quick Reference</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Syntax</th>
+                            <th>Use For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Single-line</td>
+                            <td><code>// comment</code></td>
+                            <td>Brief notes, end-of-line explanations</td>
+                        </tr>
+                        <tr>
+                            <td>Multi-line</td>
+                            <td><code>/* comment */</code></td>
+                            <td>Longer explanations, file headers</td>
+                        </tr>
+                        <tr>
+                            <td>XML Documentation</td>
+                            <td><code>/// comment</code></td>
+                            <td>Method/class documentation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tip-box">
+                <strong>Important:</strong> Comments can appear at the end of a line or on their own line. They can contain any text, including C# keywords. However, comments can become inaccurate or out of date if not maintained—always update comments when you change code!
+            </div>
+
+            <!-- Snippets and Refactoring -->
+            <h2>🔧 Productivity Features</h2>
+
+            <h3>Code Snippets</h3>
+            <p>A <strong>code snippet</strong> is a template that inserts commonly used code structures. Instead of typing everything from scratch, you can use snippets to quickly add code.</p>
+
+            <div class="highlight-box">
+                <h3>How to Use Snippets</h3>
+                <ul>
+                    <li>Type the snippet shortcut (e.g., <code>if</code>, <code>for</code>, <code>while</code>)</li>
+                    <li>Press <strong>Tab</strong> twice to insert the snippet</li>
+                    <li>Fill in the highlighted placeholders</li>
+                </ul>
+            </div>
+
+            <h4>Common Snippets</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Shortcut</th>
+                        <th>Inserts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>if</code></td>
+                        <td>if statement structure</td>
+                    </tr>
+                    <tr>
+                        <td><code>else</code></td>
+                        <td>else clause</td>
+                    </tr>
+                    <tr>
+                        <td><code>for</code></td>
+                        <td>for loop structure</td>
+                    </tr>
+                    <tr>
+                        <td><code>foreach</code></td>
+                        <td>foreach loop structure</td>
+                    </tr>
+                    <tr>
+                        <td><code>while</code></td>
+                        <td>while loop structure</td>
+                    </tr>
+                    <tr>
+                        <td><code>try</code></td>
+                        <td>try-catch block</td>
+                    </tr>
+                    <tr>
+                        <td><code>prop</code></td>
+                        <td>Auto-implemented property</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Refactoring</h3>
+            <p><strong>Refactoring</strong> is the process of restructuring existing code without changing its behavior. Visual Studio provides built-in refactoring tools.</p>
+
+            <div class="success-box">
+                <strong>Rename Refactoring:</strong> To change the name of all occurrences of a variable after you change the first occurrence, use refactoring. Right-click the variable and select <strong>Rename</strong> (or press <strong>Ctrl+R, Ctrl+R</strong>).
+            </div>
+
+            <!-- Errors -->
+            <h2>🐛 Understanding Errors</h2>
+
+            <p>There are two main types of errors you'll encounter when developing C# applications:</p>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th><span class="error-badge syntax">Syntax Error (Build Error)</span></th>
+                            <th><span class="error-badge runtime">Runtime Error (Exception)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>When Detected</strong></td>
+                            <td>While you type or when you build</td>
+                            <td>When the application runs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cause</strong></td>
+                            <td>Violates C# language rules (typos, missing semicolons)</td>
+                            <td>Problem prevents statement execution (divide by zero, invalid input)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Where Shown</strong></td>
+                            <td>Code Editor (red squiggle) AND Error List window</td>
+                            <td>Exception dialog at runtime</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Can App Run?</strong></td>
+                            <td>No—must fix before running</td>
+                            <td>App starts but crashes when error occurs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Also Called</strong></td>
+                            <td>Build error, compile error</td>
+                            <td>Exception</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Syntax Error Example</h3>
+            <pre><code><span class="comment">// Missing semicolon - syntax error!</span>
+<span class="keyword">string</span> name = txtName.<span class="property">Text</span>    <span class="comment">// ❌ Error: ; expected</span>
+
+<span class="comment">// Corrected</span>
+<span class="keyword">string</span> name = txtName.<span class="property">Text</span>;   <span class="comment">// ✅ Correct</span></code></pre>
+
+            <h3>Runtime Error Example</h3>
+            <pre><code><span class="comment">// This compiles fine but crashes if user enters non-numeric text</span>
+<span class="keyword">decimal</span> amount = <span class="class">Convert</span>.<span class="method">ToDecimal</span>(txtAmount.<span class="property">Text</span>);  <span class="comment">// ❌ Runtime error if text isn't a number</span></code></pre>
+
+            <!-- Testing and Debugging -->
+            <h2>🔍 Testing vs. Debugging</h2>
+
+            <p>Testing and debugging are two distinct but related activities:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🧪 Testing</h4>
+                    <p><strong>Goal: Find errors</strong></p>
+                    <p>Running the application with various inputs to discover runtime errors and verify it works correctly.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔧 Debugging</h4>
+                    <p><strong>Goal: Fix errors</strong></p>
+                    <p>Finding the cause of errors and correcting them. Involves examining code and variable values.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Remember:</strong> Testing = Finding bugs | Debugging = Fixing bugs
+            </div>
+
+            <!-- Debugging Tools -->
+            <h2>🛠️ Debugging Tools</h2>
+
+            <h3>Data Tips</h3>
+            <p>A <strong>data tip</strong> displays the value of a variable or property when you hover over it during debugging. This helps you understand what values your code is working with at runtime.</p>
+
+            <div class="highlight-box">
+                <h3>Using Data Tips</h3>
+                <ul>
+                    <li>Set a breakpoint by clicking in the left margin of the Code Editor</li>
+                    <li>Run the application in debug mode (F5)</li>
+                    <li>When execution pauses at the breakpoint, hover over any variable</li>
+                    <li>The data tip shows the current value of that variable</li>
+                </ul>
+            </div>
+
+            <h3>Other Debugging Tools</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Purpose</th>
+                        <th>Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Breakpoints</strong></td>
+                        <td>Pause execution at a specific line</td>
+                        <td>Click left margin or F9</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Tips</strong></td>
+                        <td>View variable values by hovering</td>
+                        <td>Hover over variable while paused</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Watch Window</strong></td>
+                        <td>Monitor specific variables</td>
+                        <td>Debug → Windows → Watch</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Locals Window</strong></td>
+                        <td>See all local variables</td>
+                        <td>Debug → Windows → Locals</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exception Helper</strong></td>
+                        <td>Information about runtime errors</td>
+                        <td>Appears automatically on exception</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Getting Help -->
+            <h2>📚 Getting Help</h2>
+
+            <h3>Visual Studio Help Features</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>How to Access</th>
+                        <th>What It Provides</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>IntelliSense</strong></td>
+                        <td>Automatic as you type</td>
+                        <td>Code completion, parameter info, member lists</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quick Info</strong></td>
+                        <td>Hover over any element</td>
+                        <td>Brief description of the element</td>
+                    </tr>
+                    <tr>
+                        <td><strong>F1 Help</strong></td>
+                        <td>Select item and press F1</td>
+                        <td>Opens documentation for selected item</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error Help</strong></td>
+                        <td>Click error code in Error List</td>
+                        <td>Detailed explanation of the error</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Microsoft Documentation</h3>
+            <div class="success-box">
+                <strong>Microsoft's official online documentation</strong> is a website that you can navigate like any other website. It's free, comprehensive, and available at <a href="https://learn.microsoft.com" target="_blank" style="color: var(--success);">learn.microsoft.com</a>
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Class</td>
+                            <td>Blueprint that defines object characteristics</td>
+                        </tr>
+                        <tr>
+                            <td>Object</td>
+                            <td>Instance of a class</td>
+                        </tr>
+                        <tr>
+                            <td>Property</td>
+                            <td>Characteristic/data of an object</td>
+                        </tr>
+                        <tr>
+                            <td>Method</td>
+                            <td>Operation an object can perform</td>
+                        </tr>
+                        <tr>
+                            <td>Event Handler</td>
+                            <td>Method that responds to events</td>
+                        </tr>
+                        <tr>
+                            <td>Syntax Error</td>
+                            <td>Detected at build time, prevents compilation</td>
+                        </tr>
+                        <tr>
+                            <td>Runtime Error</td>
+                            <td>Occurs during execution (also called exception)</td>
+                        </tr>
+                        <tr>
+                            <td>Testing</td>
+                            <td>Finding errors</td>
+                        </tr>
+                        <tr>
+                            <td>Debugging</td>
+                            <td>Fixing errors</td>
+                        </tr>
+                        <tr>
+                            <td>Data Tip</td>
+                            <td>Shows variable value when hovering during debug</td>
+                        </tr>
+                        <tr>
+                            <td>Code Snippet</td>
+                            <td>Template for inserting common code structures</td>
+                        </tr>
+                        <tr>
+                            <td>Refactoring</td>
+                            <td>Restructuring code without changing behavior</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Keyboard Shortcuts -->
+            <div class="quick-ref">
+                <h3>⌨️ Essential Keyboard Shortcuts</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>F5</code></td>
+                            <td>Start debugging</td>
+                        </tr>
+                        <tr>
+                            <td><code>Ctrl+F5</code></td>
+                            <td>Start without debugging</td>
+                        </tr>
+                        <tr>
+                            <td><code>F9</code></td>
+                            <td>Toggle breakpoint</td>
+                        </tr>
+                        <tr>
+                            <td><code>F10</code></td>
+                            <td>Step over (next line)</td>
+                        </tr>
+                        <tr>
+                            <td><code>F11</code></td>
+                            <td>Step into (enter method)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Shift+F5</code></td>
+                            <td>Stop debugging</td>
+                        </tr>
+                        <tr>
+                            <td><code>Ctrl+R, Ctrl+R</code></td>
+                            <td>Rename (refactoring)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Ctrl+.</code></td>
+                            <td>Quick actions and refactorings</td>
+                        </tr>
+                        <tr>
+                            <td><code>Ctrl+Space</code></td>
+                            <td>Trigger IntelliSense</td>
+                        </tr>
+                        <tr>
+                            <td><code>F1</code></td>
+                            <td>Help for selected item</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+</html>

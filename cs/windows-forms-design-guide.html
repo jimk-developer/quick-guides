@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖼️ How to Design a Windows Forms App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078D4;
+            --primary-dark: #005A9E;
+            --accent: #FFB900;
+            --success: #107C10;
+            --danger: #D83B01;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.9rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .highlight-box ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .highlight-box li {
+            margin-bottom: 8px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFDE7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF5F5 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+
+        tr:hover {
+            background: #EDF2F7;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F0F4F8;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            color: var(--danger);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .keyword {
+            color: #569CD6;
+        }
+
+        .string {
+            color: #CE9178;
+        }
+
+        .comment {
+            color: #6A9955;
+        }
+
+        .property {
+            color: #9CDCFE;
+        }
+
+        .value {
+            color: #B5CEA8;
+        }
+
+        ul, ol {
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .column {
+            background: #F8FAFC;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .column h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .naming-example {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .naming-example .prefix {
+            font-family: 'Fira Code', monospace;
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .naming-example .description {
+            color: var(--text-dark);
+        }
+
+        .naming-example .example {
+            font-family: 'Fira Code', monospace;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .property-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .property-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.15);
+        }
+
+        .property-card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .property-card .badge {
+            font-size: 0.75rem;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 25px;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .quick-ref {
+            background: linear-gradient(135deg, #1E1E1E 0%, #2D2D30 100%);
+            color: var(--text-light);
+            padding: 35px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .quick-ref table {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: rgba(0, 120, 212, 0.3);
+        }
+
+        .quick-ref td {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #E0E0E0;
+        }
+
+        .quick-ref tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .quick-ref tr:hover {
+            background: rgba(0, 120, 212, 0.2);
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .icon-item {
+            background: #F8FAFC;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .icon-item h5 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .icon-item p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .naming-example {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🖼️ How to Design a Windows Forms App</h1>
+        <p>A Beginner's Guide to Visual Studio Form Designer</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- What You'll Learn Section -->
+            <h2>🎯 What You'll Learn</h2>
+            <p>This guide covers essential techniques for designing Windows Forms applications in Visual Studio, including working with the Form Designer, setting properties, and creating user-friendly interfaces.</p>
+
+            <div class="highlight-box">
+                <h3>💡 Topics Covered:</h3>
+                <ul>
+                    <li><strong>Visual Studio Environment</strong> - Configure settings and windows</li>
+                    <li><strong>Form Designer</strong> - Design forms visually</li>
+                    <li><strong>Toolbox</strong> - Add controls to forms</li>
+                    <li><strong>Properties Window</strong> - Configure control properties</li>
+                    <li><strong>Tab Order & Access Keys</strong> - Keyboard navigation</li>
+                    <li><strong>Naming Conventions</strong> - Organize your code</li>
+                </ul>
+            </div>
+
+            <!-- Visual Studio Environment Section -->
+            <h2>⚙️ Customizing Visual Studio</h2>
+            <p>Before designing forms, it's important to understand how to customize Visual Studio for C# development.</p>
+
+            <h3>Setting Options</h3>
+            <p>To customize how Visual Studio works, select <strong>Tools → Options</strong> from the menu. This opens a dialog where you can configure many aspects of the IDE.</p>
+
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <div class="icon">🔧</div>
+                    <h5>Tools → Options</h5>
+                    <p>Customize IDE behavior, fonts, colors, and editor settings</p>
+                </div>
+                <div class="icon-item">
+                    <div class="icon">📥</div>
+                    <h5>Import and Export Settings</h5>
+                    <p>Change development settings that affect menus and toolbars</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Development Settings:</strong> Use <strong>Tools → Import and Export Settings</strong> to change the development settings that affect how menus and toolbars work. You can choose different profiles like "Visual C# Development Settings" for an optimized C# experience.
+            </div>
+
+            <!-- Creating a Project Section -->
+            <h2>📁 Creating a New Project</h2>
+            <p>To create a new Windows Forms application, you'll use the New Project dialog box.</p>
+
+            <ol class="step-list">
+                <li><strong>Open Visual Studio</strong> and select <strong>File → New → Project</strong></li>
+                <li><strong>Select a Template</strong> - Choose "Windows Forms App (.NET)" from the available templates. A template specifies the type of project you want to create.</li>
+                <li><strong>Configure Your Project</strong> - Enter a name for your project and choose a location to save it</li>
+                <li><strong>Create the Project</strong> - Click Create to generate the solution, project, and form files</li>
+            </ol>
+
+            <div class="success-box">
+                <strong>Understanding Solutions:</strong> A solution contains one or more projects, and each project can contain multiple forms. Visual Studio creates a solution file (.sln) and project files automatically.
+            </div>
+
+            <!-- Key Windows Section -->
+            <h2>🪟 Key Visual Studio Windows</h2>
+            <p>Three windows are essential when designing Windows Forms applications:</p>
+
+            <div class="property-card">
+                <h4>📦 Toolbox <span class="badge">View → Toolbox</span></h4>
+                <p>The Toolbox window contains controls that you can drag onto a form. Controls are organized into categories like "Common Controls," "Containers," and "Menus & Toolbars."</p>
+                <p><strong>Common controls include:</strong> Label, TextBox, Button, CheckBox, RadioButton, ComboBox, ListBox</p>
+            </div>
+
+            <div class="property-card">
+                <h4>📋 Properties Window <span class="badge">View → Properties Window</span></h4>
+                <p>The Properties window lets you view and set the properties for the currently selected form or control. Properties determine the appearance and behavior of controls.</p>
+                <p><strong>Key features:</strong> Alphabetical or categorized view, property descriptions, quick search</p>
+            </div>
+
+            <div class="property-card">
+                <h4>📂 Solution Explorer <span class="badge">View → Solution Explorer</span></h4>
+                <p>The Solution Explorer displays all files in your solution. Use it to rename files for forms, projects, and solutions.</p>
+                <p><strong>Rename files:</strong> Right-click on any item and select "Rename" to change filenames</p>
+            </div>
+
+            <!-- Common Controls Section -->
+            <h2>🎛️ Common Form Controls</h2>
+            <p>Windows Forms provides many controls for building user interfaces. Here are the most commonly used:</p>
+
+            <table>
+                <tr>
+                    <th>Control</th>
+                    <th>Purpose</th>
+                    <th>User Interaction</th>
+                </tr>
+                <tr>
+                    <td><code>Label</code></td>
+                    <td>Display text that users cannot edit</td>
+                    <td>Read-only display</td>
+                </tr>
+                <tr>
+                    <td><code>TextBox</code></td>
+                    <td>Allow users to enter text</td>
+                    <td>User can type text</td>
+                </tr>
+                <tr>
+                    <td><code>Button</code></td>
+                    <td>Trigger an action when clicked</td>
+                    <td>User clicks to activate</td>
+                </tr>
+                <tr>
+                    <td><code>CheckBox</code></td>
+                    <td>Allow on/off selection</td>
+                    <td>User checks/unchecks</td>
+                </tr>
+                <tr>
+                    <td><code>RadioButton</code></td>
+                    <td>Allow one choice from a group</td>
+                    <td>User selects one option</td>
+                </tr>
+                <tr>
+                    <td><code>ComboBox</code></td>
+                    <td>Dropdown list of options</td>
+                    <td>User selects from list</td>
+                </tr>
+            </table>
+
+            <!-- Properties Section -->
+            <h2>🏷️ Essential Properties</h2>
+            <p>Every form and control has properties that determine its appearance and behavior. Two properties are common to both forms and controls:</p>
+
+            <div class="two-column">
+                <div class="column">
+                    <h4>Name Property</h4>
+                    <p>The <code>Name</code> property specifies the name you use to refer to the control in your C# code.</p>
+                    <ul>
+                        <li>Used in code to reference the control</li>
+                        <li>Should follow naming conventions</li>
+                        <li>Must be unique within the form</li>
+                        <li>Default names: textBox1, button1, etc.</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h4>Text Property</h4>
+                    <p>The <code>Text</code> property determines the text displayed in or on the control.</p>
+                    <ul>
+                        <li>For forms: appears in the title bar</li>
+                        <li>For labels: the displayed text</li>
+                        <li>For buttons: the button caption</li>
+                        <li>For text boxes: the content</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Additional Control Properties</h3>
+
+            <div class="property-card">
+                <h4>Enabled Property <span class="badge">Boolean</span></h4>
+                <p>Determines whether a control is enabled or disabled. When <code>Enabled</code> is set to <code>false</code>, the control appears grayed out and users cannot interact with it.</p>
+                <pre><code><span class="comment">// Disable a button</span>
+<span class="property">btnCalculate</span>.<span class="property">Enabled</span> = <span class="keyword">false</span>;
+
+<span class="comment">// Enable it later</span>
+<span class="property">btnCalculate</span>.<span class="property">Enabled</span> = <span class="keyword">true</span>;</code></pre>
+            </div>
+
+            <div class="property-card">
+                <h4>ReadOnly Property <span class="badge">TextBox Only</span></h4>
+                <p>For TextBox controls, the <code>ReadOnly</code> property prevents users from entering or editing data while still allowing them to select and copy the text. The control appears with a gray background.</p>
+                <pre><code><span class="comment">// Make a text box read-only for displaying results</span>
+<span class="property">txtResult</span>.<span class="property">ReadOnly</span> = <span class="keyword">true</span>;</code></pre>
+            </div>
+
+            <div class="property-card">
+                <h4>TextAlign Property <span class="badge">Alignment</span></h4>
+                <p>Sets the alignment for text displayed in a control. Common values include <code>Left</code>, <code>Center</code>, and <code>Right</code>.</p>
+                <pre><code><span class="comment">// Right-align text in a text box (useful for numbers)</span>
+<span class="property">txtAmount</span>.<span class="property">TextAlign</span> = HorizontalAlignment.<span class="value">Right</span>;</code></pre>
+            </div>
+
+            <div class="quick-ref">
+                <h3>📊 Property Quick Reference</h3>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Applies To</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>Name</code></td>
+                        <td>All controls</td>
+                        <td>Identifier used in code</td>
+                    </tr>
+                    <tr>
+                        <td><code>Text</code></td>
+                        <td>All controls</td>
+                        <td>Displayed text content</td>
+                    </tr>
+                    <tr>
+                        <td><code>Enabled</code></td>
+                        <td>All controls</td>
+                        <td>Enable/disable interaction</td>
+                    </tr>
+                    <tr>
+                        <td><code>ReadOnly</code></td>
+                        <td>TextBox</td>
+                        <td>Prevent text editing</td>
+                    </tr>
+                    <tr>
+                        <td><code>TextAlign</code></td>
+                        <td>TextBox, Label</td>
+                        <td>Text alignment (Left, Center, Right)</td>
+                    </tr>
+                    <tr>
+                        <td><code>TabIndex</code></td>
+                        <td>All controls</td>
+                        <td>Tab order position</td>
+                    </tr>
+                    <tr>
+                        <td><code>TabStop</code></td>
+                        <td>All controls</td>
+                        <td>Include in tab order (true/false)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Naming Conventions Section -->
+            <h2>📝 Naming Conventions</h2>
+            <p>Good naming conventions make your code easier to read and maintain. Use a three-letter prefix indicating the control type, followed by a descriptive name in PascalCase.</p>
+
+            <div class="naming-example">
+                <span class="prefix">txt</span>
+                <span class="description">TextBox controls</span>
+                <span class="example">txtFirstName, txtEmail</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">lbl</span>
+                <span class="description">Label controls</span>
+                <span class="example">lblTotal, lblMessage</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">btn</span>
+                <span class="description">Button controls</span>
+                <span class="example">btnCalculate, btnExit</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">chk</span>
+                <span class="description">CheckBox controls</span>
+                <span class="example">chkAgree, chkRemember</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">rad</span>
+                <span class="description">RadioButton controls</span>
+                <span class="example">radMale, radFemale</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">cbo</span>
+                <span class="description">ComboBox controls</span>
+                <span class="example">cboCountry, cboState</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">lst</span>
+                <span class="description">ListBox controls</span>
+                <span class="example">lstProducts, lstItems</span>
+            </div>
+            <div class="naming-example">
+                <span class="prefix">frm</span>
+                <span class="description">Form</span>
+                <span class="example">frmMain, frmLogin</span>
+            </div>
+
+            <!-- Tab Order Section -->
+            <h2>⌨️ Tab Order</h2>
+            <p>The <strong>tab order</strong> determines the order in which controls receive focus when the user presses the Tab key. This is crucial for keyboard navigation and accessibility.</p>
+
+            <h3>How Tab Order Works</h3>
+            <ul>
+                <li>Each control has a <code>TabIndex</code> property (0, 1, 2, etc.)</li>
+                <li>Controls receive focus in ascending TabIndex order</li>
+                <li>Lower numbers receive focus first</li>
+                <li>Controls with the same TabIndex follow their order in the form</li>
+            </ul>
+
+            <h3>Setting Tab Order</h3>
+            <p>There are two ways to set the tab order:</p>
+
+            <div class="two-column">
+                <div class="column">
+                    <h4>Method 1: View Tab Order</h4>
+                    <ol>
+                        <li>Select <strong>View → Tab Order</strong></li>
+                        <li>Numbers appear on each control</li>
+                        <li>Click controls in desired order</li>
+                        <li>Click View → Tab Order again to exit</li>
+                    </ol>
+                </div>
+                <div class="column">
+                    <h4>Method 2: Properties Window</h4>
+                    <ol>
+                        <li>Select a control</li>
+                        <li>Find <code>TabIndex</code> property</li>
+                        <li>Enter the desired number</li>
+                        <li>Repeat for each control</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <h4>TabStop Property <span class="badge">Boolean</span></h4>
+                <p>To prevent a control from receiving focus when the user presses Tab, set its <code>TabStop</code> property to <code>false</code>. This is useful for read-only text boxes or labels.</p>
+                <pre><code><span class="comment">// Remove from tab order</span>
+<span class="property">txtOutput</span>.<span class="property">TabStop</span> = <span class="keyword">false</span>;</code></pre>
+            </div>
+
+            <!-- Access Keys Section -->
+            <h2>🔑 Access Keys</h2>
+            <p><strong>Access keys</strong> let users activate a control by pressing <strong>Alt</strong> plus another key. They provide quick keyboard shortcuts for common actions.</p>
+
+            <h3>Creating Access Keys</h3>
+            <p>To create an access key, place an ampersand (&amp;) before the letter you want as the access key in the control's <code>Text</code> property.</p>
+
+            <table>
+                <tr>
+                    <th>Text Property Value</th>
+                    <th>Displayed Text</th>
+                    <th>Access Key</th>
+                </tr>
+                <tr>
+                    <td><code>&amp;Calculate</code></td>
+                    <td><u>C</u>alculate</td>
+                    <td>Alt + C</td>
+                </tr>
+                <tr>
+                    <td><code>E&amp;xit</code></td>
+                    <td>E<u>x</u>it</td>
+                    <td>Alt + X</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;Invoice number</code></td>
+                    <td><u>I</u>nvoice number</td>
+                    <td>Alt + I</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;Save</code></td>
+                    <td><u>S</u>ave</td>
+                    <td>Alt + S</td>
+                </tr>
+            </table>
+
+            <div class="tip-box">
+                <strong>Access Keys for TextBoxes:</strong> TextBox controls cannot display access keys directly. To create an access key for a text box, set the access key in the Text property of the label immediately <em>before</em> the text box in the tab order. When the user presses the access key, focus moves to the next control (the text box).
+            </div>
+
+            <div class="warning-box">
+                <strong>Remember:</strong> The ampersand (&amp;) character is used to define access keys. To display a literal ampersand in text, use two ampersands (&&).
+            </div>
+
+            <!-- Default Buttons Section -->
+            <h2>⏎ Default Buttons</h2>
+            <p>Forms have two special button properties that respond to keyboard shortcuts:</p>
+
+            <div class="two-column">
+                <div class="column" style="border-left: 4px solid var(--success);">
+                    <h4>AcceptButton Property</h4>
+                    <p>The button that's activated when the user presses the <strong>Enter</strong> key.</p>
+                    <p>Typically set to the primary action button like "OK" or "Calculate".</p>
+                    <p><strong>Set in:</strong> Form's Properties</p>
+                </div>
+                <div class="column" style="border-left: 4px solid var(--danger);">
+                    <h4>CancelButton Property</h4>
+                    <p>The button that's activated when the user presses the <strong>Esc</strong> key.</p>
+                    <p>Typically set to "Cancel" or "Exit" buttons.</p>
+                    <p><strong>Set in:</strong> Form's Properties</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Setting Default Buttons:</strong> Select the form (click on the form's title bar or background), then find the <code>AcceptButton</code> and <code>CancelButton</code> properties in the Properties window. Select the appropriate button from the dropdown list.
+            </div>
+
+            <!-- Designing the Form Section -->
+            <h2>🎨 Designing the Form</h2>
+            <p>Follow these steps to design a professional-looking form:</p>
+
+            <ol class="step-list">
+                <li><strong>Add Controls from Toolbox</strong> - Drag controls from the Toolbox onto the form, or double-click a control to add it</li>
+                <li><strong>Position and Size Controls</strong> - Use the mouse to move and resize controls. Hold Ctrl and click to select multiple controls</li>
+                <li><strong>Align Controls</strong> - Select multiple controls, then use <strong>Format → Align</strong> to align them. Alignments are made relative to the primary control (shown with white handles)</li>
+                <li><strong>Set Properties</strong> - Use the Properties window to set Name, Text, and other properties for each control</li>
+                <li><strong>Set Tab Order</strong> - Arrange the tab order logically from top-left to bottom-right</li>
+                <li><strong>Add Access Keys</strong> - Define access keys for buttons and labels</li>
+                <li><strong>Set Default Buttons</strong> - Configure AcceptButton and CancelButton properties on the form</li>
+            </ol>
+
+            <h3>Selecting Multiple Controls</h3>
+            <p>To select two or more controls, hold down the <strong>Ctrl</strong> key while clicking on each control. You can also draw a selection rectangle around multiple controls.</p>
+
+            <div class="tip-box">
+                <strong>Primary Control:</strong> When you select multiple controls, the last control clicked becomes the primary control (shown with white handles instead of black). Alignment and sizing operations are made relative to the primary control.
+            </div>
+
+            <!-- Running the Form Section -->
+            <h2>▶️ Running Your Form</h2>
+            <p>When you run a form after designing it in the Form Designer (but before adding any code):</p>
+
+            <ul>
+                <li>The form is displayed with all controls visible</li>
+                <li>You can type in text boxes</li>
+                <li>Tab navigation works</li>
+                <li>Access keys work</li>
+                <li>Buttons don't cause anything to happen (no event handlers yet)</li>
+                <li>The form can be moved, minimized, maximized, and closed</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Press F5</strong> to run your application in debug mode, or <strong>Ctrl+F5</strong> to run without debugging.
+            </div>
+
+            <!-- Renaming Files Section -->
+            <h2>📝 Renaming Files</h2>
+            <p>Use the <strong>Solution Explorer</strong> to rename form, project, or solution files:</p>
+
+            <ol>
+                <li>Open Solution Explorer (View → Solution Explorer)</li>
+                <li>Right-click on the file you want to rename</li>
+                <li>Select "Rename" from the context menu</li>
+                <li>Type the new name and press Enter</li>
+                <li>If prompted, allow Visual Studio to update all references</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>Important:</strong> When renaming form files, Visual Studio will offer to rename all references. Click "Yes" to keep your code synchronized with the new filename.
+            </div>
+
+            <!-- Quick Reference Section -->
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>📋 Windows Forms Designer Cheat Sheet</h3>
+                <table>
+                    <tr>
+                        <th>Task</th>
+                        <th>How To</th>
+                    </tr>
+                    <tr>
+                        <td>Customize IDE</td>
+                        <td>Tools → Options</td>
+                    </tr>
+                    <tr>
+                        <td>Change Development Settings</td>
+                        <td>Tools → Import and Export Settings</td>
+                    </tr>
+                    <tr>
+                        <td>Create New Project</td>
+                        <td>File → New → Project → Select Template</td>
+                    </tr>
+                    <tr>
+                        <td>Open Toolbox</td>
+                        <td>View → Toolbox</td>
+                    </tr>
+                    <tr>
+                        <td>Open Properties</td>
+                        <td>View → Properties Window (or F4)</td>
+                    </tr>
+                    <tr>
+                        <td>Set Tab Order</td>
+                        <td>View → Tab Order (click controls in order)</td>
+                    </tr>
+                    <tr>
+                        <td>Select Multiple Controls</td>
+                        <td>Hold Ctrl + Click each control</td>
+                    </tr>
+                    <tr>
+                        <td>Align Controls</td>
+                        <td>Format → Align → (choose alignment)</td>
+                    </tr>
+                    <tr>
+                        <td>Create Access Key</td>
+                        <td>Add &amp; before letter in Text property</td>
+                    </tr>
+                    <tr>
+                        <td>Rename Files</td>
+                        <td>Solution Explorer → Right-click → Rename</td>
+                    </tr>
+                    <tr>
+                        <td>Run Application</td>
+                        <td>F5 (debug) or Ctrl+F5 (no debug)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Key Takeaways Section -->
+            <h2>📌 Key Takeaways</h2>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Templates</strong> specify the type of project in the New Project dialog</li>
+                    <li><strong>Toolbox</strong> contains controls you drag onto forms</li>
+                    <li><strong>Properties Window</strong> sets control properties</li>
+                    <li><strong>Solution Explorer</strong> is used to rename files</li>
+                    <li><strong>Name</strong> property identifies controls in code; <strong>Text</strong> property shows displayed content</li>
+                    <li><strong>ReadOnly</strong> prevents text entry; <strong>Enabled</strong> enables/disables controls</li>
+                    <li><strong>TextAlign</strong> sets text alignment (Left, Center, Right)</li>
+                    <li><strong>Tab order</strong> controls keyboard navigation with Tab key</li>
+                    <li><strong>TabStop = false</strong> removes a control from tab order</li>
+                    <li><strong>Access keys</strong> are created with &amp; and activated with Alt+key</li>
+                    <li><strong>AcceptButton</strong> responds to Enter key; <strong>CancelButton</strong> responds to Esc key</li>
+                    <li>Hold <strong>Ctrl</strong> to select multiple controls</li>
+                    <li>Alignment is relative to the <strong>primary control</strong> (white handles)</li>
+                    <li>Without code, button clicks don't do anything, but other form features work</li>
+                </ul>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>Windows Forms Design Quick Reference Guide | Murach's C# - Chapter 2 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
