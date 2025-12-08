@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript and JavaScript: What's the Difference?</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #3178c6 0%, #235a9e 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #3178c6 0%, #235a9e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #3178c6;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3178c6;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #235a9e;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #3178c6;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border-left: 4px solid #3178c6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block code {
+            color: #333;
+            white-space: pre;
+            display: block;
+        }
+
+        .keyword {
+            color: #d73a49;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #032f62;
+        }
+
+        .number {
+            color: #005cc5;
+        }
+
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        .method {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+
+        .type {
+            color: #3178c6;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #3178c6 0%, #235a9e 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul,
+        ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #3178c6;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #3178c6 0%, #235a9e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .visual-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3178c6;
+        }
+
+        .example-card h4 {
+            margin-top: 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .js-side {
+            border-left: 4px solid #f7df1e;
+            background: #fffef0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .ts-side {
+            border-left: 4px solid #3178c6;
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .js-side h4,
+        .ts-side h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .js-side h4 {
+            color: #b8a000;
+        }
+
+        .ts-side h4 {
+            color: #3178c6;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📘 TypeScript and JavaScript</h1>
+            <p>Understanding the Key Differences</p>
+        </header>
+
+        <div class="content">
+            <h2>🎯 What is TypeScript?</h2>
+            <p><strong>TypeScript</strong> is a programming language developed by
+                Microsoft that builds on JavaScript by adding <strong>static type
+                definitions</strong>. It's often called a "superset" of JavaScript,
+                meaning all valid JavaScript code is also valid TypeScript code.</p>
+
+            <div class="info">
+                <strong>💡 Key Concept:</strong> TypeScript compiles (or
+                "transpiles") down to plain JavaScript. Browsers and Node.js run
+                JavaScript, not TypeScript directly. The TypeScript compiler checks
+                your code for errors and then produces standard JavaScript.
+            </div>
+
+            <h3>The Relationship</h3>
+            <div class="visual-box">
+                <h3>TypeScript → JavaScript</h3>
+                <p style="text-align: center; font-size: 1.2em;">
+                    TypeScript Code (.ts) → TypeScript Compiler (tsc) → JavaScript Code (.js)
+                </p>
+            </div>
+
+            <h2>⚖️ Side-by-Side Comparison</h2>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>JavaScript</th>
+                    <th>TypeScript</th>
+                </tr>
+                <tr>
+                    <td><strong>Type System</strong></td>
+                    <td>Dynamic (types checked at runtime)</td>
+                    <td>Static (types checked at compile time)</td>
+                </tr>
+                <tr>
+                    <td><strong>File Extension</strong></td>
+                    <td>.js</td>
+                    <td>.ts (or .tsx for React)</td>
+                </tr>
+                <tr>
+                    <td><strong>Compilation</strong></td>
+                    <td>Runs directly in browser/Node.js</td>
+                    <td>Must compile to JavaScript first</td>
+                </tr>
+                <tr>
+                    <td><strong>Error Detection</strong></td>
+                    <td>Errors found at runtime</td>
+                    <td>Many errors caught during development</td>
+                </tr>
+                <tr>
+                    <td><strong>Learning Curve</strong></td>
+                    <td>Lower barrier to entry</td>
+                    <td>Requires understanding types</td>
+                </tr>
+                <tr>
+                    <td><strong>IDE Support</strong></td>
+                    <td>Good</td>
+                    <td>Excellent (better autocomplete)</td>
+                </tr>
+                <tr>
+                    <td><strong>Browser Support</strong></td>
+                    <td>Native support</td>
+                    <td>Requires compilation step</td>
+                </tr>
+            </table>
+
+            <h2>📝 Type Annotations</h2>
+            <p>The most visible difference between TypeScript and JavaScript is
+                <strong>type annotations</strong>. These tell TypeScript what type
+                of value a variable, parameter, or return value should be.</p>
+
+            <h3>Variable Types</h3>
+            <div class="comparison-grid">
+                <div class="js-side">
+                    <h4>JavaScript</h4>
+                    <div class="code-block" style="background: #fffef0; border-left-color: #f7df1e;">
+                        <code><span class="comment">// No type information</span>
+<span class="keyword">let</span> name = <span class="string">"John"</span>;
+<span class="keyword">let</span> age = <span class="number">30</span>;
+<span class="keyword">let</span> isStudent = <span class="keyword">false</span>;
+<span class="keyword">let</span> scores = [<span class="number">85</span>, <span class="number">90</span>, <span class="number">78</span>];
+
+<span class="comment">// Can reassign to different types</span>
+name = <span class="number">42</span>;  <span class="comment">// No error!</span></code>
+                    </div>
+                </div>
+                <div class="ts-side">
+                    <h4>TypeScript</h4>
+                    <div class="code-block" style="background: #f0f7ff; border-left-color: #3178c6;">
+                        <code><span class="comment">// Explicit type annotations</span>
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="string">"John"</span>;
+<span class="keyword">let</span> age: <span class="type">number</span> = <span class="number">30</span>;
+<span class="keyword">let</span> isStudent: <span class="type">boolean</span> = <span class="keyword">false</span>;
+<span class="keyword">let</span> scores: <span class="type">number[]</span> = [<span class="number">85</span>, <span class="number">90</span>, <span class="number">78</span>];
+
+<span class="comment">// Error: Type 'number' is not</span>
+<span class="comment">// assignable to type 'string'</span>
+name = <span class="number">42</span>;  <span class="comment">// Compile error!</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Function Types</h3>
+            <div class="comparison-grid">
+                <div class="js-side">
+                    <h4>JavaScript</h4>
+                    <div class="code-block" style="background: #fffef0; border-left-color: #f7df1e;">
+                        <code><span class="comment">// No parameter or return types</span>
+<span class="keyword">function</span> <span class="method">add</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// These all "work" but may not</span>
+<span class="comment">// do what you expect</span>
+add(<span class="number">5</span>, <span class="number">3</span>);        <span class="comment">// 8</span>
+add(<span class="string">"5"</span>, <span class="string">"3"</span>);    <span class="comment">// "53"</span>
+add(<span class="number">5</span>);           <span class="comment">// NaN</span></code>
+                    </div>
+                </div>
+                <div class="ts-side">
+                    <h4>TypeScript</h4>
+                    <div class="code-block" style="background: #f0f7ff; border-left-color: #3178c6;">
+                        <code><span class="comment">// Parameter and return types</span>
+<span class="keyword">function</span> <span class="method">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// Only valid calls compile</span>
+add(<span class="number">5</span>, <span class="number">3</span>);        <span class="comment">// 8 ✓</span>
+add(<span class="string">"5"</span>, <span class="string">"3"</span>);    <span class="comment">// Error! ✗</span>
+add(<span class="number">5</span>);           <span class="comment">// Error! ✗</span></code>
+                    </div>
+                </div>
+            </div>
+
+            <h2>🔧 TypeScript-Only Features</h2>
+
+            <h3>Interfaces</h3>
+            <p><strong>Interfaces</strong> define the shape of an object, specifying
+                what properties and methods it must have.</p>
+
+            <div class="code-block">
+                <code><span class="comment">// Define an interface</span>
+<span class="keyword">interface</span> <span class="type">Person</span> {
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+    email?: <span class="type">string</span>;  <span class="comment">// Optional property (note the ?)</span>
+}
+
+<span class="comment">// Use the interface</span>
+<span class="keyword">function</span> <span class="method">greet</span>(person: <span class="type">Person</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Hello, </span>${person.name}<span class="string">!`</span>;
+}
+
+<span class="comment">// Valid - has required properties</span>
+<span class="keyword">let</span> user1: <span class="type">Person</span> = { name: <span class="string">"Alice"</span>, age: <span class="number">25</span> };
+
+<span class="comment">// Valid - includes optional property</span>
+<span class="keyword">let</span> user2: <span class="type">Person</span> = { name: <span class="string">"Bob"</span>, age: <span class="number">30</span>, email: <span class="string">"bob@example.com"</span> };
+
+<span class="comment">// Error - missing required property 'age'</span>
+<span class="keyword">let</span> user3: <span class="type">Person</span> = { name: <span class="string">"Charlie"</span> };  <span class="comment">// Compile error!</span></code>
+            </div>
+
+            <h3>Type Aliases</h3>
+            <p><strong>Type aliases</strong> create custom names for types, making
+                code more readable and reusable.</p>
+
+            <div class="code-block">
+                <code><span class="comment">// Simple type alias</span>
+<span class="keyword">type</span> <span class="type">ID</span> = <span class="type">string</span> | <span class="type">number</span>;  <span class="comment">// Union type: can be string OR number</span>
+
+<span class="keyword">let</span> userId: <span class="type">ID</span> = <span class="string">"abc123"</span>;
+<span class="keyword">let</span> orderId: <span class="type">ID</span> = <span class="number">456</span>;
+
+<span class="comment">// Object type alias</span>
+<span class="keyword">type</span> <span class="type">Point</span> = {
+    x: <span class="type">number</span>;
+    y: <span class="type">number</span>;
+};
+
+<span class="keyword">let</span> origin: <span class="type">Point</span> = { x: <span class="number">0</span>, y: <span class="number">0</span> };
+
+<span class="comment">// Function type alias</span>
+<span class="keyword">type</span> <span class="type">MathOperation</span> = (a: <span class="type">number</span>, b: <span class="type">number</span>) => <span class="type">number</span>;
+
+<span class="keyword">let</span> multiply: <span class="type">MathOperation</span> = (a, b) => a * b;</code>
+            </div>
+
+            <h3>Enums</h3>
+            <p><strong>Enums</strong> define a set of named constants, making code
+                more readable and less error-prone.</p>
+
+            <div class="code-block">
+                <code><span class="comment">// Numeric enum (values auto-increment from 0)</span>
+<span class="keyword">enum</span> <span class="type">Direction</span> {
+    Up,      <span class="comment">// 0</span>
+    Down,    <span class="comment">// 1</span>
+    Left,    <span class="comment">// 2</span>
+    Right    <span class="comment">// 3</span>
+}
+
+<span class="keyword">let</span> move: <span class="type">Direction</span> = Direction.Up;
+
+<span class="comment">// String enum</span>
+<span class="keyword">enum</span> <span class="type">Status</span> {
+    Pending = <span class="string">"PENDING"</span>,
+    Approved = <span class="string">"APPROVED"</span>,
+    Rejected = <span class="string">"REJECTED"</span>
+}
+
+<span class="keyword">let</span> orderStatus: <span class="type">Status</span> = Status.Pending;
+console.log(orderStatus);  <span class="comment">// "PENDING"</span></code>
+            </div>
+
+            <h3>Generics</h3>
+            <p><strong>Generics</strong> allow you to write reusable code that
+                works with multiple types while maintaining type safety.</p>
+
+            <div class="code-block">
+                <code><span class="comment">// Generic function</span>
+<span class="keyword">function</span> <span class="method">getFirst</span>&lt;<span class="type">T</span>&gt;(arr: <span class="type">T</span>[]): <span class="type">T</span> | <span class="type">undefined</span> {
+    <span class="keyword">return</span> arr[<span class="number">0</span>];
+}
+
+<span class="comment">// TypeScript infers the type</span>
+<span class="keyword">let</span> firstNum = <span class="method">getFirst</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);       <span class="comment">// Type: number</span>
+<span class="keyword">let</span> firstStr = <span class="method">getFirst</span>([<span class="string">"a"</span>, <span class="string">"b"</span>]);   <span class="comment">// Type: string</span>
+
+<span class="comment">// Generic interface</span>
+<span class="keyword">interface</span> <span class="type">Box</span>&lt;<span class="type">T</span>&gt; {
+    value: <span class="type">T</span>;
+}
+
+<span class="keyword">let</span> numberBox: <span class="type">Box</span>&lt;<span class="type">number</span>&gt; = { value: <span class="number">42</span> };
+<span class="keyword">let</span> stringBox: <span class="type">Box</span>&lt;<span class="type">string</span>&gt; = { value: <span class="string">"hello"</span> };</code>
+            </div>
+
+            <h2>🛡️ Why Use TypeScript?</h2>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>1. Catch Errors Early</h4>
+                    <p>Many bugs are caught during development, before the code
+                        even runs. This saves debugging time.</p>
+                </div>
+                <div class="example-card">
+                    <h4>2. Better IDE Support</h4>
+                    <p>Get intelligent code completion, inline documentation,
+                        and refactoring tools that understand your code.</p>
+                </div>
+                <div class="example-card">
+                    <h4>3. Self-Documenting Code</h4>
+                    <p>Type annotations serve as documentation, making code
+                        easier to understand and maintain.</p>
+                </div>
+                <div class="example-card">
+                    <h4>4. Safer Refactoring</h4>
+                    <p>When you change a function signature, TypeScript shows
+                        you everywhere that needs updating.</p>
+                </div>
+            </div>
+
+            <h2>⚠️ Common TypeScript Types</h2>
+
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td><code>string</code></td>
+                    <td>Text values</td>
+                    <td><code>let name: string = "John";</code></td>
+                </tr>
+                <tr>
+                    <td><code>number</code></td>
+                    <td>All numbers (int, float)</td>
+                    <td><code>let age: number = 30;</code></td>
+                </tr>
+                <tr>
+                    <td><code>boolean</code></td>
+                    <td>true or false</td>
+                    <td><code>let active: boolean = true;</code></td>
+                </tr>
+                <tr>
+                    <td><code>string[]</code></td>
+                    <td>Array of strings</td>
+                    <td><code>let names: string[] = ["a", "b"];</code></td>
+                </tr>
+                <tr>
+                    <td><code>any</code></td>
+                    <td>Disables type checking</td>
+                    <td><code>let data: any = "anything";</code></td>
+                </tr>
+                <tr>
+                    <td><code>void</code></td>
+                    <td>Function returns nothing</td>
+                    <td><code>function log(): void { }</code></td>
+                </tr>
+                <tr>
+                    <td><code>null</code></td>
+                    <td>Intentionally empty</td>
+                    <td><code>let empty: null = null;</code></td>
+                </tr>
+                <tr>
+                    <td><code>undefined</code></td>
+                    <td>Not yet assigned</td>
+                    <td><code>let x: undefined;</code></td>
+                </tr>
+                <tr>
+                    <td><code>object</code></td>
+                    <td>Non-primitive type</td>
+                    <td><code>let obj: object = {};</code></td>
+                </tr>
+                <tr>
+                    <td><code>unknown</code></td>
+                    <td>Type-safe version of any</td>
+                    <td><code>let input: unknown;</code></td>
+                </tr>
+            </table>
+
+            <h2>🚀 Getting Started with TypeScript</h2>
+
+            <h3>Installation</h3>
+            <div class="code-block">
+                <code><span class="comment"># Install TypeScript globally</span>
+npm install -g typescript
+
+<span class="comment"># Check the version</span>
+tsc --version
+
+<span class="comment"># Initialize a TypeScript project</span>
+tsc --init</code>
+            </div>
+
+            <h3>Compiling TypeScript</h3>
+            <div class="code-block">
+                <code><span class="comment"># Compile a single file</span>
+tsc myfile.ts
+
+<span class="comment"># Watch mode (auto-compile on save)</span>
+tsc myfile.ts --watch
+
+<span class="comment"># Compile all files in project</span>
+tsc</code>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> Most modern frameworks (React, Angular,
+                Vue, Node.js) have built-in TypeScript support. You often don't need
+                to run the compiler manually—the framework handles it for you.
+            </div>
+
+            <h2>🔄 Type Inference</h2>
+            <p>TypeScript can often <strong>infer</strong> types automatically,
+                so you don't always need explicit annotations.</p>
+
+            <div class="code-block">
+                <code><span class="comment">// TypeScript infers the types</span>
+<span class="keyword">let</span> message = <span class="string">"Hello"</span>;       <span class="comment">// Inferred as string</span>
+<span class="keyword">let</span> count = <span class="number">42</span>;              <span class="comment">// Inferred as number</span>
+<span class="keyword">let</span> active = <span class="keyword">true</span>;          <span class="comment">// Inferred as boolean</span>
+<span class="keyword">let</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];        <span class="comment">// Inferred as number[]</span>
+
+<span class="comment">// Function return type inferred</span>
+<span class="keyword">function</span> <span class="method">double</span>(n: <span class="type">number</span>) {
+    <span class="keyword">return</span> n * <span class="number">2</span>;  <span class="comment">// Return type inferred as number</span>
+}
+
+<span class="comment">// Explicit types useful when:</span>
+<span class="comment">// 1. Declaration without initialization</span>
+<span class="keyword">let</span> username: <span class="type">string</span>;
+
+<span class="comment">// 2. Function parameters (always required)</span>
+<span class="keyword">function</span> <span class="method">greet</span>(name: <span class="type">string</span>) { }
+
+<span class="comment">// 3. Complex objects</span>
+<span class="keyword">let</span> config: { port: <span class="type">number</span>; host: <span class="type">string</span> };</code>
+            </div>
+
+            <h2>❓ When to Use JavaScript vs TypeScript</h2>
+
+            <div class="example-grid">
+                <div class="example-card" style="border-left-color: #f7df1e;">
+                    <h4 style="color: #b8a000;">✓ Use JavaScript When:</h4>
+                    <ul>
+                        <li>Building quick prototypes</li>
+                        <li>Small scripts or utilities</li>
+                        <li>Learning web development</li>
+                        <li>Team isn't familiar with types</li>
+                        <li>Project is simple and short-lived</li>
+                    </ul>
+                </div>
+                <div class="example-card" style="border-left-color: #3178c6;">
+                    <h4 style="color: #3178c6;">✓ Use TypeScript When:</h4>
+                    <ul>
+                        <li>Building large applications</li>
+                        <li>Working with a team</li>
+                        <li>Long-term maintainable code needed</li>
+                        <li>Complex data structures</li>
+                        <li>API integrations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Remember:</strong> TypeScript adds a compilation step
+                to your workflow. For very simple scripts or rapid prototyping,
+                plain JavaScript might be faster to work with initially.
+            </div>
+
+            <h2>💡 Best Practices</h2>
+            <ol>
+                <li><strong>Start with strict mode</strong> - Enable
+                    <code>"strict": true</code> in tsconfig.json</li>
+                <li><strong>Avoid <code>any</code></strong> - It defeats the
+                    purpose of TypeScript</li>
+                <li><strong>Use interfaces for objects</strong> - Makes code
+                    more readable and maintainable</li>
+                <li><strong>Let TypeScript infer</strong> - Don't over-annotate
+                    when types are obvious</li>
+                <li><strong>Use union types</strong> - For values that can be
+                    multiple types</li>
+                <li><strong>Enable IDE integration</strong> - Use VS Code for
+                    best TypeScript experience</li>
+            </ol>
+
+            <h2>🎓 Quick Reference</h2>
+
+            <div class="visual-box">
+                <h3>TypeScript Cheat Sheet</h3>
+                <div class="code-block"
+                    style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                    <code><span class="comment">// Basic Types</span>
+<span class="keyword">let</span> str: <span class="type">string</span> = <span class="string">"hello"</span>;
+<span class="keyword">let</span> num: <span class="type">number</span> = <span class="number">42</span>;
+<span class="keyword">let</span> bool: <span class="type">boolean</span> = <span class="keyword">true</span>;
+<span class="keyword">let</span> arr: <span class="type">number[]</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// Function with types</span>
+<span class="keyword">function</span> <span class="method">fn</span>(param: <span class="type">string</span>): <span class="type">number</span> { }
+
+<span class="comment">// Interface</span>
+<span class="keyword">interface</span> <span class="type">User</span> { name: <span class="type">string</span>; age: <span class="type">number</span>; }
+
+<span class="comment">// Type alias</span>
+<span class="keyword">type</span> <span class="type">ID</span> = <span class="type">string</span> | <span class="type">number</span>;
+
+<span class="comment">// Generic</span>
+<span class="keyword">function</span> <span class="method">wrap</span>&lt;<span class="type">T</span>&gt;(value: <span class="type">T</span>): <span class="type">T</span>[] { }</code>
+                </div>
+            </div>
+
+            <div class="info">
+                <strong>📝 Key Takeaways:</strong>
+                <ul>
+                    <li>TypeScript is JavaScript with types added</li>
+                    <li>Types are checked at compile time, not runtime</li>
+                    <li>TypeScript compiles down to plain JavaScript</li>
+                    <li>Interfaces define object shapes</li>
+                    <li>Generics create reusable, type-safe code</li>
+                    <li>Type inference reduces the need for explicit types</li>
+                    <li>Use TypeScript for larger, team-based projects</li>
+                    <li>All JavaScript code is valid TypeScript</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>TypeScript and JavaScript Guide • Learning Resource</p>
+        </footer>
+    </div>
+</body>
+
+</html>
