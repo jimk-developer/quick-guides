@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⌨️ How to Code and Test a Windows Forms App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #0078D4;
@@ -43,18 +46,19 @@
 
         header {
             text-align: center;
-            padding: 25px 20px;
+            padding: 15px 20px;
             background: var(--bg-dark);
             color: var(--text-light);
-            border-radius: 0 0 20px 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         header h1 {
             font-family: 'Merriweather', serif;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -62,7 +66,7 @@
         }
 
         header p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             opacity: 0.9;
             color: #B4B4B4;
         }
@@ -198,13 +202,33 @@
             color: inherit;
         }
 
-        .keyword { color: #569CD6; }
-        .string { color: #CE9178; }
-        .comment { color: #6A9955; }
-        .method { color: #DCDCAA; }
-        .class { color: #4EC9B0; }
-        .number { color: #B5CEA8; }
-        .property { color: #9CDCFE; }
+        .keyword {
+            color: #569CD6;
+        }
+
+        .string {
+            color: #CE9178;
+        }
+
+        .comment {
+            color: #6A9955;
+        }
+
+        .method {
+            color: #DCDCAA;
+        }
+
+        .class {
+            color: #4EC9B0;
+        }
+
+        .number {
+            color: #B5CEA8;
+        }
+
+        .property {
+            color: #9CDCFE;
+        }
 
         table {
             width: 100%;
@@ -216,7 +240,8 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
-        th, td {
+        th,
+        td {
             padding: 15px 20px;
             text-align: left;
             border-bottom: 1px solid var(--border);
@@ -400,7 +425,7 @@
             header h1 {
                 font-size: 1.5rem;
             }
-            
+
             main {
                 padding: 30px 20px;
             }
@@ -420,6 +445,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>⌨️ How to Code and Test a Windows Forms App</h1>
@@ -430,30 +456,40 @@
         <main>
             <!-- OOP Concepts -->
             <h2>🎯 Object-Oriented Programming Concepts</h2>
-            
-            <p>C# is an object-oriented programming language. Understanding these fundamental concepts is essential for writing Windows Forms applications.</p>
+
+            <p>C# is an object-oriented programming language. Understanding
+                these fundamental concepts is essential for writing Windows
+                Forms applications.</p>
 
             <div class="concept-grid">
                 <div class="concept-card">
                     <h4>📦 Class</h4>
-                    <p>Code that defines the characteristics of an object. Think of it as a blueprint or template that specifies what properties and methods an object will have.</p>
+                    <p>Code that defines the characteristics of an object. Think
+                        of it as a blueprint or template that specifies what
+                        properties and methods an object will have.</p>
                 </div>
                 <div class="concept-card">
                     <h4>🔷 Object</h4>
-                    <p>An instance of a class. When you create an object from a class, you're creating a specific item based on that blueprint.</p>
+                    <p>An instance of a class. When you create an object from a
+                        class, you're creating a specific item based on that
+                        blueprint.</p>
                 </div>
                 <div class="concept-card">
                     <h4>⚡ Instantiation</h4>
-                    <p>The process of creating an object from a class. When you instantiate a class, you create a new instance of that class.</p>
+                    <p>The process of creating an object from a class. When you
+                        instantiate a class, you create a new instance of that
+                        class.</p>
                 </div>
                 <div class="concept-card">
                     <h4>📋 Instance</h4>
-                    <p>A specific object created from a class. Each instance is independent and has its own set of property values.</p>
+                    <p>A specific object created from a class. Each instance is
+                        independent and has its own set of property values.</p>
                 </div>
             </div>
 
             <h3>Class Members</h3>
-            <p>A class defines several types of members that give objects their capabilities:</p>
+            <p>A class defines several types of members that give objects their
+                capabilities:</p>
 
             <table>
                 <thead>
@@ -466,7 +502,8 @@
                 <tbody>
                     <tr>
                         <td><strong>Property</strong></td>
-                        <td>A characteristic of an object and its associated data</td>
+                        <td>A characteristic of an object and its associated
+                            data</td>
                         <td><code>txtName.Text</code></td>
                     </tr>
                     <tr>
@@ -476,20 +513,25 @@
                     </tr>
                     <tr>
                         <td><strong>Event</strong></td>
-                        <td>A signal that something has happened (user action or system occurrence)</td>
+                        <td>A signal that something has happened (user action or
+                            system occurrence)</td>
                         <td><code>Click</code>, <code>Load</code></td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="tip-box">
-                <strong>Remember:</strong> Properties, methods, and events are all <em>members</em> of a class. "Notices" are NOT defined by a class—they don't exist in C# programming!
+                <strong>Remember:</strong> Properties, methods, and events are
+                all <em>members</em> of a class. "Notices" are NOT defined by a
+                class—they don't exist in C# programming!
             </div>
 
             <!-- Accessing Members -->
             <h2>🔗 Accessing Object Members</h2>
 
-            <p>To refer to a property or method of an object in C#, use dot notation: the object name, followed by a period (dot), followed by the property or method name.</p>
+            <p>To refer to a property or method of an object in C#, use dot
+                notation: the object name, followed by a period (dot), followed
+                by the property or method name.</p>
 
             <h3>Syntax for Properties</h3>
             <pre><code><span class="comment">// Getting a property value</span>
@@ -507,32 +549,48 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
 
             <div class="highlight-box">
                 <h3>The <code>this</code> Keyword</h3>
-                <p>The <code>this</code> keyword refers to the current instance of the class (the current form). Use <code>this.Close()</code> to close the current form.</p>
+                <p>The <code>this</code> keyword refers to the current instance
+                    of the class (the current form). Use
+                    <code>this.Close()</code> to close the current form.
+                </p>
             </div>
 
             <!-- Events and Event Handlers -->
             <h2>🎪 Events and Event Handlers</h2>
 
-            <p>A Windows Forms application is <strong>event-driven</strong>, meaning it responds to events. These include both user events (like clicking a button) and other types of events (like the form loading).</p>
+            <p>A Windows Forms application is <strong>event-driven</strong>,
+                meaning it responds to events. These include both user events
+                (like clicking a button) and other types of events (like the
+                form loading).</p>
 
             <h3>What is an Event Handler?</h3>
-            <p>An <strong>event handler</strong> is a method that responds to events. When an event occurs, the corresponding event handler code executes.</p>
+            <p>An <strong>event handler</strong> is a method that responds to
+                events. When an event occurs, the corresponding event handler
+                code executes.</p>
 
             <h3>Creating Event Handlers</h3>
-            <p>The easiest way to create an event handler is to double-click a control in the Form Designer:</p>
+            <p>The easiest way to create an event handler is to double-click a
+                control in the Form Designer:</p>
 
             <ol class="steps">
-                <li><strong>Double-click the control</strong> in the Form Designer (e.g., a button)</li>
-                <li><strong>Visual Studio generates</strong> the event handler skeleton code automatically</li>
-                <li><strong>Add your code</strong> inside the curly braces of the event handler</li>
+                <li><strong>Double-click the control</strong> in the Form
+                    Designer (e.g., a button)</li>
+                <li><strong>Visual Studio generates</strong> the event handler
+                    skeleton code automatically</li>
+                <li><strong>Add your code</strong> inside the curly braces of
+                    the event handler</li>
             </ol>
 
             <div class="success-box">
-                <strong>Default Event:</strong> When you double-click a Button, Visual Studio generates code for the <code>Click</code> event (not DoubleClick!). The Click event is the button's default event.
+                <strong>Default Event:</strong> When you double-click a Button,
+                Visual Studio generates code for the <code>Click</code> event
+                (not DoubleClick!). The Click event is the button's default
+                event.
             </div>
 
             <h3>Event Handler Naming Convention</h3>
-            <p>Visual Studio automatically names event handlers using this pattern:</p>
+            <p>Visual Studio automatically names event handlers using this
+                pattern:</p>
             <pre><code><span class="comment">// Pattern: ControlName_EventName</span>
 <span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> sender, <span class="class">EventArgs</span> e)
 {
@@ -592,31 +650,37 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
             <!-- Code Formatting -->
             <h2>✨ Code Formatting Best Practices</h2>
 
-            <p>Well-formatted code is easier to read, understand, and maintain. Follow these guidelines:</p>
+            <p>Well-formatted code is easier to read, understand, and maintain.
+                Follow these guidelines:</p>
 
             <div class="concept-grid">
                 <div class="concept-card">
                     <h4>📏 Indentation</h4>
-                    <p>Use indentation to align related elements of code. Code inside braces should be indented one level.</p>
+                    <p>Use indentation to align related elements of code. Code
+                        inside braces should be indented one level.</p>
                 </div>
                 <div class="concept-card">
                     <h4>📄 Blank Lines</h4>
-                    <p>Use blank lines before and after groups of related statements to visually separate logical sections.</p>
+                    <p>Use blank lines before and after groups of related
+                        statements to visually separate logical sections.</p>
                 </div>
                 <div class="concept-card">
                     <h4>↔️ Spacing</h4>
-                    <p>Use spaces to separate words, values, and operators for better readability.</p>
+                    <p>Use spaces to separate words, values, and operators for
+                        better readability.</p>
                 </div>
             </div>
 
             <div class="warning-box">
-                <strong>Avoid:</strong> Using all capital letters for variable names is NOT a recommended practice for code readability in C#.
+                <strong>Avoid:</strong> Using all capital letters for variable
+                names is NOT a recommended practice for code readability in C#.
             </div>
 
             <!-- Comments -->
             <h2>💬 Comments</h2>
 
-            <p>Comments document your code and are ignored by the compiler. They don't affect how your application runs.</p>
+            <p>Comments document your code and are ignored by the compiler. They
+                don't affect how your application runs.</p>
 
             <h3>Single-Line Comments</h3>
             <pre><code><span class="comment">// This is a single-line comment</span>
@@ -660,20 +724,29 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
             </div>
 
             <div class="tip-box">
-                <strong>Important:</strong> Comments can appear at the end of a line or on their own line. They can contain any text, including C# keywords. However, comments can become inaccurate or out of date if not maintained—always update comments when you change code!
+                <strong>Important:</strong> Comments can appear at the end of a
+                line or on their own line. They can contain any text, including
+                C# keywords. However, comments can become inaccurate or out of
+                date if not maintained—always update comments when you change
+                code!
             </div>
 
             <!-- Snippets and Refactoring -->
             <h2>🔧 Productivity Features</h2>
 
             <h3>Code Snippets</h3>
-            <p>A <strong>code snippet</strong> is a template that inserts commonly used code structures. Instead of typing everything from scratch, you can use snippets to quickly add code.</p>
+            <p>A <strong>code snippet</strong> is a template that inserts
+                commonly used code structures. Instead of typing everything from
+                scratch, you can use snippets to quickly add code.</p>
 
             <div class="highlight-box">
                 <h3>How to Use Snippets</h3>
                 <ul>
-                    <li>Type the snippet shortcut (e.g., <code>if</code>, <code>for</code>, <code>while</code>)</li>
-                    <li>Press <strong>Tab</strong> twice to insert the snippet</li>
+                    <li>Type the snippet shortcut (e.g., <code>if</code>,
+                        <code>for</code>, <code>while</code>)
+                    </li>
+                    <li>Press <strong>Tab</strong> twice to insert the snippet
+                    </li>
                     <li>Fill in the highlighted placeholders</li>
                 </ul>
             </div>
@@ -719,24 +792,33 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
             </table>
 
             <h3>Refactoring</h3>
-            <p><strong>Refactoring</strong> is the process of restructuring existing code without changing its behavior. Visual Studio provides built-in refactoring tools.</p>
+            <p><strong>Refactoring</strong> is the process of restructuring
+                existing code without changing its behavior. Visual Studio
+                provides built-in refactoring tools.</p>
 
             <div class="success-box">
-                <strong>Rename Refactoring:</strong> To change the name of all occurrences of a variable after you change the first occurrence, use refactoring. Right-click the variable and select <strong>Rename</strong> (or press <strong>Ctrl+R, Ctrl+R</strong>).
+                <strong>Rename Refactoring:</strong> To change the name of all
+                occurrences of a variable after you change the first occurrence,
+                use refactoring. Right-click the variable and select
+                <strong>Rename</strong> (or press <strong>Ctrl+R,
+                    Ctrl+R</strong>).
             </div>
 
             <!-- Errors -->
             <h2>🐛 Understanding Errors</h2>
 
-            <p>There are two main types of errors you'll encounter when developing C# applications:</p>
+            <p>There are two main types of errors you'll encounter when
+                developing C# applications:</p>
 
             <div class="comparison-table">
                 <table>
                     <thead>
                         <tr>
                             <th>Aspect</th>
-                            <th><span class="error-badge syntax">Syntax Error (Build Error)</span></th>
-                            <th><span class="error-badge runtime">Runtime Error (Exception)</span></th>
+                            <th><span class="error-badge syntax">Syntax Error
+                                    (Build Error)</span></th>
+                            <th><span class="error-badge runtime">Runtime Error
+                                    (Exception)</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -747,12 +829,15 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
                         </tr>
                         <tr>
                             <td><strong>Cause</strong></td>
-                            <td>Violates C# language rules (typos, missing semicolons)</td>
-                            <td>Problem prevents statement execution (divide by zero, invalid input)</td>
+                            <td>Violates C# language rules (typos, missing
+                                semicolons)</td>
+                            <td>Problem prevents statement execution (divide by
+                                zero, invalid input)</td>
                         </tr>
                         <tr>
                             <td><strong>Where Shown</strong></td>
-                            <td>Code Editor (red squiggle) AND Error List window</td>
+                            <td>Code Editor (red squiggle) AND Error List window
+                            </td>
                             <td>Exception dialog at runtime</td>
                         </tr>
                         <tr>
@@ -783,38 +868,47 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
             <!-- Testing and Debugging -->
             <h2>🔍 Testing vs. Debugging</h2>
 
-            <p>Testing and debugging are two distinct but related activities:</p>
+            <p>Testing and debugging are two distinct but related activities:
+            </p>
 
             <div class="concept-grid">
                 <div class="concept-card">
                     <h4>🧪 Testing</h4>
                     <p><strong>Goal: Find errors</strong></p>
-                    <p>Running the application with various inputs to discover runtime errors and verify it works correctly.</p>
+                    <p>Running the application with various inputs to discover
+                        runtime errors and verify it works correctly.</p>
                 </div>
                 <div class="concept-card">
                     <h4>🔧 Debugging</h4>
                     <p><strong>Goal: Fix errors</strong></p>
-                    <p>Finding the cause of errors and correcting them. Involves examining code and variable values.</p>
+                    <p>Finding the cause of errors and correcting them. Involves
+                        examining code and variable values.</p>
                 </div>
             </div>
 
             <div class="tip-box">
-                <strong>Remember:</strong> Testing = Finding bugs | Debugging = Fixing bugs
+                <strong>Remember:</strong> Testing = Finding bugs | Debugging =
+                Fixing bugs
             </div>
 
             <!-- Debugging Tools -->
             <h2>🛠️ Debugging Tools</h2>
 
             <h3>Data Tips</h3>
-            <p>A <strong>data tip</strong> displays the value of a variable or property when you hover over it during debugging. This helps you understand what values your code is working with at runtime.</p>
+            <p>A <strong>data tip</strong> displays the value of a variable or
+                property when you hover over it during debugging. This helps you
+                understand what values your code is working with at runtime.</p>
 
             <div class="highlight-box">
                 <h3>Using Data Tips</h3>
                 <ul>
-                    <li>Set a breakpoint by clicking in the left margin of the Code Editor</li>
+                    <li>Set a breakpoint by clicking in the left margin of the
+                        Code Editor</li>
                     <li>Run the application in debug mode (F5)</li>
-                    <li>When execution pauses at the breakpoint, hover over any variable</li>
-                    <li>The data tip shows the current value of that variable</li>
+                    <li>When execution pauses at the breakpoint, hover over any
+                        variable</li>
+                    <li>The data tip shows the current value of that variable
+                    </li>
                 </ul>
             </div>
 
@@ -894,7 +988,11 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
 
             <h3>Microsoft Documentation</h3>
             <div class="success-box">
-                <strong>Microsoft's official online documentation</strong> is a website that you can navigate like any other website. It's free, comprehensive, and available at <a href="https://learn.microsoft.com" target="_blank" style="color: var(--success);">learn.microsoft.com</a>
+                <strong>Microsoft's official online documentation</strong> is a
+                website that you can navigate like any other website. It's free,
+                comprehensive, and available at <a
+                    href="https://learn.microsoft.com" target="_blank"
+                    style="color: var(--success);">learn.microsoft.com</a>
             </div>
 
             <!-- Quick Reference -->
@@ -910,7 +1008,8 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
                     <tbody>
                         <tr>
                             <td>Class</td>
-                            <td>Blueprint that defines object characteristics</td>
+                            <td>Blueprint that defines object characteristics
+                            </td>
                         </tr>
                         <tr>
                             <td>Object</td>
@@ -930,11 +1029,13 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
                         </tr>
                         <tr>
                             <td>Syntax Error</td>
-                            <td>Detected at build time, prevents compilation</td>
+                            <td>Detected at build time, prevents compilation
+                            </td>
                         </tr>
                         <tr>
                             <td>Runtime Error</td>
-                            <td>Occurs during execution (also called exception)</td>
+                            <td>Occurs during execution (also called exception)
+                            </td>
                         </tr>
                         <tr>
                             <td>Testing</td>
@@ -946,15 +1047,18 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
                         </tr>
                         <tr>
                             <td>Data Tip</td>
-                            <td>Shows variable value when hovering during debug</td>
+                            <td>Shows variable value when hovering during debug
+                            </td>
                         </tr>
                         <tr>
                             <td>Code Snippet</td>
-                            <td>Template for inserting common code structures</td>
+                            <td>Template for inserting common code structures
+                            </td>
                         </tr>
                         <tr>
                             <td>Refactoring</td>
-                            <td>Restructuring code without changing behavior</td>
+                            <td>Restructuring code without changing behavior
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1023,4 +1127,5 @@ txtMonthlyInvestment.<span class="method">Focus</span>();
         </footer>
     </div>
 </body>
+
 </html>
