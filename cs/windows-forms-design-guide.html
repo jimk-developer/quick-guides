@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🖼️ How to Design a Windows Forms App</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #2: How to Design a Windows Forms App</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
         rel="stylesheet">
@@ -76,6 +77,7 @@
             border-radius: 20px;
             padding: 50px;
             box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
         }
 
         h2 {
@@ -484,7 +486,7 @@
 
 <body>
     <header>
-        <h1>🖼️ How to Design a Windows Forms App</h1>
+        <h1>Guide #2: How to Design a Windows Forms App</h1>
         <p>A Beginner's Guide to Visual Studio Form Designer</p>
     </header>
 
@@ -686,8 +688,7 @@
                 <p>Determines whether a control is enabled or disabled. When
                     <code>Enabled</code> is set to <code>false</code>, the
                     control appears grayed out and users cannot interact with
-                    it.
-                </p>
+                    it.</p>
                 <pre><code><span class="comment">// Disable a button</span>
 <span class="property">btnCalculate</span>.<span class="property">Enabled</span> = <span class="keyword">false</span>;
 
@@ -710,8 +711,7 @@
                 <h4>TextAlign Property <span class="badge">Alignment</span></h4>
                 <p>Sets the alignment for text displayed in a control. Common
                     values include <code>Left</code>, <code>Center</code>, and
-                    <code>Right</code>.
-                </p>
+                    <code>Right</code>.</p>
                 <pre><code><span class="comment">// Right-align text in a text box (useful for numbers)</span>
 <span class="property">txtAmount</span>.<span class="property">TextAlign</span> = HorizontalAlignment.<span class="value">Right</span>;</code></pre>
             </div>
@@ -854,8 +854,7 @@
                 <p>To prevent a control from receiving focus when the user
                     presses Tab, set its <code>TabStop</code> property to
                     <code>false</code>. This is useful for read-only text boxes
-                    or labels.
-                </p>
+                    or labels.</p>
                 <pre><code><span class="comment">// Remove from tab order</span>
 <span class="property">txtOutput</span>.<span class="property">TabStop</span> = <span class="keyword">false</span>;</code></pre>
             </div>
@@ -869,8 +868,7 @@
             <h3>Creating Access Keys</h3>
             <p>To create an access key, place an ampersand (&amp;) before the
                 letter you want as the access key in the control's
-                <code>Text</code> property.
-            </p>
+                <code>Text</code> property.</p>
 
             <table>
                 <tr>
@@ -925,8 +923,7 @@
                     style="border-left: 4px solid var(--success);">
                     <h4>AcceptButton Property</h4>
                     <p>The button that's activated when the user presses the
-                        <strong>Enter</strong> key.
-                    </p>
+                        <strong>Enter</strong> key.</p>
                     <p>Typically set to the primary action button like "OK" or
                         "Calculate".</p>
                     <p><strong>Set in:</strong> Form's Properties</p>
@@ -935,8 +932,7 @@
                     style="border-left: 4px solid var(--danger);">
                     <h4>CancelButton Property</h4>
                     <p>The button that's activated when the user presses the
-                        <strong>Esc</strong> key.
-                    </p>
+                        <strong>Esc</strong> key.</p>
                     <p>Typically set to "Cancel" or "Exit" buttons.</p>
                     <p><strong>Set in:</strong> Form's Properties</p>
                 </div>
@@ -1102,8 +1098,7 @@
                         code; <strong>Text</strong> property shows displayed
                         content</li>
                     <li><strong>ReadOnly</strong> prevents text entry;
-                        <strong>Enabled</strong> enables/disables controls
-                    </li>
+                        <strong>Enabled</strong> enables/disables controls</li>
                     <li><strong>TextAlign</strong> sets text alignment (Left,
                         Center, Right)</li>
                     <li><strong>Tab order</strong> controls keyboard navigation
@@ -1113,8 +1108,7 @@
                     <li><strong>Access keys</strong> are created with &amp; and
                         activated with Alt+key</li>
                     <li><strong>AcceptButton</strong> responds to Enter key;
-                        <strong>CancelButton</strong> responds to Esc key
-                    </li>
+                        <strong>CancelButton</strong> responds to Esc key</li>
                     <li>Hold <strong>Ctrl</strong> to select multiple controls
                     </li>
                     <li>Alignment is relative to the <strong>primary

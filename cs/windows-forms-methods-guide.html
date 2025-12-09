@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #6: How to Code Methods and Event Handlers</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Syntax Box */
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Comparison layout */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Signature diagram */
+        .signature-diagram {
+            background: #F8F9FA;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .signature-parts {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .sig-part {
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .sig-access {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .sig-return {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .sig-name {
+            background: #BBDEFB;
+            color: #1565C0;
+        }
+
+        .sig-params {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .sig-labels {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.85rem;
+        }
+
+        .sig-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sig-label span {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .signature-parts {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #6: How to Code Methods and Event Handlers</h1>
+        <p>Method Signatures, Parameters, Return Values, and Event Wiring</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- Method Basics -->
+            <h2>📦 Method Basics</h2>
+
+            <p>A <strong>method</strong> is a block of code that performs a
+                specific task. Methods help organize code, make it reusable, and
+                easier to maintain.</p>
+
+            <h3>Method Signature</h3>
+
+            <p>The <strong>signature</strong> of a method consists of: the
+                method name and the parameter list (types and order of
+                parameters). The signature uniquely identifies a method.</p>
+
+            <div class="signature-diagram">
+                <div class="signature-parts">
+                    <span class="sig-part sig-access">private</span>
+                    <span class="sig-part sig-return">decimal</span>
+                    <span class="sig-part sig-name">CalculateTotal</span>
+                    <span class="sig-part sig-params">(decimal subtotal, decimal
+                        taxRate)</span>
+                </div>
+                <div class="sig-labels">
+                    <div class="sig-label"><span
+                            style="background: #FFCDD2;"></span> Access Modifier
+                    </div>
+                    <div class="sig-label"><span
+                            style="background: #C8E6C9;"></span> Return Type
+                    </div>
+                    <div class="sig-label"><span
+                            style="background: #BBDEFB;"></span> Method Name
+                    </div>
+                    <div class="sig-label"><span
+                            style="background: #FFF9C4;"></span> Parameter List
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Access Modifier</strong></td>
+                        <td>Controls visibility: <code>private</code> = current
+                            class only, <code>public</code> = accessible from
+                            other classes</td>
+                        <td><code>private</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Return Type</strong></td>
+                        <td>Data type returned by the method, or
+                            <code>void</code> if nothing is returned</td>
+                        <td><code>decimal</code>, <code>string</code>,
+                            <code>void</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Method Name</strong></td>
+                        <td>PascalCase identifier describing what the method
+                            does</td>
+                        <td><code>CalculateTotal</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parameter List</strong></td>
+                        <td>Comma-separated list with <em>data type</em>
+                            followed by <em>parameter name</em></td>
+                        <td><code>(decimal subtotal, decimal tax)</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Parameter Syntax:</strong> Each parameter must have its
+                <strong>data type followed by the parameter name</strong>. For
+                example: <code>string fullName, decimal currentBalance</code>
+            </div>
+
+            <!-- Writing Methods -->
+            <h2>✍️ Writing Methods</h2>
+
+            <h3>Methods That Return a Value</h3>
+
+            <p>Use the <code>return</code> statement to send a value back to the
+                calling code. The return type in the declaration must match the
+                type being returned.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Method with Return Value</h4>
+                <pre><span class="keyword">private</span> <span class="type">decimal</span> <span class="method">GetTotal</span>(<span class="type">decimal</span> <span class="param">sub</span>, <span class="type">decimal</span> <span class="param">tax</span>)
+{
+    <span class="type">decimal</span> total = sub + tax;
+    <span class="keyword">return</span> total;
+}</pre>
+            </div>
+
+            <h3>Methods That Don't Return a Value (void)</h3>
+
+            <p>Use <code>void</code> as the return type when the method performs
+                an action but doesn't return data.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Void Method</h4>
+                <pre><span class="keyword">private</span> <span class="keyword">void</span> <span class="method">ClearTextBoxes</span>()
+{
+    txtName.Text = <span class="string">""</span>;
+    txtAmount.Text = <span class="string">""</span>;
+}</pre>
+            </div>
+
+            <!-- Calling Methods -->
+            <h2>📞 Calling Methods</h2>
+
+            <h3>Calling a Method That Returns a Value</h3>
+
+            <pre><span class="comment">// Store return value in a variable</span>
+<span class="type">decimal</span> total = <span class="method">GetTotal</span>(subtotal, taxAmt);
+
+<span class="comment">// Or use directly in an expression</span>
+lblTotal.Text = <span class="method">GetTotal</span>(subtotal, taxAmt)
+    .ToString(<span class="string">"c"</span>);</pre>
+
+            <h3>Calling a Void Method</h3>
+
+            <pre><span class="comment">// Just call the method - no return value</span>
+<span class="method">ClearTextBoxes</span>();
+
+<span class="comment">// Can also use 'this' keyword (optional)</span>
+<span class="keyword">this</span>.<span class="method">ClearTextBoxes</span>();</pre>
+
+            <div class="tip-box">
+                <strong>Calling Syntax:</strong> To call a void method with no
+                parameters, use: <code>MethodName();</code> — don't include
+                <code>void</code> in the call!
+            </div>
+
+            <!-- Expression-Bodied Methods -->
+            <h2>➡️ Expression-Bodied Methods</h2>
+
+            <p>An <strong>expression-bodied method</strong> is a shorter way to
+                write a method that contains a single expression. Use the
+                <strong>lambda operator (=>)</strong> instead of braces and
+                return.</p>
+
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h4>Traditional Method</h4>
+                    <pre><span class="keyword">private</span> <span class="type">decimal</span> <span class="method">GetTotal</span>(<span class="type">decimal</span> sub, <span class="type">decimal</span> tax)
+{
+    <span class="keyword">return</span> sub + tax;
+}</pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>Expression-Bodied Method ✓</h4>
+                    <pre><span class="keyword">private</span> <span class="type">decimal</span> <span class="method">GetTotal</span>(<span class="type">decimal</span> sub, <span class="type">decimal</span> tax) =>
+    sub + tax;</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Expression-bodied syntax:</strong> Replace
+                <code>{ return expression; }</code> with
+                <code>=> expression;</code>
+            </div>
+
+            <!-- Pass by Value vs Reference -->
+            <h2>🔄 Passing Arguments: By Value vs By Reference</h2>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📥 Pass by Value (Default)</h4>
+                    <p>A <strong>copy</strong> of the variable's value is
+                        passed. Changes inside the method <strong>do
+                            NOT</strong> affect the original variable.</p>
+                    <pre style="margin-top: 15px;"><span class="comment">// Copy passed</span>
+<span class="method">Calculate</span>(amount);</pre>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 Pass by Reference (ref/out)</h4>
+                    <p>A <strong>reference</strong> to the original variable is
+                        passed. Changes inside the method <strong>DO</strong>
+                        affect the original variable.</p>
+                    <pre
+                        style="margin-top: 15px;"><span class="comment">// Reference passed</span>
+<span class="method">Calculate</span>(<span class="keyword">ref</span> amount);</pre>
+                </div>
+            </div>
+
+            <h3>Using the ref Keyword</h3>
+
+            <p>Use <code>ref</code> when you want to pass a variable by
+                reference. The <code>ref</code> keyword must appear in
+                <strong>both</strong> the method declaration AND the method
+                call.</p>
+
+            <pre><span class="comment">// Method declaration with ref parameter</span>
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="method">DoubleValue</span>(<span class="keyword">ref</span> <span class="type">int</span> <span class="param">number</span>)
+{
+    <span class="comment">// Changes the original variable</span>
+    number = number * 2;
+}
+
+<span class="comment">// Calling with ref keyword</span>
+<span class="type">int</span> value = 5;
+<span class="method">DoubleValue</span>(<span class="keyword">ref</span> value);
+<span class="comment">// value is now 10</span></pre>
+
+            <h3>Using the out Keyword</h3>
+
+            <p>Use <code>out</code> when you want the method to assign a value
+                to the variable. The variable doesn't need to be initialized
+                before the call.</p>
+
+            <pre><span class="comment">// Method with out parameters</span>
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="method">GetValues</span>(<span class="keyword">out</span> <span class="type">int</span> <span class="param">min</span>, <span class="keyword">out</span> <span class="type">int</span> <span class="param">max</span>)
+{
+    min = 0;
+    max = 100;
+}
+
+<span class="comment">// Calling with out keyword</span>
+<span class="method">GetValues</span>(<span class="keyword">out</span> <span class="type">int</span> minimum, <span class="keyword">out</span> <span class="type">int</span> maximum);</pre>
+
+            <!-- Optional Parameters -->
+            <h2>❓ Optional Parameters</h2>
+
+            <p><strong>Optional parameters</strong> have a default value and can
+                be omitted when calling the method. They must be coded
+                <strong>after</strong> all required parameters.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Optional Parameters</h4>
+                <pre><span class="keyword">private</span> <span class="type">decimal</span> <span class="method">CalcTotal</span>(<span class="type">decimal</span> <span class="param">sub</span>, <span class="type">decimal</span> <span class="param">rate</span> = 0.08m)
+{
+    <span class="keyword">return</span> sub + (sub * rate);
+}
+
+<span class="comment">// Uses default rate of 0.08</span>
+<span class="type">decimal</span> total1 = <span class="method">CalcTotal</span>(100);
+
+<span class="comment">// Uses specified rate of 0.10</span>
+<span class="type">decimal</span> total2 = <span class="method">CalcTotal</span>(100, 0.10m);</pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Rule:</strong> Optional parameters must be assigned a
+                <strong>default value</strong> in the declaration, and they must
+                come <strong>after</strong> required parameters.
+            </div>
+
+            <!-- Named Arguments -->
+            <h2>🏷️ Named Arguments</h2>
+
+            <p><strong>Named arguments</strong> let you specify arguments by
+                parameter name rather than position. Use a <strong>colon
+                    (:)</strong> to separate the name from the value.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Named Arguments</h4>
+                <pre><span class="comment">// Method declaration</span>
+<span class="keyword">private</span> <span class="type">decimal</span> <span class="method">GetInterest</span>(<span class="type">int</span> <span class="param">years</span>, <span class="type">decimal</span> <span class="param">rate</span>, 
+    <span class="type">decimal</span> <span class="param">principal</span>)
+
+<span class="comment">// Calling with named arguments (use colon :)</span>
+<span class="type">decimal</span> interest = <span class="method">GetInterest</span>(
+    <span class="param">years</span>: 5,
+    <span class="param">rate</span>: 0.05m,
+    <span class="param">principal</span>: 1000m
+);</pre>
+            </div>
+
+            <h3>Advantages of Named Arguments</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Advantage</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Any order</strong></td>
+                        <td>You can pass arguments in any order</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Skip optional params</strong></td>
+                        <td>No need to indicate when optional parameters are
+                            omitted</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mix styles</strong></td>
+                        <td>Can mix positional and named arguments in the same
+                            call</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Self-documenting</strong></td>
+                        <td>Code is clearer about what each argument represents
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Note:</strong> To use named arguments, you <strong>must
+                    know</strong> the parameter names from the method
+                declaration.
+            </div>
+
+            <!-- Tuples -->
+            <h2>📦 Returning Multiple Values with Tuples</h2>
+
+            <p>A <strong>tuple</strong> allows a method to return multiple
+                values. Define the tuple return type using <strong>parentheses
+                    ()</strong> with named members.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Tuple Return Type</h4>
+                <pre><span class="comment">// Method that returns a tuple with two values</span>
+<span class="keyword">private</span> (<span class="type">int</span> TotalQty, <span class="type">decimal</span> TotalAmt) <span class="method">GetTotals</span>(<span class="type">int</span> <span class="param">year</span>)
+{
+    <span class="type">int</span> qty = 100;
+    <span class="type">decimal</span> amt = 5000m;
+    <span class="keyword">return</span> (qty, amt);
+}
+
+<span class="comment">// Using the tuple return value</span>
+<span class="keyword">var</span> totals = <span class="method">GetTotals</span>(2024);
+lblQty.Text = totals.TotalQty.ToString();
+lblAmt.Text = totals.TotalAmt.ToString(<span class="string">"c"</span>);</pre>
+            </div>
+
+            <div class="success-box">
+                <strong>Tuple Syntax:</strong> Use <strong>parentheses
+                    ()</strong> to define tuple members, NOT brackets [] or
+                braces {}.
+            </div>
+
+            <!-- Event Handlers -->
+            <h2>🎯 Event Handlers</h2>
+
+            <p>An <strong>event handler</strong> is a method that responds to
+                events like button clicks, text changes, or form loading.</p>
+
+            <h3>Generating Event Handlers</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>How To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Default event (Click)</strong></td>
+                        <td>Double-click the control in the Form Designer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Generate any event</strong></td>
+                        <td>In Properties window, click Events (⚡),
+                            <strong>double-click</strong> the event name</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wire existing handler</strong></td>
+                        <td>In Events list, select handler from the
+                            <strong>dropdown</strong> for the event</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Event Wiring</h3>
+
+            <p><strong>Event wiring</strong> connects an event to an event
+                handler. This is done automatically when you generate an event
+                handler, but you can also do it manually in code.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Manual Event Wiring</h4>
+                <pre><span class="comment">// Wire an event to a handler using +=</span>
+btnClear.Click += ClearControls;
+
+<span class="comment">// The event handler method</span>
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="method">ClearControls</span>(<span class="type">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="comment">// Code to handle the event</span>
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Wiring syntax:</strong>
+                <code>controlName.EventName += HandlerMethodName;</code>
+            </div>
+
+            <h3>One Handler for Multiple Events</h3>
+
+            <p>You can wire multiple controls to the same event handler. Use the
+                <code>sender</code> parameter to determine which control
+                triggered the event.</p>
+
+            <pre><span class="comment">// Wire multiple buttons to the same handler</span>
+btnOne.Click += NumberButton_Click;
+btnTwo.Click += NumberButton_Click;
+btnThree.Click += NumberButton_Click;
+
+<span class="comment">// Handler that works for all buttons</span>
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="method">NumberButton_Click</span>(<span class="type">object</span> sender, 
+    <span class="type">EventArgs</span> e)
+{
+    <span class="comment">// Cast sender to Button type</span>
+    <span class="type">Button</span> btn = (<span class="type">Button</span>)sender;
+    <span class="comment">// Use the button's text</span>
+    txtDisplay.Text += btn.Text;
+}</pre>
+
+            <!-- Deleting Event Handlers -->
+            <h2>🗑️ Deleting Event Handlers</h2>
+
+            <p>To completely delete an event handler, you must delete
+                <strong>both</strong>:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>1️⃣ The Event Handler Method</h4>
+                    <p>Delete the method code from the form's code file (.cs)
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>2️⃣ The Event Wiring</h4>
+                    <p>Delete the wiring statement from the Designer.cs file or
+                        clear it from the Properties window Events list</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Important:</strong> If you only delete the method and
+                not the event wiring, you'll get a compile error!
+            </div>
+
+            <!-- Refactoring -->
+            <h2>🔧 Refactoring: Extract Method</h2>
+
+            <p><strong>Refactoring</strong> restructures existing code without
+                changing its behavior. The <strong>Extract Method</strong>
+                feature creates a new method from selected code.</p>
+
+            <div class="highlight-box">
+                <h4>How to Use Extract Method</h4>
+                <ol style="padding-left: 20px; margin: 0;">
+                    <li>Select the code you want to extract</li>
+                    <li>Right-click and choose <strong>Quick Actions and
+                            Refactorings</strong></li>
+                    <li>Select <strong>Extract Method</strong></li>
+                    <li>Enter a name for the new method</li>
+                    <li>Visual Studio creates the method and replaces the
+                        selected code with a method call</li>
+                </ol>
+            </div>
+
+            <div class="tip-box">
+                <strong>Keyboard shortcut:</strong> Select code, then press
+                <code>Ctrl+.</code> to access Quick Actions.
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Method signature</td>
+                            <td>Method name + parameter list (types and order)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>private</code></td>
+                            <td>Method only accessible within current class</td>
+                        </tr>
+                        <tr>
+                            <td><code>void</code></td>
+                            <td>Method doesn't return a value</td>
+                        </tr>
+                        <tr>
+                            <td>Parameter syntax</td>
+                            <td><code>dataType parameterName</code> (type first,
+                                then name)</td>
+                        </tr>
+                        <tr>
+                            <td><code>return</code></td>
+                            <td>Sends value back to caller (just
+                                <code>return value;</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Expression-bodied</td>
+                            <td>Use <code>=></code> (lambda operator) for
+                                single-expression methods</td>
+                        </tr>
+                        <tr>
+                            <td>Pass by value</td>
+                            <td>Copy passed; original unchanged</td>
+                        </tr>
+                        <tr>
+                            <td>Pass by reference</td>
+                            <td>Use <code>ref</code> keyword; original can be
+                                changed</td>
+                        </tr>
+                        <tr>
+                            <td>Optional parameters</td>
+                            <td>Must have default value, come after required
+                                params</td>
+                        </tr>
+                        <tr>
+                            <td>Named arguments</td>
+                            <td>Use <code>paramName:value</code> syntax (colon)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tuple return</td>
+                            <td>Use parentheses
+                                <code>(type Name, type Name)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Generate event handler</td>
+                            <td>Double-click event in Properties window Events
+                                list</td>
+                        </tr>
+                        <tr>
+                            <td>Wire existing handler</td>
+                            <td>Select from dropdown in Events list</td>
+                        </tr>
+                        <tr>
+                            <td>Event wiring syntax</td>
+                            <td><code>control.Event += HandlerName;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Delete event handler</td>
+                            <td>Must delete both method AND event wiring</td>
+                        </tr>
+                        <tr>
+                            <td>Refactoring</td>
+                            <td>Extract Method creates method from selected code
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>GetMessage(fullName, currentBalance)</code>
+                            </td>
+                            <td><code>GetMessage(string fullName, decimal currentBalance)</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>return decimal interest;</code></td>
+                            <td><code>return interest;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>InitializeVariables(void);</code></td>
+                            <td><code>InitializeVariables();</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>subtotal=subtotal</code> (named arg)</td>
+                            <td><code>subtotal:subtotal</code> (use colon)</td>
+                        </tr>
+                        <tr>
+                            <td><code>[int Qty, decimal Amt]</code> (tuple)</td>
+                            <td><code>(int Qty, decimal Amt)</code>
+                                (parentheses)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>

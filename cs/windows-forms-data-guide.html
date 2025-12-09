@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #4: How to Work with Numeric and String Data</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078D4;
+            --primary-dark: #005A9E;
+            --accent: #FFB900;
+            --success: #107C10;
+            --danger: #D83B01;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.9rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3,
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .highlight-box ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .highlight-box li {
+            margin-bottom: 8px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFDE7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF5F5 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: var(--danger);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .keyword {
+            color: #569CD6;
+        }
+
+        .string {
+            color: #CE9178;
+        }
+
+        .comment {
+            color: #6A9955;
+        }
+
+        .method {
+            color: #DCDCAA;
+        }
+
+        .class {
+            color: #4EC9B0;
+        }
+
+        .number {
+            color: #B5CEA8;
+        }
+
+        .property {
+            color: #9CDCFE;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Type badge */
+        .type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .type-badge.value {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .type-badge.reference {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer p {
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #4: How to Work with Numeric and String Data</h1>
+        <p>Variables, Data Types, Operators, and Type Conversion in C#</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- Variables and Constants -->
+            <h2>📦 Variables and Constants</h2>
+
+            <p>Variables and constants are used to store data in your
+                applications. Understanding the difference between them is
+                fundamental to programming.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📝 Variable</h4>
+                    <p>Stores data that <strong>can change</strong> as the
+                        program executes. Use camelCase naming (e.g.,
+                        <code>totalAmount</code>, <code>firstName</code>).</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔒 Constant</h4>
+                    <p>Stores data that <strong>does not change</strong> as the
+                        program executes. Use PascalCase naming (e.g.,
+                        <code>TaxRate</code>, <code>MaxValue</code>).</p>
+                </div>
+            </div>
+
+            <h3>Declaring Variables</h3>
+            <pre><code><span class="comment">// Declare and initialize in one statement</span>
+<span class="keyword">int</span> quantity = <span class="number">10</span>;
+<span class="keyword">decimal</span> price = <span class="number">19.99m</span>;
+<span class="keyword">string</span> name = <span class="string">"John"</span>;
+<span class="keyword">bool</span> isValid = <span class="keyword">true</span>;
+
+<span class="comment">// Declare first, initialize later</span>
+<span class="keyword">int</span> count;
+count = <span class="number">5</span>;</code></pre>
+
+            <h3>Declaring Constants</h3>
+            <pre><code><span class="comment">// Use the const keyword - must be initialized when declared</span>
+<span class="keyword">const</span> <span class="keyword">decimal</span> TaxRate = <span class="number">0.075m</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> MaxItems = <span class="number">100</span>;
+<span class="keyword">const</span> <span class="keyword">string</span> CompanyName = <span class="string">"Acme Corp"</span>;</code></pre>
+
+            <!-- Data Types -->
+            <h2>🎯 Common Data Types</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>Whole numbers (no decimals)</td>
+                        <td><code>42</code>, <code>-17</code>, <code>0</code>
+                        </td>
+                        <td><span class="type-badge value">Value</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>double</code></td>
+                        <td>Floating-point numbers (less precise)</td>
+                        <td><code>3.14</code>, <code>-0.5</code></td>
+                        <td><span class="type-badge value">Value</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>decimal</code></td>
+                        <td>High-precision numbers (best for money)</td>
+                        <td><code>19.99m</code>, <code>100.00m</code></td>
+                        <td><span class="type-badge value">Value</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>bool</code></td>
+                        <td>True or false value</td>
+                        <td><code>true</code>, <code>false</code></td>
+                        <td><span class="type-badge value">Value</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>string</code></td>
+                        <td>Text (sequence of characters)</td>
+                        <td><code>"Hello"</code>, <code>""</code></td>
+                        <td><span class="type-badge reference">Reference</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <strong>Best Practice:</strong> Use <code>decimal</code> for
+                monetary values because it's the most precise type for financial
+                calculations. Never use <code>double</code> for money!
+            </div>
+
+            <h3>Value Types vs Reference Types</h3>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4><span class="type-badge value">Value Type</span></h4>
+                    <p>Stores actual data directly. Defined by a
+                        <strong>structure</strong>. Examples: <code>int</code>,
+                        <code>double</code>, <code>decimal</code>,
+                        <code>bool</code></p>
+                </div>
+                <div class="concept-card">
+                    <h4><span class="type-badge reference">Reference Type</span>
+                    </h4>
+                    <p>Stores a reference (pointer) to data in memory. Defined
+                        by a <strong>class</strong>. Examples:
+                        <code>string</code>, arrays, objects</p>
+                </div>
+            </div>
+
+            <!-- Literals and Special Values -->
+            <h2>✨ Literals and Special Values</h2>
+
+            <h3>Literal Values</h3>
+            <p>A <strong>literal value</strong> is a value that is coded
+                directly into your source code.</p>
+
+            <pre><code><span class="comment">// Numeric literals</span>
+<span class="keyword">int</span> count = <span class="number">42</span>;              <span class="comment">// integer literal</span>
+<span class="keyword">double</span> rate = <span class="number">3.14</span>;           <span class="comment">// double literal</span>
+<span class="keyword">decimal</span> price = <span class="number">19.99m</span>;       <span class="comment">// decimal literal (note the 'm' suffix)</span>
+
+<span class="comment">// String literal</span>
+<span class="keyword">string</span> greeting = <span class="string">"Hello, World!"</span>;
+
+<span class="comment">// Boolean literals</span>
+<span class="keyword">bool</span> isActive = <span class="keyword">true</span>;
+<span class="keyword">bool</span> isComplete = <span class="keyword">false</span>;</code></pre>
+
+            <h3>Special String Values</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Null value</strong></td>
+                        <td>Represents "no value" or "nothing"</td>
+                        <td><code>string name = null;</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Empty string</strong></td>
+                        <td>A string with zero characters</td>
+                        <td><code>string name = "";</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>String Literal Types</h3>
+            <pre><code><span class="comment">// Regular string literal</span>
+<span class="keyword">string</span> path = <span class="string">"C:\\Users\\Name"</span>;      <span class="comment">// Must escape backslashes</span>
+
+<span class="comment">// Verbatim string literal (prefix with @)</span>
+<span class="keyword">string</span> path = <span class="string">@"C:\Users\Name"</span>;       <span class="comment">// No escaping needed</span>
+
+<span class="comment">// Raw string literal (C# 11+) - use """ </span>
+<span class="keyword">string</span> json = <span class="string">"""
+    {
+        "name": "John",
+        "age": 30
+    }
+    """</span>;</code></pre>
+
+            <h3>Escape Sequences</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sequence</th>
+                        <th>Description</th>
+                        <th>Example Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>\n</code></td>
+                        <td>New line</td>
+                        <td>Line 1↵Line 2</td>
+                    </tr>
+                    <tr>
+                        <td><code>\t</code></td>
+                        <td>Tab</td>
+                        <td>Column1→Column2</td>
+                    </tr>
+                    <tr>
+                        <td><code>\\</code></td>
+                        <td>Backslash</td>
+                        <td>C:\Users</td>
+                    </tr>
+                    <tr>
+                        <td><code>\"</code></td>
+                        <td>Double quote</td>
+                        <td>He said "Hello"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Arithmetic Operators -->
+            <h2>➕ Arithmetic Operators</h2>
+
+            <h3>Binary Operators</h3>
+            <p>Binary operators work with two operands.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Name</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>+</code></td>
+                        <td>Addition</td>
+                        <td><code>5 + 3</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>-</code></td>
+                        <td>Subtraction</td>
+                        <td><code>5 - 3</code></td>
+                        <td><code>2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>Multiplication</td>
+                        <td><code>5 * 3</code></td>
+                        <td><code>15</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Division</td>
+                        <td><code>15 / 3</code></td>
+                        <td><code>5</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%</code></td>
+                        <td>Modulus (remainder)</td>
+                        <td><code>17 % 5</code></td>
+                        <td><code>2</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Unary Operators</h3>
+            <p>Unary operators work with one operand. The increment
+                (<code>++</code>) and decrement (<code>--</code>) operators are
+                NOT binary operators.</p>
+
+            <pre><code><span class="keyword">int</span> x = <span class="number">5</span>;
+x++;        <span class="comment">// x is now 6 (increment)</span>
+x--;        <span class="comment">// x is now 5 (decrement)</span>
+
+<span class="comment">// Prefix vs Postfix</span>
+<span class="keyword">int</span> a = <span class="number">5</span>;
+<span class="keyword">int</span> b = ++a;    <span class="comment">// a=6, b=6 (increment first, then assign)</span>
+<span class="keyword">int</span> c = a++;    <span class="comment">// c=6, a=7 (assign first, then increment)</span></code></pre>
+
+            <h3>Compound Assignment Operators</h3>
+            <pre><code><span class="keyword">int</span> total = <span class="number">100</span>;
+total += <span class="number">50</span>;     <span class="comment">// Same as: total = total + 50;  → 150</span>
+total -= <span class="number">25</span>;     <span class="comment">// Same as: total = total - 25;  → 125</span>
+total *= <span class="number">2</span>;      <span class="comment">// Same as: total = total * 2;   → 250</span>
+total /= <span class="number">5</span>;      <span class="comment">// Same as: total = total / 5;   → 50</span></code></pre>
+
+            <!-- Order of Precedence -->
+            <h2>📊 Order of Precedence</h2>
+
+            <p>When an expression has multiple operators, C# evaluates them in a
+                specific order:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Operators</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 (Highest)</td>
+                        <td><code>( )</code></td>
+                        <td>Parentheses - evaluated first</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>++</code> <code>--</code></td>
+                        <td>Increment, Decrement</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><code>*</code> <code>/</code> <code>%</code></td>
+                        <td>Multiplication, Division, Modulus</td>
+                    </tr>
+                    <tr>
+                        <td>4 (Lowest)</td>
+                        <td><code>+</code> <code>-</code></td>
+                        <td>Addition, Subtraction</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Use parentheses</strong> to override the default order
+                of precedence and make your code clearer!
+            </div>
+
+            <pre><code><span class="comment">// Without parentheses: multiplication happens first</span>
+<span class="keyword">int</span> result = <span class="number">5</span> + <span class="number">3</span> * <span class="number">2</span>;       <span class="comment">// = 5 + 6 = 11</span>
+
+<span class="comment">// With parentheses: addition happens first</span>
+<span class="keyword">int</span> result = (<span class="number">5</span> + <span class="number">3</span>) * <span class="number">2</span>;     <span class="comment">// = 8 * 2 = 16</span></code></pre>
+
+            <!-- Integer Division -->
+            <h2>⚠️ Integer Division</h2>
+
+            <p>When you divide two integers, the result is also an integer (the
+                decimal part is truncated).</p>
+
+            <pre><code><span class="keyword">int</span> i = <span class="number">4</span>;
+<span class="keyword">int</span> j = <span class="number">8</span>;
+
+<span class="keyword">decimal</span> x = i / j;           <span class="comment">// x = 0 (not 0.5!) - integer division</span>
+
+<span class="comment">// To get decimal result, cast at least one operand</span>
+<span class="keyword">decimal</span> x = (<span class="keyword">decimal</span>)i / j;  <span class="comment">// x = 0.5 ✓</span>
+<span class="keyword">decimal</span> x = (<span class="keyword">decimal</span>)i / (<span class="keyword">decimal</span>)j;  <span class="comment">// Also works</span></code></pre>
+
+            <div class="warning-box">
+                <strong>Common Mistake:</strong> Dividing two integers always
+                gives an integer result, even if you assign it to a decimal
+                variable. You must cast BEFORE the division occurs!
+            </div>
+
+            <!-- Math Class -->
+            <h2>🔬 The Math Class</h2>
+
+            <p>The <code>Math</code> class provides static methods for common
+                mathematical operations.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Math.Round()</code></td>
+                        <td>Rounds to nearest integer</td>
+                        <td><code>Math.Round(12.7m)</code></td>
+                        <td><code>13</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Math.Pow()</code></td>
+                        <td>Raises to a power</td>
+                        <td><code>Math.Pow(2, 3)</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Math.Sqrt()</code></td>
+                        <td>Square root</td>
+                        <td><code>Math.Sqrt(16)</code></td>
+                        <td><code>4</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Math.Abs()</code></td>
+                        <td>Absolute value</td>
+                        <td><code>Math.Abs(-5)</code></td>
+                        <td><code>5</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Math.Max()</code></td>
+                        <td>Larger of two values</td>
+                        <td><code>Math.Max(5, 8)</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Math.Min()</code></td>
+                        <td>Smaller of two values</td>
+                        <td><code>Math.Min(5, 8)</code></td>
+                        <td><code>5</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Random Numbers -->
+            <h2>🎲 Generating Random Numbers</h2>
+
+            <pre><code><span class="comment">// Create a Random object</span>
+<span class="class">Random</span> number = <span class="keyword">new</span> <span class="class">Random</span>();
+
+<span class="comment">// Generate random integer from 1 to 10 (inclusive)</span>
+<span class="keyword">int</span> i = number.<span class="method">Next</span>(<span class="number">1</span>, <span class="number">11</span>);    <span class="comment">// Note: upper bound is exclusive!</span>
+
+<span class="comment">// Generate random double from 0.0 to less than 1.0</span>
+<span class="keyword">double</span> d = number.<span class="method">NextDouble</span>();</code></pre>
+
+            <div class="tip-box">
+                <strong>Remember:</strong> The <code>Next(min, max)</code>
+                method's upper bound is <em>exclusive</em>. To get numbers 1-10,
+                use <code>Next(1, 11)</code>.
+            </div>
+
+            <!-- Strings -->
+            <h2>📝 Working with Strings</h2>
+
+            <h3>String Concatenation</h3>
+            <p>Use the <code>+</code> operator to <strong>concatenate</strong>
+                (join) strings together.</p>
+
+            <pre><code><span class="keyword">string</span> firstName = <span class="string">"John"</span>;
+<span class="keyword">string</span> lastName = <span class="string">"Doe"</span>;
+<span class="keyword">string</span> fullName = firstName + <span class="string">" "</span> + lastName;  <span class="comment">// "John Doe"</span>
+
+<span class="comment">// Append to existing string</span>
+<span class="keyword">string</span> cityState = <span class="string">"Milwaukee"</span>;
+cityState += <span class="string">", "</span> + <span class="string">"Wisconsin"</span>;  <span class="comment">// "Milwaukee, Wisconsin"</span></code></pre>
+
+            <h3>String Interpolation</h3>
+            <pre><code><span class="keyword">string</span> name = <span class="string">"Alice"</span>;
+<span class="keyword">int</span> age = <span class="number">25</span>;
+<span class="keyword">string</span> message = <span class="string">$"Hello, {name}! You are {age} years old."</span>;</code></pre>
+
+            <!-- Type Conversion -->
+            <h2>🔄 Type Conversion</h2>
+
+            <h3>Implicit vs Explicit Casting</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>Implicit Casting</h4>
+                    <p>Automatic conversion from <strong>less precise to more
+                            precise</strong> type. No data loss possible.</p>
+                    <pre
+                        style="margin-top: 10px;"><code><span class="keyword">int</span> i = <span class="number">5</span>;
+<span class="keyword">double</span> d = i;  <span class="comment">// OK</span></code></pre>
+                </div>
+                <div class="concept-card">
+                    <h4>Explicit Casting</h4>
+                    <p>Manual conversion from <strong>more precise to less
+                            precise</strong> type. Potential data loss.</p>
+                    <pre
+                        style="margin-top: 10px;"><code><span class="keyword">double</span> d = <span class="number">9.7</span>;
+<span class="keyword">int</span> i = (<span class="keyword">int</span>)d;  <span class="comment">// i = 9</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Conversion Methods Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Use Case</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>(type)</code> cast</td>
+                        <td>Convert between numeric types</td>
+                        <td><code>(int)3.7</code> → <code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ToString()</code></td>
+                        <td>Convert any type to string</td>
+                        <td><code>42.ToString()</code> → <code>"42"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Parse()</code></td>
+                        <td>Convert string to numeric (throws error if invalid)
+                        </td>
+                        <td><code>int.Parse("42")</code> → <code>42</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>TryParse()</code></td>
+                        <td>Safely convert string to numeric (returns bool)</td>
+                        <td><code>int.TryParse("42", out x)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Convert</code> class</td>
+                        <td>Convert between various types</td>
+                        <td><code>Convert.ToInt32("42")</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><code><span class="comment">// ToString() - convert to string with formatting</span>
+<span class="keyword">decimal</span> total = <span class="number">1234.56m</span>;
+<span class="keyword">string</span> amount = total.<span class="method">ToString</span>(<span class="string">"c"</span>);  <span class="comment">// "$1,234.56" (currency format)</span>
+
+<span class="comment">// Parse() - string to number (throws exception if invalid)</span>
+<span class="keyword">int</span> num = <span class="keyword">int</span>.<span class="method">Parse</span>(<span class="string">"42"</span>);
+
+<span class="comment">// TryParse() - safe conversion (returns true/false)</span>
+<span class="keyword">if</span> (<span class="keyword">int</span>.<span class="method">TryParse</span>(txtInput.<span class="property">Text</span>, <span class="keyword">out</span> <span class="keyword">int</span> result))
+{
+    <span class="comment">// Conversion succeeded, use result</span>
+}
+
+<span class="comment">// Convert class methods</span>
+<span class="keyword">int</span> x = <span class="class">Convert</span>.<span class="method">ToInt32</span>(<span class="string">"42"</span>);
+<span class="keyword">decimal</span> d = <span class="class">Convert</span>.<span class="method">ToDecimal</span>(txtAmount.<span class="property">Text</span>);</code></pre>
+
+            <!-- Variable Scope -->
+            <h2>🔭 Variable Scope</h2>
+
+            <p>Scope determines where a variable can be accessed in your code.
+            </p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>Class Scope (Field)</h4>
+                    <p>Declared at class level, accessible from <strong>any
+                            method</strong> in the class. Also called instance
+                        variables or fields.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>Method Scope (Local)</h4>
+                    <p>Declared inside a method, accessible <strong>only within
+                            that method</strong>. Also called local variables.
+                    </p>
+                </div>
+            </div>
+
+            <pre><code><span class="keyword">public partial class</span> <span class="class">Form1</span> : <span class="class">Form</span>
+{
+    <span class="comment">// Class scope - accessible from any method</span>
+    <span class="keyword">private</span> <span class="keyword">decimal</span> totalSales = <span class="number">0</span>;
+    
+    <span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(...)
+    {
+        <span class="comment">// Method scope - only accessible in this method</span>
+        <span class="keyword">decimal</span> price = <span class="number">19.99m</span>;
+        totalSales += price;  <span class="comment">// Can access class-level variable</span>
+    }
+    
+    <span class="keyword">private void</span> <span class="method">btnReset_Click</span>(...)
+    {
+        totalSales = <span class="number">0</span>;       <span class="comment">// Can access class-level variable</span>
+        <span class="comment">// price = 10;        // ERROR! price not accessible here</span>
+    }
+}</code></pre>
+
+            <!-- Enumerations -->
+            <h2>📋 Enumerations</h2>
+
+            <p>An <strong>enumeration</strong> defines a set of related
+                <strong>constants</strong>. It creates a custom data type with a
+                fixed set of valid values.</p>
+
+            <pre><code><span class="comment">// Define an enumeration</span>
+<span class="keyword">enum</span> <span class="class">DayOfWeek</span>
+{
+    Sunday,     <span class="comment">// 0</span>
+    Monday,     <span class="comment">// 1</span>
+    Tuesday,    <span class="comment">// 2</span>
+    Wednesday,  <span class="comment">// 3</span>
+    Thursday,   <span class="comment">// 4</span>
+    Friday,     <span class="comment">// 5</span>
+    Saturday    <span class="comment">// 6</span>
+}
+
+<span class="comment">// Use the enumeration</span>
+<span class="class">DayOfWeek</span> today = <span class="class">DayOfWeek</span>.Wednesday;
+
+<span class="keyword">if</span> (today == <span class="class">DayOfWeek</span>.Saturday || today == <span class="class">DayOfWeek</span>.Sunday)
+{
+    lblMessage.<span class="property">Text</span> = <span class="string">"It's the weekend!"</span>;
+}</code></pre>
+
+            <!-- Nullable Types -->
+            <h2>❓ Nullable Types</h2>
+
+            <p>Nullable types allow value types to hold <code>null</code> in
+                addition to their normal values.</p>
+
+            <h3>Declaring Nullable Types</h3>
+            <pre><code><span class="comment">// Add ? after the type to make it nullable</span>
+<span class="keyword">int</span>? quantity = <span class="keyword">null</span>;       <span class="comment">// Can be null or an integer</span>
+<span class="keyword">decimal</span>? price = <span class="number">19.99m</span>;    <span class="comment">// Can be null or a decimal</span>
+<span class="keyword">bool</span>? isActive = <span class="keyword">null</span>;      <span class="comment">// Can be null, true, or false</span></code></pre>
+
+            <h3>Null Operators</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Name</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>??</code></td>
+                        <td>Null-coalescing</td>
+                        <td>Provide default value if null</td>
+                    </tr>
+                    <tr>
+                        <td><code>??=</code></td>
+                        <td>Null-coalescing assignment</td>
+                        <td>Assign only if null</td>
+                    </tr>
+                    <tr>
+                        <td><code>!</code></td>
+                        <td>Null-forgiving</td>
+                        <td>Suppress null warnings</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><code><span class="comment">// Null-coalescing operator (??) - provide default if null</span>
+<span class="keyword">decimal</span>? paymentAmount = <span class="keyword">null</span>;
+<span class="keyword">decimal</span> payment = paymentAmount ?? <span class="number">9.99m</span>;  <span class="comment">// payment = 9.99</span>
+
+<span class="comment">// If paymentAmount had a value:</span>
+paymentAmount = <span class="number">25.00m</span>;
+payment = paymentAmount ?? <span class="number">9.99m</span>;          <span class="comment">// payment = 25.00</span>
+
+<span class="comment">// Null-forgiving operator (!) - tells compiler "trust me, not null"</span>
+<span class="keyword">string</span>? name = GetName();
+<span class="keyword">string</span> displayName = name!;  <span class="comment">// Suppresses null warning</span></code></pre>
+
+            <div class="tip-box">
+                <strong>Null-forgiving operator (!)</strong> is used to suppress
+                null reference compiler warnings when you're certain a value
+                won't be null.
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Variable</td>
+                            <td>Data that can change; camelCase naming</td>
+                        </tr>
+                        <tr>
+                            <td>Constant</td>
+                            <td>Data that doesn't change; PascalCase naming</td>
+                        </tr>
+                        <tr>
+                            <td><code>int</code></td>
+                            <td>Whole numbers only</td>
+                        </tr>
+                        <tr>
+                            <td><code>decimal</code></td>
+                            <td>Best for money (most precise)</td>
+                        </tr>
+                        <tr>
+                            <td><code>bool</code></td>
+                            <td>True or false value</td>
+                        </tr>
+                        <tr>
+                            <td>Value type</td>
+                            <td>Stores data directly (struct)</td>
+                        </tr>
+                        <tr>
+                            <td>Reference type</td>
+                            <td>Stores reference to data (class)</td>
+                        </tr>
+                        <tr>
+                            <td>Concatenate</td>
+                            <td>Join strings with <code>+</code></td>
+                        </tr>
+                        <tr>
+                            <td>Implicit cast</td>
+                            <td>Automatic (less → more precise)</td>
+                        </tr>
+                        <tr>
+                            <td>Explicit cast</td>
+                            <td>Manual (more → less precise)</td>
+                        </tr>
+                        <tr>
+                            <td>Class scope</td>
+                            <td>Accessible from any method</td>
+                        </tr>
+                        <tr>
+                            <td>Method scope</td>
+                            <td>Accessible only in that method</td>
+                        </tr>
+                        <tr>
+                            <td>Enumeration</td>
+                            <td>Set of related constants</td>
+                        </tr>
+                        <tr>
+                            <td><code>??</code></td>
+                            <td>Null-coalescing (default if null)</td>
+                        </tr>
+                        <tr>
+                            <td><code>!</code></td>
+                            <td>Null-forgiving (suppress warning)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
