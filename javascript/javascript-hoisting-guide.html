@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏗️ JavaScript Hoisting</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+            font-size: 1.2rem;
+        }
+
+        h4 {
+            color: #667eea;
+            margin: 15px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .highlight-box strong {
+            color: #f57f17;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #f44336;
+        }
+
+        .warning-box strong {
+            color: #c62828;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+
+        .success-box strong {
+            color: #2e7d32;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        .info-box strong {
+            color: #1565c0;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3f51b5;
+            font-family: 'Courier New', monospace;
+        }
+
+        .syntax-box strong {
+            color: #283593;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #c62828;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-card h4 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .hoisted {
+            border-top: 4px solid #4caf50;
+        }
+
+        .not-hoisted {
+            border-top: 4px solid #f44336;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item h4 {
+            margin-top: 0;
+            color: #667eea;
+        }
+
+        .phase-box {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .phase-box strong {
+            color: #7b1fa2;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            section {
+                padding: 15px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏗️ JavaScript Hoisting</h1>
+            <p>Understanding How JavaScript Moves Declarations to the Top</p>
+        </header>
+
+        <main>
+            <!-- What is Hoisting -->
+            <section>
+                <h2>🎯 What is Hoisting?</h2>
+                <p>
+                    <strong>Hoisting</strong> is JavaScript's default behavior of moving declarations to the top 
+                    of their scope before code execution. It's as if JavaScript "lifts" your variable and function 
+                    declarations to the top of the current scope (script or function).
+                </p>
+                <p>
+                    Think of it like a classroom where the teacher takes attendance at the start of class. 
+                    Before any lesson begins, the teacher knows who's supposed to be there—even if some students 
+                    haven't arrived yet. JavaScript does something similar: it scans your code and "registers" 
+                    all declarations before running any code.
+                </p>
+
+                <div class="highlight-box">
+                    <strong>💡 Key Point:</strong> Only <em>declarations</em> are hoisted, not <em>initializations</em> 
+                    (the values assigned to variables). This is a crucial distinction that causes many bugs!
+                </div>
+
+                <h3>A Simple Example</h3>
+                <pre><code><span class="comment">// What you write:</span>
+console.<span class="function">log</span>(message);  <span class="comment">// What happens here?</span>
+<span class="keyword">var</span> message = <span class="string">"Hello!"</span>;
+
+<span class="comment">// What JavaScript sees (after hoisting):</span>
+<span class="keyword">var</span> message;           <span class="comment">// Declaration hoisted to top</span>
+console.<span class="function">log</span>(message);  <span class="comment">// Output: undefined (not an error!)</span>
+message = <span class="string">"Hello!"</span>;    <span class="comment">// Initialization stays in place</span></code></pre>
+
+                <div class="info-box">
+                    <strong>📌 Remember:</strong> The variable <code>message</code> exists (is declared) from the 
+                    start, but it doesn't have a value until the assignment line runs. That's why we get 
+                    <code>undefined</code> instead of an error.
+                </div>
+            </section>
+
+            <!-- What Hoisting Really Means -->
+            <section>
+                <h2>🔍 What Hoisting Really Means</h2>
+                <p>
+                    When we say declarations are "hoisted," it does <strong>not</strong> mean the JavaScript 
+                    engine rewrites your code or physically moves lines of text to the top of the file.
+                </p>
+                <p>
+                    Instead, it means that <strong>memory is allocated</strong> for variables and functions 
+                    <strong>before</strong> the code is actually executed. The code stays exactly where you 
+                    wrote it—JavaScript just knows about your declarations ahead of time.
+                </p>
+
+                <div class="warning-box">
+                    <strong>⚠️ Common Misconception:</strong> Many tutorials show hoisting as if JavaScript 
+                    literally moves your code around. This is a helpful mental model, but it's not what 
+                    actually happens. Your code stays in place; JavaScript just processes it in two phases.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card not-hoisted">
+                        <h4>❌ What Hoisting is NOT</h4>
+                        <p>JavaScript does NOT rewrite your code like this:</p>
+                        <pre><code><span class="comment">// Your code is NOT changed to:</span>
+<span class="keyword">var</span> x;  <span class="comment">// Moved up?</span>
+console.<span class="function">log</span>(x);
+x = <span class="number">5</span>;</code></pre>
+                    </div>
+                    <div class="comparison-card hoisted">
+                        <h4>✅ What Hoisting IS</h4>
+                        <p>JavaScript allocates memory before running:</p>
+                        <pre><code><span class="comment">// Your code stays as-is:</span>
+console.<span class="function">log</span>(x);
+<span class="keyword">var</span> x = <span class="number">5</span>;
+<span class="comment">// But JS already knows x exists</span></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- The Two Phases of Execution -->
+            <section>
+                <h2>⚙️ The Two Phases of Execution</h2>
+                <p>
+                    To understand hoisting, you need to know that JavaScript processes your code in 
+                    <strong>two distinct phases</strong>. This two-phase process is the key to understanding 
+                    why hoisting works the way it does.
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Phase 1: The Creation Phase (Memory Allocation)</h4>
+                        <p>
+                            Before running any code, JavaScript scans through your entire script and 
+                            <strong>allocates memory</strong> for all declarations it finds:
+                        </p>
+                        <ul>
+                            <li>Variables declared with <code>var</code> are registered and set to <code>undefined</code></li>
+                            <li>Variables declared with <code>let</code>/<code>const</code> are registered but left <em>uninitialized</em> (TDZ)</li>
+                            <li>Function declarations are registered with their <em>entire function body</em></li>
+                            <li>No code is executed yet—this is just preparation</li>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Phase 2: The Execution Phase</h4>
+                        <p>
+                            Now JavaScript runs your code <strong>line by line</strong>, from top to bottom:
+                        </p>
+                        <ul>
+                            <li>Assignments give values to variables (<code>x = 5</code>)</li>
+                            <li>Function calls are executed</li>
+                            <li>Expressions are evaluated</li>
+                            <li>Your program logic runs in order</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Visualizing the Two Phases</h3>
+                <pre><code><span class="comment">// Your Code:</span>
+<span class="keyword">var</span> name = <span class="string">"Alice"</span>;
+<span class="keyword">function</span> <span class="function">greet</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hello!"</span>);
+}
+<span class="keyword">var</span> age = <span class="number">25</span>;
+
+<span class="comment">/*
+═══════════════════════════════════════════════════════════
+PHASE 1 - CREATION PHASE (before any code runs)
+═══════════════════════════════════════════════════════════
+JavaScript scans the code and allocates memory:
+
+    Memory:
+    ┌─────────┬────────────────────────────────────────┐
+    │  name   │  undefined                             │
+    ├─────────┼────────────────────────────────────────┤
+    │  greet  │  function greet() { console.log(...) } │
+    ├─────────┼────────────────────────────────────────┤
+    │  age    │  undefined                             │
+    └─────────┴────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════
+PHASE 2 - EXECUTION PHASE (code runs line by line)
+═══════════════════════════════════════════════════════════
+Line 1: name = "Alice"      →  Memory updated: name = "Alice"
+Line 2-4: (function already stored, skip)
+Line 5: age = 25            →  Memory updated: age = 25
+*/</span></code></pre>
+
+                <h3>Why This Matters</h3>
+                <pre><code><span class="comment">// Because of the Creation Phase, this works:</span>
+<span class="function">sayHello</span>();  <span class="comment">// ✅ Works! Function is already in memory</span>
+
+<span class="keyword">function</span> <span class="function">sayHello</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hello!"</span>);
+}
+
+<span class="comment">// And this gives undefined (not an error):</span>
+console.<span class="function">log</span>(message);  <span class="comment">// ✅ undefined (var is in memory, just no value yet)</span>
+<span class="keyword">var</span> message = <span class="string">"Hi"</span>;
+
+<span class="comment">// But this throws an error:</span>
+console.<span class="function">log</span>(greeting);  <span class="comment">// ❌ ReferenceError (let is in TDZ)</span>
+<span class="keyword">let</span> greeting = <span class="string">"Hey"</span>;</code></pre>
+
+                <div class="info-box">
+                    <strong>💡 Think of it this way:</strong> The Creation Phase is like a teacher taking 
+                    attendance at the start of class. Before the lesson (Execution Phase) begins, the teacher 
+                    already knows who should be in the room—even if some students (values) haven't arrived yet.
+                </div>
+            </section>
+
+            <!-- Variable Hoisting with var -->
+            <section>
+                <h2>📦 Variable Hoisting with <code>var</code></h2>
+                <p>
+                    Variables declared with <code>var</code> are hoisted to the top of their function scope 
+                    (or global scope if outside any function). They are initialized with <code>undefined</code>.
+                </p>
+
+                <h3>Basic <code>var</code> Hoisting</h3>
+                <pre><code><span class="comment">// Example 1: Accessing before declaration</span>
+console.<span class="function">log</span>(x);  <span class="comment">// Output: undefined (NOT an error)</span>
+<span class="keyword">var</span> x = <span class="number">5</span>;
+console.<span class="function">log</span>(x);  <span class="comment">// Output: 5</span>
+
+<span class="comment">// Example 2: Multiple declarations</span>
+console.<span class="function">log</span>(a, b, c);  <span class="comment">// Output: undefined undefined undefined</span>
+<span class="keyword">var</span> a = <span class="number">1</span>;
+<span class="keyword">var</span> b = <span class="number">2</span>;
+<span class="keyword">var</span> c = <span class="number">3</span>;
+console.<span class="function">log</span>(a, b, c);  <span class="comment">// Output: 1 2 3</span></code></pre>
+
+                <h3><code>var</code> is Function-Scoped</h3>
+                <pre><code><span class="keyword">function</span> <span class="function">example</span>() {
+    console.<span class="function">log</span>(message);  <span class="comment">// Output: undefined</span>
+    <span class="keyword">var</span> message = <span class="string">"Hello"</span>;
+    console.<span class="function">log</span>(message);  <span class="comment">// Output: Hello</span>
+}
+
+<span class="function">example</span>();
+
+<span class="comment">// The function above is interpreted as:</span>
+<span class="keyword">function</span> <span class="function">example</span>() {
+    <span class="keyword">var</span> message;           <span class="comment">// Hoisted to top of function</span>
+    console.<span class="function">log</span>(message);  <span class="comment">// undefined</span>
+    message = <span class="string">"Hello"</span>;     <span class="comment">// Assignment stays here</span>
+    console.<span class="function">log</span>(message);  <span class="comment">// Hello</span>
+}</code></pre>
+
+                <h3><code>var</code> Ignores Block Scope</h3>
+                <pre><code><span class="keyword">function</span> <span class="function">test</span>() {
+    console.<span class="function">log</span>(x);  <span class="comment">// Output: undefined (hoisted!)</span>
+    
+    <span class="keyword">if</span> (<span class="keyword">true</span>) {
+        <span class="keyword">var</span> x = <span class="number">10</span>;   <span class="comment">// var ignores the if block</span>
+    }
+    
+    console.<span class="function">log</span>(x);  <span class="comment">// Output: 10 (accessible outside if block!)</span>
+}
+
+<span class="function">test</span>();
+
+<span class="comment">// var is hoisted to the function scope, not block scope:</span>
+<span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="keyword">var</span> x;              <span class="comment">// Hoisted here (function top)</span>
+    console.<span class="function">log</span>(x);     <span class="comment">// undefined</span>
+    
+    <span class="keyword">if</span> (<span class="keyword">true</span>) {
+        x = <span class="number">10</span>;
+    }
+    
+    console.<span class="function">log</span>(x);     <span class="comment">// 10</span>
+}</code></pre>
+
+                <div class="warning-box">
+                    <strong>⚠️ Problem with <code>var</code>:</strong> Because <code>var</code> ignores block scope, 
+                    it can lead to unexpected behavior in loops and conditionals. This is one of the main reasons 
+                    <code>let</code> and <code>const</code> were introduced in ES6.
+                </div>
+            </section>
+
+            <!-- let and const: The Temporal Dead Zone -->
+            <section>
+                <h2>🚫 <code>let</code> and <code>const</code>: The Temporal Dead Zone</h2>
+                <p>
+                    Variables declared with <code>let</code> and <code>const</code> are also hoisted, but 
+                    they behave differently. They are <strong>not initialized</strong> until their declaration 
+                    is reached. Accessing them before declaration causes a <code>ReferenceError</code>.
+                </p>
+
+                <div class="phase-box">
+                    <strong>🕳️ Temporal Dead Zone (TDZ):</strong> The period between entering a scope and the 
+                    variable's declaration where the variable exists but cannot be accessed. Any attempt to 
+                    read or write the variable in this zone throws an error.
+                </div>
+
+                <h3>Comparing <code>var</code>, <code>let</code>, and <code>const</code></h3>
+                <pre><code><span class="comment">// var - hoisted and initialized to undefined</span>
+console.<span class="function">log</span>(a);  <span class="comment">// Output: undefined</span>
+<span class="keyword">var</span> a = <span class="number">1</span>;
+
+<span class="comment">// let - hoisted but NOT initialized (TDZ)</span>
+console.<span class="function">log</span>(b);  <span class="comment">// ❌ ReferenceError: Cannot access 'b' before initialization</span>
+<span class="keyword">let</span> b = <span class="number">2</span>;
+
+<span class="comment">// const - hoisted but NOT initialized (TDZ)</span>
+console.<span class="function">log</span>(c);  <span class="comment">// ❌ ReferenceError: Cannot access 'c' before initialization</span>
+<span class="keyword">const</span> c = <span class="number">3</span>;</code></pre>
+
+                <h3>Visualizing the Temporal Dead Zone</h3>
+                <pre><code><span class="keyword">function</span> <span class="function">example</span>() {
+    <span class="comment">// TDZ for 'name' starts here ──────────────┐</span>
+    <span class="comment">//                                          │</span>
+    console.<span class="function">log</span>(<span class="string">"Starting function"</span>);    <span class="comment">//      │ TDZ</span>
+    <span class="comment">//                                          │</span>
+    <span class="comment">// console.log(name); // ❌ Would error!    │</span>
+    <span class="comment">//                                          │</span>
+    <span class="keyword">let</span> name = <span class="string">"Alice"</span>;  <span class="comment">// TDZ ends here ────────┘</span>
+    <span class="comment">//</span>
+    console.<span class="function">log</span>(name);   <span class="comment">// ✅ Output: Alice</span>
+}
+
+<span class="function">example</span>();</code></pre>
+
+                <h3><code>let</code> and <code>const</code> are Block-Scoped</h3>
+                <pre><code><span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="comment">// console.log(x); // ❌ ReferenceError - TDZ</span>
+    
+    <span class="keyword">if</span> (<span class="keyword">true</span>) {
+        <span class="keyword">let</span> x = <span class="number">10</span>;       <span class="comment">// x is only available inside this block</span>
+        console.<span class="function">log</span>(x);  <span class="comment">// Output: 10</span>
+    }
+    
+    <span class="comment">// console.log(x); // ❌ ReferenceError - x is not defined</span>
+}
+
+<span class="function">test</span>();
+
+<span class="comment">// Each block has its own scope:</span>
+{
+    <span class="keyword">let</span> a = <span class="number">1</span>;
+    <span class="keyword">const</span> b = <span class="number">2</span>;
+}
+<span class="comment">// console.log(a, b); // ❌ ReferenceError - not accessible outside block</span></code></pre>
+
+                <div class="success-box">
+                    <strong>✅ Best Practice:</strong> Always use <code>let</code> and <code>const</code> instead of 
+                    <code>var</code>. The TDZ helps catch bugs by throwing errors when you try to use variables 
+                    before they're declared, rather than silently giving you <code>undefined</code>.
+                </div>
+            </section>
+
+            <!-- Function Hoisting -->
+            <section>
+                <h2>🔧 Function Hoisting</h2>
+                <p>
+                    <strong>Function declarations</strong> are fully hoisted—both the name and the function body. 
+                    This means you can call a function before it appears in your code!
+                </p>
+
+                <h3>Function Declarations are Fully Hoisted</h3>
+                <pre><code><span class="comment">// ✅ This works! Function declarations are fully hoisted</span>
+<span class="function">sayHello</span>();  <span class="comment">// Output: Hello!</span>
+
+<span class="keyword">function</span> <span class="function">sayHello</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hello!"</span>);
+}
+
+<span class="comment">// You can call the function anywhere in the same scope</span>
+<span class="function">sayHello</span>();  <span class="comment">// Output: Hello!</span></code></pre>
+
+                <h3>Function Expressions are NOT Hoisted</h3>
+                <p>
+                    When you assign a function to a variable (function expression), only the variable declaration 
+                    is hoisted, not the function itself.
+                </p>
+                <pre><code><span class="comment">// ❌ This does NOT work!</span>
+<span class="function">greet</span>();  <span class="comment">// TypeError: greet is not a function</span>
+
+<span class="keyword">var</span> greet = <span class="keyword">function</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hi!"</span>);
+};
+
+<span class="comment">// Why? JavaScript sees it as:</span>
+<span class="keyword">var</span> greet;           <span class="comment">// Declaration hoisted (greet = undefined)</span>
+<span class="function">greet</span>();             <span class="comment">// ❌ Trying to call undefined as a function!</span>
+greet = <span class="keyword">function</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hi!"</span>);
+};</code></pre>
+
+                <h3>Arrow Functions are NOT Hoisted</h3>
+                <pre><code><span class="comment">// ❌ Arrow functions behave like function expressions</span>
+<span class="function">add</span>(<span class="number">2</span>, <span class="number">3</span>);  <span class="comment">// ReferenceError: Cannot access 'add' before initialization</span>
+
+<span class="keyword">const</span> add = (a, b) => a + b;
+
+<span class="comment">// ✅ Correct: declare before calling</span>
+<span class="keyword">const</span> add = (a, b) => a + b;
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">2</span>, <span class="number">3</span>));  <span class="comment">// Output: 5</span></code></pre>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card hoisted">
+                        <h4>✅ Hoisted (Can Call Before Declaration)</h4>
+                        <pre><code><span class="comment">// Function Declaration</span>
+<span class="function">sayHi</span>();  <span class="comment">// Works!</span>
+
+<span class="keyword">function</span> <span class="function">sayHi</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hi!"</span>);
+}</code></pre>
+                    </div>
+                    <div class="comparison-card not-hoisted">
+                        <h4>❌ NOT Hoisted (Must Declare First)</h4>
+                        <pre><code><span class="comment">// Function Expression</span>
+<span class="function">sayHi</span>();  <span class="comment">// Error!</span>
+
+<span class="keyword">const</span> sayHi = <span class="keyword">function</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hi!"</span>);
+};</code></pre>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Hoisted?</th>
+                            <th>Can Call Before Declaration?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>function declaration</code></td>
+                            <td>✅ Yes (fully)</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>var</code> function expression</td>
+                            <td>⚠️ Partially (undefined)</td>
+                            <td>❌ No (TypeError)</td>
+                        </tr>
+                        <tr>
+                            <td><code>let/const</code> function expression</td>
+                            <td>⚠️ Partially (TDZ)</td>
+                            <td>❌ No (ReferenceError)</td>
+                        </tr>
+                        <tr>
+                            <td>Arrow function</td>
+                            <td>⚠️ Partially (TDZ)</td>
+                            <td>❌ No (ReferenceError)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Class Hoisting -->
+            <section>
+                <h2>🎓 Class Hoisting</h2>
+                <p>
+                    Classes in JavaScript are also hoisted, but like <code>let</code> and <code>const</code>, 
+                    they are in the Temporal Dead Zone until the declaration is reached.
+                </p>
+
+                <pre><code><span class="comment">// ❌ Cannot use class before declaration</span>
+<span class="keyword">const</span> car = <span class="keyword">new</span> <span class="function">Car</span>(<span class="string">"Toyota"</span>);  <span class="comment">// ReferenceError!</span>
+
+<span class="keyword">class</span> Car {
+    <span class="function">constructor</span>(brand) {
+        <span class="keyword">this</span>.brand = brand;
+    }
+}
+
+<span class="comment">// ✅ Correct: declare class first</span>
+<span class="keyword">class</span> Car {
+    <span class="function">constructor</span>(brand) {
+        <span class="keyword">this</span>.brand = brand;
+    }
+}
+
+<span class="keyword">const</span> car = <span class="keyword">new</span> <span class="function">Car</span>(<span class="string">"Toyota"</span>);
+console.<span class="function">log</span>(car.brand);  <span class="comment">// Output: Toyota</span></code></pre>
+
+                <div class="info-box">
+                    <strong>📌 Note:</strong> Both class declarations and class expressions are subject to the TDZ. 
+                    Always define your classes before using them.
+                </div>
+            </section>
+
+            <!-- Hoisting in Different Scopes -->
+            <section>
+                <h2>🔲 Hoisting in Different Scopes</h2>
+                <p>
+                    Hoisting occurs within the current scope. Variables and functions are hoisted to the top 
+                    of their containing scope, not to the top of the entire program.
+                </p>
+
+                <h3>Global Scope</h3>
+                <pre><code>console.<span class="function">log</span>(globalVar);  <span class="comment">// undefined (hoisted to top of script)</span>
+<span class="keyword">var</span> globalVar = <span class="string">"I'm global"</span>;
+
+<span class="function">globalFunc</span>();  <span class="comment">// Works! (hoisted to top of script)</span>
+<span class="keyword">function</span> <span class="function">globalFunc</span>() {
+    console.<span class="function">log</span>(<span class="string">"I'm a global function"</span>);
+}</code></pre>
+
+                <h3>Function Scope</h3>
+                <pre><code><span class="keyword">function</span> <span class="function">outer</span>() {
+    console.<span class="function">log</span>(innerVar);  <span class="comment">// undefined (hoisted within outer)</span>
+    <span class="keyword">var</span> innerVar = <span class="string">"I'm inside outer"</span>;
+    
+    <span class="function">innerFunc</span>();  <span class="comment">// Works! (hoisted within outer)</span>
+    <span class="keyword">function</span> <span class="function">innerFunc</span>() {
+        console.<span class="function">log</span>(<span class="string">"I'm an inner function"</span>);
+    }
+}
+
+<span class="function">outer</span>();
+
+<span class="comment">// innerVar and innerFunc are NOT accessible here</span>
+<span class="comment">// console.log(innerVar);  // ReferenceError</span>
+<span class="comment">// innerFunc();            // ReferenceError</span></code></pre>
+
+                <h3>Block Scope (with <code>let</code> and <code>const</code>)</h3>
+                <pre><code><span class="keyword">if</span> (<span class="keyword">true</span>) {
+    <span class="comment">// TDZ for blockVar starts here</span>
+    <span class="comment">// console.log(blockVar);  // ReferenceError</span>
+    
+    <span class="keyword">let</span> blockVar = <span class="string">"I'm in a block"</span>;
+    console.<span class="function">log</span>(blockVar);  <span class="comment">// Output: I'm in a block</span>
+}
+
+<span class="comment">// blockVar is NOT accessible here</span>
+<span class="comment">// console.log(blockVar);  // ReferenceError</span></code></pre>
+            </section>
+
+            <!-- Common Hoisting Pitfalls -->
+            <section>
+                <h2>🚫 Common Hoisting Pitfalls</h2>
+
+                <h4>1. Assuming Variables Have Values Before Assignment</h4>
+                <pre><code><span class="keyword">var</span> price = <span class="number">100</span>;
+
+<span class="keyword">function</span> <span class="function">calculateTax</span>() {
+    console.<span class="function">log</span>(price);  <span class="comment">// ❌ undefined, NOT 100!</span>
+    <span class="keyword">var</span> price = <span class="number">200</span>;      <span class="comment">// This shadows the outer price</span>
+    console.<span class="function">log</span>(price);  <span class="comment">// 200</span>
+}
+
+<span class="function">calculateTax</span>();
+
+<span class="comment">// Why? The inner 'var price' is hoisted to the top of the function</span></code></pre>
+
+                <h4>2. Using <code>var</code> in Loops</h4>
+                <pre><code><span class="comment">// Classic problem with var in loops</span>
+<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
+    <span class="function">setTimeout</span>(() => console.<span class="function">log</span>(i), <span class="number">100</span>);
+}
+<span class="comment">// Output: 3, 3, 3 (not 0, 1, 2!)</span>
+<span class="comment">// Why? var is function-scoped, so there's only ONE 'i' variable</span>
+
+<span class="comment">// ✅ Fix: Use let (block-scoped)</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
+    <span class="function">setTimeout</span>(() => console.<span class="function">log</span>(i), <span class="number">100</span>);
+}
+<span class="comment">// Output: 0, 1, 2 (correct!)</span></code></pre>
+
+                <h4>3. Function Expression Before Declaration</h4>
+                <pre><code><span class="comment">// ❌ Common mistake</span>
+<span class="keyword">const</span> result = <span class="function">multiply</span>(<span class="number">5</span>, <span class="number">3</span>);  <span class="comment">// ReferenceError!</span>
+
+<span class="keyword">const</span> multiply = (a, b) => a * b;
+
+<span class="comment">// ✅ Fix: Define function before using</span>
+<span class="keyword">const</span> multiply = (a, b) => a * b;
+
+<span class="keyword">const</span> result = <span class="function">multiply</span>(<span class="number">5</span>, <span class="number">3</span>);  <span class="comment">// 15</span></code></pre>
+
+                <h4>4. Re-declaring Variables with <code>var</code></h4>
+                <pre><code><span class="keyword">var</span> name = <span class="string">"Alice"</span>;
+<span class="keyword">var</span> name = <span class="string">"Bob"</span>;     <span class="comment">// No error! Silently overwrites</span>
+console.<span class="function">log</span>(name);    <span class="comment">// Output: Bob</span>
+
+<span class="comment">// ✅ With let, this throws an error (much safer!)</span>
+<span class="keyword">let</span> age = <span class="number">25</span>;
+<span class="keyword">let</span> age = <span class="number">30</span>;         <span class="comment">// ❌ SyntaxError: 'age' has already been declared</span></code></pre>
+            </section>
+
+            <!-- Best Practices -->
+            <section>
+                <h2>💡 Best Practices</h2>
+
+                <div class="success-box">
+                    <strong>✅ Follow These Guidelines:</strong>
+                    <ol>
+                        <li><strong>Use <code>const</code> by default</strong> - Only use <code>let</code> when you need to reassign</li>
+                        <li><strong>Avoid <code>var</code></strong> - It has confusing scoping behavior due to hoisting</li>
+                        <li><strong>Declare variables at the top</strong> - Makes code clearer and matches hoisted behavior</li>
+                        <li><strong>Declare functions before calling them</strong> - Even though declarations are hoisted, it's clearer</li>
+                        <li><strong>Use function declarations for named functions</strong> - Use arrow functions for callbacks</li>
+                        <li><strong>Initialize variables when declaring</strong> - Avoid <code>let x;</code> without a value when possible</li>
+                    </ol>
+                </div>
+
+                <h3>Good Code Organization</h3>
+                <pre><code><span class="comment">// ✅ Good: Declarations at the top, clear and organized</span>
+<span class="keyword">const</span> TAX_RATE = <span class="number">0.08</span>;
+<span class="keyword">let</span> totalPrice = <span class="number">0</span>;
+
+<span class="keyword">function</span> <span class="function">calculateTotal</span>(price, quantity) {
+    <span class="keyword">const</span> subtotal = price * quantity;
+    <span class="keyword">const</span> tax = subtotal * TAX_RATE;
+    <span class="keyword">return</span> subtotal + tax;
+}
+
+totalPrice = <span class="function">calculateTotal</span>(<span class="number">29.99</span>, <span class="number">3</span>);
+console.<span class="function">log</span>(totalPrice);  <span class="comment">// Output: 97.17</span></code></pre>
+
+                <pre><code><span class="comment">// ❌ Bad: Scattered declarations, relies on hoisting</span>
+<span class="function">calculateTotal</span>(<span class="number">29.99</span>, <span class="number">3</span>);
+
+<span class="keyword">var</span> TAX_RATE = <span class="number">0.08</span>;
+
+<span class="keyword">function</span> <span class="function">calculateTotal</span>(price, quantity) {
+    <span class="keyword">var</span> subtotal = price * quantity;
+    console.<span class="function">log</span>(tax);  <span class="comment">// undefined - confusing!</span>
+    <span class="keyword">var</span> tax = subtotal * TAX_RATE;
+    <span class="keyword">return</span> subtotal + tax;
+}
+
+<span class="keyword">var</span> totalPrice = <span class="number">0</span>;</code></pre>
+            </section>
+
+            <!-- Quick Reference -->
+            <section>
+                <h2>🎓 Quick Reference</h2>
+
+                <h3>Hoisting Summary Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Declaration Type</th>
+                            <th>Hoisted?</th>
+                            <th>Initialized To</th>
+                            <th>Scope</th>
+                            <th>TDZ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>var</code></td>
+                            <td>✅ Yes</td>
+                            <td><code>undefined</code></td>
+                            <td>Function</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td><code>let</code></td>
+                            <td>✅ Yes</td>
+                            <td>Uninitialized</td>
+                            <td>Block</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>const</code></td>
+                            <td>✅ Yes</td>
+                            <td>Uninitialized</td>
+                            <td>Block</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Function Declaration</td>
+                            <td>✅ Yes (fully)</td>
+                            <td>Function body</td>
+                            <td>Function</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td>Function Expression</td>
+                            <td>Variable only</td>
+                            <td>Depends on var/let</td>
+                            <td>Depends</td>
+                            <td>Depends</td>
+                        </tr>
+                        <tr>
+                            <td>Class</td>
+                            <td>✅ Yes</td>
+                            <td>Uninitialized</td>
+                            <td>Block</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Cheat Sheet</h3>
+                <pre><code><span class="comment">// var - hoisted, initialized to undefined, function-scoped</span>
+console.<span class="function">log</span>(a);  <span class="comment">// undefined</span>
+<span class="keyword">var</span> a = <span class="number">1</span>;
+
+<span class="comment">// let - hoisted, NOT initialized (TDZ), block-scoped</span>
+<span class="comment">// console.log(b);  // ReferenceError</span>
+<span class="keyword">let</span> b = <span class="number">2</span>;
+
+<span class="comment">// const - hoisted, NOT initialized (TDZ), block-scoped</span>
+<span class="comment">// console.log(c);  // ReferenceError</span>
+<span class="keyword">const</span> c = <span class="number">3</span>;
+
+<span class="comment">// Function declaration - fully hoisted</span>
+<span class="function">myFunc</span>();  <span class="comment">// Works!</span>
+<span class="keyword">function</span> <span class="function">myFunc</span>() { }
+
+<span class="comment">// Function expression - only variable hoisted</span>
+<span class="comment">// myExpr();  // TypeError or ReferenceError</span>
+<span class="keyword">const</span> myExpr = <span class="keyword">function</span>() { };
+
+<span class="comment">// Arrow function - only variable hoisted</span>
+<span class="comment">// myArrow();  // ReferenceError</span>
+<span class="keyword">const</span> myArrow = () => { };
+
+<span class="comment">// Class - hoisted but in TDZ</span>
+<span class="comment">// new MyClass();  // ReferenceError</span>
+<span class="keyword">class</span> MyClass { }</code></pre>
+
+                <div class="info-box">
+                    <strong>📝 Key Takeaways:</strong>
+                    <ul>
+                        <li>Hoisting moves declarations (not initializations) to the top of their scope</li>
+                        <li><code>var</code> is hoisted and initialized to <code>undefined</code></li>
+                        <li><code>let</code> and <code>const</code> are hoisted but stay in the TDZ until declared</li>
+                        <li>Function declarations are fully hoisted (name + body)</li>
+                        <li>Function expressions and arrow functions are NOT fully hoisted</li>
+                        <li>Use <code>const</code> and <code>let</code> instead of <code>var</code> for predictable behavior</li>
+                        <li>Declare variables and functions at the top of their scope for clarity</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>JavaScript Hoisting Quick Reference Guide | Master Variable & Function Behavior! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>

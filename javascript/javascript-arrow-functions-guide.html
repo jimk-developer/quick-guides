@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ JavaScript Arrow Functions</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+            font-size: 1.2rem;
+        }
+
+        h4 {
+            color: #667eea;
+            margin: 15px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .highlight-box strong {
+            color: #f57f17;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #f44336;
+        }
+
+        .warning-box strong {
+            color: #c62828;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+
+        .success-box strong {
+            color: #2e7d32;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        .info-box strong {
+            color: #1565c0;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3f51b5;
+            font-family: 'Courier New', monospace;
+        }
+
+        .syntax-box strong {
+            color: #283593;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            background: #e8e8e8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #c62828;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-card h4 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .traditional {
+            border-top: 4px solid #ff9800;
+        }
+
+        .arrow {
+            border-top: 4px solid #4caf50;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            section {
+                padding: 15px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            pre {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ JavaScript Arrow Functions</h1>
+            <p>A Beginner's Guide to ES6 Arrow Function Syntax</p>
+        </header>
+
+        <main>
+            <!-- What are Arrow Functions -->
+            <section>
+                <h2>🎯 What are Arrow Functions?</h2>
+                <p>
+                    Arrow functions are a more concise way to write functions, introduced in ES6 (2015). 
+                    They use the <code>=></code> (arrow) syntax instead of the <code>function</code> keyword. 
+                    Think of them as a shorthand way to write functions that can make your code cleaner and more readable.
+                </p>
+
+                <div class="highlight-box">
+                    <strong>💡 Why Use Arrow Functions?</strong>
+                    <ul>
+                        <li><strong>Shorter Syntax</strong> - Less typing, more readable code</li>
+                        <li><strong>Implicit Return</strong> - One-line functions return automatically</li>
+                        <li><strong>Cleaner Callbacks</strong> - Perfect for array methods like <code>map</code>, <code>filter</code>, <code>forEach</code></li>
+                        <li><strong>Modern Standard</strong> - Used extensively in modern JavaScript and frameworks</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Basic Syntax -->
+            <section>
+                <h2>📝 Basic Arrow Function Syntax</h2>
+                <p>
+                    Arrow functions replace the <code>function</code> keyword with an arrow <code>=></code> 
+                    that comes after the parameters.
+                </p>
+
+                <div class="syntax-box">
+                    <strong>Syntax:</strong> (parameters) => { code to execute }
+                </div>
+
+                <pre><code><span class="comment">// Traditional function</span>
+<span class="keyword">function</span> <span class="function">sayHello</span>() {
+    console.<span class="function">log</span>(<span class="string">"Hello, World!"</span>);
+}
+
+<span class="comment">// Arrow function equivalent</span>
+<span class="keyword">const</span> sayHello = () => {
+    console.<span class="function">log</span>(<span class="string">"Hello, World!"</span>);
+};
+
+<span class="comment">// Both are called the same way</span>
+<span class="function">sayHello</span>();  <span class="comment">// Output: Hello, World!</span></code></pre>
+
+                <h3>Arrow Function with Parameters</h3>
+                <pre><code><span class="comment">// Traditional function with parameter</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name) {
+    console.<span class="function">log</span>(<span class="string">"Hello, "</span> + name + <span class="string">"!"</span>);
+}
+
+<span class="comment">// Arrow function with parameter</span>
+<span class="keyword">const</span> greet = (name) => {
+    console.<span class="function">log</span>(<span class="string">"Hello, "</span> + name + <span class="string">"!"</span>);
+};
+
+<span class="function">greet</span>(<span class="string">"Alice"</span>);  <span class="comment">// Output: Hello, Alice!</span>
+<span class="function">greet</span>(<span class="string">"Bob"</span>);    <span class="comment">// Output: Hello, Bob!</span></code></pre>
+
+                <h3>Arrow Function with Multiple Parameters</h3>
+                <pre><code><span class="comment">// Traditional function</span>
+<span class="keyword">function</span> <span class="function">add</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// Arrow function</span>
+<span class="keyword">const</span> add = (a, b) => {
+    <span class="keyword">return</span> a + b;
+};
+
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">5</span>, <span class="number">3</span>));   <span class="comment">// Output: 8</span>
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">10</span>, <span class="number">20</span>)); <span class="comment">// Output: 30</span></code></pre>
+            </section>
+
+            <!-- Syntax Shortcuts -->
+            <section>
+                <h2>✂️ Arrow Function Shortcuts</h2>
+                <p>
+                    Arrow functions have several shortcuts that can make your code even more concise. 
+                    These shortcuts are one of the main reasons developers love arrow functions!
+                </p>
+
+                <h3>1. Single Parameter - No Parentheses Needed</h3>
+                <p>When you have exactly <strong>one</strong> parameter, you can omit the parentheses.</p>
+                <pre><code><span class="comment">// With parentheses (always valid)</span>
+<span class="keyword">const</span> double = (num) => {
+    <span class="keyword">return</span> num * <span class="number">2</span>;
+};
+
+<span class="comment">// Without parentheses (single parameter only)</span>
+<span class="keyword">const</span> double = num => {
+    <span class="keyword">return</span> num * <span class="number">2</span>;
+};
+
+console.<span class="function">log</span>(<span class="function">double</span>(<span class="number">5</span>));  <span class="comment">// Output: 10</span></code></pre>
+
+                <h3>2. Implicit Return - No Braces or Return Keyword</h3>
+                <p>
+                    When your function body is a <strong>single expression</strong>, you can remove the 
+                    curly braces <code>{}</code> and the <code>return</code> keyword. The value is returned automatically!
+                </p>
+                <pre><code><span class="comment">// With curly braces and return (explicit return)</span>
+<span class="keyword">const</span> double = num => {
+    <span class="keyword">return</span> num * <span class="number">2</span>;
+};
+
+<span class="comment">// Without curly braces (implicit return)</span>
+<span class="keyword">const</span> double = num => num * <span class="number">2</span>;
+
+console.<span class="function">log</span>(<span class="function">double</span>(<span class="number">5</span>));  <span class="comment">// Output: 10</span>
+
+<span class="comment">// More examples of implicit return</span>
+<span class="keyword">const</span> square = x => x * x;
+<span class="keyword">const</span> isEven = n => n % <span class="number">2</span> === <span class="number">0</span>;
+<span class="keyword">const</span> greet = name => <span class="string">`Hello, </span>${name}<span class="string">!`</span>;
+
+console.<span class="function">log</span>(<span class="function">square</span>(<span class="number">4</span>));       <span class="comment">// Output: 16</span>
+console.<span class="function">log</span>(<span class="function">isEven</span>(<span class="number">6</span>));       <span class="comment">// Output: true</span>
+console.<span class="function">log</span>(<span class="function">greet</span>(<span class="string">"Sarah"</span>)); <span class="comment">// Output: Hello, Sarah!</span></code></pre>
+
+                <h3>3. Multiple Parameters with Implicit Return</h3>
+                <pre><code><span class="comment">// Multiple parameters still need parentheses</span>
+<span class="keyword">const</span> add = (a, b) => a + b;
+<span class="keyword">const</span> multiply = (x, y) => x * y;
+<span class="keyword">const</span> max = (a, b) => a > b ? a : b;
+
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">5</span>, <span class="number">3</span>));       <span class="comment">// Output: 8</span>
+console.<span class="function">log</span>(<span class="function">multiply</span>(<span class="number">4</span>, <span class="number">7</span>));  <span class="comment">// Output: 28</span>
+console.<span class="function">log</span>(<span class="function">max</span>(<span class="number">10</span>, <span class="number">5</span>));      <span class="comment">// Output: 10</span></code></pre>
+
+                <h3>4. No Parameters - Empty Parentheses Required</h3>
+                <pre><code><span class="comment">// No parameters - must use empty parentheses</span>
+<span class="keyword">const</span> sayHi = () => console.<span class="function">log</span>(<span class="string">"Hi!"</span>);
+<span class="keyword">const</span> getRandomNumber = () => Math.<span class="function">random</span>();
+<span class="keyword">const</span> getCurrentYear = () => <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">getFullYear</span>();
+
+<span class="function">sayHi</span>();                         <span class="comment">// Output: Hi!</span>
+console.<span class="function">log</span>(<span class="function">getRandomNumber</span>());  <span class="comment">// Output: 0.123... (random)</span>
+console.<span class="function">log</span>(<span class="function">getCurrentYear</span>());   <span class="comment">// Output: 2025</span></code></pre>
+
+                <div class="info-box">
+                    <strong>📌 Syntax Summary:</strong>
+                    <ul>
+                        <li><code>() => expression</code> - No parameters</li>
+                        <li><code>param => expression</code> - Single parameter (no parentheses)</li>
+                        <li><code>(param) => expression</code> - Single parameter (with parentheses)</li>
+                        <li><code>(param1, param2) => expression</code> - Multiple parameters</li>
+                        <li><code>param => { statements }</code> - Multiple statements (need braces)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Returning Objects -->
+            <section>
+                <h2>📦 Returning Objects</h2>
+                <p>
+                    When returning an object literal with implicit return, you must wrap it in parentheses. 
+                    This is because curly braces <code>{}</code> are interpreted as the function body, not an object.
+                </p>
+
+                <pre><code><span class="comment">// ❌ WRONG - JavaScript thinks {} is the function body</span>
+<span class="keyword">const</span> createPerson = (name, age) => { name: name, age: age };
+
+<span class="comment">// ✅ CORRECT - Wrap object in parentheses</span>
+<span class="keyword">const</span> createPerson = (name, age) => ({ name: name, age: age });
+
+<span class="comment">// Even shorter with ES6 shorthand property names</span>
+<span class="keyword">const</span> createPerson = (name, age) => ({ name, age });
+
+<span class="keyword">const</span> person = <span class="function">createPerson</span>(<span class="string">"Alice"</span>, <span class="number">25</span>);
+console.<span class="function">log</span>(person);  <span class="comment">// Output: { name: "Alice", age: 25 }</span></code></pre>
+
+                <div class="warning-box">
+                    <strong>⚠️ Common Gotcha:</strong> Forgetting to wrap returned objects in parentheses 
+                    is a very common mistake. If your arrow function returns <code>undefined</code> when 
+                    you expect an object, check if you need to add parentheses!
+                </div>
+            </section>
+
+            <!-- Comparison Side by Side -->
+            <section>
+                <h2>🔄 Traditional vs Arrow Functions</h2>
+                <p>Here's a side-by-side comparison showing the same functions written both ways:</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card traditional">
+                        <h4>🔶 Traditional Function</h4>
+                        <pre><code><span class="keyword">function</span> <span class="function">add</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}</code></pre>
+                    </div>
+                    <div class="comparison-card arrow">
+                        <h4>🟢 Arrow Function</h4>
+                        <pre><code><span class="keyword">const</span> add = (a, b) => a + b;</code></pre>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card traditional">
+                        <h4>🔶 Traditional Function</h4>
+                        <pre><code><span class="keyword">function</span> <span class="function">square</span>(x) {
+    <span class="keyword">return</span> x * x;
+}</code></pre>
+                    </div>
+                    <div class="comparison-card arrow">
+                        <h4>🟢 Arrow Function</h4>
+                        <pre><code><span class="keyword">const</span> square = x => x * x;</code></pre>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card traditional">
+                        <h4>🔶 Traditional Function</h4>
+                        <pre><code><span class="keyword">function</span> <span class="function">greet</span>(name) {
+    <span class="keyword">return</span> <span class="string">"Hello, "</span> + name;
+}</code></pre>
+                    </div>
+                    <div class="comparison-card arrow">
+                        <h4>🟢 Arrow Function</h4>
+                        <pre><code><span class="keyword">const</span> greet = name => <span class="string">`Hello, </span>${name}<span class="string">`</span>;</code></pre>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Traditional Function</th>
+                            <th>Arrow Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Syntax</strong></td>
+                            <td><code>function name() {}</code></td>
+                            <td><code>const name = () => {}</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Implicit Return</strong></td>
+                            <td>❌ Must use <code>return</code></td>
+                            <td>✅ Single expressions return automatically</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hoisting</strong></td>
+                            <td>✅ Can call before declaration</td>
+                            <td>❌ Must declare before calling</td>
+                        </tr>
+                        <tr>
+                            <td><strong><code>this</code> Binding</strong></td>
+                            <td>Has its own <code>this</code></td>
+                            <td>Inherits <code>this</code> from parent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Methods, constructors</td>
+                            <td>Callbacks, short functions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- What are Callbacks -->
+            <section>
+                <h2>📞 What are Callbacks?</h2>
+                <p>
+                    A <strong>callback</strong> is simply a function that is passed as an argument to another function, 
+                    and is then executed (or "called back") at a later time. Think of it like leaving your phone number 
+                    with a restaurant—they'll "call you back" when your table is ready.
+                </p>
+
+                <div class="highlight-box">
+                    <strong>💡 Why Callbacks Matter:</strong>
+                    <ul>
+                        <li><strong>Customization</strong> - Let functions behave differently based on what you pass in</li>
+                        <li><strong>Reusability</strong> - Write generic functions that work with any callback</li>
+                        <li><strong>Asynchronous Operations</strong> - Handle events, timers, and data fetching</li>
+                        <li><strong>Array Methods</strong> - Power methods like <code>map</code>, <code>filter</code>, <code>forEach</code></li>
+                    </ul>
+                </div>
+
+                <h3>Basic Callback Example</h3>
+                <pre><code><span class="comment">// A function that accepts a callback</span>
+<span class="keyword">function</span> <span class="function">processNumber</span>(num, callback) {
+    <span class="keyword">const</span> result = <span class="function">callback</span>(num);  <span class="comment">// Execute the callback</span>
+    console.<span class="function">log</span>(result);
+}
+
+<span class="comment">// Different callbacks we can pass in</span>
+<span class="keyword">const</span> double = n => n * <span class="number">2</span>;
+<span class="keyword">const</span> square = n => n * n;
+<span class="keyword">const</span> addTen = n => n + <span class="number">10</span>;
+
+<span class="comment">// Same function, different behaviors!</span>
+<span class="function">processNumber</span>(<span class="number">5</span>, double);  <span class="comment">// Output: 10</span>
+<span class="function">processNumber</span>(<span class="number">5</span>, square);  <span class="comment">// Output: 25</span>
+<span class="function">processNumber</span>(<span class="number">5</span>, addTen);  <span class="comment">// Output: 15</span></code></pre>
+
+                <h3>Inline Callbacks (Anonymous Functions)</h3>
+                <p>
+                    Instead of defining a callback separately, you can write it directly where it's needed. 
+                    This is called an <strong>inline</strong> or <strong>anonymous</strong> callback.
+                </p>
+                <pre><code><span class="comment">// Traditional function as inline callback</span>
+<span class="function">processNumber</span>(<span class="number">5</span>, <span class="keyword">function</span>(n) {
+    <span class="keyword">return</span> n * <span class="number">3</span>;
+});  <span class="comment">// Output: 15</span>
+
+<span class="comment">// Arrow function as inline callback - much cleaner!</span>
+<span class="function">processNumber</span>(<span class="number">5</span>, n => n * <span class="number">3</span>);  <span class="comment">// Output: 15</span></code></pre>
+
+                <h3>Real-World Callback Examples</h3>
+                <h4>Event Listeners</h4>
+                <pre><code><span class="comment">// The arrow function is the callback - it runs when button is clicked</span>
+button.<span class="function">addEventListener</span>(<span class="string">"click"</span>, () => {
+    console.<span class="function">log</span>(<span class="string">"Button was clicked!"</span>);
+});</code></pre>
+
+                <h4>Timers</h4>
+                <pre><code><span class="comment">// The callback runs after 2 seconds</span>
+<span class="function">setTimeout</span>(() => {
+    console.<span class="function">log</span>(<span class="string">"2 seconds have passed!"</span>);
+}, <span class="number">2000</span>);
+
+<span class="comment">// The callback runs every 1 second</span>
+<span class="function">setInterval</span>(() => {
+    console.<span class="function">log</span>(<span class="string">"Another second..."</span>);
+}, <span class="number">1000</span>);</code></pre>
+
+                <h4>Array Methods</h4>
+                <pre><code><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// The callback is called once for EACH element in the array</span>
+numbers.<span class="function">forEach</span>(num => console.<span class="function">log</span>(num));
+
+<span class="comment">// The callback transforms each element</span>
+<span class="keyword">const</span> doubled = numbers.<span class="function">map</span>(num => num * <span class="number">2</span>);
+
+<span class="comment">// The callback tests each element</span>
+<span class="keyword">const</span> evens = numbers.<span class="function">filter</span>(num => num % <span class="number">2</span> === <span class="number">0</span>);</code></pre>
+
+                <div class="info-box">
+                    <strong>🔗 Callbacks + Arrow Functions:</strong>
+                    Arrow functions are perfect for callbacks because of their short, clean syntax. 
+                    Instead of writing <code>function(x) { return x * 2; }</code>, you can simply write 
+                    <code>x => x * 2</code>. This is why you'll see arrow functions used extensively 
+                    with array methods and event handlers.
+                </div>
+            </section>
+
+            <!-- Arrow Functions with Array Methods -->
+            <section>
+                <h2>🚀 Arrow Functions with Array Methods</h2>
+                <p>
+                    Arrow functions really shine when used with array methods like <code>map</code>, 
+                    <code>filter</code>, <code>forEach</code>, and <code>reduce</code>. They make callbacks 
+                    much cleaner and easier to read.
+                </p>
+
+                <h3>forEach() - Loop Through Array</h3>
+                <pre><code><span class="keyword">const</span> fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>];
+
+<span class="comment">// Traditional function</span>
+fruits.<span class="function">forEach</span>(<span class="keyword">function</span>(fruit) {
+    console.<span class="function">log</span>(fruit);
+});
+
+<span class="comment">// Arrow function - much cleaner!</span>
+fruits.<span class="function">forEach</span>(fruit => console.<span class="function">log</span>(fruit));
+
+<span class="comment">// Output:</span>
+<span class="comment">// apple</span>
+<span class="comment">// banana</span>
+<span class="comment">// cherry</span></code></pre>
+
+                <h3>map() - Transform Array Elements</h3>
+                <pre><code><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Traditional function</span>
+<span class="keyword">const</span> doubled = numbers.<span class="function">map</span>(<span class="keyword">function</span>(num) {
+    <span class="keyword">return</span> num * <span class="number">2</span>;
+});
+
+<span class="comment">// Arrow function - one line!</span>
+<span class="keyword">const</span> doubled = numbers.<span class="function">map</span>(num => num * <span class="number">2</span>);
+
+console.<span class="function">log</span>(doubled);  <span class="comment">// Output: [2, 4, 6, 8, 10]</span>
+
+<span class="comment">// More map() examples</span>
+<span class="keyword">const</span> names = [<span class="string">"alice"</span>, <span class="string">"bob"</span>, <span class="string">"charlie"</span>];
+<span class="keyword">const</span> upperNames = names.<span class="function">map</span>(name => name.<span class="function">toUpperCase</span>());
+console.<span class="function">log</span>(upperNames);  <span class="comment">// Output: ["ALICE", "BOB", "CHARLIE"]</span>
+
+<span class="keyword">const</span> prices = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];
+<span class="keyword">const</span> withTax = prices.<span class="function">map</span>(price => price * <span class="number">1.08</span>);
+console.<span class="function">log</span>(withTax);  <span class="comment">// Output: [10.8, 21.6, 32.4]</span></code></pre>
+
+                <h3>filter() - Keep Matching Elements</h3>
+                <pre><code><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>];
+
+<span class="comment">// Traditional function</span>
+<span class="keyword">const</span> evens = numbers.<span class="function">filter</span>(<span class="keyword">function</span>(num) {
+    <span class="keyword">return</span> num % <span class="number">2</span> === <span class="number">0</span>;
+});
+
+<span class="comment">// Arrow function</span>
+<span class="keyword">const</span> evens = numbers.<span class="function">filter</span>(num => num % <span class="number">2</span> === <span class="number">0</span>);
+
+console.<span class="function">log</span>(evens);  <span class="comment">// Output: [2, 4, 6, 8, 10]</span>
+
+<span class="comment">// More filter() examples</span>
+<span class="keyword">const</span> ages = [<span class="number">12</span>, <span class="number">18</span>, <span class="number">21</span>, <span class="number">16</span>, <span class="number">25</span>, <span class="number">14</span>];
+<span class="keyword">const</span> adults = ages.<span class="function">filter</span>(age => age >= <span class="number">18</span>);
+console.<span class="function">log</span>(adults);  <span class="comment">// Output: [18, 21, 25]</span>
+
+<span class="keyword">const</span> words = [<span class="string">"hello"</span>, <span class="string">"hi"</span>, <span class="string">"greetings"</span>, <span class="string">"hey"</span>];
+<span class="keyword">const</span> longWords = words.<span class="function">filter</span>(word => word.length > <span class="number">3</span>);
+console.<span class="function">log</span>(longWords);  <span class="comment">// Output: ["hello", "greetings"]</span></code></pre>
+
+                <h3>find() - Find First Match</h3>
+                <pre><code><span class="keyword">const</span> users = [
+    { name: <span class="string">"Alice"</span>, age: <span class="number">25</span> },
+    { name: <span class="string">"Bob"</span>, age: <span class="number">30</span> },
+    { name: <span class="string">"Charlie"</span>, age: <span class="number">35</span> }
+];
+
+<span class="keyword">const</span> user = users.<span class="function">find</span>(user => user.name === <span class="string">"Bob"</span>);
+console.<span class="function">log</span>(user);  <span class="comment">// Output: { name: "Bob", age: 30 }</span>
+
+<span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>, <span class="number">20</span>];
+<span class="keyword">const</span> firstBig = numbers.<span class="function">find</span>(n => n > <span class="number">8</span>);
+console.<span class="function">log</span>(firstBig);  <span class="comment">// Output: 10</span></code></pre>
+
+                <h3>reduce() - Calculate Single Value</h3>
+                <pre><code><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Sum all numbers</span>
+<span class="keyword">const</span> sum = numbers.<span class="function">reduce</span>((total, num) => total + num, <span class="number">0</span>);
+console.<span class="function">log</span>(sum);  <span class="comment">// Output: 15</span>
+
+<span class="comment">// Find the maximum</span>
+<span class="keyword">const</span> max = numbers.<span class="function">reduce</span>((biggest, num) => num > biggest ? num : biggest);
+console.<span class="function">log</span>(max);  <span class="comment">// Output: 5</span>
+
+<span class="comment">// Count occurrences</span>
+<span class="keyword">const</span> letters = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"a"</span>, <span class="string">"c"</span>, <span class="string">"a"</span>];
+<span class="keyword">const</span> count = letters.<span class="function">reduce</span>((acc, letter) => {
+    acc[letter] = (acc[letter] || <span class="number">0</span>) + <span class="number">1</span>;
+    <span class="keyword">return</span> acc;
+}, {});
+console.<span class="function">log</span>(count);  <span class="comment">// Output: { a: 3, b: 1, c: 1 }</span></code></pre>
+
+                <h3>Chaining Array Methods</h3>
+                <pre><code><span class="keyword">const</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>];
+
+<span class="comment">// Filter even numbers, then double them</span>
+<span class="keyword">const</span> result = numbers
+    .<span class="function">filter</span>(n => n % <span class="number">2</span> === <span class="number">0</span>)    <span class="comment">// [2, 4, 6, 8, 10]</span>
+    .<span class="function">map</span>(n => n * <span class="number">2</span>);             <span class="comment">// [4, 8, 12, 16, 20]</span>
+
+console.<span class="function">log</span>(result);  <span class="comment">// Output: [4, 8, 12, 16, 20]</span>
+
+<span class="comment">// Get names of adults, uppercase</span>
+<span class="keyword">const</span> people = [
+    { name: <span class="string">"Alice"</span>, age: <span class="number">25</span> },
+    { name: <span class="string">"Bob"</span>, age: <span class="number">17</span> },
+    { name: <span class="string">"Charlie"</span>, age: <span class="number">30</span> }
+];
+
+<span class="keyword">const</span> adultNames = people
+    .<span class="function">filter</span>(person => person.age >= <span class="number">18</span>)
+    .<span class="function">map</span>(person => person.name.<span class="function">toUpperCase</span>());
+
+console.<span class="function">log</span>(adultNames);  <span class="comment">// Output: ["ALICE", "CHARLIE"]</span></code></pre>
+            </section>
+
+            <!-- Practical Examples -->
+            <section>
+                <h2>📚 Practical Examples</h2>
+
+                <h4>Example 1: Calculator Functions</h4>
+                <pre><code><span class="keyword">const</span> add = (a, b) => a + b;
+<span class="keyword">const</span> subtract = (a, b) => a - b;
+<span class="keyword">const</span> multiply = (a, b) => a * b;
+<span class="keyword">const</span> divide = (a, b) => b !== <span class="number">0</span> ? a / b : <span class="string">"Cannot divide by zero"</span>;
+
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">10</span>, <span class="number">5</span>));       <span class="comment">// 15</span>
+console.<span class="function">log</span>(<span class="function">subtract</span>(<span class="number">10</span>, <span class="number">5</span>));  <span class="comment">// 5</span>
+console.<span class="function">log</span>(<span class="function">multiply</span>(<span class="number">10</span>, <span class="number">5</span>));  <span class="comment">// 50</span>
+console.<span class="function">log</span>(<span class="function">divide</span>(<span class="number">10</span>, <span class="number">5</span>));    <span class="comment">// 2</span>
+console.<span class="function">log</span>(<span class="function">divide</span>(<span class="number">10</span>, <span class="number">0</span>));    <span class="comment">// Cannot divide by zero</span></code></pre>
+
+                <h4>Example 2: Temperature Converter</h4>
+                <pre><code><span class="keyword">const</span> celsiusToFahrenheit = celsius => (celsius * <span class="number">9</span>/<span class="number">5</span>) + <span class="number">32</span>;
+<span class="keyword">const</span> fahrenheitToCelsius = fahrenheit => (fahrenheit - <span class="number">32</span>) * <span class="number">5</span>/<span class="number">9</span>;
+
+console.<span class="function">log</span>(<span class="function">celsiusToFahrenheit</span>(<span class="number">0</span>));    <span class="comment">// 32</span>
+console.<span class="function">log</span>(<span class="function">celsiusToFahrenheit</span>(<span class="number">100</span>));  <span class="comment">// 212</span>
+console.<span class="function">log</span>(<span class="function">fahrenheitToCelsius</span>(<span class="number">32</span>));   <span class="comment">// 0</span>
+console.<span class="function">log</span>(<span class="function">fahrenheitToCelsius</span>(<span class="number">212</span>));  <span class="comment">// 100</span></code></pre>
+
+                <h4>Example 3: String Utilities</h4>
+                <pre><code><span class="keyword">const</span> capitalize = str => str.<span class="function">charAt</span>(<span class="number">0</span>).<span class="function">toUpperCase</span>() + str.<span class="function">slice</span>(<span class="number">1</span>);
+<span class="keyword">const</span> reverse = str => str.<span class="function">split</span>(<span class="string">""</span>).<span class="function">reverse</span>().<span class="function">join</span>(<span class="string">""</span>);
+<span class="keyword">const</span> countWords = str => str.<span class="function">split</span>(<span class="string">" "</span>).length;
+
+console.<span class="function">log</span>(<span class="function">capitalize</span>(<span class="string">"hello"</span>));        <span class="comment">// Hello</span>
+console.<span class="function">log</span>(<span class="function">reverse</span>(<span class="string">"hello"</span>));           <span class="comment">// olleh</span>
+console.<span class="function">log</span>(<span class="function">countWords</span>(<span class="string">"Hello world!"</span>)); <span class="comment">// 2</span></code></pre>
+
+                <h4>Example 4: Age Checker</h4>
+                <pre><code><span class="keyword">const</span> canVote = age => age >= <span class="number">18</span> ? <span class="string">"You can vote!"</span> : <span class="string">"Too young to vote"</span>;
+<span class="keyword">const</span> canDrive = age => age >= <span class="number">16</span> ? <span class="string">"You can drive!"</span> : <span class="string">"Too young to drive"</span>;
+
+console.<span class="function">log</span>(<span class="function">canVote</span>(<span class="number">20</span>));   <span class="comment">// You can vote!</span>
+console.<span class="function">log</span>(<span class="function">canVote</span>(<span class="number">16</span>));   <span class="comment">// Too young to vote</span>
+console.<span class="function">log</span>(<span class="function">canDrive</span>(<span class="number">16</span>));  <span class="comment">// You can drive!</span></code></pre>
+
+                <h4>Example 5: Array Processing</h4>
+                <pre><code><span class="keyword">const</span> products = [
+    { name: <span class="string">"Laptop"</span>, price: <span class="number">999</span>, inStock: <span class="keyword">true</span> },
+    { name: <span class="string">"Phone"</span>, price: <span class="number">699</span>, inStock: <span class="keyword">false</span> },
+    { name: <span class="string">"Tablet"</span>, price: <span class="number">499</span>, inStock: <span class="keyword">true</span> },
+    { name: <span class="string">"Watch"</span>, price: <span class="number">299</span>, inStock: <span class="keyword">true</span> }
+];
+
+<span class="comment">// Get available products</span>
+<span class="keyword">const</span> available = products.<span class="function">filter</span>(p => p.inStock);
+
+<span class="comment">// Get product names</span>
+<span class="keyword">const</span> names = products.<span class="function">map</span>(p => p.name);
+
+<span class="comment">// Calculate total value</span>
+<span class="keyword">const</span> total = products.<span class="function">reduce</span>((sum, p) => sum + p.price, <span class="number">0</span>);
+
+<span class="comment">// Find expensive items</span>
+<span class="keyword">const</span> expensive = products.<span class="function">filter</span>(p => p.price > <span class="number">500</span>);
+
+console.<span class="function">log</span>(available);  <span class="comment">// 3 products in stock</span>
+console.<span class="function">log</span>(names);      <span class="comment">// ["Laptop", "Phone", "Tablet", "Watch"]</span>
+console.<span class="function">log</span>(total);      <span class="comment">// 2496</span>
+console.<span class="function">log</span>(expensive);  <span class="comment">// Laptop and Phone</span></code></pre>
+
+                <h4>Example 6: Event Handler (DOM)</h4>
+                <pre><code><span class="comment">// Traditional function</span>
+button.<span class="function">addEventListener</span>(<span class="string">"click"</span>, <span class="keyword">function</span>() {
+    console.<span class="function">log</span>(<span class="string">"Button clicked!"</span>);
+});
+
+<span class="comment">// Arrow function - cleaner!</span>
+button.<span class="function">addEventListener</span>(<span class="string">"click"</span>, () => {
+    console.<span class="function">log</span>(<span class="string">"Button clicked!"</span>);
+});
+
+<span class="comment">// Even shorter for single statement</span>
+button.<span class="function">addEventListener</span>(<span class="string">"click"</span>, () => console.<span class="function">log</span>(<span class="string">"Button clicked!"</span>));</code></pre>
+            </section>
+
+            <!-- When NOT to Use Arrow Functions -->
+            <section>
+                <h2>⚠️ When NOT to Use Arrow Functions</h2>
+                <p>
+                    While arrow functions are great, there are specific situations where you should 
+                    use traditional functions instead.
+                </p>
+
+                <h3>1. Object Methods (with <code>this</code>)</h3>
+                <pre><code><span class="keyword">const</span> person = {
+    name: <span class="string">"Alice"</span>,
+
+    <span class="comment">// ❌ WRONG - Arrow function doesn't have its own 'this'</span>
+    sayHiArrow: () => {
+        console.<span class="function">log</span>(<span class="string">`Hi, I'm </span>${<span class="keyword">this</span>.name}<span class="string">`</span>);  <span class="comment">// 'this' is undefined!</span>
+    },
+
+    <span class="comment">// ✅ CORRECT - Traditional function has its own 'this'</span>
+    sayHiTraditional: <span class="keyword">function</span>() {
+        console.<span class="function">log</span>(<span class="string">`Hi, I'm </span>${<span class="keyword">this</span>.name}<span class="string">`</span>);  <span class="comment">// 'this' refers to person</span>
+    },
+
+    <span class="comment">// ✅ CORRECT - ES6 method shorthand (recommended)</span>
+    sayHiShorthand() {
+        console.<span class="function">log</span>(<span class="string">`Hi, I'm </span>${<span class="keyword">this</span>.name}<span class="string">`</span>);  <span class="comment">// 'this' refers to person</span>
+    }
+};
+
+person.<span class="function">sayHiArrow</span>();       <span class="comment">// Hi, I'm undefined</span>
+person.<span class="function">sayHiTraditional</span>();  <span class="comment">// Hi, I'm Alice</span>
+person.<span class="function">sayHiShorthand</span>();    <span class="comment">// Hi, I'm Alice</span></code></pre>
+
+                <h3>2. Constructor Functions</h3>
+                <pre><code><span class="comment">// ❌ WRONG - Arrow functions cannot be used as constructors</span>
+<span class="keyword">const</span> Person = (name) => {
+    <span class="keyword">this</span>.name = name;
+};
+<span class="comment">// new Person("Alice"); // ❌ Error: Person is not a constructor</span>
+
+<span class="comment">// ✅ CORRECT - Use traditional function or class</span>
+<span class="keyword">function</span> <span class="function">Person</span>(name) {
+    <span class="keyword">this</span>.name = name;
+}
+<span class="keyword">const</span> alice = <span class="keyword">new</span> <span class="function">Person</span>(<span class="string">"Alice"</span>);
+
+<span class="comment">// ✅ BETTER - Use ES6 classes</span>
+<span class="keyword">class</span> Person {
+    <span class="function">constructor</span>(name) {
+        <span class="keyword">this</span>.name = name;
+    }
+}</code></pre>
+
+                <div class="warning-box">
+                    <strong>⚠️ The <code>this</code> Keyword:</strong> Arrow functions don't have their 
+                    own <code>this</code> - they inherit it from the surrounding scope. This is called 
+                    "lexical this" and it's usually beneficial for callbacks, but problematic for object 
+                    methods and constructors.
+                </div>
+            </section>
+
+            <!-- Common Mistakes -->
+            <section>
+                <h2>🚫 Common Mistakes</h2>
+
+                <h4>1. Forgetting Parentheses for Multiple Parameters</h4>
+                <pre><code><span class="comment">// ❌ Wrong - multiple parameters need parentheses</span>
+<span class="keyword">const</span> add = a, b => a + b;  <span class="comment">// SyntaxError!</span>
+
+<span class="comment">// ✅ Correct</span>
+<span class="keyword">const</span> add = (a, b) => a + b;</code></pre>
+
+                <h4>2. Forgetting Parentheses When Returning Objects</h4>
+                <pre><code><span class="comment">// ❌ Wrong - returns undefined</span>
+<span class="keyword">const</span> getUser = () => { name: <span class="string">"Alice"</span>, age: <span class="number">25</span> };
+
+<span class="comment">// ✅ Correct - wrap object in parentheses</span>
+<span class="keyword">const</span> getUser = () => ({ name: <span class="string">"Alice"</span>, age: <span class="number">25</span> });</code></pre>
+
+                <h4>3. Using Arrow Functions for Object Methods</h4>
+                <pre><code><span class="comment">// ❌ Wrong - 'this' won't work as expected</span>
+<span class="keyword">const</span> counter = {
+    count: <span class="number">0</span>,
+    increment: () => <span class="keyword">this</span>.count++  <span class="comment">// 'this' is undefined!</span>
+};
+
+<span class="comment">// ✅ Correct - use method shorthand</span>
+<span class="keyword">const</span> counter = {
+    count: <span class="number">0</span>,
+    increment() { <span class="keyword">this</span>.count++; }  <span class="comment">// 'this' works correctly</span>
+};</code></pre>
+
+                <h4>4. Mixing Up Implicit and Explicit Return</h4>
+                <pre><code><span class="comment">// ❌ Wrong - curly braces without return</span>
+<span class="keyword">const</span> double = n => { n * <span class="number">2</span> };  <span class="comment">// Returns undefined!</span>
+
+<span class="comment">// ✅ Correct - either use return or remove braces</span>
+<span class="keyword">const</span> double = n => { <span class="keyword">return</span> n * <span class="number">2</span>; };  <span class="comment">// Explicit return</span>
+<span class="keyword">const</span> double = n => n * <span class="number">2</span>;             <span class="comment">// Implicit return</span></code></pre>
+
+                <h4>5. Trying to Call Before Declaration</h4>
+                <pre><code><span class="comment">// ❌ Wrong - arrow functions are NOT hoisted</span>
+<span class="function">greet</span>(<span class="string">"Alice"</span>);  <span class="comment">// Error: Cannot access 'greet' before initialization</span>
+<span class="keyword">const</span> greet = name => console.<span class="function">log</span>(<span class="string">`Hello, </span>${name}<span class="string">`</span>);
+
+<span class="comment">// ✅ Correct - declare before using</span>
+<span class="keyword">const</span> greet = name => console.<span class="function">log</span>(<span class="string">`Hello, </span>${name}<span class="string">`</span>);
+<span class="function">greet</span>(<span class="string">"Alice"</span>);  <span class="comment">// Hello, Alice</span></code></pre>
+            </section>
+
+            <!-- Quick Reference -->
+            <section>
+                <h2>🎓 Quick Reference</h2>
+
+                <h3>Arrow Function Cheat Sheet</h3>
+                <pre><code><span class="comment">// No parameters</span>
+<span class="keyword">const</span> sayHi = () => <span class="string">"Hi!"</span>;
+
+<span class="comment">// One parameter (parentheses optional)</span>
+<span class="keyword">const</span> double = n => n * <span class="number">2</span>;
+<span class="keyword">const</span> double = (n) => n * <span class="number">2</span>;  <span class="comment">// Also valid</span>
+
+<span class="comment">// Multiple parameters (parentheses required)</span>
+<span class="keyword">const</span> add = (a, b) => a + b;
+
+<span class="comment">// Multiple statements (braces and return required)</span>
+<span class="keyword">const</span> calculate = (a, b) => {
+    <span class="keyword">let</span> result = a + b;
+    <span class="keyword">return</span> result * <span class="number">2</span>;
+};
+
+<span class="comment">// Returning an object (wrap in parentheses)</span>
+<span class="keyword">const</span> getUser = () => ({ name: <span class="string">"Alice"</span>, age: <span class="number">25</span> });
+
+<span class="comment">// With array methods</span>
+<span class="keyword">const</span> doubled = nums.<span class="function">map</span>(n => n * <span class="number">2</span>);
+<span class="keyword">const</span> evens = nums.<span class="function">filter</span>(n => n % <span class="number">2</span> === <span class="number">0</span>);
+<span class="keyword">const</span> sum = nums.<span class="function">reduce</span>((a, b) => a + b, <span class="number">0</span>);
+
+<span class="comment">// With default parameters</span>
+<span class="keyword">const</span> greet = (name = <span class="string">"Guest"</span>) => <span class="string">`Hello, </span>${name}<span class="string">`</span>;</code></pre>
+
+                <div class="success-box">
+                    <strong>📝 Key Takeaways:</strong>
+                    <ul>
+                        <li>Arrow functions provide a shorter, cleaner syntax using <code>=></code></li>
+                        <li>Single parameter? Parentheses are optional: <code>x => x * 2</code></li>
+                        <li>Single expression? Return is implicit: <code>(a, b) => a + b</code></li>
+                        <li>Returning objects? Wrap in parentheses: <code>() => ({ key: value })</code></li>
+                        <li>Arrow functions are perfect for callbacks and array methods</li>
+                        <li>Don't use arrow functions for object methods or constructors</li>
+                        <li>Arrow functions are NOT hoisted - declare before using</li>
+                        <li>Arrow functions don't have their own <code>this</code></li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>JavaScript Arrow Functions Quick Reference Guide | Master ES6 Syntax! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
