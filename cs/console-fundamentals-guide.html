@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Console Application Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1::before {
+            content: "💻 ";
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #1976D2;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2196F3;
+        }
+
+        h2::before {
+            margin-right: 10px;
+        }
+
+        h3 {
+            color: #0288D1;
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #0277BD;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background: #E3F2FD;
+            border-left: 4px solid #2196F3;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            color: #1976D2;
+        }
+
+        .warning-box {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        .tip-box {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-weight: bold;
+        }
+
+        pre {
+            background: #263238;
+            color: #ADBBC4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        pre code {
+            color: #ADBBC4;
+        }
+
+        .keyword {
+            color: #C792EA;
+            font-weight: bold;
+        }
+
+        .string {
+            color: #C3E88D;
+        }
+
+        .comment {
+            color: #546E7A;
+            font-style: italic;
+        }
+
+        .number {
+            color: #F78C6C;
+        }
+
+        .type {
+            color: #FFCB6B;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        tr:hover {
+            background: #F5F5F5;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .section-intro {
+            font-size: 1.1em;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #F5F5F5;
+            border-radius: 6px;
+        }
+
+        .example-title {
+            background: #0288D1;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px 4px 0 0;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .example-title + pre {
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+
+        footer {
+            background: #37474F;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .vs-logo {
+            font-weight: bold;
+            color: #68217A;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: 0.85em;
+            }
+        }
+
+        .quick-ref {
+            background: #F5F5F5;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            margin-top: 0;
+            color: #1976D2;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>C# Console Application Fundamentals</h1>
+            <p>A Comprehensive Guide for Beginners</p>
+        </header>
+
+        <div class="content">
+            <div class="section-intro">
+                This guide covers essential concepts for building C# console applications in Visual Studio 2026. You'll learn about variables, constants, data types, user input/output, calculations, and formatting – everything you need to create interactive command-line programs.
+            </div>
+
+            <!-- WHAT IS A CONSOLE APPLICATION -->
+            <h2>🎯 What is a Console Application?</h2>
+            
+            <p>A <strong>console application</strong> is a text-based program that runs in a command-line window (also called a terminal or console). Unlike graphical applications with buttons and windows, console apps interact with users through text input and output.</p>
+
+            <div class="highlight-box">
+                <strong>💡 Why Start with Console Apps?</strong>
+                <ul>
+                    <li><strong>Simple interface</strong> - Focus on logic, not graphics</li>
+                    <li><strong>Quick feedback</strong> - Test your code immediately</li>
+                    <li><strong>Foundation skills</strong> - Learn core programming concepts</li>
+                    <li><strong>Professional tools</strong> - Many utilities are console-based</li>
+                </ul>
+            </div>
+
+            <!-- VISUAL STUDIO SETUP -->
+            <h2>🛠️ Creating a Console App in Visual Studio 2026</h2>
+
+            <h3>Step 1: Create a New Project</h3>
+            <ol>
+                <li>Open Visual Studio 2026</li>
+                <li>Click <strong>Create a new project</strong></li>
+                <li>Search for <strong>"Console App"</strong></li>
+                <li>Select <strong>Console App (.NET)</strong> for C#</li>
+                <li>Click <strong>Next</strong></li>
+            </ol>
+
+            <h3>Step 2: Configure Your Project</h3>
+            <ol>
+                <li>Enter a <strong>Project name</strong> (e.g., "Lab1")</li>
+                <li>Choose a <strong>Location</strong> to save your project</li>
+                <li>Optionally check <strong>"Place solution and project in the same directory"</strong></li>
+                <li>Click <strong>Next</strong></li>
+                <li>Select the latest <strong>.NET version</strong></li>
+                <li>Click <strong>Create</strong></li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>Project Organization:</strong> When creating multiple related projects (like Lab1, Lab2, Lab3), you can add them to the same solution. Right-click the solution in Solution Explorer → Add → New Project.
+            </div>
+
+            <h3>Basic Console Application Structure</h3>
+
+            <div class="example-title">Program.cs - Top-Level Statements (Modern C#)</div>
+            <pre><code><span class="comment">// Top-level statements (no class or Main method needed)</span>
+<span class="comment">// Your code starts here immediately</span>
+
+Console.WriteLine(<span class="string">"Hello, World!"</span>);
+Console.WriteLine(<span class="string">"This is my first console app."</span>);</code></pre>
+
+            <p>Modern C# uses <strong>top-level statements</strong>, which means you can write code directly without a class or Main method. This makes simple programs cleaner and easier to read.</p>
+
+            <!-- VARIABLES AND CONSTANTS -->
+            <h2>📦 Variables and Constants</h2>
+
+            <h3>What is a Variable?</h3>
+            
+            <p>A <strong>variable</strong> is a named storage location in memory that holds a value. Variables can change during program execution.</p>
+
+            <div class="highlight-box">
+                <strong>Variable Declaration Syntax:</strong><br>
+                <code>dataType variableName;</code><br><br>
+                <strong>Variable Declaration with Initialization:</strong><br>
+                <code>dataType variableName = value;</code>
+            </div>
+
+            <div class="example-title">Declaring and Using Variables</div>
+            <pre><code><span class="comment">// Declaration only</span>
+<span class="keyword">int</span> age;
+
+<span class="comment">// Declaration with initialization</span>
+<span class="keyword">int</span> count = <span class="number">10</span>;
+<span class="keyword">double</span> price = <span class="number">19.99</span>;
+<span class="keyword">string</span> name = <span class="string">"Alice"</span>;
+
+<span class="comment">// Assignment (changing the value)</span>
+age = <span class="number">25</span>;
+count = count + <span class="number">1</span>;</code></pre>
+
+            <h3>What is a Constant?</h3>
+            
+            <p>A <strong>constant</strong> is a named value that cannot change after it's initialized. Constants are declared using the <code>const</code> keyword and must be assigned a value immediately.</p>
+
+            <div class="example-title">Declaring and Using Constants</div>
+            <pre><code><span class="comment">// Constant declaration - value cannot be changed</span>
+<span class="keyword">const double</span> KM_PER_MILE = <span class="number">1.6</span>;
+<span class="keyword">const double</span> PI = <span class="number">3.14159</span>;
+<span class="keyword">const double</span> PERCENT_RAISE = <span class="number">0.04</span>;
+
+<span class="comment">// Use the constant in calculations</span>
+<span class="keyword">double</span> kilometers = miles * KM_PER_MILE;</code></pre>
+
+            <div class="tip-box">
+                <strong>Naming Conventions:</strong> By convention, constants are named in ALL_CAPS with underscores separating words (e.g., KM_PER_MILE). Variables use camelCase (e.g., userName, totalPrice).
+            </div>
+
+            <div class="warning-box">
+                <strong>Common Mistake:</strong> Trying to change a constant's value will cause a compile error.
+                <pre style="margin-top: 10px;"><code><span class="keyword">const double</span> TAX_RATE = <span class="number">0.08</span>;
+TAX_RATE = <span class="number">0.09</span>; <span class="comment">// ERROR! Cannot modify a constant</span></code></pre>
+            </div>
+
+            <!-- DATA TYPES -->
+            <h2>🔢 Data Types</h2>
+
+            <p>C# is a <strong>strongly-typed language</strong>, meaning every variable must have a specific data type. Data types determine what kind of values a variable can hold and what operations can be performed on it.</p>
+
+            <h3>Intrinsic (Built-in) Data Types</h3>
+
+            <table>
+                <tr>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                    <th>Example Values</th>
+                    <th>Range</th>
+                </tr>
+                <tr>
+                    <td><code>int</code></td>
+                    <td>Whole numbers (integers)</td>
+                    <td>42, -17, 0, 1000</td>
+                    <td>-2.1 billion to 2.1 billion</td>
+                </tr>
+                <tr>
+                    <td><code>double</code></td>
+                    <td>Decimal numbers (floating-point)</td>
+                    <td>3.14, -0.5, 19.99</td>
+                    <td>±5.0 × 10<sup>-324</sup> to ±1.7 × 10<sup>308</sup></td>
+                </tr>
+                <tr>
+                    <td><code>decimal</code></td>
+                    <td>Precise decimal numbers (for money)</td>
+                    <td>19.99m, 100.00m</td>
+                    <td>±1.0 × 10<sup>-28</sup> to ±7.9 × 10<sup>28</sup></td>
+                </tr>
+                <tr>
+                    <td><code>string</code></td>
+                    <td>Text (sequence of characters)</td>
+                    <td>"Hello", "John Doe"</td>
+                    <td>Any text</td>
+                </tr>
+                <tr>
+                    <td><code>bool</code></td>
+                    <td>Boolean (true or false)</td>
+                    <td>true, false</td>
+                    <td>true or false only</td>
+                </tr>
+                <tr>
+                    <td><code>char</code></td>
+                    <td>Single character</td>
+                    <td>'A', 'x', '7', '!'</td>
+                    <td>Any Unicode character</td>
+                </tr>
+            </table>
+
+            <div class="example-title">Using Different Data Types</div>
+            <pre><code><span class="comment">// Integer - whole numbers</span>
+<span class="keyword">int</span> studentCount = <span class="number">30</span>;
+<span class="keyword">int</span> temperature = <span class="number">-5</span>;
+
+<span class="comment">// Double - decimal numbers (most common for decimals)</span>
+<span class="keyword">double</span> price = <span class="number">29.99</span>;
+<span class="keyword">double</span> distance = <span class="number">3.5</span>;
+
+<span class="comment">// Decimal - precise decimal (use for money)</span>
+<span class="keyword">decimal</span> salary = <span class="number">50000.00m</span>; <span class="comment">// Note the 'm' suffix</span>
+
+<span class="comment">// String - text (use double quotes)</span>
+<span class="keyword">string</span> firstName = <span class="string">"John"</span>;
+<span class="keyword">string</span> message = <span class="string">"Welcome to C#!"</span>;
+
+<span class="comment">// Boolean - true or false</span>
+<span class="keyword">bool</span> isStudent = <span class="keyword">true</span>;
+<span class="keyword">bool</span> hasLicense = <span class="keyword">false</span>;
+
+<span class="comment">// Char - single character (use single quotes)</span>
+<span class="keyword">char</span> grade = <span class="string">'A'</span>;
+<span class="keyword">char</span> initial = <span class="string">'J'</span>;</code></pre>
+
+            <div class="tip-box">
+                <strong>Choosing Between double and decimal:</strong> Use <code>double</code> for most mathematical calculations and scientific data. Use <code>decimal</code> when working with money, as it provides exact decimal representation without floating-point errors.
+            </div>
+
+            <!-- LITERALS -->
+            <h2>📝 Literals</h2>
+
+            <p>A <strong>literal</strong> is a fixed value written directly in code. Different types of literals represent different kinds of data.</p>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Integer Literals</h4>
+                    <pre><code><span class="number">42</span>      <span class="comment">// int literal</span>
+<span class="number">-17</span>     <span class="comment">// negative int</span>
+<span class="number">1000</span>    <span class="comment">// int literal</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h4>Floating-Point Literals</h4>
+                    <pre><code><span class="number">3.14</span>    <span class="comment">// double literal</span>
+<span class="number">19.99</span>   <span class="comment">// double literal</span>
+<span class="number">2.5m</span>    <span class="comment">// decimal (note 'm')</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h4>String Literals</h4>
+                    <pre><code><span class="string">"Hello"</span>         <span class="comment">// string</span>
+<span class="string">"John Doe"</span>      <span class="comment">// string</span>
+<span class="string">""</span>              <span class="comment">// empty string</span></code></pre>
+                </div>
+
+                <div class="card">
+                    <h4>Character and Boolean Literals</h4>
+                    <pre><code><span class="string">'A'</span>      <span class="comment">// char literal</span>
+<span class="string">'x'</span>      <span class="comment">// char literal</span>
+<span class="keyword">true</span>     <span class="comment">// boolean</span>
+<span class="keyword">false</span>    <span class="comment">// boolean</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>String vs Char:</strong> Strings use double quotes (<code>"text"</code>) and can contain multiple characters or none. Chars use single quotes (<code>'A'</code>) and must contain exactly one character.
+            </div>
+
+            <!-- CONSOLE INPUT/OUTPUT -->
+            <h2>⌨️ Console Input and Output</h2>
+
+            <h3>Console.WriteLine() - Display Output</h3>
+
+            <p>The <code>Console.WriteLine()</code> method displays text to the console and moves to a new line.</p>
+
+            <div class="example-title">Basic Output</div>
+            <pre><code><span class="comment">// Display a simple message</span>
+Console.WriteLine(<span class="string">"Welcome to C#!"</span>);
+
+<span class="comment">// Display multiple lines</span>
+Console.WriteLine(<span class="string">"Hello"</span>);
+Console.WriteLine(<span class="string">"World"</span>);
+
+<span class="comment">// Display an empty line</span>
+Console.WriteLine();</code></pre>
+
+            <h3>Console.Write() - Display Without New Line</h3>
+
+            <p>The <code>Console.Write()</code> method displays text without moving to a new line.</p>
+
+            <div class="example-title">Write Without Line Break</div>
+            <pre><code>Console.Write(<span class="string">"Enter your name: "</span>);  <span class="comment">// Stays on same line</span>
+<span class="keyword">string</span> name = Console.ReadLine();      <span class="comment">// User types here</span></code></pre>
+
+            <h3>Displaying Variables</h3>
+
+            <div class="example-title">Output with Variables</div>
+            <pre><code><span class="keyword">string</span> name = <span class="string">"Alice"</span>;
+<span class="keyword">int</span> age = <span class="number">25</span>;
+<span class="keyword">double</span> salary = <span class="number">50000.00</span>;
+
+<span class="comment">// Method 1: Concatenation with +</span>
+Console.WriteLine(<span class="string">"Name: "</span> + name);
+Console.WriteLine(<span class="string">"Age: "</span> + age);
+
+<span class="comment">// Method 2: String interpolation (recommended)</span>
+Console.WriteLine(<span class="string">$"Name: <span class="number">{name}</span>"</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{name}</span> is <span class="number">{age}</span> years old."</span>);
+Console.WriteLine(<span class="string">$"Salary: $<span class="number">{salary}</span>"</span>);</code></pre>
+
+            <div class="tip-box">
+                <strong>String Interpolation:</strong> Using <code>$</code> before a string and <code>{variableName}</code> inside curly braces is the modern, preferred way to combine text and variables. It's more readable than concatenation.
+            </div>
+
+            <h3>Console.ReadLine() - Get User Input</h3>
+
+            <p>The <code>Console.ReadLine()</code> method reads a line of text entered by the user. It always returns a <code>string</code>.</p>
+
+            <div class="example-title">Reading User Input</div>
+            <pre><code><span class="comment">// Prompt and read input</span>
+Console.Write(<span class="string">"Enter your name: "</span>);
+<span class="keyword">string</span> name = Console.ReadLine();
+
+Console.Write(<span class="string">"Enter your city: "</span>);
+<span class="keyword">string</span> city = Console.ReadLine();
+
+<span class="comment">// Display what was entered</span>
+Console.WriteLine(<span class="string">$"Hello, <span class="number">{name}</span> from <span class="number">{city}</span>!"</span>);</code></pre>
+
+            <h3>Converting String Input to Numbers</h3>
+
+            <p>Since <code>Console.ReadLine()</code> returns a string, you must convert it to a number type before performing calculations.</p>
+
+            <div class="example-title">Converting Input to int</div>
+            <pre><code><span class="comment">// Read and convert to integer</span>
+Console.Write(<span class="string">"Enter your age: "</span>);
+<span class="keyword">string</span> input = Console.ReadLine();
+<span class="keyword">int</span> age = <span class="keyword">int</span>.Parse(input);
+
+<span class="comment">// Shorter version (combined)</span>
+Console.Write(<span class="string">"Enter a number: "</span>);
+<span class="keyword">int</span> number = <span class="keyword">int</span>.Parse(Console.ReadLine());</code></pre>
+
+            <div class="example-title">Converting Input to double</div>
+            <pre><code><span class="comment">// Read and convert to double</span>
+Console.Write(<span class="string">"Enter distance in miles: "</span>);
+<span class="keyword">double</span> miles = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter the price: "</span>);
+<span class="keyword">double</span> price = <span class="keyword">double</span>.Parse(Console.ReadLine());</code></pre>
+
+            <div class="warning-box">
+                <strong>Input Validation:</strong> If the user enters non-numeric text when you expect a number, <code>.Parse()</code> will crash your program. For learning purposes, we assume users enter valid data. Later, you'll learn about <code>TryParse()</code> for safer input handling.
+            </div>
+
+            <h3>Complete Input Example</h3>
+
+            <div class="example-title">Full Input/Output Program</div>
+            <pre><code><span class="comment">// Get user information</span>
+Console.Write(<span class="string">"Enter your name: "</span>);
+<span class="keyword">string</span> name = Console.ReadLine();
+
+Console.Write(<span class="string">"Enter your age: "</span>);
+<span class="keyword">int</span> age = <span class="keyword">int</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter your GPA: "</span>);
+<span class="keyword">double</span> gpa = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Display the information</span>
+Console.WriteLine();  <span class="comment">// Blank line</span>
+Console.WriteLine(<span class="string">"=== Student Information ==="</span>);
+Console.WriteLine(<span class="string">$"Name: <span class="number">{name}</span>"</span>);
+Console.WriteLine(<span class="string">$"Age: <span class="number">{age}</span>"</span>);
+Console.WriteLine(<span class="string">$"GPA: <span class="number">{gpa}</span>"</span>);</code></pre>
+
+            <!-- ARITHMETIC OPERATORS -->
+            <h2>➕ Arithmetic Operators</h2>
+
+            <p><strong>Arithmetic operators</strong> perform mathematical calculations on numeric values.</p>
+
+            <h3>Binary Operators (Two Operands)</h3>
+
+            <table>
+                <tr>
+                    <th>Operator</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td><code>+</code></td>
+                    <td>Addition</td>
+                    <td><code>10 + 5</code></td>
+                    <td><code>15</code></td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td>Subtraction</td>
+                    <td><code>10 - 5</code></td>
+                    <td><code>5</code></td>
+                </tr>
+                <tr>
+                    <td><code>*</code></td>
+                    <td>Multiplication</td>
+                    <td><code>10 * 5</code></td>
+                    <td><code>50</code></td>
+                </tr>
+                <tr>
+                    <td><code>/</code></td>
+                    <td>Division</td>
+                    <td><code>10.0 / 4.0</code></td>
+                    <td><code>2.5</code></td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td>Modulus (remainder)</td>
+                    <td><code>10 % 3</code></td>
+                    <td><code>1</code></td>
+                </tr>
+            </table>
+
+            <div class="example-title">Using Arithmetic Operators</div>
+            <pre><code><span class="keyword">int</span> a = <span class="number">10</span>;
+<span class="keyword">int</span> b = <span class="number">3</span>;
+
+<span class="keyword">int</span> sum = a + b;           <span class="comment">// 13</span>
+<span class="keyword">int</span> difference = a - b;   <span class="comment">// 7</span>
+<span class="keyword">int</span> product = a * b;      <span class="comment">// 30</span>
+<span class="keyword">double</span> quotient = a / (<span class="keyword">double</span>)b;  <span class="comment">// 3.333...</span>
+<span class="keyword">int</span> remainder = a % b;    <span class="comment">// 1</span>
+
+Console.WriteLine(<span class="string">$"Sum: <span class="number">{sum}</span>"</span>);
+Console.WriteLine(<span class="string">$"Difference: <span class="number">{difference}</span>"</span>);
+Console.WriteLine(<span class="string">$"Product: <span class="number">{product}</span>"</span>);
+Console.WriteLine(<span class="string">$"Quotient: <span class="number">{quotient}</span>"</span>);
+Console.WriteLine(<span class="string">$"Remainder: <span class="number">{remainder}</span>"</span>);</code></pre>
+
+            <div class="warning-box">
+                <strong>Integer Division:</strong> When dividing two integers, C# performs integer division and discards the decimal part.
+                <pre style="margin-top: 10px;"><code><span class="keyword">int</span> result1 = <span class="number">10</span> / <span class="number">3</span>;        <span class="comment">// result1 = 3 (not 3.333)</span>
+<span class="keyword">double</span> result2 = <span class="number">10.0</span> / <span class="number">3.0</span>;  <span class="comment">// result2 = 3.333...</span></code></pre>
+            </div>
+
+            <h3>Unary Operators (One Operand)</h3>
+
+            <table>
+                <tr>
+                    <th>Operator</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                    <th>Explanation</th>
+                </tr>
+                <tr>
+                    <td><code>++</code></td>
+                    <td>Increment</td>
+                    <td><code>x++</code> or <code>++x</code></td>
+                    <td>Adds 1 to x</td>
+                </tr>
+                <tr>
+                    <td><code>--</code></td>
+                    <td>Decrement</td>
+                    <td><code>x--</code> or <code>--x</code></td>
+                    <td>Subtracts 1 from x</td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td>Negation</td>
+                    <td><code>-x</code></td>
+                    <td>Changes sign of x</td>
+                </tr>
+            </table>
+
+            <div class="example-title">Using Unary Operators</div>
+            <pre><code><span class="keyword">int</span> count = <span class="number">5</span>;
+
+count++;              <span class="comment">// count is now 6 (same as count = count + 1)</span>
+count--;              <span class="comment">// count is now 5 (same as count = count - 1)</span>
+
+<span class="keyword">int</span> x = <span class="number">10</span>;
+<span class="keyword">int</span> y = -x;           <span class="comment">// y is -10</span></code></pre>
+
+            <h3>Compound Assignment Operators</h3>
+
+            <p>These operators combine an arithmetic operation with assignment.</p>
+
+            <table>
+                <tr>
+                    <th>Operator</th>
+                    <th>Example</th>
+                    <th>Equivalent To</th>
+                </tr>
+                <tr>
+                    <td><code>+=</code></td>
+                    <td><code>x += 5</code></td>
+                    <td><code>x = x + 5</code></td>
+                </tr>
+                <tr>
+                    <td><code>-=</code></td>
+                    <td><code>x -= 3</code></td>
+                    <td><code>x = x - 3</code></td>
+                </tr>
+                <tr>
+                    <td><code>*=</code></td>
+                    <td><code>x *= 2</code></td>
+                    <td><code>x = x * 2</code></td>
+                </tr>
+                <tr>
+                    <td><code>/=</code></td>
+                    <td><code>x /= 4</code></td>
+                    <td><code>x = x / 4</code></td>
+                </tr>
+            </table>
+
+            <div class="example-title">Calculating Raises Example</div>
+            <pre><code><span class="keyword">const double</span> PERCENT_RAISE = <span class="number">0.04</span>;
+<span class="keyword">double</span> salary = <span class="number">50000</span>;
+
+<span class="comment">// Year 1: Apply 4% raise</span>
+salary *= (<span class="number">1</span> + PERCENT_RAISE);    <span class="comment">// salary = 52,000</span>
+
+<span class="comment">// Year 2: Apply another 4% raise</span>
+salary *= (<span class="number">1</span> + PERCENT_RAISE);    <span class="comment">// salary = 54,080</span>
+
+Console.WriteLine(<span class="string">$"Salary after 2 years: $<span class="number">{salary:N2}</span>"</span>);</code></pre>
+
+            <!-- TYPE CONVERSION (CASTING) -->
+            <h2>🔄 Type Conversion (Casting)</h2>
+
+            <p><strong>Type conversion</strong> (also called <strong>casting</strong>) is the process of converting a value from one data type to another.</p>
+
+            <h3>Implicit Casting (Automatic)</h3>
+
+            <p>C# automatically converts smaller types to larger types when there's no risk of data loss.</p>
+
+            <div class="example-title">Implicit Conversions</div>
+            <pre><code><span class="keyword">int</span> wholeNumber = <span class="number">10</span>;
+<span class="keyword">double</span> decimalNumber = wholeNumber;  <span class="comment">// Automatic: int → double</span>
+<span class="comment">// decimalNumber is now 10.0</span>
+
+<span class="keyword">int</span> a = <span class="number">5</span>;
+<span class="keyword">int</span> b = <span class="number">2</span>;
+<span class="keyword">double</span> result = a / b;  <span class="comment">// WARNING: Still integer division!</span>
+<span class="comment">// result is 2.0 (not 2.5) because 5/2 = 2 before converting to double</span></code></pre>
+
+            <h3>Explicit Casting (Manual)</h3>
+
+            <p>When converting from a larger type to a smaller type, or when precision might be lost, you must explicitly cast.</p>
+
+            <div class="example-title">Explicit Conversions</div>
+            <pre><code><span class="keyword">double</span> price = <span class="number">19.99</span>;
+<span class="keyword">int</span> dollars = (<span class="keyword">int</span>)price;  <span class="comment">// Explicit cast: double → int</span>
+<span class="comment">// dollars is 19 (decimal part is truncated, not rounded)</span>
+
+<span class="comment">// Force floating-point division</span>
+<span class="keyword">int</span> a = <span class="number">10</span>;
+<span class="keyword">int</span> b = <span class="number">3</span>;
+<span class="keyword">double</span> result = (<span class="keyword">double</span>)a / b;  <span class="comment">// Cast one operand to double</span>
+<span class="comment">// result is 3.333... (true division)</span>
+
+<span class="comment">// Alternative: multiply by 1.0</span>
+<span class="keyword">double</span> result2 = a * <span class="number">1.0</span> / b;  <span class="comment">// Forces double calculation</span></code></pre>
+
+            <div class="warning-box">
+                <strong>Truncation vs Rounding:</strong> Casting a <code>double</code> to an <code>int</code> truncates (cuts off) the decimal part, it doesn't round.
+                <pre style="margin-top: 10px;"><code>(<span class="keyword">int</span>)<span class="number">19.99</span>  <span class="comment">// Results in 19, not 20</span>
+(<span class="keyword">int</span>)<span class="number">19.1</span>   <span class="comment">// Results in 19</span></code></pre>
+            </div>
+
+            <h3>Using Parse() Methods</h3>
+
+            <p>Convert strings to numeric types using <code>Parse()</code> methods.</p>
+
+            <div class="example-title">String to Number Conversions</div>
+            <pre><code><span class="keyword">string</span> text1 = <span class="string">"42"</span>;
+<span class="keyword">string</span> text2 = <span class="string">"3.14"</span>;
+<span class="keyword">string</span> text3 = <span class="string">"100.50"</span>;
+
+<span class="keyword">int</span> number = <span class="keyword">int</span>.Parse(text1);           <span class="comment">// 42</span>
+<span class="keyword">double</span> pi = <span class="keyword">double</span>.Parse(text2);        <span class="comment">// 3.14</span>
+<span class="keyword">decimal</span> money = <span class="keyword">decimal</span>.Parse(text3);   <span class="comment">// 100.50</span></code></pre>
+
+            <!-- FORMATTED OUTPUT -->
+            <h2>🎨 Formatted Output</h2>
+
+            <p>C# provides powerful string formatting capabilities to control how values are displayed.</p>
+
+            <h3>String Interpolation with Formatting</h3>
+
+            <div class="highlight-box">
+                <strong>Format Syntax:</strong> <code>{variable:formatSpecifier}</code>
+                <ul>
+                    <li><strong>Placeholder:</strong> <code>{variable}</code> marks where to insert a value</li>
+                    <li><strong>Format specifier:</strong> Letter indicating format type (C, N, F, etc.)</li>
+                    <li><strong>Precision specifier:</strong> Number indicating decimal places</li>
+                </ul>
+            </div>
+
+            <h3>Common Format Specifiers</h3>
+
+            <table>
+                <tr>
+                    <th>Specifier</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                    <th>Output</th>
+                </tr>
+                <tr>
+                    <td><code>C</code> or <code>C2</code></td>
+                    <td>Currency</td>
+                    <td><code>{price:C2}</code></td>
+                    <td>$19.99</td>
+                </tr>
+                <tr>
+                    <td><code>N</code> or <code>N2</code></td>
+                    <td>Number (with commas)</td>
+                    <td><code>{salary:N2}</code></td>
+                    <td>50,000.00</td>
+                </tr>
+                <tr>
+                    <td><code>F</code> or <code>F2</code></td>
+                    <td>Fixed-point</td>
+                    <td><code>{value:F2}</code></td>
+                    <td>19.99</td>
+                </tr>
+                <tr>
+                    <td><code>P</code> or <code>P2</code></td>
+                    <td>Percent</td>
+                    <td><code>{rate:P2}</code></td>
+                    <td>45.00%</td>
+                </tr>
+                <tr>
+                    <td><code>D</code> or <code>D4</code></td>
+                    <td>Decimal (integers only)</td>
+                    <td><code>{id:D4}</code></td>
+                    <td>0042</td>
+                </tr>
+            </table>
+
+            <div class="example-title">Currency Formatting</div>
+            <pre><code><span class="keyword">double</span> price = <span class="number">19.99</span>;
+<span class="keyword">double</span> salary = <span class="number">50000</span>;
+
+<span class="comment">// Currency format (C2 = 2 decimal places)</span>
+Console.WriteLine(<span class="string">$"Price: <span class="number">{price:C2}</span>"</span>);      <span class="comment">// Price: $19.99</span>
+Console.WriteLine(<span class="string">$"Salary: <span class="number">{salary:C2}</span>"</span>);   <span class="comment">// Salary: $50,000.00</span>
+
+<span class="comment">// Without format specifier (default)</span>
+Console.WriteLine(<span class="string">$"Price: $<span class="number">{price}</span>"</span>);      <span class="comment">// Price: $19.99</span></code></pre>
+
+            <div class="example-title">Number Formatting (with commas)</div>
+            <pre><code><span class="keyword">double</span> population = <span class="number">1234567.89</span>;
+<span class="keyword">double</span> distance = <span class="number">42.7</span>;
+
+<span class="comment">// Number format with 2 decimal places</span>
+Console.WriteLine(<span class="string">$"Population: <span class="number">{population:N2}</span>"</span>);
+<span class="comment">// Output: Population: 1,234,567.89</span>
+
+Console.WriteLine(<span class="string">$"Distance: <span class="number">{distance:N2}</span> km"</span>);
+<span class="comment">// Output: Distance: 42.70 km</span></code></pre>
+
+            <div class="example-title">Fixed-Point Formatting</div>
+            <pre><code><span class="keyword">double</span> average = <span class="number">87.65432</span>;
+
+<span class="comment">// Fixed-point with different decimal places</span>
+Console.WriteLine(<span class="string">$"Average: <span class="number">{average:F2}</span>"</span>);  <span class="comment">// Average: 87.65</span>
+Console.WriteLine(<span class="string">$"Average: <span class="number">{average:F3}</span>"</span>);  <span class="comment">// Average: 87.654</span>
+Console.WriteLine(<span class="string">$"Average: <span class="number">{average:F0}</span>"</span>);  <span class="comment">// Average: 88 (rounded)</span></code></pre>
+
+            <div class="example-title">Creating Formatted Tables</div>
+            <pre><code><span class="keyword">string</span> name1 = <span class="string">"Alice"</span>;
+<span class="keyword">string</span> name2 = <span class="string">"Bob"</span>;
+<span class="keyword">double</span> salary1 = <span class="number">50000</span>;
+<span class="keyword">double</span> salary2 = <span class="number">65000</span>;
+
+<span class="comment">// Table header</span>
+Console.WriteLine(<span class="string">"Name        Salary"</span>);
+Console.WriteLine(<span class="string">"--------------------"</span>);
+
+<span class="comment">// Table rows with aligned columns</span>
+Console.WriteLine(<span class="string">$"<span class="number">{name1,-10}</span>  <span class="number">{salary1:C2}</span>"</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{name2,-10}</span>  <span class="number">{salary2:C2}</span>"</span>);
+
+<span class="comment">/* Output:
+Name        Salary
+--------------------
+Alice       $50,000.00
+Bob         $65,000.00
+*/</span></code></pre>
+
+            <div class="tip-box">
+                <strong>Alignment:</strong> Use <code>{variable,-10}</code> for left-aligned (10 characters wide) or <code>{variable,10}</code> for right-aligned. This is useful for creating neat columns in console output.
+            </div>
+
+            <!-- COMPARISON OPERATORS -->
+            <h2>⚖️ Comparison Operators</h2>
+
+            <p><strong>Comparison operators</strong> compare two values and return a boolean result (<code>true</code> or <code>false</code>).</p>
+
+            <table>
+                <tr>
+                    <th>Operator</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                    <th>Returns true when...</th>
+                </tr>
+                <tr>
+                    <td><code>==</code></td>
+                    <td>Equal to</td>
+                    <td><code>x == y</code></td>
+                    <td>x equals y</td>
+                </tr>
+                <tr>
+                    <td><code>!=</code></td>
+                    <td>Not equal to</td>
+                    <td><code>x != y</code></td>
+                    <td>x does not equal y</td>
+                </tr>
+                <tr>
+                    <td><code>&gt;</code></td>
+                    <td>Greater than</td>
+                    <td><code>x &gt; y</code></td>
+                    <td>x is greater than y</td>
+                </tr>
+                <tr>
+                    <td><code>&lt;</code></td>
+                    <td>Less than</td>
+                    <td><code>x &lt; y</code></td>
+                    <td>x is less than y</td>
+                </tr>
+                <tr>
+                    <td><code>&gt;=</code></td>
+                    <td>Greater than or equal</td>
+                    <td><code>x &gt;= y</code></td>
+                    <td>x is greater than or equal to y</td>
+                </tr>
+                <tr>
+                    <td><code>&lt;=</code></td>
+                    <td>Less than or equal</td>
+                    <td><code>x &lt;= y</code></td>
+                    <td>x is less than or equal to y</td>
+                </tr>
+            </table>
+
+            <div class="example-title">Using Comparison Operators</div>
+            <pre><code><span class="keyword">int</span> age = <span class="number">25</span>;
+<span class="keyword">int</span> minAge = <span class="number">18</span>;
+<span class="keyword">double</span> gpa = <span class="number">3.5</span>;
+
+<span class="keyword">bool</span> isAdult = age >= minAge;           <span class="comment">// true</span>
+<span class="keyword">bool</span> isTeenager = age >= <span class="number">13</span> && age <= <span class="number">19</span>;  <span class="comment">// false</span>
+<span class="keyword">bool</span> hasHonors = gpa >= <span class="number">3.5</span>;          <span class="comment">// true</span>
+
+Console.WriteLine(<span class="string">$"Is adult? <span class="number">{isAdult}</span>"</span>);        <span class="comment">// Is adult? True</span>
+Console.WriteLine(<span class="string">$"Is teenager? <span class="number">{isTeenager}</span>"</span>);  <span class="comment">// Is teenager? False</span></code></pre>
+
+            <div class="warning-box">
+                <strong>Common Mistake:</strong> Don't confuse <code>=</code> (assignment) with <code>==</code> (comparison).
+                <pre style="margin-top: 10px;"><code>x = <span class="number">5</span>;     <span class="comment">// Assignment: sets x to 5</span>
+x == <span class="number">5</span>;    <span class="comment">// Comparison: checks if x equals 5 (returns true/false)</span></code></pre>
+            </div>
+
+            <!-- PRACTICAL EXAMPLES -->
+            <h2>💼 Practical Examples</h2>
+
+            <h3>Example 1: Simple Calculator</h3>
+
+            <div class="example-title">Basic Arithmetic Calculator</div>
+            <pre><code><span class="comment">// Get two numbers from user</span>
+Console.Write(<span class="string">"Enter first number: "</span>);
+<span class="keyword">double</span> num1 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter second number: "</span>);
+<span class="keyword">double</span> num2 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Perform calculations</span>
+<span class="keyword">double</span> sum = num1 + num2;
+<span class="keyword">double</span> difference = num1 - num2;
+<span class="keyword">double</span> product = num1 * num2;
+<span class="keyword">double</span> quotient = num1 / num2;
+
+<span class="comment">// Display results</span>
+Console.WriteLine();
+Console.WriteLine(<span class="string">"=== Results ==="</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> + <span class="number">{num2}</span> = <span class="number">{sum}</span>"</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> - <span class="number">{num2}</span> = <span class="number">{difference}</span>"</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> × <span class="number">{num2}</span> = <span class="number">{product}</span>"</span>);
+Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> ÷ <span class="number">{num2}</span> = <span class="number">{quotient:F2}</span>"</span>);</code></pre>
+
+            <h3>Example 2: Temperature Converter</h3>
+
+            <div class="example-title">Celsius to Fahrenheit Converter</div>
+            <pre><code><span class="comment">// Get temperature in Celsius</span>
+Console.Write(<span class="string">"Enter temperature in Celsius: "</span>);
+<span class="keyword">double</span> celsius = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Convert to Fahrenheit</span>
+<span class="keyword">double</span> fahrenheit = (celsius * <span class="number">9.0</span> / <span class="number">5.0</span>) + <span class="number">32</span>;
+
+<span class="comment">// Display result</span>
+Console.WriteLine(<span class="string">$"<span class="number">{celsius}</span>°C = <span class="number">{fahrenheit:F1}</span>°F"</span>);</code></pre>
+
+            <h3>Example 3: Shopping Cart Total</h3>
+
+            <div class="example-title">Calculate Total with Tax</div>
+            <pre><code><span class="keyword">const double</span> TAX_RATE = <span class="number">0.08</span>;  <span class="comment">// 8% sales tax</span>
+
+<span class="comment">// Get item prices</span>
+Console.Write(<span class="string">"Enter price of item 1: $"</span>);
+<span class="keyword">double</span> item1 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter price of item 2: $"</span>);
+<span class="keyword">double</span> item2 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter price of item 3: $"</span>);
+<span class="keyword">double</span> item3 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Calculate subtotal, tax, and total</span>
+<span class="keyword">double</span> subtotal = item1 + item2 + item3;
+<span class="keyword">double</span> tax = subtotal * TAX_RATE;
+<span class="keyword">double</span> total = subtotal + tax;
+
+<span class="comment">// Display receipt</span>
+Console.WriteLine();
+Console.WriteLine(<span class="string">"=== Receipt ==="</span>);
+Console.WriteLine(<span class="string">$"Subtotal: <span class="number">{subtotal:C2}</span>"</span>);
+Console.WriteLine(<span class="string">$"Tax (8%): <span class="number">{tax:C2}</span>"</span>);
+Console.WriteLine(<span class="string">$"Total:    <span class="number">{total:C2}</span>"</span>);</code></pre>
+
+            <h3>Example 4: Student Grade Average</h3>
+
+            <div class="example-title">Calculate Test Average</div>
+            <pre><code><span class="comment">// Get student name</span>
+Console.Write(<span class="string">"Enter student name: "</span>);
+<span class="keyword">string</span> name = Console.ReadLine();
+
+<span class="comment">// Get test scores</span>
+Console.Write(<span class="string">"Enter score for test 1: "</span>);
+<span class="keyword">double</span> test1 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter score for test 2: "</span>);
+<span class="keyword">double</span> test2 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter score for test 3: "</span>);
+<span class="keyword">double</span> test3 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+Console.Write(<span class="string">"Enter score for test 4: "</span>);
+<span class="keyword">double</span> test4 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Calculate average</span>
+<span class="keyword">double</span> average = (test1 + test2 + test3 + test4) / <span class="number">4.0</span>;
+
+<span class="comment">// Display result</span>
+Console.WriteLine();
+Console.WriteLine(<span class="string">$"Student: <span class="number">{name}</span>"</span>);
+Console.WriteLine(<span class="string">$"Test Scores: <span class="number">{test1}</span>, <span class="number">{test2}</span>, <span class="number">{test3}</span>, <span class="number">{test4}</span>"</span>);
+Console.WriteLine(<span class="string">$"Average: <span class="number">{average:F2}</span>"</span>);</code></pre>
+
+            <h3>Example 5: Distance Converter</h3>
+
+            <div class="example-title">Miles to Kilometers Converter</div>
+            <pre><code><span class="keyword">const double</span> KM_PER_MILE = <span class="number">1.60934</span>;
+
+<span class="comment">// Get distance in miles</span>
+Console.Write(<span class="string">"Enter distance in miles: "</span>);
+<span class="keyword">double</span> miles = <span class="keyword">double</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Convert to kilometers</span>
+<span class="keyword">double</span> kilometers = miles * KM_PER_MILE;
+
+<span class="comment">// Display result</span>
+Console.WriteLine(<span class="string">$"<span class="number">{miles}</span> miles is <span class="number">{kilometers:F2}</span> kilometers"</span>);</code></pre>
+
+            <h3>Example 6: Time Calculator</h3>
+
+            <div class="example-title">Convert Seconds to Hours, Minutes, Seconds</div>
+            <pre><code><span class="comment">// Get total seconds</span>
+Console.Write(<span class="string">"Enter total seconds: "</span>);
+<span class="keyword">int</span> totalSeconds = <span class="keyword">int</span>.Parse(Console.ReadLine());
+
+<span class="comment">// Calculate hours, minutes, and remaining seconds</span>
+<span class="keyword">int</span> hours = totalSeconds / <span class="number">3600</span>;
+<span class="keyword">int</span> remainingSeconds = totalSeconds % <span class="number">3600</span>;
+<span class="keyword">int</span> minutes = remainingSeconds / <span class="number">60</span>;
+<span class="keyword">int</span> seconds = remainingSeconds % <span class="number">60</span>;
+
+<span class="comment">// Display result</span>
+Console.WriteLine(<span class="string">$"<span class="number">{totalSeconds}</span> seconds = <span class="number">{hours}</span>h <span class="number">{minutes}</span>m <span class="number">{seconds}</span>s"</span>);</code></pre>
+
+            <!-- QUICK REFERENCE -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Console I/O Cheat Sheet</h3>
+                <pre><code><span class="comment">// Output</span>
+Console.WriteLine(<span class="string">"text"</span>);              <span class="comment">// Display and new line</span>
+Console.Write(<span class="string">"text"</span>);                  <span class="comment">// Display without new line</span>
+Console.WriteLine(<span class="string">$"Value: <span class="number">{variable}</span>"</span>);  <span class="comment">// String interpolation</span>
+
+<span class="comment">// Input</span>
+<span class="keyword">string</span> text = Console.ReadLine();         <span class="comment">// Read string</span>
+<span class="keyword">int</span> num = <span class="keyword">int</span>.Parse(Console.ReadLine());   <span class="comment">// Read integer</span>
+<span class="keyword">double</span> d = <span class="keyword">double</span>.Parse(Console.ReadLine()); <span class="comment">// Read double</span></code></pre>
+
+                <h3>Variables & Constants</h3>
+                <pre><code><span class="comment">// Variables (can change)</span>
+<span class="keyword">int</span> age = <span class="number">25</span>;
+<span class="keyword">double</span> price = <span class="number">19.99</span>;
+<span class="keyword">string</span> name = <span class="string">"Alice"</span>;
+<span class="keyword">bool</span> isStudent = <span class="keyword">true</span>;
+
+<span class="comment">// Constants (cannot change)</span>
+<span class="keyword">const double</span> PI = <span class="number">3.14159</span>;
+<span class="keyword">const double</span> TAX_RATE = <span class="number">0.08</span>;</code></pre>
+
+                <h3>Operators</h3>
+                <pre><code><span class="comment">// Arithmetic</span>
++ - * / %        <span class="comment">// Add, subtract, multiply, divide, modulus</span>
+++ --            <span class="comment">// Increment, decrement</span>
++= -= *= /=      <span class="comment">// Compound assignment</span>
+
+<span class="comment">// Comparison</span>
+== != > < >= <=  <span class="comment">// Equal, not equal, greater, less, etc.</span></code></pre>
+
+                <h3>Type Conversion</h3>
+                <pre><code><span class="comment">// Parse string to number</span>
+<span class="keyword">int</span>.Parse(<span class="string">"42"</span>)
+<span class="keyword">double</span>.Parse(<span class="string">"3.14"</span>)
+<span class="keyword">decimal</span>.Parse(<span class="string">"19.99"</span>)
+
+<span class="comment">// Explicit casting</span>
+(<span class="keyword">int</span>)doubleValue
+(<span class="keyword">double</span>)intValue</code></pre>
+
+                <h3>Formatting</h3>
+                <pre><code><span class="comment">// Format specifiers</span>
+<span class="string">{value:C2}</span>   <span class="comment">// Currency: $19.99</span>
+<span class="string">{value:N2}</span>   <span class="comment">// Number: 1,234.56</span>
+<span class="string">{value:F2}</span>   <span class="comment">// Fixed-point: 19.99</span>
+<span class="string">{value:P2}</span>   <span class="comment">// Percent: 45.00%</span>
+
+<span class="comment">// Alignment</span>
+<span class="string">{value,10}</span>   <span class="comment">// Right-aligned (10 chars)</span>
+<span class="string">{value,-10}</span>  <span class="comment">// Left-aligned (10 chars)</span></code></pre>
+            </div>
+
+            <!-- BEST PRACTICES -->
+            <h2>💡 Best Practices</h2>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>✅ DO</h4>
+                    <ul>
+                        <li>Use meaningful variable names (<code>totalPrice</code> not <code>tp</code>)</li>
+                        <li>Use constants for fixed values</li>
+                        <li>Name constants in ALL_CAPS</li>
+                        <li>Use string interpolation (<code>$"{x}"</code>)</li>
+                        <li>Include comments to explain complex logic</li>
+                        <li>Format currency and numbers appropriately</li>
+                        <li>Use blank lines to organize code sections</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>❌ DON'T</h4>
+                    <ul>
+                        <li>Use single letters except in loops (<code>x</code>, <code>y</code>)</li>
+                        <li>Try to change constant values</li>
+                        <li>Forget to cast when dividing integers</li>
+                        <li>Confuse <code>=</code> with <code>==</code></li>
+                        <li>Leave magic numbers unexplained</li>
+                        <li>Display unformatted money values</li>
+                        <li>Write all code in one long block</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>🎓 Key Takeaways</h2>
+
+            <div class="highlight-box">
+                <ul style="margin: 0;">
+                    <li><strong>Variables</strong> store data that can change; <strong>constants</strong> store fixed values</li>
+                    <li>Every variable must have a <strong>data type</strong> (int, double, string, bool, etc.)</li>
+                    <li><strong>Console.ReadLine()</strong> always returns a string – use <code>Parse()</code> to convert to numbers</li>
+                    <li>Use <strong>const</strong> for values that never change (like conversion rates or tax rates)</li>
+                    <li><strong>Arithmetic operators</strong> (+, -, *, /, %) perform calculations on numbers</li>
+                    <li>Integer division <strong>truncates</strong> decimals – cast to double for true division</li>
+                    <li><strong>String interpolation</strong> ($"...{variable}...") is the modern way to combine text and values</li>
+                    <li><strong>Format specifiers</strong> (C2, N2, F2) control how numbers are displayed</li>
+                    <li><strong>Comparison operators</strong> (==, !=, >, <, >=, <=) compare values and return true/false</li>
+                    <li>Always use meaningful variable names and follow naming conventions</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <strong>Practice Makes Perfect!</strong> The best way to learn programming is by writing code. Start with simple programs and gradually add more features. Don't be afraid to experiment and make mistakes – that's how you learn!
+            </div>
+
+        </div>
+
+        <footer>
+            <p><strong>C# Console Application Fundamentals Quick Reference Guide</strong></p>
+            <p>For use with <span class="vs-logo">Visual Studio 2026 Community Edition</span></p>
+            <p>Master the basics and start building your own console applications! 🚀</p>
+        </footer>
+    </div>
+</body>
+</html>
