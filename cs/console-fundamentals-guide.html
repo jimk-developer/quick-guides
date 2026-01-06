@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" href="assets/favicon.png">
     <title>C# Console Application Fundamentals</title>
     <style>
         * {
@@ -1055,18 +1054,25 @@ Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> - <s
 Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> × <span class="number">{num2}</span> = <span class="number">{product}</span>"</span>);
 Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> ÷ <span class="number">{num2}</span> = <span class="number">{quotient:F2}</span>"</span>);</code></pre>
 
-            <h3>Example 2: Temperature Converter</h3>
+            <h3>Example 2: Rectangle Area Calculator</h3>
 
-            <div class="example-title">Celsius to Fahrenheit Converter</div>
-            <pre><code><span class="comment">// Get temperature in Celsius</span>
-Console.Write(<span class="string">"Enter temperature in Celsius: "</span>);
-<span class="keyword">double</span> celsius = <span class="keyword">double</span>.Parse(Console.ReadLine());
+            <div class="example-title">Calculate Rectangle Area and Perimeter</div>
+            <pre><code><span class="comment">// Get rectangle dimensions</span>
+Console.Write(<span class="string">"Enter rectangle length: "</span>);
+<span class="keyword">double</span> length = <span class="keyword">double</span>.Parse(Console.ReadLine());
 
-<span class="comment">// Convert to Fahrenheit</span>
-<span class="keyword">double</span> fahrenheit = (celsius * <span class="number">9.0</span> / <span class="number">5.0</span>) + <span class="number">32</span>;
+Console.Write(<span class="string">"Enter rectangle width: "</span>);
+<span class="keyword">double</span> width = <span class="keyword">double</span>.Parse(Console.ReadLine());
 
-<span class="comment">// Display result</span>
-Console.WriteLine(<span class="string">$"<span class="number">{celsius}</span>°C = <span class="number">{fahrenheit:F1}</span>°F"</span>);</code></pre>
+<span class="comment">// Calculate area and perimeter</span>
+<span class="keyword">double</span> area = length * width;
+<span class="keyword">double</span> perimeter = <span class="number">2</span> * (length + width);
+
+<span class="comment">// Display results</span>
+Console.WriteLine();
+Console.WriteLine(<span class="string">$"Rectangle dimensions: <span class="number">{length}</span> x <span class="number">{width}</span>"</span>);
+Console.WriteLine(<span class="string">$"Area: <span class="number">{area:F2}</span> square units"</span>);
+Console.WriteLine(<span class="string">$"Perimeter: <span class="number">{perimeter:F2}</span> units"</span>);</code></pre>
 
             <h3>Example 3: Shopping Cart Total</h3>
 
@@ -1095,49 +1101,49 @@ Console.WriteLine(<span class="string">$"Subtotal: <span class="number">{subtota
 Console.WriteLine(<span class="string">$"Tax (8%): <span class="number">{tax:C2}</span>"</span>);
 Console.WriteLine(<span class="string">$"Total:    <span class="number">{total:C2}</span>"</span>);</code></pre>
 
-            <h3>Example 4: Student Grade Average</h3>
+            <h3>Example 4: Pizza Party Calculator</h3>
 
-            <div class="example-title">Calculate Test Average</div>
-            <pre><code><span class="comment">// Get student name</span>
-Console.Write(<span class="string">"Enter student name: "</span>);
-<span class="keyword">string</span> name = Console.ReadLine();
+            <div class="example-title">Calculate Pizza Cost Per Person</div>
+            <pre><code><span class="comment">// Get party information</span>
+Console.Write(<span class="string">"Enter number of people: "</span>);
+<span class="keyword">int</span> numPeople = <span class="keyword">int</span>.Parse(Console.ReadLine());
 
-<span class="comment">// Get test scores</span>
-Console.Write(<span class="string">"Enter score for test 1: "</span>);
-<span class="keyword">double</span> test1 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+Console.Write(<span class="string">"Enter number of pizzas: "</span>);
+<span class="keyword">int</span> numPizzas = <span class="keyword">int</span>.Parse(Console.ReadLine());
 
-Console.Write(<span class="string">"Enter score for test 2: "</span>);
-<span class="keyword">double</span> test2 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+Console.Write(<span class="string">"Enter cost per pizza: $"</span>);
+<span class="keyword">double</span> pricePerPizza = <span class="keyword">double</span>.Parse(Console.ReadLine());
 
-Console.Write(<span class="string">"Enter score for test 3: "</span>);
-<span class="keyword">double</span> test3 = <span class="keyword">double</span>.Parse(Console.ReadLine());
+<span class="comment">// Calculate totals</span>
+<span class="keyword">double</span> totalCost = numPizzas * pricePerPizza;
+<span class="keyword">double</span> costPerPerson = totalCost / numPeople;
+<span class="keyword">double</span> slicesPerPerson = (numPizzas * <span class="number">8.0</span>) / numPeople;  <span class="comment">// Assuming 8 slices per pizza</span>
 
-Console.Write(<span class="string">"Enter score for test 4: "</span>);
-<span class="keyword">double</span> test4 = <span class="keyword">double</span>.Parse(Console.ReadLine());
-
-<span class="comment">// Calculate average</span>
-<span class="keyword">double</span> average = (test1 + test2 + test3 + test4) / <span class="number">4.0</span>;
-
-<span class="comment">// Display result</span>
+<span class="comment">// Display results</span>
 Console.WriteLine();
-Console.WriteLine(<span class="string">$"Student: <span class="number">{name}</span>"</span>);
-Console.WriteLine(<span class="string">$"Test Scores: <span class="number">{test1}</span>, <span class="number">{test2}</span>, <span class="number">{test3}</span>, <span class="number">{test4}</span>"</span>);
-Console.WriteLine(<span class="string">$"Average: <span class="number">{average:F2}</span>"</span>);</code></pre>
+Console.WriteLine(<span class="string">"=== Pizza Party Summary ==="</span>);
+Console.WriteLine(<span class="string">$"Total Cost: <span class="number">{totalCost:C2}</span>"</span>);
+Console.WriteLine(<span class="string">$"Cost Per Person: <span class="number">{costPerPerson:C2}</span>"</span>);
+Console.WriteLine(<span class="string">$"Slices Per Person: <span class="number">{slicesPerPerson:F1}</span>"</span>);</code></pre>
 
-            <h3>Example 5: Distance Converter</h3>
+            <h3>Example 5: Circle Calculator</h3>
 
-            <div class="example-title">Miles to Kilometers Converter</div>
-            <pre><code><span class="keyword">const double</span> KM_PER_MILE = <span class="number">1.60934</span>;
+            <div class="example-title">Calculate Circle Area and Circumference</div>
+            <pre><code><span class="keyword">const double</span> PI = <span class="number">3.14159</span>;
 
-<span class="comment">// Get distance in miles</span>
-Console.Write(<span class="string">"Enter distance in miles: "</span>);
-<span class="keyword">double</span> miles = <span class="keyword">double</span>.Parse(Console.ReadLine());
+<span class="comment">// Get circle radius</span>
+Console.Write(<span class="string">"Enter circle radius: "</span>);
+<span class="keyword">double</span> radius = <span class="keyword">double</span>.Parse(Console.ReadLine());
 
-<span class="comment">// Convert to kilometers</span>
-<span class="keyword">double</span> kilometers = miles * KM_PER_MILE;
+<span class="comment">// Calculate area and circumference</span>
+<span class="keyword">double</span> area = PI * radius * radius;
+<span class="keyword">double</span> circumference = <span class="number">2</span> * PI * radius;
 
-<span class="comment">// Display result</span>
-Console.WriteLine(<span class="string">$"<span class="number">{miles}</span> miles is <span class="number">{kilometers:F2}</span> kilometers"</span>);</code></pre>
+<span class="comment">// Display results</span>
+Console.WriteLine();
+Console.WriteLine(<span class="string">$"Circle with radius <span class="number">{radius}</span>:"</span>);
+Console.WriteLine(<span class="string">$"Area: <span class="number">{area:F2}</span> square units"</span>);
+Console.WriteLine(<span class="string">$"Circumference: <span class="number">{circumference:F2}</span> units"</span>);</code></pre>
 
             <h3>Example 6: Time Calculator</h3>
 
