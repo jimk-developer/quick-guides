@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C# Console Application Fundamentals</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
     <style>
         * {
             margin: 0;
@@ -191,7 +194,8 @@
             background: #F5F5F5;
         }
 
-        ul, ol {
+        ul,
+        ol {
             margin: 15px 0 15px 30px;
         }
 
@@ -219,7 +223,7 @@
             margin-bottom: 0;
         }
 
-        .example-title + pre {
+        .example-title+pre {
             margin-top: 0;
             border-radius: 0 0 8px 8px;
         }
@@ -300,6 +304,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -309,21 +314,33 @@
 
         <div class="content">
             <div class="section-intro">
-                This guide covers essential concepts for building C# console applications in Visual Studio 2026. You'll learn about variables, constants, data types, user input/output, calculations, and formatting – everything you need to create interactive command-line programs.
+                This guide covers essential concepts for building C# console
+                applications in Visual Studio 2026. You'll learn about
+                variables, constants, data types, user input/output,
+                calculations, and formatting – everything you need to create
+                interactive command-line programs.
             </div>
 
             <!-- WHAT IS A CONSOLE APPLICATION -->
             <h2>🎯 What is a Console Application?</h2>
-            
-            <p>A <strong>console application</strong> is a text-based program that runs in a command-line window (also called a terminal or console). Unlike graphical applications with buttons and windows, console apps interact with users through text input and output.</p>
+
+            <p>A <strong>console application</strong> is a text-based program
+                that runs in a command-line window (also called a terminal or
+                console). Unlike graphical applications with buttons and
+                windows, console apps interact with users through text input and
+                output.</p>
 
             <div class="highlight-box">
                 <strong>💡 Why Start with Console Apps?</strong>
                 <ul>
-                    <li><strong>Simple interface</strong> - Focus on logic, not graphics</li>
-                    <li><strong>Quick feedback</strong> - Test your code immediately</li>
-                    <li><strong>Foundation skills</strong> - Learn core programming concepts</li>
-                    <li><strong>Professional tools</strong> - Many utilities are console-based</li>
+                    <li><strong>Simple interface</strong> - Focus on logic, not
+                        graphics</li>
+                    <li><strong>Quick feedback</strong> - Test your code
+                        immediately</li>
+                    <li><strong>Foundation skills</strong> - Learn core
+                        programming concepts</li>
+                    <li><strong>Professional tools</strong> - Many utilities are
+                        console-based</li>
                 </ul>
             </div>
 
@@ -335,7 +352,8 @@
                 <li>Open Visual Studio 2026</li>
                 <li>Click <strong>Create a new project</strong></li>
                 <li>Search for <strong>"Console App"</strong></li>
-                <li>Select <strong>Console App (.NET)</strong> for C#</li>
+                <li>Select <strong>Console App</strong> for C#</li>
+                <img src="assets/vs-console.png" alt="Console selections">
                 <li>Click <strong>Next</strong></li>
             </ol>
 
@@ -343,33 +361,42 @@
             <ol>
                 <li>Enter a <strong>Project name</strong> (e.g., "Lab1")</li>
                 <li>Choose a <strong>Location</strong> to save your project</li>
-                <li>Optionally check <strong>"Place solution and project in the same directory"</strong></li>
+                <li>Optionally check <strong>"Place solution and project in the
+                        same directory"</strong></li>
                 <li>Click <strong>Next</strong></li>
                 <li>Select the latest <strong>.NET version</strong></li>
                 <li>Click <strong>Create</strong></li>
             </ol>
 
             <div class="tip-box">
-                <strong>Project Organization:</strong> When creating multiple related projects (like Lab1, Lab2, Lab3), you can add them to the same solution. Right-click the solution in Solution Explorer → Add → New Project.
+                <strong>Project Organization:</strong> When creating multiple
+                related projects (like Lab1, Lab2, Lab3), you can add them to
+                the same solution. Right-click the solution in Solution Explorer
+                → Add → New Project.
             </div>
 
             <h3>Basic Console Application Structure</h3>
 
-            <div class="example-title">Program.cs - Top-Level Statements (Modern C#)</div>
+            <div class="example-title">Program.cs - Top-Level Statements (Modern
+                C#)</div>
             <pre><code><span class="comment">// Top-level statements (no class or Main method needed)</span>
 <span class="comment">// Your code starts here immediately</span>
 
 Console.WriteLine(<span class="string">"Hello, World!"</span>);
 Console.WriteLine(<span class="string">"This is my first console app."</span>);</code></pre>
 
-            <p>Modern C# uses <strong>top-level statements</strong>, which means you can write code directly without a class or Main method. This makes simple programs cleaner and easier to read.</p>
+            <p>Modern C# uses <strong>top-level statements</strong>, which means
+                you can write code directly without a class or Main method. This
+                makes simple programs cleaner and easier to read.</p>
 
             <!-- VARIABLES AND CONSTANTS -->
             <h2>📦 Variables and Constants</h2>
 
             <h3>What is a Variable?</h3>
-            
-            <p>A <strong>variable</strong> is a named storage location in memory that holds a value. Variables can change during program execution.</p>
+
+            <p>A <strong>variable</strong> is a named storage location in memory
+                that holds a value. Variables can change during program
+                execution.</p>
 
             <div class="highlight-box">
                 <strong>Variable Declaration Syntax:</strong><br>
@@ -392,8 +419,12 @@ age = <span class="number">25</span>;
 count = count + <span class="number">1</span>;</code></pre>
 
             <h3>What is a Constant?</h3>
-            
-            <p>A <strong>constant</strong> is a named value that cannot change after it's initialized. Constants are declared using the <code>const</code> keyword and must be assigned a value immediately.</p>
+
+            <p>A <strong>constant</strong> is a named value that cannot change
+                after it's initialized. Constants are declared using the
+                <code>const</code> keyword and must be assigned a value
+                immediately.
+            </p>
 
             <div class="example-title">Declaring and Using Constants</div>
             <pre><code><span class="comment">// Constant declaration - value cannot be changed</span>
@@ -405,19 +436,27 @@ count = count + <span class="number">1</span>;</code></pre>
 <span class="keyword">double</span> kilometers = miles * KM_PER_MILE;</code></pre>
 
             <div class="tip-box">
-                <strong>Naming Conventions:</strong> By convention, constants are named in ALL_CAPS with underscores separating words (e.g., KM_PER_MILE). Variables use camelCase (e.g., userName, totalPrice).
+                <strong>Naming Conventions:</strong> By convention, constants
+                are named in ALL_CAPS with underscores separating words (e.g.,
+                KM_PER_MILE). Variables use camelCase (e.g., userName,
+                totalPrice).
             </div>
 
             <div class="warning-box">
-                <strong>Common Mistake:</strong> Trying to change a constant's value will cause a compile error.
-                <pre style="margin-top: 10px;"><code><span class="keyword">const double</span> TAX_RATE = <span class="number">0.08</span>;
+                <strong>Common Mistake:</strong> Trying to change a constant's
+                value will cause a compile error.
+                <pre
+                    style="margin-top: 10px;"><code><span class="keyword">const double</span> TAX_RATE = <span class="number">0.08</span>;
 TAX_RATE = <span class="number">0.09</span>; <span class="comment">// ERROR! Cannot modify a constant</span></code></pre>
             </div>
 
             <!-- DATA TYPES -->
             <h2>🔢 Data Types</h2>
 
-            <p>C# is a <strong>strongly-typed language</strong>, meaning every variable must have a specific data type. Data types determine what kind of values a variable can hold and what operations can be performed on it.</p>
+            <p>C# is a <strong>strongly-typed language</strong>, meaning every
+                variable must have a specific data type. Data types determine
+                what kind of values a variable can hold and what operations can
+                be performed on it.</p>
 
             <h3>Intrinsic (Built-in) Data Types</h3>
 
@@ -491,13 +530,19 @@ TAX_RATE = <span class="number">0.09</span>; <span class="comment">// ERROR! Can
 <span class="keyword">char</span> initial = <span class="string">'J'</span>;</code></pre>
 
             <div class="tip-box">
-                <strong>Choosing Between double and decimal:</strong> Use <code>double</code> for most mathematical calculations and scientific data. Use <code>decimal</code> when working with money, as it provides exact decimal representation without floating-point errors.
+                <strong>Choosing Between double and decimal:</strong> Use
+                <code>double</code> for most mathematical calculations and
+                scientific data. Use <code>decimal</code> when working with
+                money, as it provides exact decimal representation without
+                floating-point errors.
             </div>
 
             <!-- LITERALS -->
             <h2>📝 Literals</h2>
 
-            <p>A <strong>literal</strong> is a fixed value written directly in code. Different types of literals represent different kinds of data.</p>
+            <p>A <strong>literal</strong> is a fixed value written directly in
+                code. Different types of literals represent different kinds of
+                data.</p>
 
             <div class="grid-2col">
                 <div class="card">
@@ -531,7 +576,10 @@ TAX_RATE = <span class="number">0.09</span>; <span class="comment">// ERROR! Can
             </div>
 
             <div class="warning-box">
-                <strong>String vs Char:</strong> Strings use double quotes (<code>"text"</code>) and can contain multiple characters or none. Chars use single quotes (<code>'A'</code>) and must contain exactly one character.
+                <strong>String vs Char:</strong> Strings use double quotes
+                (<code>"text"</code>) and can contain multiple characters or
+                none. Chars use single quotes (<code>'A'</code>) and must
+                contain exactly one character.
             </div>
 
             <!-- CONSOLE INPUT/OUTPUT -->
@@ -539,7 +587,8 @@ TAX_RATE = <span class="number">0.09</span>; <span class="comment">// ERROR! Can
 
             <h3>Console.WriteLine() - Display Output</h3>
 
-            <p>The <code>Console.WriteLine()</code> method displays text to the console and moves to a new line.</p>
+            <p>The <code>Console.WriteLine()</code> method displays text to the
+                console and moves to a new line.</p>
 
             <div class="example-title">Basic Output</div>
             <pre><code><span class="comment">// Display a simple message</span>
@@ -554,7 +603,8 @@ Console.WriteLine();</code></pre>
 
             <h3>Console.Write() - Display Without New Line</h3>
 
-            <p>The <code>Console.Write()</code> method displays text without moving to a new line.</p>
+            <p>The <code>Console.Write()</code> method displays text without
+                moving to a new line.</p>
 
             <div class="example-title">Write Without Line Break</div>
             <pre><code>Console.Write(<span class="string">"Enter your name: "</span>);  <span class="comment">// Stays on same line</span>
@@ -577,12 +627,17 @@ Console.WriteLine(<span class="string">$"<span class="number">{name}</span> is <
 Console.WriteLine(<span class="string">$"Salary: $<span class="number">{salary}</span>"</span>);</code></pre>
 
             <div class="tip-box">
-                <strong>String Interpolation:</strong> Using <code>$</code> before a string and <code>{variableName}</code> inside curly braces is the modern, preferred way to combine text and variables. It's more readable than concatenation.
+                <strong>String Interpolation:</strong> Using <code>$</code>
+                before a string and <code>{variableName}</code> inside curly
+                braces is the modern, preferred way to combine text and
+                variables. It's more readable than concatenation.
             </div>
 
             <h3>Console.ReadLine() - Get User Input</h3>
 
-            <p>The <code>Console.ReadLine()</code> method reads a line of text entered by the user. It always returns a <code>string</code>.</p>
+            <p>The <code>Console.ReadLine()</code> method reads a line of text
+                entered by the user. It always returns a <code>string</code>.
+            </p>
 
             <div class="example-title">Reading User Input</div>
             <pre><code><span class="comment">// Prompt and read input</span>
@@ -597,7 +652,8 @@ Console.WriteLine(<span class="string">$"Hello, <span class="number">{name}</spa
 
             <h3>Converting String Input to Numbers</h3>
 
-            <p>Since <code>Console.ReadLine()</code> returns a string, you must convert it to a number type before performing calculations.</p>
+            <p>Since <code>Console.ReadLine()</code> returns a string, you must
+                convert it to a number type before performing calculations.</p>
 
             <div class="example-title">Converting Input to int</div>
             <pre><code><span class="comment">// Read and convert to integer</span>
@@ -618,7 +674,11 @@ Console.Write(<span class="string">"Enter the price: "</span>);
 <span class="keyword">double</span> price = <span class="keyword">double</span>.Parse(Console.ReadLine());</code></pre>
 
             <div class="warning-box">
-                <strong>Input Validation:</strong> If the user enters non-numeric text when you expect a number, <code>.Parse()</code> will crash your program. For learning purposes, we assume users enter valid data. Later, you'll learn about <code>TryParse()</code> for safer input handling.
+                <strong>Input Validation:</strong> If the user enters
+                non-numeric text when you expect a number, <code>.Parse()</code>
+                will crash your program. For learning purposes, we assume users
+                enter valid data. Later, you'll learn about
+                <code>TryParse()</code> for safer input handling.
             </div>
 
             <h3>Complete Input Example</h3>
@@ -644,7 +704,8 @@ Console.WriteLine(<span class="string">$"GPA: <span class="number">{gpa}</span>"
             <!-- ARITHMETIC OPERATORS -->
             <h2>➕ Arithmetic Operators</h2>
 
-            <p><strong>Arithmetic operators</strong> perform mathematical calculations on numeric values.</p>
+            <p><strong>Arithmetic operators</strong> perform mathematical
+                calculations on numeric values.</p>
 
             <h3>Binary Operators (Two Operands)</h3>
 
@@ -704,8 +765,10 @@ Console.WriteLine(<span class="string">$"Quotient: <span class="number">{quotien
 Console.WriteLine(<span class="string">$"Remainder: <span class="number">{remainder}</span>"</span>);</code></pre>
 
             <div class="warning-box">
-                <strong>Integer Division:</strong> When dividing two integers, C# performs integer division and discards the decimal part.
-                <pre style="margin-top: 10px;"><code><span class="keyword">int</span> result1 = <span class="number">10</span> / <span class="number">3</span>;        <span class="comment">// result1 = 3 (not 3.333)</span>
+                <strong>Integer Division:</strong> When dividing two integers,
+                C# performs integer division and discards the decimal part.
+                <pre
+                    style="margin-top: 10px;"><code><span class="keyword">int</span> result1 = <span class="number">10</span> / <span class="number">3</span>;        <span class="comment">// result1 = 3 (not 3.333)</span>
 <span class="keyword">double</span> result2 = <span class="number">10.0</span> / <span class="number">3.0</span>;  <span class="comment">// result2 = 3.333...</span></code></pre>
             </div>
 
@@ -749,7 +812,8 @@ count--;              <span class="comment">// count is now 5 (same as count = c
 
             <h3>Compound Assignment Operators</h3>
 
-            <p>These operators combine an arithmetic operation with assignment.</p>
+            <p>These operators combine an arithmetic operation with assignment.
+            </p>
 
             <table>
                 <tr>
@@ -794,11 +858,15 @@ Console.WriteLine(<span class="string">$"Salary after 2 years: $<span class="num
             <!-- TYPE CONVERSION (CASTING) -->
             <h2>🔄 Type Conversion (Casting)</h2>
 
-            <p><strong>Type conversion</strong> (also called <strong>casting</strong>) is the process of converting a value from one data type to another.</p>
+            <p><strong>Type conversion</strong> (also called
+                <strong>casting</strong>) is the process of converting a value
+                from one data type to another.
+            </p>
 
             <h3>Implicit Casting (Automatic)</h3>
 
-            <p>C# automatically converts smaller types to larger types when there's no risk of data loss.</p>
+            <p>C# automatically converts smaller types to larger types when
+                there's no risk of data loss.</p>
 
             <div class="example-title">Implicit Conversions</div>
             <pre><code><span class="keyword">int</span> wholeNumber = <span class="number">10</span>;
@@ -812,7 +880,8 @@ Console.WriteLine(<span class="string">$"Salary after 2 years: $<span class="num
 
             <h3>Explicit Casting (Manual)</h3>
 
-            <p>When converting from a larger type to a smaller type, or when precision might be lost, you must explicitly cast.</p>
+            <p>When converting from a larger type to a smaller type, or when
+                precision might be lost, you must explicitly cast.</p>
 
             <div class="example-title">Explicit Conversions</div>
             <pre><code><span class="keyword">double</span> price = <span class="number">19.99</span>;
@@ -829,14 +898,18 @@ Console.WriteLine(<span class="string">$"Salary after 2 years: $<span class="num
 <span class="keyword">double</span> result2 = a * <span class="number">1.0</span> / b;  <span class="comment">// Forces double calculation</span></code></pre>
 
             <div class="warning-box">
-                <strong>Truncation vs Rounding:</strong> Casting a <code>double</code> to an <code>int</code> truncates (cuts off) the decimal part, it doesn't round.
-                <pre style="margin-top: 10px;"><code>(<span class="keyword">int</span>)<span class="number">19.99</span>  <span class="comment">// Results in 19, not 20</span>
+                <strong>Truncation vs Rounding:</strong> Casting a
+                <code>double</code> to an <code>int</code> truncates (cuts off)
+                the decimal part, it doesn't round.
+                <pre
+                    style="margin-top: 10px;"><code>(<span class="keyword">int</span>)<span class="number">19.99</span>  <span class="comment">// Results in 19, not 20</span>
 (<span class="keyword">int</span>)<span class="number">19.1</span>   <span class="comment">// Results in 19</span></code></pre>
             </div>
 
             <h3>Using Parse() Methods</h3>
 
-            <p>Convert strings to numeric types using <code>Parse()</code> methods.</p>
+            <p>Convert strings to numeric types using <code>Parse()</code>
+                methods.</p>
 
             <div class="example-title">String to Number Conversions</div>
             <pre><code><span class="keyword">string</span> text1 = <span class="string">"42"</span>;
@@ -850,16 +923,21 @@ Console.WriteLine(<span class="string">$"Salary after 2 years: $<span class="num
             <!-- FORMATTED OUTPUT -->
             <h2>🎨 Formatted Output</h2>
 
-            <p>C# provides powerful string formatting capabilities to control how values are displayed.</p>
+            <p>C# provides powerful string formatting capabilities to control
+                how values are displayed.</p>
 
             <h3>String Interpolation with Formatting</h3>
 
             <div class="highlight-box">
-                <strong>Format Syntax:</strong> <code>{variable:formatSpecifier}</code>
+                <strong>Format Syntax:</strong>
+                <code>{variable:formatSpecifier}</code>
                 <ul>
-                    <li><strong>Placeholder:</strong> <code>{variable}</code> marks where to insert a value</li>
-                    <li><strong>Format specifier:</strong> Letter indicating format type (C, N, F, etc.)</li>
-                    <li><strong>Precision specifier:</strong> Number indicating decimal places</li>
+                    <li><strong>Placeholder:</strong> <code>{variable}</code>
+                        marks where to insert a value</li>
+                    <li><strong>Format specifier:</strong> Letter indicating
+                        format type (C, N, F, etc.)</li>
+                    <li><strong>Precision specifier:</strong> Number indicating
+                        decimal places</li>
                 </ul>
             </div>
 
@@ -956,13 +1034,19 @@ Bob         $65,000.00
 */</span></code></pre>
 
             <div class="tip-box">
-                <strong>Alignment:</strong> Use <code>{variable,-10}</code> for left-aligned (10 characters wide) or <code>{variable,10}</code> for right-aligned. This is useful for creating neat columns in console output.
+                <strong>Alignment:</strong> Use <code>{variable,-10}</code> for
+                left-aligned (10 characters wide) or <code>{variable,10}</code>
+                for right-aligned. This is useful for creating neat columns in
+                console output.
             </div>
 
             <!-- COMPARISON OPERATORS -->
             <h2>⚖️ Comparison Operators</h2>
 
-            <p><strong>Comparison operators</strong> compare two values and return a boolean result (<code>true</code> or <code>false</code>).</p>
+            <p><strong>Comparison operators</strong> compare two values and
+                return a boolean result (<code>true</code> or
+                <code>false</code>).
+            </p>
 
             <table>
                 <tr>
@@ -1022,8 +1106,10 @@ Console.WriteLine(<span class="string">$"Is adult? <span class="number">{isAdult
 Console.WriteLine(<span class="string">$"Is teenager? <span class="number">{isTeenager}</span>"</span>);  <span class="comment">// Is teenager? False</span></code></pre>
 
             <div class="warning-box">
-                <strong>Common Mistake:</strong> Don't confuse <code>=</code> (assignment) with <code>==</code> (comparison).
-                <pre style="margin-top: 10px;"><code>x = <span class="number">5</span>;     <span class="comment">// Assignment: sets x to 5</span>
+                <strong>Common Mistake:</strong> Don't confuse <code>=</code>
+                (assignment) with <code>==</code> (comparison).
+                <pre
+                    style="margin-top: 10px;"><code>x = <span class="number">5</span>;     <span class="comment">// Assignment: sets x to 5</span>
 x == <span class="number">5</span>;    <span class="comment">// Comparison: checks if x equals 5 (returns true/false)</span></code></pre>
             </div>
 
@@ -1056,7 +1142,8 @@ Console.WriteLine(<span class="string">$"<span class="number">{num1}</span> ÷ <
 
             <h3>Example 2: Rectangle Area Calculator</h3>
 
-            <div class="example-title">Calculate Rectangle Area and Perimeter</div>
+            <div class="example-title">Calculate Rectangle Area and Perimeter
+            </div>
             <pre><code><span class="comment">// Get rectangle dimensions</span>
 Console.Write(<span class="string">"Enter rectangle length: "</span>);
 <span class="keyword">double</span> length = <span class="keyword">double</span>.Parse(Console.ReadLine());
@@ -1128,7 +1215,8 @@ Console.WriteLine(<span class="string">$"Slices Per Person: <span class="number"
 
             <h3>Example 5: Circle Calculator</h3>
 
-            <div class="example-title">Calculate Circle Area and Circumference</div>
+            <div class="example-title">Calculate Circle Area and Circumference
+            </div>
             <pre><code><span class="keyword">const double</span> PI = <span class="number">3.14159</span>;
 
 <span class="comment">// Get circle radius</span>
@@ -1147,7 +1235,8 @@ Console.WriteLine(<span class="string">$"Circumference: <span class="number">{ci
 
             <h3>Example 6: Time Calculator</h3>
 
-            <div class="example-title">Convert Seconds to Hours, Minutes, Seconds</div>
+            <div class="example-title">Convert Seconds to Hours, Minutes,
+                Seconds</div>
             <pre><code><span class="comment">// Get total seconds</span>
 Console.Write(<span class="string">"Enter total seconds: "</span>);
 <span class="keyword">int</span> totalSeconds = <span class="keyword">int</span>.Parse(Console.ReadLine());
@@ -1225,7 +1314,8 @@ Console.WriteLine(<span class="string">$"Value: <span class="number">{variable}<
                 <div class="card">
                     <h4>✅ DO</h4>
                     <ul>
-                        <li>Use meaningful variable names (<code>totalPrice</code> not <code>tp</code>)</li>
+                        <li>Use meaningful variable names
+                            (<code>totalPrice</code> not <code>tp</code>)</li>
                         <li>Use constants for fixed values</li>
                         <li>Name constants in ALL_CAPS</li>
                         <li>Use string interpolation (<code>$"{x}"</code>)</li>
@@ -1238,7 +1328,9 @@ Console.WriteLine(<span class="string">$"Value: <span class="number">{variable}<
                 <div class="card">
                     <h4>❌ DON'T</h4>
                     <ul>
-                        <li>Use single letters except in loops (<code>x</code>, <code>y</code>)</li>
+                        <li>Use single letters except in loops (<code>x</code>,
+                            <code>y</code>)
+                        </li>
                         <li>Try to change constant values</li>
                         <li>Forget to cast when dividing integers</li>
                         <li>Confuse <code>=</code> with <code>==</code></li>
@@ -1253,30 +1345,50 @@ Console.WriteLine(<span class="string">$"Value: <span class="number">{variable}<
 
             <div class="highlight-box">
                 <ul style="margin: 0;">
-                    <li><strong>Variables</strong> store data that can change; <strong>constants</strong> store fixed values</li>
-                    <li>Every variable must have a <strong>data type</strong> (int, double, string, bool, etc.)</li>
-                    <li><strong>Console.ReadLine()</strong> always returns a string – use <code>Parse()</code> to convert to numbers</li>
-                    <li>Use <strong>const</strong> for values that never change (like conversion rates or tax rates)</li>
-                    <li><strong>Arithmetic operators</strong> (+, -, *, /, %) perform calculations on numbers</li>
-                    <li>Integer division <strong>truncates</strong> decimals – cast to double for true division</li>
-                    <li><strong>String interpolation</strong> ($"...{variable}...") is the modern way to combine text and values</li>
-                    <li><strong>Format specifiers</strong> (C2, N2, F2) control how numbers are displayed</li>
-                    <li><strong>Comparison operators</strong> (==, !=, >, <, >=, <=) compare values and return true/false</li>
-                    <li>Always use meaningful variable names and follow naming conventions</li>
+                    <li><strong>Variables</strong> store data that can change;
+                        <strong>constants</strong> store fixed values
+                    </li>
+                    <li>Every variable must have a <strong>data type</strong>
+                        (int, double, string, bool, etc.)</li>
+                    <li><strong>Console.ReadLine()</strong> always returns a
+                        string – use <code>Parse()</code> to convert to numbers
+                    </li>
+                    <li>Use <strong>const</strong> for values that never change
+                        (like conversion rates or tax rates)</li>
+                    <li><strong>Arithmetic operators</strong> (+, -, *, /, %)
+                        perform calculations on numbers</li>
+                    <li>Integer division <strong>truncates</strong> decimals –
+                        cast to double for true division</li>
+                    <li><strong>String interpolation</strong>
+                        ($"...{variable}...") is the modern way to combine text
+                        and values</li>
+                    <li><strong>Format specifiers</strong> (C2, N2, F2) control
+                        how numbers are displayed</li>
+                    <li><strong>Comparison operators</strong> (==, !=, >, <,>=,
+                            <=) compare values and return true/false</li>
+                    <li>Always use meaningful variable names and follow naming
+                        conventions</li>
                 </ul>
             </div>
 
             <div class="tip-box">
-                <strong>Practice Makes Perfect!</strong> The best way to learn programming is by writing code. Start with simple programs and gradually add more features. Don't be afraid to experiment and make mistakes – that's how you learn!
+                <strong>Practice Makes Perfect!</strong> The best way to learn
+                programming is by writing code. Start with simple programs and
+                gradually add more features. Don't be afraid to experiment and
+                make mistakes – that's how you learn!
             </div>
 
         </div>
 
         <footer>
-            <p><strong>C# Console Application Fundamentals Quick Reference Guide</strong></p>
-            <p>For use with <span class="vs-logo">Visual Studio 2026 Community Edition</span></p>
-            <p>Master the basics and start building your own console applications! 🚀</p>
+            <p><strong>C# Console Application Fundamentals Quick Reference
+                    Guide</strong></p>
+            <p>For use with <span class="vs-logo">Visual Studio 2026 Community
+                    Edition</span></p>
+            <p>Master the basics and start building your own console
+                applications! 🚀</p>
         </footer>
     </div>
 </body>
+
 </html>
