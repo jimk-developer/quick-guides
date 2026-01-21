@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide #8: How to Use Arrays and Collections</title>
+	<link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00897B;
+            --primary-dark: #00695C;
+            --accent: #26A69A;
+            --success: #4CAF50;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #00897B 0%, #004D40 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #26C6DA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E0F2F1 0%, #B2DFDB 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(0, 137, 123, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Array Visual */
+        .array-visual {
+            display: flex;
+            gap: 2px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .array-cell {
+            width: 60px;
+            height: 50px;
+            border: 2px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .array-cell .value {
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .array-cell .index {
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        /* Syntax Box */
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        /* Comparison layout */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guide #8: How to Use Arrays and Collections</h1>
+        <p>One-Dimensional Arrays, Rectangular Arrays, Lists, Queues, Stacks, and More</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- Array Basics -->
+            <h2>📦 Array Fundamentals</h2>
+
+            <p>An <strong>array</strong> is a data structure that stores multiple values of the same type. When you create an array, you're creating an instance of the <code>Array</code> class. Arrays use zero-based indexing.</p>
+
+            <h3>Array Index Visualization</h3>
+            <div class="array-visual">
+                <div class="array-cell"><span class="value">10</span><span class="index">[0]</span></div>
+                <div class="array-cell"><span class="value">20</span><span class="index">[1]</span></div>
+                <div class="array-cell"><span class="value">30</span><span class="index">[2]</span></div>
+                <div class="array-cell"><span class="value">40</span><span class="index">[3]</span></div>
+                <div class="array-cell"><span class="value">50</span><span class="index">[4]</span></div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Zero-Based Indexing:</strong> The first element is at index <code>[0]</code>, the second at <code>[1]</code>, etc. To access the 9th element, use index <code>[8]</code>.
+            </div>
+
+            <h3>Declaring and Initializing Arrays</h3>
+
+            <div class="syntax-box">
+                <h4>Syntax: One-Dimensional Array</h4>
+                <pre><span class="comment">// Declare with size (elements initialized to default)</span>
+<span class="type">int</span>[] scores = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];
+
+<span class="comment">// Declare and initialize with values</span>
+<span class="type">string</span>[] names = {<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Carol"</span>};
+
+<span class="comment">// Decimal array - use 'm' suffix for literals</span>
+<span class="type">decimal</span>[] prices = {<span class="number">19.99m</span>, <span class="number">29.99m</span>, <span class="number">39.99m</span>};</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Decimal literals:</strong> When initializing a decimal array, you must use the <code>m</code> suffix on each value (e.g., <code>27.5m</code>).
+            </div>
+
+            <h3>Accessing Array Elements</h3>
+
+            <pre><span class="type">string</span>[] colors = {<span class="string">"Red"</span>, <span class="string">"Green"</span>, <span class="string">"Blue"</span>};
+
+<span class="comment">// Get element by index</span>
+<span class="type">string</span> first = colors[<span class="number">0</span>];   <span class="comment">// "Red"</span>
+<span class="type">string</span> second = colors[<span class="number">1</span>];  <span class="comment">// "Green"</span>
+
+<span class="comment">// Set element by index</span>
+colors[<span class="number">2</span>] = <span class="string">"Yellow"</span>;       <span class="comment">// Changes "Blue" to "Yellow"</span>
+
+<span class="comment">// Get the number of elements</span>
+<span class="type">int</span> count = colors.Length;   <span class="comment">// 3</span></pre>
+
+            <!-- Rectangular Arrays -->
+            <h2>📊 Rectangular Arrays (2D Arrays)</h2>
+
+            <p>A <strong>rectangular array</strong> stores data in rows and columns, like a table. Use a comma inside the brackets to separate dimensions.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Rectangular Array</h4>
+                <pre><span class="comment">// Declare with dimensions [rows, columns]</span>
+<span class="type">string</span>[,] grid = <span class="keyword">new</span> <span class="type">string</span>[<span class="number">3</span>, <span class="number">4</span>];  <span class="comment">// 3 rows, 4 columns</span>
+
+<span class="comment">// Declare and initialize</span>
+<span class="type">int</span>[,] matrix = {
+    {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>},
+    {<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>},
+    {<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>}
+};</pre>
+            </div>
+
+            <h3>Accessing Rectangular Array Elements</h3>
+
+            <pre><span class="type">decimal</span>[,] sales = {
+    {<span class="number">100.0m</span>, <span class="number">150.0m</span>},   <span class="comment">// Row 0</span>
+    {<span class="number">200.0m</span>, <span class="number">250.0m</span>},   <span class="comment">// Row 1</span>
+    {<span class="number">300.0m</span>, <span class="number">350.0m</span>}    <span class="comment">// Row 2</span>
+};
+
+<span class="comment">// Access: array[row, column]</span>
+<span class="type">decimal</span> value = sales[<span class="number">1</span>, <span class="number">0</span>];  <span class="comment">// Row 1, Col 0 = 200.0</span>
+
+<span class="comment">// Get length of a dimension</span>
+<span class="type">int</span> rows = sales.GetLength(<span class="number">0</span>);    <span class="comment">// 3 rows</span>
+<span class="type">int</span> cols = sales.GetLength(<span class="number">1</span>);    <span class="comment">// 2 columns</span></pre>
+
+            <div class="warning-box">
+                <strong>Row first, then column:</strong> To access row 4, column 2 of array <code>vendors</code>, use <code>vendors[3, 1]</code> (remember zero-based indexing!).
+            </div>
+
+            <!-- for vs foreach -->
+            <h2>🔄 for Loop vs foreach Loop</h2>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔢 for Loop</h4>
+                    <p>Use when you need the index, want to modify elements, or need to iterate in a specific order/range.</p>
+                    <pre style="margin-top: 15px;"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < arr.Length; i++)
+{
+    arr[i] = arr[i] * <span class="number">2</span>;
+}</pre>
+                </div>
+                <div class="concept-card">
+                    <h4>🔁 foreach Loop</h4>
+                    <p>Use when you just need to read each element. Simpler syntax, but you can't modify elements or access the index.</p>
+                    <pre style="margin-top: 15px;"><span class="keyword">foreach</span> (<span class="type">int</span> num <span class="keyword">in</span> arr)
+{
+    Console.WriteLine(num);
+}</pre>
+                </div>
+            </div>
+
+            <h3>Loop Syntax Comparison</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>for Loop</th>
+                        <th>foreach Loop</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Access index</strong></td>
+                        <td>Yes - use <code>i</code></td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modify elements</strong></td>
+                        <td>Yes - <code>arr[i] = value</code></td>
+                        <td>No - read-only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Syntax keyword</strong></td>
+                        <td><code>for</code></td>
+                        <td><code>foreach ... in</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uses Length</strong></td>
+                        <td>Yes - <code>i < arr.Length</code></td>
+                        <td>No - automatic</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>foreach syntax:</strong> <code>foreach (type variable in collection)</code> — Note the keyword <code>in</code>, not a colon!
+            </div>
+
+            <!-- Array Class -->
+            <h2>🛠️ The Array Class</h2>
+
+            <p>The <code>Array</code> class provides static methods for common array operations like sorting and searching.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Array.Sort()</code></td>
+                        <td>Sorts array in ascending order (modifies original)</td>
+                        <td><code>Array.Sort(numbers);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Array.Reverse()</code></td>
+                        <td>Reverses the order of elements</td>
+                        <td><code>Array.Reverse(names);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Array.BinarySearch()</code></td>
+                        <td>Finds index of value in <strong>sorted</strong> array</td>
+                        <td><code>int i = Array.BinarySearch(arr, 5);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Array.Copy()</code></td>
+                        <td>Copies elements to another array</td>
+                        <td><code>Array.Copy(src, dest, length);</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><span class="type">int</span>[] values = {<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>};
+
+<span class="comment">// Sort the array (modifies original)</span>
+<span class="type">Array</span>.Sort(values);
+<span class="comment">// values is now {1, 2, 5, 8, 9}</span>
+
+<span class="comment">// Search for a value (array must be sorted first!)</span>
+<span class="type">int</span> index = <span class="type">Array</span>.BinarySearch(values, <span class="number">5</span>);
+<span class="comment">// index is 2 (position of 5 in sorted array)</span></pre>
+
+            <div class="warning-box">
+                <strong>BinarySearch requires sorted array:</strong> Always call <code>Array.Sort()</code> before <code>Array.BinarySearch()</code>. BinarySearch returns the index of the found value, not a boolean.
+            </div>
+
+            <!-- Null-Conditional Operator -->
+            <h2>❓ Null-Conditional Operator</h2>
+
+            <p>The <strong>null-conditional operator</strong> (<code>?.</code> or <code>?[]</code>) safely accesses members or elements when the object might be null. It prevents <code>NullReferenceException</code>.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Null-Conditional with Arrays</h4>
+                <pre><span class="type">string</span>[] names = <span class="keyword">null</span>;
+
+<span class="comment">// Without null-conditional - throws exception!</span>
+<span class="comment">// string first = names[0];</span>
+
+<span class="comment">// With null-conditional - returns null safely</span>
+<span class="type">string</span> first = names?[<span class="number">0</span>];  <span class="comment">// first is null</span></pre>
+            </div>
+
+            <h3>How It Works</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Array is null</td>
+                        <td>Returns <code>null</code>, no exception</td>
+                    </tr>
+                    <tr>
+                        <td>Array exists but element is null</td>
+                        <td>Returns <code>null</code> (the element's value)</td>
+                    </tr>
+                    <tr>
+                        <td>Array and element both exist</td>
+                        <td>Returns the element's value</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <strong>Key benefits:</strong> Prevents NullReferenceException, stops further operations if null is found, and works with both value types and reference types.
+            </div>
+
+            <!-- List Patterns -->
+            <h2>🎯 List Patterns (Pattern Matching)</h2>
+
+            <p><strong>List patterns</strong> let you match arrays or lists against specific patterns of elements. Use brackets <code>[]</code> to define the pattern.</p>
+
+            <pre><span class="type">int</span>[] numbers = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>};
+
+<span class="comment">// Match exact sequence</span>
+<span class="keyword">if</span> (numbers <span class="keyword">is</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
+    Console.WriteLine(<span class="string">"Exact match!"</span>);
+
+<span class="comment">// Match with wildcards</span>
+<span class="keyword">if</span> (numbers <span class="keyword">is</span> [<span class="number">1</span>, _, _])
+    Console.WriteLine(<span class="string">"Starts with 1"</span>);
+
+<span class="comment">// Match first and last, ignore middle</span>
+<span class="keyword">if</span> (numbers <span class="keyword">is</span> [<span class="keyword">var</span> first, .., <span class="keyword">var</span> last])
+    Console.WriteLine($<span class="string">"First: {first}, Last: {last}"</span>);</pre>
+
+            <div class="tip-box">
+                <strong>Pattern elements:</strong> Use <code>_</code> to match any single element, <code>..</code> to match zero or more elements, and <code>var name</code> to capture a value.
+            </div>
+
+            <!-- Collections Overview -->
+            <h2>📚 Collections Overview</h2>
+
+            <p>Collections are more flexible than arrays - they can grow and shrink dynamically. There are two types: <strong>typed</strong> (generic) and <strong>untyped</strong>.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>✅ Typed Collections (Generic)</h4>
+                    <p>Use <strong>generics</strong> to specify data type. Found in <code>System.Collections.Generic</code>. No casting required, compile-time type checking.</p>
+                    <pre style="margin-top: 10px;"><span class="type">List</span>&lt;<span class="type">int</span>&gt; nums = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">int</span>&gt;();</pre>
+                </div>
+                <div class="concept-card">
+                    <h4>⚠️ Untyped Collections</h4>
+                    <p>Store objects of any type. Found in <code>System.Collections</code>. Require casting, runtime type checking only.</p>
+                    <pre style="margin-top: 10px;"><span class="type">ArrayList</span> items = <span class="keyword">new</span> <span class="type">ArrayList</span>();</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Prefer typed collections:</strong> They reduce runtime errors and eliminate the need for casting when retrieving elements.
+            </div>
+
+            <!-- List<T> -->
+            <h2>📋 List&lt;T&gt; Collection</h2>
+
+            <p>The <code>List&lt;T&gt;</code> is the most commonly used typed collection. It's like a dynamic array that can grow and shrink.</p>
+
+            <div class="syntax-box">
+                <h4>Creating and Using a List</h4>
+                <pre><span class="comment">// Create a typed list of integers</span>
+<span class="type">List</span>&lt;<span class="type">int</span>&gt; scores = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">int</span>&gt;();
+
+<span class="comment">// Add items to end of list</span>
+scores.Add(<span class="number">85</span>);
+scores.Add(<span class="number">92</span>);
+scores.Add(<span class="number">78</span>);
+
+<span class="comment">// Insert at specific index</span>
+scores.Insert(<span class="number">1</span>, <span class="number">88</span>);  <span class="comment">// Insert 88 at index 1</span>
+
+<span class="comment">// Access by index (like array)</span>
+<span class="type">int</span> first = scores[<span class="number">0</span>];  <span class="comment">// 85</span>
+
+<span class="comment">// Get number of items</span>
+<span class="type">int</span> count = scores.Count;
+
+<span class="comment">// Remove items</span>
+scores.Remove(<span class="number">78</span>);       <span class="comment">// Remove by value</span>
+scores.RemoveAt(<span class="number">0</span>);      <span class="comment">// Remove by index</span></pre>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method/Property</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Add(item)</code></td>
+                        <td>Adds item to end of list</td>
+                    </tr>
+                    <tr>
+                        <td><code>Insert(index, item)</code></td>
+                        <td>Inserts item at specified index</td>
+                    </tr>
+                    <tr>
+                        <td><code>Remove(item)</code></td>
+                        <td>Removes first occurrence of item</td>
+                    </tr>
+                    <tr>
+                        <td><code>RemoveAt(index)</code></td>
+                        <td>Removes item at specified index</td>
+                    </tr>
+                    <tr>
+                        <td><code>Count</code></td>
+                        <td>Number of items in list</td>
+                    </tr>
+                    <tr>
+                        <td><code>Contains(item)</code></td>
+                        <td>Returns true if item exists</td>
+                    </tr>
+                    <tr>
+                        <td><code>Clear()</code></td>
+                        <td>Removes all items</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- SortedList -->
+            <h2>🔤 SortedList&lt;TKey, TValue&gt;</h2>
+
+            <p>A <strong>SortedList</strong> stores key-value pairs, automatically sorted by key. Each element consists of a key and its associated value.</p>
+
+            <pre><span class="comment">// Create sorted list: key=string, value=decimal</span>
+<span class="type">SortedList</span>&lt;<span class="type">string</span>, <span class="type">decimal</span>&gt; products = 
+    <span class="keyword">new</span> <span class="type">SortedList</span>&lt;<span class="type">string</span>, <span class="type">decimal</span>&gt;();
+
+<span class="comment">// Add key-value pairs (auto-sorted by key)</span>
+products.Add(<span class="string">"Laptop"</span>, <span class="number">999.99m</span>);
+products.Add(<span class="string">"Mouse"</span>, <span class="number">29.99m</span>);
+products.Add(<span class="string">"Keyboard"</span>, <span class="number">79.99m</span>);
+
+<span class="comment">// Access value by key</span>
+<span class="type">decimal</span> price = products[<span class="string">"Laptop"</span>];  <span class="comment">// 999.99</span>
+
+<span class="comment">// Iterate using KeyValuePair</span>
+<span class="keyword">foreach</span> (<span class="type">KeyValuePair</span>&lt;<span class="type">string</span>, <span class="type">decimal</span>&gt; item <span class="keyword">in</span> products)
+{
+    Console.WriteLine($<span class="string">"{item.Key}: {item.Value}"</span>);
+}</pre>
+
+            <div class="tip-box">
+                <strong>Keys don't need to be added in order:</strong> SortedList automatically maintains sorted order by key, regardless of insertion order.
+            </div>
+
+            <!-- Queue and Stack -->
+            <h2>📤 Queue and Stack</h2>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📥 Queue&lt;T&gt; — FIFO</h4>
+                    <p><strong>First-In, First-Out</strong> — like a line at a store. First item added is first item removed.</p>
+                    <pre style="margin-top: 10px;"><span class="type">Queue</span>&lt;<span class="type">string</span>&gt; line = <span class="keyword">new</span>();
+line.Enqueue(<span class="string">"First"</span>);
+line.Enqueue(<span class="string">"Second"</span>);
+<span class="type">string</span> next = line.Dequeue();
+<span class="comment">// next = "First"</span></pre>
+                </div>
+                <div class="concept-card">
+                    <h4>📚 Stack&lt;T&gt; — LIFO</h4>
+                    <p><strong>Last-In, First-Out</strong> — like a stack of plates. Last item added is first item removed.</p>
+                    <pre style="margin-top: 10px;"><span class="type">Stack</span>&lt;<span class="type">string</span>&gt; plates = <span class="keyword">new</span>();
+plates.Push(<span class="string">"First"</span>);
+plates.Push(<span class="string">"Second"</span>);
+<span class="type">string</span> top = plates.Pop();
+<span class="comment">// top = "Second"</span></pre>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Collection</th>
+                        <th>Add Method</th>
+                        <th>Remove Method</th>
+                        <th>Peek Method</th>
+                        <th>Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Queue</strong></td>
+                        <td><code>Enqueue()</code></td>
+                        <td><code>Dequeue()</code></td>
+                        <td><code>Peek()</code></td>
+                        <td>FIFO</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stack</strong></td>
+                        <td><code>Push()</code></td>
+                        <td><code>Pop()</code></td>
+                        <td><code>Peek()</code></td>
+                        <td>LIFO</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Peek vs Dequeue/Pop:</strong> <code>Peek()</code> returns the next item <em>without</em> removing it. <code>Dequeue()</code> and <code>Pop()</code> return the item <em>and</em> remove it.
+            </div>
+
+            <!-- Collection Comparison -->
+            <h2>📊 Collection Types Comparison</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Collection</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>List&lt;T&gt;</code></td>
+                        <td>Typed</td>
+                        <td>Dynamic array, indexed access</td>
+                        <td>General-purpose list</td>
+                    </tr>
+                    <tr>
+                        <td><code>SortedList&lt;K,V&gt;</code></td>
+                        <td>Typed</td>
+                        <td>Key-value pairs, sorted by key</td>
+                        <td>Dictionary with sorted keys</td>
+                    </tr>
+                    <tr>
+                        <td><code>Queue&lt;T&gt;</code></td>
+                        <td>Typed</td>
+                        <td>FIFO (first-in, first-out)</td>
+                        <td>Processing in order</td>
+                    </tr>
+                    <tr>
+                        <td><code>Stack&lt;T&gt;</code></td>
+                        <td>Typed</td>
+                        <td>LIFO (last-in, first-out)</td>
+                        <td>Undo operations, parsing</td>
+                    </tr>
+                    <tr>
+                        <td><code>ArrayList</code></td>
+                        <td>Untyped</td>
+                        <td>Dynamic array, stores objects</td>
+                        <td>Legacy code (avoid)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Array class</td>
+                            <td>Arrays are instances of the <code>Array</code> class</td>
+                        </tr>
+                        <tr>
+                            <td>Array indexing</td>
+                            <td>Zero-based: 9th element is at <code>[8]</code></td>
+                        </tr>
+                        <tr>
+                            <td>Array length</td>
+                            <td>Use <code>.Length</code> property</td>
+                        </tr>
+                        <tr>
+                            <td>Rectangular array</td>
+                            <td>Syntax: <code>type[,] name = new type[rows, cols]</code></td>
+                        </tr>
+                        <tr>
+                            <td>2D array access</td>
+                            <td><code>array[row, column]</code> — row first!</td>
+                        </tr>
+                        <tr>
+                            <td>GetLength(n)</td>
+                            <td>Gets size of dimension n (0=rows, 1=cols)</td>
+                        </tr>
+                        <tr>
+                            <td>for vs foreach</td>
+                            <td>for: need index/modify; foreach: read-only iteration</td>
+                        </tr>
+                        <tr>
+                            <td>foreach syntax</td>
+                            <td><code>foreach (type var in collection)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Array.Sort()</td>
+                            <td>Sorts array in place (no return value)</td>
+                        </tr>
+                        <tr>
+                            <td>Array.BinarySearch()</td>
+                            <td>Returns index (requires sorted array)</td>
+                        </tr>
+                        <tr>
+                            <td>Null-conditional</td>
+                            <td><code>array?[0]</code> — prevents NullReferenceException</td>
+                        </tr>
+                        <tr>
+                            <td>Typed vs Untyped</td>
+                            <td>Typed uses generics, no casting needed</td>
+                        </tr>
+                        <tr>
+                            <td>List.Add()</td>
+                            <td>Adds to end; List.Insert() adds at index</td>
+                        </tr>
+                        <tr>
+                            <td>List.Count</td>
+                            <td>Number of items (not Length!)</td>
+                        </tr>
+                        <tr>
+                            <td>Queue</td>
+                            <td>FIFO: Enqueue() adds, Dequeue() removes</td>
+                        </tr>
+                        <tr>
+                            <td>Stack</td>
+                            <td>LIFO: Push() adds, Pop() removes</td>
+                        </tr>
+                        <tr>
+                            <td>ArrayList</td>
+                            <td>Untyped collection (use List&lt;T&gt; instead)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sales[9]</code> for 9th element</td>
+                            <td><code>sales[8]</code> (zero-based!)</td>
+                        </tr>
+                        <tr>
+                            <td><code>decimal[] a = {1.5, 2.5}</code></td>
+                            <td><code>decimal[] a = {1.5m, 2.5m}</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>foreach (int x : array)</code></td>
+                            <td><code>foreach (int x in array)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>arr.Size</code> or <code>arr.Count</code></td>
+                            <td><code>arr.Length</code> (for arrays)</td>
+                        </tr>
+                        <tr>
+                            <td><code>string[,] a = new string[][]</code></td>
+                            <td><code>string[,] a = new string[r, c]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>values = Array.Sort(values)</code></td>
+                            <td><code>Array.Sort(values);</code> (no return)</td>
+                        </tr>
+                        <tr>
+                            <td><code>List dueDays = new List()</code></td>
+                            <td><code>List&lt;int&gt; dueDays = new List&lt;int&gt;()</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# &amp; Windows Forms Guides</a></p>
+            <p>C# &amp; Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+</html>
