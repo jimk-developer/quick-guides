@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# & Windows Forms Coding Standards Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078D4;
+            --primary-dark: #005A9E;
+            --accent: #FFB900;
+            --success: #107C10;
+            --danger: #D83B01;
+            --bg-dark: #1E1E1E;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #0078D4 0%, #00BCF2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .intro p {
+            margin-bottom: 10px;
+        }
+
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin: 45px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            margin: 30px 0 15px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F0F4F8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #D83B01;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #569CD6; }
+        .string { color: #CE9178; }
+        .comment { color: #6A9955; }
+        .method { color: #DCDCAA; }
+        .type { color: #4EC9B0; }
+        .number { color: #B5CEA8; }
+        .property { color: #9CDCFE; }
+
+        .rule-box {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .rule-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .do-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .do-box::before {
+            content: "✅ DO: ";
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .dont-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF5F5 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .dont-box::before {
+            content: "❌ DON'T: ";
+            font-weight: 700;
+            color: var(--danger);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFDE7 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 TIP: ";
+            font-weight: 700;
+            color: #E65100;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .comparison-card.good {
+            border-color: var(--success);
+            border-left-width: 5px;
+        }
+
+        .comparison-card.bad {
+            border-color: var(--danger);
+            border-left-width: 5px;
+        }
+
+        .comparison-card h4 {
+            margin-top: 0;
+        }
+
+        .section-nav {
+            background: var(--bg-dark);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .section-nav h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .section-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .section-nav li {
+            margin: 0;
+        }
+
+        .section-nav a {
+            color: #9CDCFE;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .section-nav a:hover {
+            background: #3E3E42;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .quick-ref h4 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            main { padding: 30px 20px; }
+            h2 { font-size: 1.4rem; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            body { background: white; }
+            header { position: relative; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C# & Windows Forms Coding Standards</h1>
+        <p>A Student's Guide to Writing Clean, Professional Code</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <div class="intro">
+                <p><strong>Why Coding Standards Matter:</strong> Good coding standards make your programs easier to read, understand, and maintain. They help you write code that looks professional and works reliably. Following consistent conventions means anyone (including future you!) can understand your code quickly.</p>
+                <p>This guide combines industry-accepted practices from Microsoft, Google, and established C# programming resources. Master these standards now, and you'll write better code throughout your career.</p>
+            </div>
+
+            <nav class="section-nav">
+                <h3>📋 Quick Navigation</h3>
+                <ul>
+                    <li><a href="#naming">Naming Conventions</a></li>
+                    <li><a href="#winforms">Windows Forms Naming</a></li>
+                    <li><a href="#formatting">Code Formatting</a></li>
+                    <li><a href="#comments">Comments & Documentation</a></li>
+                    <li><a href="#variables">Variables & Constants</a></li>
+                    <li><a href="#methods">Methods & Event Handlers</a></li>
+                    <li><a href="#control-structures">Control Structures</a></li>
+                    <li><a href="#arrays">Arrays & Collections</a></li>
+                    <li><a href="#best-practices">Best Practices</a></li>
+                </ul>
+            </nav>
+
+            <!-- NAMING CONVENTIONS -->
+            <section id="naming">
+                <h2>📝 Naming Conventions</h2>
+                
+                <p>Good names make your code self-documenting. The name of a variable, method, or class should tell the reader exactly what it represents or does.</p>
+
+                <h3>The Two Main Casing Styles</h3>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>PascalCase</h4>
+                        <p>First letter of <strong>every</strong> word is capitalized.</p>
+                        <p>Used for: Classes, Methods, Properties, Constants, Namespaces, Enums</p>
+                        <pre><span class="type">CalculateTotal</span>
+<span class="type">CustomerName</span>
+<span class="type">MaxItemCount</span></pre>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>camelCase</h4>
+                        <p>First word lowercase, then capitalize first letter of subsequent words.</p>
+                        <p>Used for: Local variables, Parameters, Private fields</p>
+                        <pre><span class="property">totalAmount</span>
+<span class="property">customerName</span>
+<span class="property">itemCount</span></pre>
+                    </div>
+                </div>
+
+                <h3>Naming Rules Summary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Convention</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Classes</td><td>PascalCase</td><td><code>GlazerCalc</code>, <code>CustomerAccount</code></td></tr>
+                        <tr><td>Methods</td><td>PascalCase</td><td><code>CalculateTotal()</code>, <code>GetCustomerName()</code></td></tr>
+                        <tr><td>Properties</td><td>PascalCase</td><td><code>FirstName</code>, <code>TotalPrice</code></td></tr>
+                        <tr><td>Local Variables</td><td>camelCase</td><td><code>totalAmount</code>, <code>customerCount</code></td></tr>
+                        <tr><td>Parameters</td><td>camelCase</td><td><code>inputValue</code>, <code>maxItems</code></td></tr>
+                        <tr><td>Constants</td><td>PascalCase</td><td><code>MaxValue</code>, <code>TaxRate</code></td></tr>
+                        <tr><td>Private Fields</td><td>_camelCase</td><td><code>_totalSales</code>, <code>_customerList</code></td></tr>
+                        <tr><td>Enums</td><td>PascalCase</td><td><code>DayOfWeek</code>, <code>PaymentStatus</code></td></tr>
+                        <tr><td>Interfaces</td><td>IPascalCase</td><td><code>IComparable</code>, <code>IDisposable</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Choosing Good Names</h3>
+
+                <div class="do-box">
+                    Use meaningful, descriptive names that explain the purpose of the variable or method. The name should answer "What does this represent?" or "What does this do?"
+                </div>
+
+                <div class="dont-box">
+                    Use single letters (except for loop counters), abbreviations that aren't universally understood, or names that don't reflect the purpose.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Names</h4>
+                        <pre><span class="keyword">int</span> numberOfSheep;
+<span class="keyword">decimal</span> totalPrice;
+<span class="keyword">string</span> customerName;
+<span class="keyword">bool</span> isValidInput;
+<span class="keyword">double</span> widthInMeters;</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Names</h4>
+                        <pre><span class="keyword">int</span> n;
+<span class="keyword">decimal</span> x;
+<span class="keyword">string</span> s1;
+<span class="keyword">bool</span> flag;
+<span class="keyword">double</span> w;</pre>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    If you can't think of a good name, you probably don't understand what the variable represents. Step back and think about its purpose before naming it.
+                </div>
+            </section>
+
+            <!-- WINDOWS FORMS NAMING -->
+            <section id="winforms">
+                <h2>🖼️ Windows Forms Control Naming</h2>
+
+                <p>Windows Forms controls follow a special naming convention using <strong>prefixes</strong> that identify the control type, followed by a descriptive name in PascalCase.</p>
+
+                <h3>Standard Control Prefixes</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Control</th>
+                            <th>Prefix</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Form</td><td><code>frm</code></td><td><code>frmMain</code>, <code>frmCalculator</code></td></tr>
+                        <tr><td>Label</td><td><code>lbl</code></td><td><code>lblResult</code>, <code>lblCustomerName</code></td></tr>
+                        <tr><td>TextBox</td><td><code>txt</code></td><td><code>txtWidth</code>, <code>txtFirstName</code></td></tr>
+                        <tr><td>Button</td><td><code>btn</code></td><td><code>btnCalculate</code>, <code>btnExit</code></td></tr>
+                        <tr><td>CheckBox</td><td><code>chk</code></td><td><code>chkActive</code>, <code>chkSubscribe</code></td></tr>
+                        <tr><td>RadioButton</td><td><code>rad</code></td><td><code>radMale</code>, <code>radFemale</code></td></tr>
+                        <tr><td>ComboBox</td><td><code>cbo</code></td><td><code>cboState</code>, <code>cboCategory</code></td></tr>
+                        <tr><td>ListBox</td><td><code>lst</code></td><td><code>lstCustomers</code>, <code>lstItems</code></td></tr>
+                        <tr><td>GroupBox</td><td><code>grp</code></td><td><code>grpOptions</code>, <code>grpAddress</code></td></tr>
+                        <tr><td>Panel</td><td><code>pnl</code></td><td><code>pnlMain</code>, <code>pnlDetails</code></td></tr>
+                        <tr><td>PictureBox</td><td><code>pic</code></td><td><code>picLogo</code>, <code>picProduct</code></td></tr>
+                        <tr><td>MenuStrip</td><td><code>mnu</code></td><td><code>mnuMain</code>, <code>mnuFile</code></td></tr>
+                        <tr><td>DataGridView</td><td><code>dgv</code></td><td><code>dgvCustomers</code>, <code>dgvOrders</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Why Use Prefixes?</h3>
+                <ul>
+                    <li><strong>IntelliSense:</strong> Type the prefix and see all controls of that type</li>
+                    <li><strong>Readability:</strong> Instantly know what type of control you're working with</li>
+                    <li><strong>Organization:</strong> Controls are grouped logically in the Properties window</li>
+                    <li><strong>Debugging:</strong> Easier to identify controls when stepping through code</li>
+                </ul>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Control Names</h4>
+                        <pre>txtFirstName
+txtLastName
+lblTotalPrice
+btnCalculate
+btnClear
+btnExit</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Control Names</h4>
+                        <pre>TextBox1
+TextBox2
+Label3
+Button1
+Button2
+Button3</pre>
+                    </div>
+                </div>
+
+                <div class="dont-box">
+                    Never leave the default names like <code>TextBox1</code> or <code>Button1</code>. These names are meaningless and make your code extremely difficult to understand and maintain.
+                </div>
+            </section>
+
+            <!-- CODE FORMATTING -->
+            <section id="formatting">
+                <h2>📐 Code Formatting</h2>
+
+                <p>Well-formatted code is easier to read, debug, and maintain. Consistent formatting shows professionalism and helps others understand your code quickly.</p>
+
+                <h3>Indentation</h3>
+                <ul>
+                    <li>Use <strong>4 spaces</strong> for each level of indentation (Visual Studio default)</li>
+                    <li>Code inside braces <code>{ }</code> should be indented one level</li>
+                    <li>Nested structures should be indented at each level</li>
+                </ul>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Indentation</h4>
+                        <pre><span class="keyword">if</span> (isValid)
+{
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < count; i++)
+    {
+        ProcessItem(i);
+    }
+}</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Indentation</h4>
+                        <pre><span class="keyword">if</span> (isValid)
+{
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < count; i++)
+{
+ProcessItem(i);
+}
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Braces</h3>
+                <div class="rule-box">
+                    <h4>📏 The Brace Rules</h4>
+                    <ul>
+                        <li><strong>Always use braces</strong> — even for single-statement if/for/while blocks</li>
+                        <li>Opening brace goes on its <strong>own line</strong> (Allman style, C# standard)</li>
+                        <li>Closing brace goes on its own line, aligned with the opening keyword</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Always Use Braces</h4>
+                        <pre><span class="keyword">if</span> (score >= <span class="number">60</span>)
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Pass"</span>;
+}</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Skipping Braces</h4>
+                        <pre><span class="keyword">if</span> (score >= <span class="number">60</span>)
+    lblResult.<span class="property">Text</span> = <span class="string">"Pass"</span>;
+<span class="comment">// Easy to add bugs later!</span></pre>
+                    </div>
+                </div>
+
+                <h3>Spacing</h3>
+                <ul>
+                    <li>One space after keywords: <code>if (</code>, <code>for (</code>, <code>while (</code></li>
+                    <li>One space after commas: <code>Method(a, b, c)</code></li>
+                    <li>Spaces around binary operators: <code>x + y</code>, <code>a == b</code></li>
+                    <li>No space after unary operators: <code>i++</code>, <code>!isValid</code></li>
+                    <li>No space inside parentheses: <code>(x + y)</code> not <code>( x + y )</code></li>
+                </ul>
+
+                <h3>Blank Lines</h3>
+                <ul>
+                    <li>Use blank lines to separate logical groups of statements</li>
+                    <li>One blank line between methods</li>
+                    <li>Two blank lines between class sections (fields, properties, methods)</li>
+                </ul>
+
+                <h3>Line Length</h3>
+                <div class="tip-box">
+                    Keep lines under <strong>100 characters</strong> when possible. Long lines are hard to read and may require horizontal scrolling. Break long statements across multiple lines.
+                </div>
+
+                <pre><span class="comment">// Long line - hard to read</span>
+Console.<span class="method">WriteLine</span>(<span class="string">"The total price including tax is: "</span> + totalPrice.<span class="method">ToString</span>(<span class="string">"c"</span>) + <span class="string">" for customer: "</span> + customerName);
+
+<span class="comment">// Better - broken across lines</span>
+Console.<span class="method">WriteLine</span>(
+    <span class="string">"The total price including tax is: "</span> + 
+    totalPrice.<span class="method">ToString</span>(<span class="string">"c"</span>) + 
+    <span class="string">" for customer: "</span> + customerName);</pre>
+            </section>
+
+            <!-- COMMENTS -->
+            <section id="comments">
+                <h2>💬 Comments & Documentation</h2>
+
+                <p>Comments explain <em>why</em> code does something, not <em>what</em> it does. Good code with good names should be self-explanatory for the "what."</p>
+
+                <h3>Types of Comments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Syntax</th>
+                            <th>Use For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Single-line</td><td><code>// comment</code></td><td>Brief notes, end-of-line explanations</td></tr>
+                        <tr><td>Multi-line</td><td><code>/* comment */</code></td><td>Longer explanations, file headers</td></tr>
+                        <tr><td>XML Documentation</td><td><code>/// comment</code></td><td>Method/class documentation (advanced)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>File Header Comments</h3>
+                <p>Every source file should start with a header comment identifying the program, author, and purpose:</p>
+
+                <pre><span class="comment">/*
+ * Program:     Double Glazing Calculator
+ * Author:      Your Name
+ * Date:        February 2026
+ * Purpose:     Calculate wood and glass requirements for windows
+ * 
+ * Modification History:
+ * Date         Author      Description
+ * ----------   --------    ----------------------------------
+ * 02/02/2026   YourName    Initial version
+ */</span></pre>
+
+                <h3>Good vs Bad Comments</h3>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Comments</h4>
+                        <pre><span class="comment">// Add 99 before dividing to round up
+// (ensures any partial bottle counts as full)</span>
+<span class="keyword">int</span> bottles = (tablets + <span class="number">99</span>) / <span class="number">100</span>;
+
+<span class="comment">// Convert meters to feet (3.25 ft/m)</span>
+woodLength = meters * <span class="number">3.25</span>;</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Comments</h4>
+                        <pre><span class="comment">// Add one to count</span>
+count = count + <span class="number">1</span>;
+
+<span class="comment">// Set x to 5</span>
+x = <span class="number">5</span>;
+
+<span class="comment">// This is a variable</span>
+<span class="keyword">int</span> total;</pre>
+                    </div>
+                </div>
+
+                <div class="do-box">
+                    Comment on the "why" — business rules, algorithms, workarounds, or anything that isn't obvious from reading the code.
+                </div>
+
+                <div class="dont-box">
+                    Don't state the obvious. If your code needs a comment to explain what it does, consider renaming variables or simplifying the logic instead.
+                </div>
+
+                <div class="tip-box">
+                    Comments can become outdated if not maintained. When you change code, update the related comments too!
+                </div>
+            </section>
+
+            <!-- VARIABLES -->
+            <section id="variables">
+                <h2>📦 Variables & Constants</h2>
+
+                <h3>Declaration Best Practices</h3>
+                <ul>
+                    <li>Declare variables as close to their first use as possible</li>
+                    <li>Initialize variables when you declare them when possible</li>
+                    <li>One declaration per line for clarity</li>
+                    <li>Use the most restrictive type that meets your needs</li>
+                </ul>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Declarations</h4>
+                        <pre><span class="keyword">int</span> customerCount = <span class="number">0</span>;
+<span class="keyword">decimal</span> totalPrice = <span class="number">0.00m</span>;
+<span class="keyword">string</span> customerName = <span class="string">""</span>;
+<span class="keyword">bool</span> isValid = <span class="keyword">false</span>;</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Declarations</h4>
+                        <pre><span class="keyword">int</span> a, b, c, d, e, f;
+<span class="keyword">decimal</span> x;
+<span class="keyword">string</span> s1, s2;</pre>
+                    </div>
+                </div>
+
+                <h3>Constants</h3>
+                <p>Use constants for values that never change. This makes your code more readable and easier to maintain.</p>
+
+                <div class="do-box">
+                    Use named constants instead of "magic numbers" — unexplained numeric values scattered through your code.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Using Constants</h4>
+                        <pre><span class="keyword">const</span> <span class="keyword">decimal</span> TaxRate = <span class="number">0.075m</span>;
+<span class="keyword">const</span> <span class="keyword">double</span> FeetPerMeter = <span class="number">3.25</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> MaxItems = <span class="number">100</span>;
+
+<span class="keyword">decimal</span> tax = subtotal * TaxRate;
+<span class="keyword">double</span> feet = meters * FeetPerMeter;</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Magic Numbers</h4>
+                        <pre><span class="keyword">decimal</span> tax = subtotal * <span class="number">0.075m</span>;
+<span class="keyword">double</span> feet = meters * <span class="number">3.25</span>;
+
+<span class="comment">// What do these numbers mean?
+// What if the tax rate changes?</span></pre>
+                    </div>
+                </div>
+
+                <h3>Choosing Data Types</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Situation</th>
+                            <th>Recommended Type</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Counting things</td><td><code>int</code></td><td>Number of items, loop counters</td></tr>
+                        <tr><td>Money/currency</td><td><code>decimal</code></td><td>Prices, totals, payments</td></tr>
+                        <tr><td>Scientific calculations</td><td><code>double</code></td><td>Measurements, physics</td></tr>
+                        <tr><td>Yes/no values</td><td><code>bool</code></td><td>Flags, conditions</td></tr>
+                        <tr><td>Text</td><td><code>string</code></td><td>Names, messages, input</td></tr>
+                        <tr><td>Single character</td><td><code>char</code></td><td>Menu choices, grades</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="tip-box">
+                    Always use <code>decimal</code> for money calculations. The <code>double</code> type can introduce small rounding errors that accumulate in financial calculations.
+                </div>
+            </section>
+
+            <!-- METHODS -->
+            <section id="methods">
+                <h2>⚡ Methods & Event Handlers</h2>
+
+                <h3>Method Naming</h3>
+                <ul>
+                    <li>Use <strong>PascalCase</strong> for method names</li>
+                    <li>Start with a <strong>verb</strong> that describes what the method does</li>
+                    <li>Be descriptive but not overly long</li>
+                </ul>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Purpose</th>
+                            <th>Naming Pattern</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Perform action</td><td><code>VerbNoun()</code></td><td><code>CalculateTotal()</code>, <code>SaveFile()</code></td></tr>
+                        <tr><td>Get a value</td><td><code>GetNoun()</code></td><td><code>GetCustomerName()</code>, <code>GetTotal()</code></td></tr>
+                        <tr><td>Set a value</td><td><code>SetNoun()</code></td><td><code>SetPrice()</code>, <code>SetName()</code></td></tr>
+                        <tr><td>Check condition</td><td><code>IsCondition()</code></td><td><code>IsValid()</code>, <code>IsEmpty()</code></td></tr>
+                        <tr><td>Check existence</td><td><code>HasNoun()</code></td><td><code>HasItems()</code>, <code>HasErrors()</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Event Handler Naming</h3>
+                <p>Visual Studio generates event handlers with the pattern: <code>ControlName_EventName</code></p>
+
+                <pre><span class="comment">// Button click handlers</span>
+<span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="comment">// Calculate and display results</span>
+}
+
+<span class="keyword">private void</span> <span class="method">btnClear_Click</span>(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="comment">// Clear all input fields</span>
+}
+
+<span class="keyword">private void</span> <span class="method">btnExit_Click</span>(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="keyword">this</span>.<span class="method">Close</span>();
+}</pre>
+
+                <h3>Method Organization</h3>
+                <div class="rule-box">
+                    <h4>📏 Method Should Do One Thing</h4>
+                    <p>Each method should have a single, clear purpose. If you can't describe what a method does in one sentence without using "and," it probably does too much.</p>
+                </div>
+
+                <div class="do-box">
+                    Keep methods short and focused. A method longer than 20-30 lines might need to be split into smaller methods.
+                </div>
+            </section>
+
+            <!-- CONTROL STRUCTURES -->
+            <section id="control-structures">
+                <h2>🔀 Control Structures</h2>
+
+                <h3>if Statements</h3>
+                <pre><span class="comment">// Simple if</span>
+<span class="keyword">if</span> (score >= <span class="number">60</span>)
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Pass"</span>;
+}
+
+<span class="comment">// if-else</span>
+<span class="keyword">if</span> (score >= <span class="number">60</span>)
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Pass"</span>;
+}
+<span class="keyword">else</span>
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Fail"</span>;
+}
+
+<span class="comment">// if-else if-else chain</span>
+<span class="keyword">if</span> (score >= <span class="number">90</span>)
+{
+    grade = <span class="string">"A"</span>;
+}
+<span class="keyword">else if</span> (score >= <span class="number">80</span>)
+{
+    grade = <span class="string">"B"</span>;
+}
+<span class="keyword">else if</span> (score >= <span class="number">70</span>)
+{
+    grade = <span class="string">"C"</span>;
+}
+<span class="keyword">else</span>
+{
+    grade = <span class="string">"F"</span>;
+}</pre>
+
+                <h3>switch Statements</h3>
+                <pre><span class="keyword">switch</span> (dayNumber)
+{
+    <span class="keyword">case</span> <span class="number">1</span>:
+        dayName = <span class="string">"Monday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        dayName = <span class="string">"Tuesday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+        dayName = <span class="string">"Wednesday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        dayName = <span class="string">"Unknown"</span>;
+        <span class="keyword">break</span>;
+}</pre>
+
+                <h3>Loops</h3>
+                <pre><span class="comment">// for loop - when you know the count</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < items.Length; i++)
+{
+    ProcessItem(items[i]);
+}
+
+<span class="comment">// foreach loop - for reading collections</span>
+<span class="keyword">foreach</span> (<span class="keyword">string</span> name <span class="keyword">in</span> names)
+{
+    Console.<span class="method">WriteLine</span>(name);
+}
+
+<span class="comment">// while loop - condition checked first</span>
+<span class="keyword">while</span> (count < maxCount)
+{
+    count++;
+}
+
+<span class="comment">// do-while loop - always executes at least once</span>
+<span class="keyword">do</span>
+{
+    input = GetUserInput();
+} <span class="keyword">while</span> (!IsValid(input));</pre>
+
+                <div class="tip-box">
+                    Use <code>for</code> loops when you know the number of iterations. Use <code>foreach</code> when iterating through a collection without needing the index. Use <code>while</code> when you don't know how many iterations are needed.
+                </div>
+            </section>
+
+            <!-- ARRAYS -->
+            <section id="arrays">
+                <h2>📊 Arrays & Collections</h2>
+
+                <h3>Array Naming</h3>
+                <ul>
+                    <li>Use <strong>plural nouns</strong> for arrays and collections</li>
+                    <li>The name should describe what the array contains</li>
+                </ul>
+
+                <div class="comparison-grid">
+                    <div class="comparison-card good">
+                        <h4>✅ Good Array Names</h4>
+                        <pre><span class="keyword">int</span>[] scores;
+<span class="keyword">string</span>[] customerNames;
+<span class="keyword">decimal</span>[] prices;
+<span class="type">List</span>&lt;<span class="keyword">string</span>&gt; items;</pre>
+                    </div>
+                    <div class="comparison-card bad">
+                        <h4>❌ Bad Array Names</h4>
+                        <pre><span class="keyword">int</span>[] arr;
+<span class="keyword">string</span>[] data;
+<span class="keyword">decimal</span>[] nums;
+<span class="type">List</span>&lt;<span class="keyword">string</span>&gt; list1;</pre>
+                    </div>
+                </div>
+
+                <h3>Array Initialization</h3>
+                <pre><span class="comment">// Declare with size</span>
+<span class="keyword">int</span>[] scores = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];
+
+<span class="comment">// Declare and initialize</span>
+<span class="keyword">string</span>[] colors = { <span class="string">"Red"</span>, <span class="string">"Green"</span>, <span class="string">"Blue"</span> };
+
+<span class="comment">// Decimal arrays need 'm' suffix</span>
+<span class="keyword">decimal</span>[] prices = { <span class="number">19.99m</span>, <span class="number">29.99m</span>, <span class="number">39.99m</span> };
+
+<span class="comment">// 2D array</span>
+<span class="keyword">int</span>[,] grid = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>, <span class="number">4</span>];  <span class="comment">// 3 rows, 4 columns</span></pre>
+
+                <h3>List&lt;T&gt; Best Practices</h3>
+                <pre><span class="comment">// Prefer List<T> when size can change</span>
+<span class="type">List</span>&lt;<span class="keyword">string</span>&gt; customers = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="keyword">string</span>&gt;();
+
+<span class="comment">// Add items</span>
+customers.<span class="method">Add</span>(<span class="string">"Alice"</span>);
+customers.<span class="method">Add</span>(<span class="string">"Bob"</span>);
+
+<span class="comment">// Use Count (not Length) for lists</span>
+<span class="keyword">int</span> total = customers.Count;</pre>
+
+                <div class="tip-box">
+                    Prefer <code>List&lt;T&gt;</code> over arrays when the size can change. Use arrays when the size is fixed and known at compile time.
+                </div>
+            </section>
+
+            <!-- BEST PRACTICES -->
+            <section id="best-practices">
+                <h2>🏆 Best Practices Summary</h2>
+
+                <div class="quick-ref">
+                    <h4>📋 Quick Reference Checklist</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Classes</td><td>PascalCase, noun or noun phrase</td></tr>
+                            <tr><td>Methods</td><td>PascalCase, start with verb</td></tr>
+                            <tr><td>Variables</td><td>camelCase, descriptive name</td></tr>
+                            <tr><td>Constants</td><td>PascalCase, use instead of magic numbers</td></tr>
+                            <tr><td>Controls</td><td>prefix + PascalCase (txtFirstName, btnCalculate)</td></tr>
+                            <tr><td>Braces</td><td>Always use, on own line (Allman style)</td></tr>
+                            <tr><td>Indentation</td><td>4 spaces per level</td></tr>
+                            <tr><td>Line length</td><td>Under 100 characters</td></tr>
+                            <tr><td>Comments</td><td>Explain "why," not "what"</td></tr>
+                            <tr><td>Files</td><td>One class per file, filename matches class name</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>The Golden Rules</h3>
+
+                <div class="rule-box">
+                    <h4>1. Be Consistent</h4>
+                    <p>Pick a style and stick with it throughout your entire project. Inconsistent code is harder to read than code with a "wrong" but consistent style.</p>
+                </div>
+
+                <div class="rule-box">
+                    <h4>2. Write for the Reader</h4>
+                    <p>Code is read far more often than it's written. Optimize for readability, not for typing speed. The person reading your code might be you, six months from now.</p>
+                </div>
+
+                <div class="rule-box">
+                    <h4>3. Keep It Simple</h4>
+                    <p>The simplest solution that works is usually the best. Don't add complexity unless it provides clear value.</p>
+                </div>
+
+                <div class="rule-box">
+                    <h4>4. Fix Problems Early</h4>
+                    <p>Address warnings and fix small issues immediately. Technical debt accumulates quickly.</p>
+                </div>
+
+                <div class="rule-box">
+                    <h4>5. Test As You Go</h4>
+                    <p>Test your code frequently. Small, incremental changes are easier to debug than large ones.</p>
+                </div>
+
+                <h3>Before Submitting Code</h3>
+                <ul>
+                    <li>✅ All controls have meaningful names with correct prefixes</li>
+                    <li>✅ All variables have descriptive names using camelCase</li>
+                    <li>✅ No magic numbers — use named constants</li>
+                    <li>✅ Code is properly indented</li>
+                    <li>✅ All braces are present and aligned</li>
+                    <li>✅ File has a header comment with your name and purpose</li>
+                    <li>✅ Complex logic has explanatory comments</li>
+                    <li>✅ No compiler warnings</li>
+                    <li>✅ Code has been tested with valid and invalid input</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>Professional programmers know:</strong> The time spent following coding standards is always less than the time spent debugging poorly written code.
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>C# & Windows Forms Coding Standards Guide</p>
+            <p>Based on Microsoft, Google, and industry best practices</p>
+        </footer>
+    </div>
+</body>
+</html>

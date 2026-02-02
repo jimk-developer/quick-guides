@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Windows Forms - Weekly Review Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078D4;
+            --primary-dark: #005A9E;
+            --accent: #FFB900;
+            --success: #107C10;
+            --danger: #D83B01;
+            --week1: #5C6BC0;
+            --week2: #26A69A;
+            --week3: #AB47BC;
+            --week4: #00897B;
+            --bg-dark: #1E1E1E;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FFB900 0%, #FF6B6B 50%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        .week-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px dashed var(--border);
+        }
+
+        .week-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .week-badge {
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .week-1 { background: linear-gradient(135deg, var(--week1) 0%, #3949AB 100%); }
+        .week-2 { background: linear-gradient(135deg, var(--week2) 0%, #00897B 100%); }
+        .week-3 { background: linear-gradient(135deg, var(--week3) 0%, #8E24AA 100%); }
+        .week-4 { background: linear-gradient(135deg, var(--week4) 0%, #004D40 100%); }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+        }
+
+        .chapter-tag {
+            font-size: 1rem;
+            color: #666;
+            font-weight: normal;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin: 30px 0 15px 0;
+            padding-left: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .topic-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .topic-list li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s ease;
+        }
+
+        .topic-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .topic-list li strong {
+            color: var(--primary-dark);
+        }
+
+        .key-concepts {
+            background: linear-gradient(135deg, #E8F4FD 0%, #F0F8FF 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .key-concepts h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .key-concepts ul {
+            margin: 0;
+            padding-left: 25px;
+        }
+
+        .key-concepts li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F0F4F8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #D83B01;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #569CD6; }
+        .string { color: #CE9178; }
+        .comment { color: #6A9955; }
+        .method { color: #DCDCAA; }
+        .type { color: #4EC9B0; }
+        .number { color: #B5CEA8; }
+        .property { color: #9CDCFE; }
+
+        .remember-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .remember-box::before {
+            content: "💡 Remember: ";
+            font-weight: 700;
+            color: #E65100;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF5F5 100%);
+            border-left: 5px solid var(--danger);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ Common Mistake: ";
+            font-weight: 700;
+            color: var(--danger);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .comparison-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .quick-ref h4 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            main { padding: 30px 20px; }
+            h2 { font-size: 1.4rem; }
+            .week-header { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media print {
+            body { background: white; }
+            header { position: relative; }
+            .week-section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C# Windows Forms Review Guide</h1>
+        <p>What You Learned Each Week</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- WEEK 1 -->
+            <section class="week-section">
+                <div class="week-header">
+                    <span class="week-badge week-1">Week 1</span>
+                    <h2>How to Design a Windows Forms App <span class="chapter-tag">— Chapter 2</span></h2>
+                </div>
+
+                <p>This week introduced you to the Visual Studio IDE and the fundamentals of designing Windows Forms applications using the visual designer.</p>
+
+                <h3>Visual Studio IDE Essentials</h3>
+                <ul class="topic-list">
+                    <li><strong>Templates</strong> — Specify the type of project in the New Project dialog (Windows Forms App)</li>
+                    <li><strong>Solution Explorer</strong> — Manage and rename project files</li>
+                    <li><strong>Toolbox</strong> — Contains controls you drag onto forms</li>
+                    <li><strong>Properties Window</strong> — View and modify control properties (F4 to open)</li>
+                    <li><strong>Form Designer</strong> — Visual canvas for designing your user interface</li>
+                </ul>
+
+                <h3>Common Controls</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Control</th>
+                            <th>Prefix</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Form</td><td>frm</td><td>Container for other controls (the window itself)</td></tr>
+                        <tr><td>Label</td><td>lbl</td><td>Display read-only text</td></tr>
+                        <tr><td>TextBox</td><td>txt</td><td>Accept user input</td></tr>
+                        <tr><td>Button</td><td>btn</td><td>Trigger actions when clicked</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Essential Properties</h3>
+                <div class="key-concepts">
+                    <h4>📋 Properties You Must Know</h4>
+                    <ul>
+                        <li><strong>Name</strong> — Identifies the control in code (use prefixes: txtName, lblResult, btnCalculate)</li>
+                        <li><strong>Text</strong> — The text displayed on the control</li>
+                        <li><strong>TextAlign</strong> — Alignment of text (Left, Center, Right)</li>
+                        <li><strong>ReadOnly</strong> — Prevents user from editing text in a TextBox</li>
+                        <li><strong>Enabled</strong> — Controls whether a control can be interacted with</li>
+                        <li><strong>TabIndex</strong> — Order controls receive focus when pressing Tab</li>
+                        <li><strong>TabStop</strong> — Set to false to skip a control in tab order</li>
+                    </ul>
+                </div>
+
+                <h3>Access Keys and Default Buttons</h3>
+                <p>Access keys let users activate controls using Alt + letter combinations. Default buttons respond to Enter and Esc keys.</p>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🔤 Access Keys</h4>
+                        <p>Created by placing <code>&amp;</code> before a letter in the Text property.</p>
+                        <p>Example: <code>&amp;Calculate</code> creates Alt+C shortcut</p>
+                        <p>To show a literal &amp;, use <code>&amp;&amp;</code></p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>⏎ Default Buttons</h4>
+                        <p><strong>AcceptButton</strong> — Activated when Enter is pressed</p>
+                        <p><strong>CancelButton</strong> — Activated when Esc is pressed</p>
+                        <p>Set these in the Form's properties</p>
+                    </div>
+                </div>
+
+                <h3>Designing the Form Workflow</h3>
+                <ol class="topic-list">
+                    <li><strong>Add Controls</strong> — Drag from Toolbox or double-click to add</li>
+                    <li><strong>Position and Size</strong> — Use mouse to arrange; Ctrl+click for multiple selection</li>
+                    <li><strong>Align Controls</strong> — Format → Align (relative to primary control with white handles)</li>
+                    <li><strong>Set Properties</strong> — Name, Text, and other properties via Properties window</li>
+                    <li><strong>Set Tab Order</strong> — View → Tab Order, then click controls in order</li>
+                    <li><strong>Add Access Keys</strong> — Use &amp; in Text property</li>
+                    <li><strong>Set Default Buttons</strong> — Configure AcceptButton and CancelButton</li>
+                </ol>
+
+                <div class="remember-box">
+                    Press <strong>F5</strong> to run in debug mode or <strong>Ctrl+F5</strong> to run without debugging. Without code, buttons won't do anything, but tab navigation and access keys will work.
+                </div>
+
+                <div class="quick-ref">
+                    <h4>⌨️ Week 1 Keyboard Shortcuts</h4>
+                    <table>
+                        <tr><td><code>F4</code></td><td>Open Properties Window</td></tr>
+                        <tr><td><code>F5</code></td><td>Run with debugging</td></tr>
+                        <tr><td><code>Ctrl+F5</code></td><td>Run without debugging</td></tr>
+                        <tr><td><code>Ctrl+Click</code></td><td>Select multiple controls</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- WEEK 2 -->
+            <section class="week-section">
+                <div class="week-header">
+                    <span class="week-badge week-2">Week 2</span>
+                    <h2>Coding, Testing, and Working with Data <span class="chapter-tag">— Chapters 3 &amp; 4</span></h2>
+                </div>
+
+                <p>This week you learned object-oriented programming concepts, how to write event handlers, work with data types, and debug your applications.</p>
+
+                <h3>Object-Oriented Programming Concepts</h3>
+                <div class="key-concepts">
+                    <h4>🎯 Core OOP Terms</h4>
+                    <ul>
+                        <li><strong>Class</strong> — A blueprint that defines an object's characteristics (properties, methods, events)</li>
+                        <li><strong>Object</strong> — An instance of a class</li>
+                        <li><strong>Instantiation</strong> — The process of creating an object from a class</li>
+                        <li><strong>Property</strong> — A characteristic/data of an object (e.g., <code>txtName.Text</code>)</li>
+                        <li><strong>Method</strong> — An operation an object can perform (e.g., <code>txtName.Focus()</code>)</li>
+                        <li><strong>Event</strong> — A signal that something has happened (e.g., Click, Load)</li>
+                    </ul>
+                </div>
+
+                <h3>Dot Notation</h3>
+                <p>Access properties and methods using: <code>objectName.memberName</code></p>
+                <pre><span class="comment">// Getting a property value</span>
+<span class="keyword">string</span> name = txtName.<span class="property">Text</span>;
+
+<span class="comment">// Setting a property value</span>
+lblResult.<span class="property">Text</span> = <span class="string">"Hello!"</span>;
+
+<span class="comment">// Calling a method</span>
+txtMonthlyInvestment.<span class="method">Focus</span>();
+
+<span class="comment">// Close the current form</span>
+<span class="keyword">this</span>.<span class="method">Close</span>();</pre>
+
+                <h3>Event Handlers</h3>
+                <p>Event handlers are methods that respond to events. Double-click a control in the designer to create its default event handler.</p>
+                <pre><span class="comment">// Event handler naming: ControlName_EventName</span>
+<span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="comment">// Your code goes here</span>
+}
+
+<span class="keyword">private void</span> <span class="method">btnExit_Click</span>(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="keyword">this</span>.<span class="method">Close</span>();
+}</pre>
+
+                <h3>C# Syntax Essentials</h3>
+                <table>
+                    <thead>
+                        <tr><th>Element</th><th>Symbol</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Statement terminator</td><td><code>;</code></td><td>Every statement must end with semicolon</td></tr>
+                        <tr><td>Code blocks</td><td><code>{ }</code></td><td>Group statements together</td></tr>
+                        <tr><td>Member access</td><td><code>.</code></td><td>Access properties/methods (dot notation)</td></tr>
+                        <tr><td>Method calls</td><td><code>( )</code></td><td>Parentheses for method parameters</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Data Types</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Description</th><th>Example</th><th>Category</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>int</code></td><td>Whole numbers</td><td><code>42</code>, <code>-17</code></td><td>Value</td></tr>
+                        <tr><td><code>double</code></td><td>Floating-point (less precise)</td><td><code>3.14</code></td><td>Value</td></tr>
+                        <tr><td><code>decimal</code></td><td>High-precision (best for money)</td><td><code>19.99m</code></td><td>Value</td></tr>
+                        <tr><td><code>bool</code></td><td>True or false</td><td><code>true</code>, <code>false</code></td><td>Value</td></tr>
+                        <tr><td><code>string</code></td><td>Text (sequence of characters)</td><td><code>"Hello"</code></td><td>Reference</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="remember-box">
+                    Use <code>decimal</code> for monetary values — it's the most precise type. Never use <code>double</code> for money! Don't forget the <code>m</code> suffix for decimal literals.
+                </div>
+
+                <h3>Variables and Constants</h3>
+                <pre><span class="comment">// Variables - can change (use camelCase)</span>
+<span class="keyword">int</span> quantity = <span class="number">10</span>;
+<span class="keyword">decimal</span> price = <span class="number">19.99m</span>;
+<span class="keyword">string</span> name = <span class="string">"John"</span>;
+
+<span class="comment">// Constants - cannot change (use PascalCase)</span>
+<span class="keyword">const</span> <span class="keyword">decimal</span> TaxRate = <span class="number">0.075m</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> MaxItems = <span class="number">100</span>;</pre>
+
+                <h3>Type Conversion</h3>
+                <pre><span class="comment">// Parse() - converts string to number (throws exception if invalid)</span>
+<span class="keyword">decimal</span> price = <span class="keyword">decimal</span>.<span class="method">Parse</span>(txtPrice.<span class="property">Text</span>);
+
+<span class="comment">// TryParse() - safe conversion (returns true/false)</span>
+<span class="keyword">if</span> (<span class="keyword">int</span>.<span class="method">TryParse</span>(txtInput.<span class="property">Text</span>, <span class="keyword">out</span> <span class="keyword">int</span> result))
+{
+    <span class="comment">// Conversion succeeded, use result</span>
+}
+
+<span class="comment">// ToString() with format strings</span>
+lblResult.<span class="property">Text</span> = total.<span class="method">ToString</span>(<span class="string">"c"</span>);  <span class="comment">// Currency format</span>
+lblResult.<span class="property">Text</span> = rate.<span class="method">ToString</span>(<span class="string">"p"</span>);   <span class="comment">// Percent format</span></pre>
+
+                <h3>Variable Scope</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Class Scope (Field)</h4>
+                        <p>Declared at class level, accessible from <strong>any method</strong> in the class.</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Method Scope (Local)</h4>
+                        <p>Declared inside a method, accessible <strong>only within that method</strong>.</p>
+                    </div>
+                </div>
+
+                <h3>Errors: Syntax vs Runtime</h3>
+                <table>
+                    <thead>
+                        <tr><th>Aspect</th><th>Syntax Error</th><th>Runtime Error (Exception)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>When Detected</td><td>While typing or building</td><td>When application runs</td></tr>
+                        <tr><td>Cause</td><td>Violates language rules</td><td>Problem during execution</td></tr>
+                        <tr><td>Where Shown</td><td>Red squiggle + Error List</td><td>Exception dialog at runtime</td></tr>
+                        <tr><td>Can App Run?</td><td>No — must fix first</td><td>Yes, but crashes when error occurs</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    <strong>Testing</strong> = Finding bugs | <strong>Debugging</strong> = Fixing bugs. Use breakpoints (F9) and data tips (hover over variables) to debug.
+                </div>
+
+                <div class="quick-ref">
+                    <h4>⌨️ Week 2 Keyboard Shortcuts</h4>
+                    <table>
+                        <tr><td><code>F9</code></td><td>Toggle breakpoint</td></tr>
+                        <tr><td><code>F5</code></td><td>Start debugging</td></tr>
+                        <tr><td><code>Shift+F5</code></td><td>Stop debugging</td></tr>
+                        <tr><td><code>F10</code></td><td>Step over (next line)</td></tr>
+                        <tr><td><code>F11</code></td><td>Step into (enter method)</td></tr>
+                        <tr><td><code>Ctrl+R, Ctrl+R</code></td><td>Rename (refactoring)</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- WEEK 3 -->
+            <section class="week-section">
+                <div class="week-header">
+                    <span class="week-badge week-3">Week 3</span>
+                    <h2>Control Structures <span class="chapter-tag">— Chapter 5</span></h2>
+                </div>
+
+                <p>This week focused on making decisions and repeating actions using Boolean expressions, selection structures, and loops.</p>
+
+                <h3>Boolean Expressions</h3>
+                <p>Boolean expressions evaluate to <code>true</code> or <code>false</code>.</p>
+
+                <h4>Relational Operators</h4>
+                <table>
+                    <thead>
+                        <tr><th>Operator</th><th>Meaning</th><th>Example (x=5)</th><th>Result</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>==</code></td><td>Equal to</td><td><code>x == 5</code></td><td><code>true</code></td></tr>
+                        <tr><td><code>!=</code></td><td>Not equal to</td><td><code>x != 5</code></td><td><code>false</code></td></tr>
+                        <tr><td><code>&gt;</code></td><td>Greater than</td><td><code>x &gt; 3</code></td><td><code>true</code></td></tr>
+                        <tr><td><code>&lt;</code></td><td>Less than</td><td><code>x &lt; 3</code></td><td><code>false</code></td></tr>
+                        <tr><td><code>&gt;=</code></td><td>Greater than or equal</td><td><code>x &gt;= 5</code></td><td><code>true</code></td></tr>
+                        <tr><td><code>&lt;=</code></td><td>Less than or equal</td><td><code>x &lt;= 5</code></td><td><code>true</code></td></tr>
+                    </tbody>
+                </table>
+
+                <div class="warning-box">
+                    The single <code>=</code> is the <em>assignment</em> operator. Use <code>==</code> to compare values!
+                </div>
+
+                <h4>Logical Operators</h4>
+                <table>
+                    <thead>
+                        <tr><th>Operator</th><th>Name</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>&&</code></td><td>AND</td><td>True if BOTH are true</td></tr>
+                        <tr><td><code>||</code></td><td>OR</td><td>True if EITHER is true</td></tr>
+                        <tr><td><code>!</code></td><td>NOT</td><td>Reverses the Boolean value</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>The if Statement</h3>
+                <pre><span class="comment">// Basic if</span>
+<span class="keyword">if</span> (condition)
+{
+    <span class="comment">// code runs if condition is true</span>
+}
+
+<span class="comment">// if-else</span>
+<span class="keyword">if</span> (score >= <span class="number">60</span>)
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Pass"</span>;
+}
+<span class="keyword">else</span>
+{
+    lblResult.<span class="property">Text</span> = <span class="string">"Fail"</span>;
+}
+
+<span class="comment">// if-else if-else (multiple conditions)</span>
+<span class="keyword">if</span> (score >= <span class="number">90</span>)
+    grade = <span class="string">"A"</span>;
+<span class="keyword">else if</span> (score >= <span class="number">80</span>)
+    grade = <span class="string">"B"</span>;
+<span class="keyword">else if</span> (score >= <span class="number">70</span>)
+    grade = <span class="string">"C"</span>;
+<span class="keyword">else</span>
+    grade = <span class="string">"F"</span>;</pre>
+
+                <h3>The switch Statement</h3>
+                <pre><span class="keyword">switch</span> (dayNumber)
+{
+    <span class="keyword">case</span> <span class="number">1</span>:
+        dayName = <span class="string">"Monday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        dayName = <span class="string">"Tuesday"</span>;
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        dayName = <span class="string">"Unknown"</span>;
+        <span class="keyword">break</span>;
+}</pre>
+
+                <h3>Loops</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>while Loop</h4>
+                        <p>Condition tested <strong>before</strong> loop body. May execute zero times.</p>
+                        <pre><span class="keyword">while</span> (count < <span class="number">10</span>)
+{
+    total += count;
+    count++;
+}</pre>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>do-while Loop</h4>
+                        <p>Condition tested <strong>after</strong> loop body. Always executes at least once.</p>
+                        <pre><span class="keyword">do</span>
+{
+    total += count;
+    count++;
+} <span class="keyword">while</span> (count < <span class="number">10</span>);</pre>
+                    </div>
+                </div>
+
+                <h4>for Loop</h4>
+                <p>Best for counter-controlled loops where you know the number of iterations.</p>
+                <pre><span class="comment">// for (initializer; condition; iterator)</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10</span>; i++)
+{
+    total += i;
+}</pre>
+
+                <h3>Loop Control Statements</h3>
+                <table>
+                    <thead>
+                        <tr><th>Statement</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>break</code></td><td>Exit the loop immediately</td></tr>
+                        <tr><td><code>continue</code></td><td>Skip to next iteration</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Conditional Operator (Ternary)</h3>
+                <pre><span class="comment">// condition ? trueValue : falseValue</span>
+<span class="keyword">string</span> status = (score >= <span class="number">60</span>) ? <span class="string">"Pass"</span> : <span class="string">"Fail"</span>;</pre>
+
+                <div class="key-concepts">
+                    <h4>📋 When to Use Which Loop</h4>
+                    <ul>
+                        <li><strong>for</strong> — Known number of iterations, need a counter</li>
+                        <li><strong>while</strong> — Unknown iterations, condition checked first</li>
+                        <li><strong>do-while</strong> — Must execute at least once (e.g., menu prompts)</li>
+                    </ul>
+                </div>
+
+                <div class="remember-box">
+                    Variables declared inside a loop or if block have <strong>block scope</strong> — they only exist within those curly braces.
+                </div>
+            </section>
+
+            <!-- WEEK 4 -->
+            <section class="week-section">
+                <div class="week-header">
+                    <span class="week-badge week-4">Week 4</span>
+                    <h2>Arrays and Collections <span class="chapter-tag">— Chapter 8</span></h2>
+                </div>
+
+                <p>This week you learned to work with arrays and generic collections to store and manipulate groups of related data.</p>
+
+                <h3>Array Fundamentals</h3>
+                <p>An array stores multiple values of the same type using <strong>zero-based indexing</strong>.</p>
+
+                <pre><span class="comment">// Declare with size</span>
+<span class="type">int</span>[] scores = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];
+
+<span class="comment">// Declare and initialize</span>
+<span class="type">string</span>[] names = {<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Carol"</span>};
+
+<span class="comment">// Decimal array - use 'm' suffix!</span>
+<span class="type">decimal</span>[] prices = {<span class="number">19.99m</span>, <span class="number">29.99m</span>, <span class="number">39.99m</span>};
+
+<span class="comment">// Access elements</span>
+<span class="type">string</span> first = names[<span class="number">0</span>];    <span class="comment">// "Alice"</span>
+names[<span class="number">1</span>] = <span class="string">"Robert"</span>;        <span class="comment">// Change "Bob" to "Robert"</span>
+
+<span class="comment">// Get array length</span>
+<span class="type">int</span> count = names.Length;   <span class="comment">// 3</span></pre>
+
+                <div class="warning-box">
+                    Arrays use <strong>zero-based indexing</strong>. The 9th element is at index <code>[8]</code>, not <code>[9]</code>!
+                </div>
+
+                <h3>Rectangular Arrays (2D)</h3>
+                <pre><span class="comment">// Declare with dimensions [rows, columns]</span>
+<span class="type">string</span>[,] grid = <span class="keyword">new</span> <span class="type">string</span>[<span class="number">3</span>, <span class="number">4</span>];  <span class="comment">// 3 rows, 4 columns</span>
+
+<span class="comment">// Initialize with values</span>
+<span class="type">int</span>[,] matrix = {
+    {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>},
+    {<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>},
+    {<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>}
+};
+
+<span class="comment">// Access: array[row, column]</span>
+<span class="type">int</span> value = matrix[<span class="number">1</span>, <span class="number">0</span>];  <span class="comment">// Row 1, Col 0 = 4</span>
+
+<span class="comment">// Get dimensions</span>
+<span class="type">int</span> rows = matrix.GetLength(<span class="number">0</span>);    <span class="comment">// 3</span>
+<span class="type">int</span> cols = matrix.GetLength(<span class="number">1</span>);    <span class="comment">// 3</span></pre>
+
+                <h3>for Loop vs foreach Loop</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>for Loop</h4>
+                        <p>Use when you need the index or want to modify elements.</p>
+                        <pre><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < arr.Length; i++)
+{
+    arr[i] = arr[i] * <span class="number">2</span>;  <span class="comment">// Can modify</span>
+}</pre>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>foreach Loop</h4>
+                        <p>Simpler syntax for read-only iteration.</p>
+                        <pre><span class="keyword">foreach</span> (<span class="type">int</span> num <span class="keyword">in</span> arr)
+{
+    Console.WriteLine(num);
+    <span class="comment">// Cannot modify num</span>
+}</pre>
+                    </div>
+                </div>
+
+                <h3>Array Class Methods</h3>
+                <table>
+                    <thead>
+                        <tr><th>Method</th><th>Purpose</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>Array.Sort(arr)</code></td><td>Sorts array in place</td><td>No return value!</td></tr>
+                        <tr><td><code>Array.BinarySearch(arr, value)</code></td><td>Find element index</td><td>Array must be sorted first</td></tr>
+                        <tr><td><code>Array.Reverse(arr)</code></td><td>Reverses order</td><td>Modifies original array</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Generic Collections: List&lt;T&gt;</h3>
+                <p>Lists are dynamic — they grow and shrink automatically. Much more flexible than arrays!</p>
+
+                <pre><span class="comment">// Create a List</span>
+<span class="type">List</span>&lt;<span class="type">string</span>&gt; names = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">string</span>&gt;();
+
+<span class="comment">// Add items</span>
+names.<span class="method">Add</span>(<span class="string">"Alice"</span>);
+names.<span class="method">Add</span>(<span class="string">"Bob"</span>);
+
+<span class="comment">// Insert at specific position</span>
+names.<span class="method">Insert</span>(<span class="number">1</span>, <span class="string">"Carol"</span>);  <span class="comment">// Insert at index 1</span>
+
+<span class="comment">// Remove items</span>
+names.<span class="method">Remove</span>(<span class="string">"Bob"</span>);         <span class="comment">// Remove by value</span>
+names.<span class="method">RemoveAt</span>(<span class="number">0</span>);            <span class="comment">// Remove by index</span>
+
+<span class="comment">// Get count (not Length!)</span>
+<span class="type">int</span> count = names.Count;</pre>
+
+                <h3>Queue and Stack</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>📬 Queue&lt;T&gt; — FIFO</h4>
+                        <p><strong>First-In, First-Out</strong> — like a line at a store.</p>
+                        <pre><span class="type">Queue</span>&lt;<span class="type">string</span>&gt; line = <span class="keyword">new</span>();
+line.<span class="method">Enqueue</span>(<span class="string">"First"</span>);
+line.<span class="method">Enqueue</span>(<span class="string">"Second"</span>);
+<span class="type">string</span> next = line.<span class="method">Dequeue</span>();
+<span class="comment">// next = "First"</span></pre>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>📚 Stack&lt;T&gt; — LIFO</h4>
+                        <p><strong>Last-In, First-Out</strong> — like a stack of plates.</p>
+                        <pre><span class="type">Stack</span>&lt;<span class="type">string</span>&gt; plates = <span class="keyword">new</span>();
+plates.<span class="method">Push</span>(<span class="string">"First"</span>);
+plates.<span class="method">Push</span>(<span class="string">"Second"</span>);
+<span class="type">string</span> top = plates.<span class="method">Pop</span>();
+<span class="comment">// top = "Second"</span></pre>
+                    </div>
+                </div>
+
+                <div class="key-concepts">
+                    <h4>📋 Collection Comparison</h4>
+                    <ul>
+                        <li><strong>Array</strong> — Fixed size, use <code>.Length</code></li>
+                        <li><strong>List&lt;T&gt;</strong> — Dynamic size, use <code>.Count</code>, Add/Remove methods</li>
+                        <li><strong>Queue&lt;T&gt;</strong> — FIFO, Enqueue/Dequeue</li>
+                        <li><strong>Stack&lt;T&gt;</strong> — LIFO, Push/Pop</li>
+                        <li><strong>Peek()</strong> — View next item without removing it (both Queue and Stack)</li>
+                    </ul>
+                </div>
+
+                <div class="quick-ref">
+                    <h4>❌ Common Array/Collection Mistakes</h4>
+                    <table>
+                        <tr><td><code>sales[9]</code> for 9th element</td><td>Should be <code>sales[8]</code></td></tr>
+                        <tr><td><code>decimal[] a = {1.5, 2.5}</code></td><td>Need <code>m</code> suffix: <code>{1.5m, 2.5m}</code></td></tr>
+                        <tr><td><code>foreach (int x : array)</code></td><td>Use <code>in</code> not <code>:</code></td></tr>
+                        <tr><td><code>arr.Count</code> for arrays</td><td>Arrays use <code>.Length</code></td></tr>
+                        <tr><td><code>values = Array.Sort(values)</code></td><td><code>Sort()</code> has no return value</td></tr>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>C# Windows Forms Weekly Review Guide</p>
+            <p>Good luck on your studies!</p>
+        </footer>
+    </div>
+</body>
+</html>
