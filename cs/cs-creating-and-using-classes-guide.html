@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide #12: How to Create and Use Classes</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Syntax Box */
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Comparison layout */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* UML diagram styling */
+        .uml-box {
+            background: #FAFAFA;
+            border: 2px solid #333;
+            border-radius: 4px;
+            margin: 25px auto;
+            max-width: 400px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        .uml-box .uml-title {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-bottom: 2px solid #333;
+            background: #E8EAF6;
+        }
+
+        .uml-box .uml-section {
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .uml-box .uml-section:last-child {
+            border-bottom: none;
+        }
+
+        .uml-box .uml-section p {
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .uml-private {
+            color: #D83B01;
+        }
+
+        .uml-public {
+            color: #107C10;
+        }
+
+        /* Signature diagram */
+        .signature-diagram {
+            background: #F8F9FA;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .signature-parts {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .sig-part {
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .sig-access {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .sig-return {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .sig-name {
+            background: #BBDEFB;
+            color: #1565C0;
+        }
+
+        .sig-params {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .sig-labels {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 0.85rem;
+        }
+
+        .sig-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sig-label span {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #12: How to Create and Use Classes</h1>
+        <p>Classes, Objects, Properties, Constructors, and OOP Fundamentals</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- OOP Concepts -->
+            <h2>🏗️ Object-Oriented Programming Concepts</h2>
+
+            <p>Object-Oriented Programming (OOP) organizes code around <strong>objects</strong> — self-contained units that bundle data and behavior together. A <strong>class</strong> is a blueprint that defines what properties and methods an object will have. An <strong>object</strong> is a specific instance created from that class.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔨 Instantiation</h4>
+                    <p>The process of creating an object from a class. You use the <code>new</code> keyword to instantiate an object.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 Encapsulation</h4>
+                    <p>Hiding the internal details of how a class works. You can call <code>Convert.ToInt32()</code> without knowing <em>how</em> it works inside.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧬 Inheritance</h4>
+                    <p>A class can be based on another class, gaining its properties and methods while adding its own.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧩 Composition</h4>
+                    <p>Building complex objects by combining simpler objects as fields. For example, a <code>Car</code> class might contain an <code>Engine</code> object.</p>
+                </div>
+            </div>
+
+            <h3>Three-Layer Architecture</h3>
+
+            <p>Well-organized applications separate code into three layers:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Presentation Layer</strong></td>
+                        <td>The user interface — what the user sees and interacts with</td>
+                        <td>Your Windows Form (.cs form file)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Middle Layer</strong></td>
+                        <td>Business logic — the rules and calculations of the application</td>
+                        <td>Your custom classes (e.g., <code>Pet.cs</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Database Layer</strong></td>
+                        <td>Data storage and retrieval</td>
+                        <td>Code that reads/writes to a database or file</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Key distinction:</strong> Two objects created from the same class share the same fields, methods, and properties — but each holds its own <strong>data</strong>. Think of a class like a cookie cutter and objects like the cookies: same shape, different sprinkles.
+            </div>
+
+            <!-- Reading UML Diagrams -->
+            <h2>📐 Reading UML Class Diagrams</h2>
+
+            <p>UML (Unified Modeling Language) class diagrams are a visual shorthand for describing a class. Your lab assignments include UML diagrams that you must translate into C# code. Here's how to read them:</p>
+
+            <div class="uml-box">
+                <div class="uml-title">Pet</div>
+                <div class="uml-section">
+                    <p><span class="uml-private">-</span> _name : string</p>
+                    <p><span class="uml-private">-</span> _species : string</p>
+                    <p><span class="uml-private">-</span> _age : int</p>
+                </div>
+                <div class="uml-section">
+                    <p><span class="uml-public">+</span> Pet(name : string, species : string, age : int)</p>
+                    <p><span class="uml-public">+</span> GetName() : string</p>
+                    <p><span class="uml-public">+</span> GetSpecies() : string</p>
+                    <p><span class="uml-public">+</span> GetAge() : int</p>
+                    <p><span class="uml-public">+</span> HadBirthday() : void</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>UML Symbol</th>
+                        <th>Meaning</th>
+                        <th>C# Translation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>-</code> (minus)</td>
+                        <td><strong>private</strong> — only accessible inside the class</td>
+                        <td><code>private</code> keyword</td>
+                    </tr>
+                    <tr>
+                        <td><code>+</code> (plus)</td>
+                        <td><strong>public</strong> — accessible from outside the class</td>
+                        <td><code>public</code> keyword</td>
+                    </tr>
+                    <tr>
+                        <td>Top section</td>
+                        <td><strong>Fields</strong> (instance variables) — the data the object stores</td>
+                        <td>Private variables declared at class level</td>
+                    </tr>
+                    <tr>
+                        <td>Middle section</td>
+                        <td><strong>Constructor</strong> and <strong>methods</strong></td>
+                        <td>Public methods and constructor</td>
+                    </tr>
+                    <tr>
+                        <td>Bottom section (if present)</td>
+                        <td><strong>Properties</strong> with get/set accessors</td>
+                        <td>C# properties</td>
+                    </tr>
+                    <tr>
+                        <td><code>: string</code> after a field name</td>
+                        <td>The <strong>data type</strong> of the field</td>
+                        <td><code>string _name;</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>() : int</code> after a method name</td>
+                        <td>The <strong>return type</strong> of the method</td>
+                        <td><code>public int GetAge()</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Creating a Class -->
+            <h2>🔧 Creating a Class File</h2>
+
+            <p>A class is stored in its own <code>.cs</code> file. To add a new class to your project in Visual Studio: right-click the project in Solution Explorer → Add → Class. Name the file to match the class name (e.g., <code>Pet.cs</code>).</p>
+
+            <h3>Translating UML to Code</h3>
+
+            <p>Here is the UML diagram above translated into a complete C# class:</p>
+
+            <div class="syntax-box">
+                <h4>Pet.cs — Full Class from UML</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Pet</span>
+{
+    <span class="comment">// Fields (private instance variables)</span>
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_name</span>;
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_species</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_age</span>;
+
+    <span class="comment">// Constructor</span>
+    <span class="keyword">public</span> <span class="method">Pet</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">string</span> <span class="param">species</span>, <span class="type">int</span> <span class="param">age</span>)
+    {
+        <span class="param">_name</span> = <span class="param">name</span>;
+        <span class="param">_species</span> = <span class="param">species</span>;
+        <span class="param">_age</span> = <span class="param">age</span>;
+    }
+
+    <span class="comment">// Getter methods</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetName</span>()
+    {
+        <span class="keyword">return</span> <span class="param">_name</span>;
+    }
+
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetSpecies</span>()
+    {
+        <span class="keyword">return</span> <span class="param">_species</span>;
+    }
+
+    <span class="keyword">public</span> <span class="type">int</span> <span class="method">GetAge</span>()
+    {
+        <span class="keyword">return</span> <span class="param">_age</span>;
+    }
+
+    <span class="comment">// Method that modifies data</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">HadBirthday</span>()
+    {
+        <span class="param">_age</span>++;
+    }
+}</pre>
+            </div>
+
+            <!-- Fields, Properties, and Access Modifiers -->
+            <h2>🔒 Fields, Properties, and Access Modifiers</h2>
+
+            <h3>Fields (Instance Variables)</h3>
+
+            <p>A <strong>field</strong> (also called a <em>member variable</em> or <em>instance variable</em>) stores data inside an object. Fields are almost always declared <code>private</code> so that outside code cannot directly access or change them. This is the "information hiding" part of encapsulation.</p>
+
+            <pre><span class="keyword">private</span> <span class="type">string</span> <span class="param">_name</span>;
+<span class="keyword">private</span> <span class="type">decimal</span> <span class="param">_price</span>;
+<span class="keyword">private</span> <span class="type">int</span> <span class="param">_quantity</span>;</pre>
+
+            <div class="tip-box">
+                <strong>Naming convention:</strong> Private fields in C# typically start with an underscore: <code>_name</code>, <code>_price</code>, <code>_quantity</code>. This helps distinguish them from parameters and local variables.
+            </div>
+
+            <h3>Getter and Setter Methods</h3>
+
+            <p>Since fields are private, you need public methods that let outside code read or change those values. A <strong>getter</strong> returns the field's value. A <strong>setter</strong> accepts a new value and assigns it to the field.</p>
+
+            <pre><span class="comment">// Getter — returns the value</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="method">GetName</span>()
+{
+    <span class="keyword">return</span> <span class="param">_name</span>;
+}
+
+<span class="comment">// Setter — accepts a value and assigns it</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="method">SetName</span>(<span class="type">string</span> <span class="param">name</span>)
+{
+    <span class="param">_name</span> = <span class="param">name</span>;
+}</pre>
+
+            <h3>Properties (The C# Way)</h3>
+
+            <p>C# provides <strong>properties</strong> as a cleaner alternative to getter/setter methods. A property looks like a field to the outside world but uses <code>get</code> and <code>set</code> accessors behind the scenes.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Property with Backing Field</h4>
+                <pre><span class="keyword">private</span> <span class="type">string</span> <span class="param">_name</span>;
+
+<span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span>
+{
+    <span class="keyword">get</span> { <span class="keyword">return</span> <span class="param">_name</span>; }
+    <span class="keyword">set</span> { <span class="param">_name</span> = <span class="keyword">value</span>; }
+}</pre>
+            </div>
+
+            <h3>Auto-Implemented Properties</h3>
+
+            <p>When the getter and setter simply return and set a value with no extra logic, you can use an <strong>auto-implemented property</strong>. C# creates the backing field for you automatically behind the scenes.</p>
+
+            <pre><span class="comment">// Auto-implemented: C# creates the hidden backing field</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+<span class="comment">// Read-only auto-implemented (no set accessor)</span>
+<span class="keyword">public</span> <span class="type">decimal</span> <span class="param">Total</span> { <span class="keyword">get</span>; }
+
+<span class="comment">// Read-only with initial value</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="param">Title</span> { <span class="keyword">get</span>; } = <span class="string">"Untitled"</span>;</pre>
+
+            <h3>Special Property Accessors</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Declaration</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>{ get; set; }</code></td>
+                        <td>Read/write — anyone can get or set the value</td>
+                    </tr>
+                    <tr>
+                        <td><code>{ get; }</code></td>
+                        <td>Read-only — value can only be set in the constructor</td>
+                    </tr>
+                    <tr>
+                        <td><code>{ get; init; }</code></td>
+                        <td>Read-only, but can be set by a constructor <strong>or</strong> an object initializer</td>
+                    </tr>
+                    <tr>
+                        <td><code>required</code> keyword</td>
+                        <td>The property <strong>must</strong> be assigned a value when the object is created</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><span class="comment">// init accessor — settable in constructor or object initializer only</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="param">Code</span> { <span class="keyword">get</span>; <span class="keyword">init</span>; }
+
+<span class="comment">// required — must be assigned when creating the object</span>
+<span class="keyword">public</span> <span class="keyword">required</span> <span class="type">string</span> <span class="param">Code</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</pre>
+
+            <!-- Constructors -->
+            <h2>🏭 Constructors</h2>
+
+            <p>A <strong>constructor</strong> is a special method that runs when an object is created. It has the <strong>same name as the class</strong> and <strong>no return type</strong> (not even <code>void</code>). Its purpose is to initialize the object's fields.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Constructor</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Bike</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_brand</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_gears</span>;
+
+    <span class="comment">// Constructor — same name as the class, no return type</span>
+    <span class="keyword">public</span> <span class="method">Bike</span>(<span class="type">string</span> <span class="param">brand</span>, <span class="type">int</span> <span class="param">gears</span>)
+    {
+        <span class="param">_brand</span> = <span class="param">brand</span>;
+        <span class="param">_gears</span> = <span class="param">gears</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Default Constructor</h3>
+
+            <p>If you don't write any constructors, C# provides a <strong>default constructor</strong> (no parameters) automatically. However, as soon as you write <em>any</em> constructor, the default one goes away unless you explicitly add it back.</p>
+
+            <h3>Overloaded Constructors</h3>
+
+            <p>You can write multiple constructors with different parameter lists. This is called <strong>overloading</strong>.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Bike</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_brand</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_gears</span>;
+
+    <span class="comment">// Default constructor</span>
+    <span class="keyword">public</span> <span class="method">Bike</span>()
+    {
+        <span class="param">_brand</span> = <span class="string">"Unknown"</span>;
+        <span class="param">_gears</span> = <span class="number">1</span>;
+    }
+
+    <span class="comment">// Parameterized constructor</span>
+    <span class="keyword">public</span> <span class="method">Bike</span>(<span class="type">string</span> <span class="param">brand</span>, <span class="type">int</span> <span class="param">gears</span>)
+    {
+        <span class="param">_brand</span> = <span class="param">brand</span>;
+        <span class="param">_gears</span> = <span class="param">gears</span>;
+    }
+}</pre>
+
+            <!-- Instantiation -->
+            <h2>✨ Creating Objects (Instantiation)</h2>
+
+            <p>Once you have a class, you create objects from it using the <code>new</code> keyword. There are several valid syntaxes:</p>
+
+            <div class="syntax-box">
+                <h4>Ways to Instantiate an Object</h4>
+                <pre><span class="comment">// Standard syntax</span>
+<span class="type">Bike</span> <span class="param">myBike</span> = <span class="keyword">new</span> <span class="type">Bike</span>(<span class="string">"Trek"</span>, <span class="number">21</span>);
+
+<span class="comment">// Using var (type inferred)</span>
+<span class="keyword">var</span> <span class="param">myBike</span> = <span class="keyword">new</span> <span class="type">Bike</span>(<span class="string">"Trek"</span>, <span class="number">21</span>);
+
+<span class="comment">// Target-typed new (type inferred from variable)</span>
+<span class="type">Bike</span> <span class="param">myBike</span> = <span class="keyword">new</span>(<span class="string">"Trek"</span>, <span class="number">21</span>);</pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Invalid syntax:</strong> <code>Bike myBike = new;</code> — you must always include the parentheses <code>()</code> after <code>new</code>, even for a default constructor.
+            </div>
+
+            <h3>Object Initializers</h3>
+
+            <p>An <strong>object initializer</strong> lets you set properties at the time of creation using curly braces. Note the syntax: property names (not variable names), equals signs, and commas between assignments.</p>
+
+            <pre><span class="comment">// Without object initializer</span>
+<span class="type">Bike</span> <span class="param">myBike</span> = <span class="keyword">new</span> <span class="type">Bike</span>();
+<span class="param">myBike</span>.Brand = <span class="string">"Giant"</span>;
+<span class="param">myBike</span>.Gears = <span class="number">18</span>;
+
+<span class="comment">// With object initializer — more concise</span>
+<span class="type">Bike</span> <span class="param">myBike</span> = <span class="keyword">new</span> <span class="type">Bike</span>
+{
+    Brand = <span class="string">"Giant"</span>,
+    Gears = <span class="number">18</span>
+};</pre>
+
+            <!-- Using Objects -->
+            <h2>🎯 Using Objects in Your Form</h2>
+
+            <h3>Accessing Properties and Methods</h3>
+
+            <p>Once you have an object, use the dot operator (<code>.</code>) to access its public properties and methods.</p>
+
+            <pre><span class="comment">// Setting a property</span>
+<span class="param">myBike</span>.Brand = <span class="string">"Cannondale"</span>;
+
+<span class="comment">// Getting a property</span>
+<span class="type">string</span> <span class="param">brand</span> = <span class="param">myBike</span>.Brand;
+
+<span class="comment">// Calling a method</span>
+<span class="type">string</span> <span class="param">name</span> = <span class="param">myPet</span>.GetName();
+<span class="param">myPet</span>.HadBirthday();</pre>
+
+            <h3>Storing Objects in Arrays</h3>
+
+            <p>Many of your labs require storing multiple objects in an array. Declare an array of your class type, then assign objects to each index.</p>
+
+            <pre><span class="comment">// Declare an array that holds up to 20 Pet objects</span>
+<span class="type">Pet</span>[] <span class="param">pets</span> = <span class="keyword">new</span> <span class="type">Pet</span>[<span class="number">20</span>];
+<span class="type">int</span> <span class="param">petCount</span> = <span class="number">0</span>;
+
+<span class="comment">// Add a new pet</span>
+<span class="param">pets</span>[<span class="param">petCount</span>] = <span class="keyword">new</span> <span class="type">Pet</span>(<span class="string">"Buddy"</span>, <span class="string">"Dog"</span>, <span class="number">3</span>);
+<span class="param">petCount</span>++;
+
+<span class="comment">// Search the array</span>
+<span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">petCount</span>; <span class="param">i</span>++)
+{
+    <span class="keyword">if</span> (<span class="param">pets</span>[<span class="param">i</span>].GetName().ToLower() == <span class="param">searchTerm</span>)
+    {
+        <span class="comment">// Found it — display info</span>
+        <span class="param">lblResult</span>.Text = <span class="param">pets</span>[<span class="param">i</span>].GetName() + 
+            <span class="string">" is a "</span> + <span class="param">pets</span>[<span class="param">i</span>].GetSpecies();
+    }
+}</pre>
+
+            <div class="tip-box">
+                <strong>Pattern for your labs:</strong> Declare the array and a counter as <strong>class-level variables</strong> in your form (outside any method but inside the form class) so they persist across button clicks.
+            </div>
+
+            <!-- Static Methods -->
+            <h2>⚡ Static vs. Instance Members</h2>
+
+            <p>A <strong>static</strong> method or field belongs to the <em>class itself</em>, not to any individual object. You call static members using the class name. An <strong>instance</strong> method belongs to a specific object.</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>✅ Static (use class name)</h4>
+                    <pre style="font-size:0.85rem; padding:10px;"><span class="comment">// Call using the class name</span>
+<span class="type">decimal</span> <span class="param">val</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="string">"9.99"</span>);
+<span class="type">double</span> <span class="param">root</span> = <span class="type">Math</span>.<span class="method">Sqrt</span>(<span class="number">25</span>);</pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>✅ Instance (use object name)</h4>
+                    <pre style="font-size:0.85rem; padding:10px;"><span class="comment">// Call using the object variable</span>
+<span class="type">Pet</span> <span class="param">p</span> = <span class="keyword">new</span> <span class="type">Pet</span>(<span class="string">"Max"</span>, <span class="string">"Cat"</span>, <span class="number">5</span>);
+<span class="type">string</span> <span class="param">name</span> = <span class="param">p</span>.<span class="method">GetName</span>();</pre>
+                </div>
+            </div>
+
+            <!-- Expression-Bodied Members -->
+            <h2>➡️ Expression-Bodied Members</h2>
+
+            <p>When a property or method only contains a single expression, you can use the <strong>lambda operator</strong> (<code>=></code>) as a shorthand. This is called an <strong>expression body</strong>.</p>
+
+            <pre><span class="comment">// Standard read-only property</span>
+<span class="keyword">public</span> <span class="type">decimal</span> <span class="param">TotalCost</span>
+{
+    <span class="keyword">get</span>
+    {
+        <span class="keyword">return</span> <span class="param">_quantity</span> * <span class="param">_price</span>;
+    }
+}
+
+<span class="comment">// Same thing as an expression-bodied property</span>
+<span class="keyword">public</span> <span class="type">decimal</span> <span class="param">TotalCost</span> => <span class="param">_quantity</span> * <span class="param">_price</span>;
+
+<span class="comment">// Expression-bodied method</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="method">GetSummary</span>() => <span class="param">_name</span> + <span class="string">": $"</span> + <span class="param">_price</span>;</pre>
+
+            <div class="warning-box">
+                <strong>Limitation:</strong> You <em>cannot</em> use an expression body when a method or property executes <strong>multiple statements</strong>. Use the full block syntax with curly braces in that case.
+            </div>
+
+            <!-- Method Overloading -->
+            <h2>🔄 Method Overloading</h2>
+
+            <p><strong>Overloading</strong> means having multiple methods with the <strong>same name</strong> but <strong>different parameter lists</strong>. The parameter list must differ in the number of parameters or the data types of parameters — just changing the parameter <em>names</em> or the <em>return type</em> does not count.</p>
+
+            <pre><span class="keyword">public</span> <span class="type">string</span> <span class="method">FormatLabel</span>(<span class="type">string</span> <span class="param">text</span>)
+{
+    <span class="keyword">return</span> <span class="param">text</span>.ToUpper();
+}
+
+<span class="comment">// Overloaded: same name, different parameter list</span>
+<span class="keyword">public</span> <span class="type">string</span> <span class="method">FormatLabel</span>(<span class="type">string</span> <span class="param">text</span>, <span class="type">int</span> <span class="param">maxLength</span>)
+{
+    <span class="keyword">if</span> (<span class="param">text</span>.Length > <span class="param">maxLength</span>)
+        <span class="keyword">return</span> <span class="param">text</span>.Substring(<span class="number">0</span>, <span class="param">maxLength</span>) + <span class="string">"..."</span>;
+    <span class="keyword">return</span> <span class="param">text</span>.ToUpper();
+}</pre>
+
+            <!-- Type Checking -->
+            <h2>🔍 Type Checking with <code>is</code></h2>
+
+            <p>The <code>is</code> keyword lets you check whether an object is a specific type and cast it in one step. This is especially useful when working with the <code>sender</code> parameter in event handlers.</p>
+
+            <pre><span class="comment">// Check type and cast in one step</span>
+<span class="keyword">if</span> (<span class="param">someObject</span> <span class="keyword">is</span> <span class="type">Pet</span> <span class="param">p</span>)
+{
+    <span class="comment">// p is now a Pet variable you can use</span>
+    <span class="param">lblOutput</span>.Text = <span class="param">p</span>.GetName();
+}</pre>
+
+            <!-- Structures and Records -->
+            <h2>📋 Structures, Records, and Record Structs</h2>
+
+            <p>C# offers alternatives to classes for specific scenarios:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Value or Reference?</th>
+                        <th>Equality Comparison</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>class</strong></td>
+                        <td>Reference type</td>
+                        <td>Compares references (are they the same object?)</td>
+                        <td>Complex objects with behavior, inheritance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>struct</strong></td>
+                        <td>Value type</td>
+                        <td>Compares references by default</td>
+                        <td>Small, simple data; less memory overhead</td>
+                    </tr>
+                    <tr>
+                        <td><strong>record</strong></td>
+                        <td>Reference type</td>
+                        <td>Compares property <em>values</em></td>
+                        <td>Data-focused objects where you want value-based comparison</td>
+                    </tr>
+                    <tr>
+                        <td><strong>record struct</strong></td>
+                        <td>Value type</td>
+                        <td>Compares property <em>values</em></td>
+                        <td>Small data objects with value-based comparison</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>When to Choose What</h4>
+                <p><strong>Class:</strong> Your object is complex, has many methods, or you need inheritance.</p>
+                <p><strong>Struct:</strong> Your object primarily stores data and is small enough to copy efficiently.</p>
+                <p><strong>Record:</strong> Your object primarily stores data, you want a reference type, and you want to compare objects based on their property values.</p>
+                <p><strong>Record struct:</strong> Your object primarily stores data, is small enough to copy efficiently, and you want improved equality comparison.</p>
+            </div>
+
+            <!-- Putting It All Together -->
+            <h2>🧪 Putting It All Together — Complete Example</h2>
+
+            <p>Here is a complete example showing a class and the form code that uses it. This is <strong>not</strong> from any lab — it demonstrates the patterns you'll use across all assignments.</p>
+
+            <div class="syntax-box">
+                <h4>Snack.cs — The Class</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Snack</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_name</span>;
+    <span class="keyword">private</span> <span class="type">decimal</span> <span class="param">_price</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_calories</span>;
+
+    <span class="comment">// Constructor</span>
+    <span class="keyword">public</span> <span class="method">Snack</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">decimal</span> <span class="param">price</span>, <span class="type">int</span> <span class="param">calories</span>)
+    {
+        <span class="param">_name</span> = <span class="param">name</span>;
+        <span class="param">_price</span> = <span class="param">price</span>;
+        <span class="param">_calories</span> = <span class="param">calories</span>;
+    }
+
+    <span class="comment">// Getter methods</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetName</span>() => <span class="param">_name</span>;
+    <span class="keyword">public</span> <span class="type">decimal</span> <span class="method">GetPrice</span>() => <span class="param">_price</span>;
+    <span class="keyword">public</span> <span class="type">int</span> <span class="method">GetCalories</span>() => <span class="param">_calories</span>;
+
+    <span class="comment">// Setter method</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">SetPrice</span>(<span class="type">decimal</span> <span class="param">price</span>)
+    {
+        <span class="param">_price</span> = <span class="param">price</span>;
+    }
+
+    <span class="comment">// Display method</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">Display</span>()
+    {
+        <span class="keyword">return</span> <span class="param">_name</span> + <span class="string">" ($"</span> + <span class="param">_price</span> + <span class="string">") - "</span> 
+            + <span class="param">_calories</span> + <span class="string">" cal"</span>;
+    }
+}</pre>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Form Code — Using the Snack Class</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="type">Form1</span> : <span class="type">Form</span>
+{
+    <span class="comment">// Class-level: array and counter persist across button clicks</span>
+    <span class="type">Snack</span>[] <span class="param">snacks</span> = <span class="keyword">new</span> <span class="type">Snack</span>[<span class="number">20</span>];
+    <span class="type">int</span> <span class="param">snackCount</span> = <span class="number">0</span>;
+
+    <span class="keyword">public</span> <span class="method">Form1</span>()
+    {
+        <span class="method">InitializeComponent</span>();
+
+        <span class="comment">// Pre-populate with some data</span>
+        <span class="param">snacks</span>[<span class="number">0</span>] = <span class="keyword">new</span> <span class="type">Snack</span>(<span class="string">"Pretzels"</span>, <span class="number">2.50m</span>, <span class="number">210</span>);
+        <span class="param">snacks</span>[<span class="number">1</span>] = <span class="keyword">new</span> <span class="type">Snack</span>(<span class="string">"Trail Mix"</span>, <span class="number">4.00m</span>, <span class="number">350</span>);
+        <span class="param">snacks</span>[<span class="number">2</span>] = <span class="keyword">new</span> <span class="type">Snack</span>(<span class="string">"Granola Bar"</span>, <span class="number">1.75m</span>, <span class="number">180</span>);
+        <span class="param">snackCount</span> = <span class="number">3</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnSearch_Click</span>(<span class="type">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+    {
+        <span class="type">string</span> <span class="param">search</span> = <span class="param">txtSearch</span>.Text.ToLower();
+        <span class="type">bool</span> <span class="param">found</span> = <span class="keyword">false</span>;
+
+        <span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">snackCount</span>; <span class="param">i</span>++)
+        {
+            <span class="keyword">if</span> (<span class="param">snacks</span>[<span class="param">i</span>].<span class="method">GetName</span>().ToLower() == <span class="param">search</span>)
+            {
+                <span class="param">lblResult</span>.Text = <span class="param">snacks</span>[<span class="param">i</span>].<span class="method">Display</span>();
+                <span class="param">found</span> = <span class="keyword">true</span>;
+                <span class="keyword">break</span>;
+            }
+        }
+
+        <span class="keyword">if</span> (!<span class="param">found</span>)
+        {
+            <span class="param">lblResult</span>.Text = <span class="string">"Snack not found."</span>;
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnAdd_Click</span>(<span class="type">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+    {
+        <span class="keyword">if</span> (<span class="param">snackCount</span> &lt; <span class="number">20</span>)
+        {
+            <span class="type">string</span> <span class="param">name</span> = <span class="param">txtName</span>.Text;
+            <span class="type">decimal</span> <span class="param">price</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtPrice</span>.Text);
+            <span class="type">int</span> <span class="param">cal</span> = <span class="type">Convert</span>.<span class="method">ToInt32</span>(<span class="param">txtCalories</span>.Text);
+
+            <span class="param">snacks</span>[<span class="param">snackCount</span>] = <span class="keyword">new</span> <span class="type">Snack</span>(<span class="param">name</span>, <span class="param">price</span>, <span class="param">cal</span>);
+            <span class="param">snackCount</span>++;
+
+            <span class="param">txtName</span>.Clear();
+            <span class="param">txtPrice</span>.Clear();
+            <span class="param">txtCalories</span>.Clear();
+            <span class="param">txtName</span>.Focus();
+        }
+    }
+}</pre>
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Class</td>
+                            <td>A blueprint that defines fields, properties, and methods for an object</td>
+                        </tr>
+                        <tr>
+                            <td>Object / Instance</td>
+                            <td>A specific thing created from a class using <code>new</code></td>
+                        </tr>
+                        <tr>
+                            <td>Instantiation</td>
+                            <td>The process of creating an object from a class</td>
+                        </tr>
+                        <tr>
+                            <td>Encapsulation</td>
+                            <td>Hiding internal details; using something without knowing how it works inside</td>
+                        </tr>
+                        <tr>
+                            <td>Field</td>
+                            <td>A private variable inside a class (e.g., <code>private string _name;</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Property</td>
+                            <td>Public access to a field using <code>get</code> / <code>set</code> accessors</td>
+                        </tr>
+                        <tr>
+                            <td>Auto-implemented property</td>
+                            <td><code>public string Name { get; set; }</code> — C# makes the backing field</td>
+                        </tr>
+                        <tr>
+                            <td>Constructor</td>
+                            <td>Same name as class, no return type, runs on <code>new</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>private</code></td>
+                            <td>Only accessible within the class itself</td>
+                        </tr>
+                        <tr>
+                            <td><code>public</code></td>
+                            <td>Accessible from any other class</td>
+                        </tr>
+                        <tr>
+                            <td>Overloading</td>
+                            <td>Same method name, different parameter list (type or count)</td>
+                        </tr>
+                        <tr>
+                            <td><code>static</code></td>
+                            <td>Belongs to the class, called with class name (e.g., <code>Math.Sqrt()</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Expression body (<code>=></code>)</td>
+                            <td>Shorthand for single-expression properties or methods</td>
+                        </tr>
+                        <tr>
+                            <td>Object initializer</td>
+                            <td><code>new ClassName { Prop = value, Prop = value }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>is</code> keyword</td>
+                            <td>Type check + cast: <code>if (obj is Type name) { }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>{ get; init; }</code></td>
+                            <td>Read-only, but settable by constructor or object initializer</td>
+                        </tr>
+                        <tr>
+                            <td><code>required</code></td>
+                            <td>Property must be set when creating the object</td>
+                        </tr>
+                        <tr>
+                            <td>Three-layer architecture</td>
+                            <td>Presentation → Middle (business) → Database</td>
+                        </tr>
+                        <tr>
+                            <td>Class file extension</td>
+                            <td><code>.cs</code></td>
+                        </tr>
+                        <tr>
+                            <td>Record</td>
+                            <td>Reference type with value-based equality comparison</td>
+                        </tr>
+                        <tr>
+                            <td>Struct</td>
+                            <td>Value type; lighter than a class but can't use inheritance</td>
+                        </tr>
+                        <tr>
+                            <td>Record struct</td>
+                            <td>Value type with value-based equality comparison</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Bike myBike = new;</code></td>
+                            <td><code>Bike myBike = new();</code> — always include parentheses</td>
+                        </tr>
+                        <tr>
+                            <td><code>public void Bike(...)</code></td>
+                            <td><code>public Bike(...)</code> — constructors have <strong>no return type</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>public Name { get; set; }</code></td>
+                            <td><code>public string Name { get; set; }</code> — include the <strong>data type</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>new Bike { _brand = "Trek" }</code></td>
+                            <td><code>new Bike { Brand = "Trek" }</code> — use <strong>property names</strong>, not field names</td>
+                        </tr>
+                        <tr>
+                            <td><code>new Bike { Brand = "Trek"; Gears = 7; }</code></td>
+                            <td><code>new Bike { Brand = "Trek", Gears = 7 }</code> — use <strong>commas</strong>, not semicolons</td>
+                        </tr>
+                        <tr>
+                            <td><code>Snack.GetName()</code> on an instance</td>
+                            <td><code>mySnack.GetName()</code> — use the <strong>object variable</strong> for instance methods</td>
+                        </tr>
+                        <tr>
+                            <td>Making fields <code>public</code></td>
+                            <td>Fields should be <code>private</code>; use properties or getters for access</td>
+                        </tr>
+                        <tr>
+                            <td><code>public string Name { get, set }</code></td>
+                            <td><code>public string Name { get; set; }</code> — use <strong>semicolons</strong>, not commas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Vocabulary -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary for This Chapter</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Class</td>
+                            <td>A blueprint that defines the properties and methods of an object</td>
+                        </tr>
+                        <tr>
+                            <td>Object / Instance</td>
+                            <td>A specific entity created from a class</td>
+                        </tr>
+                        <tr>
+                            <td>Instantiate</td>
+                            <td>To create an object from a class using <code>new</code></td>
+                        </tr>
+                        <tr>
+                            <td>Constructor</td>
+                            <td>A special method that initializes an object when it is created</td>
+                        </tr>
+                        <tr>
+                            <td>Field</td>
+                            <td>A variable declared at class level that stores an object's data (also called instance variable or member variable)</td>
+                        </tr>
+                        <tr>
+                            <td>Property</td>
+                            <td>A class member with get/set accessors that controls access to a field</td>
+                        </tr>
+                        <tr>
+                            <td>Access modifier</td>
+                            <td>A keyword (<code>public</code> or <code>private</code>) that controls visibility</td>
+                        </tr>
+                        <tr>
+                            <td>Encapsulation</td>
+                            <td>Bundling data and methods together while hiding internal details</td>
+                        </tr>
+                        <tr>
+                            <td>Information hiding</td>
+                            <td>Making fields private so outside code cannot directly access them</td>
+                        </tr>
+                        <tr>
+                            <td>Composition</td>
+                            <td>Building a class that contains objects of other classes as fields</td>
+                        </tr>
+                        <tr>
+                            <td>Aggregation</td>
+                            <td>A form of composition where the contained object can exist independently</td>
+                        </tr>
+                        <tr>
+                            <td>Overloaded method</td>
+                            <td>Multiple methods with the same name but different parameter lists</td>
+                        </tr>
+                        <tr>
+                            <td>Value type</td>
+                            <td>Stores data directly (e.g., <code>int</code>, <code>struct</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Reference type</td>
+                            <td>Stores a reference to data in memory (e.g., <code>class</code>, <code>string</code>)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
