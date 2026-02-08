@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joi Validation Guide: Schema Validation for Node.js</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        pre .regex {
+            color: #D16969;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Syntax Box */
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        /* Quick Reference Section */
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Comparison layout */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Joi Validation Guide</h1>
+        <p>Schema Validation for Node.js &amp; Express Applications</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- What is Joi? -->
+            <h2>📋 What is Joi?</h2>
+
+            <p><strong>Joi</strong> is a powerful data validation library for JavaScript. It lets you define a <strong>schema</strong> — a blueprint that describes the shape and rules of your data — and then validate incoming data against it. This is especially useful for validating request bodies, query parameters, and URL parameters in Express APIs.</p>
+
+            <div class="highlight-box">
+                <h4>Why Use Joi?</h4>
+                <p>Without validation, your API blindly trusts whatever data a client sends. Joi acts as a gatekeeper, ensuring that only properly formatted data reaches your business logic and database.</p>
+            </div>
+
+            <h3>Installation</h3>
+
+            <pre><span class="comment">// Install Joi</span>
+npm install joi
+</pre>
+
+            <h3>Basic Pattern: Define a Schema, Then Validate</h3>
+
+            <pre><span class="comment">// 1. Define the schema</span>
+<span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="param">name</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">required</span>(),
+    <span class="param">email</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">email</span>().<span class="method">required</span>()
+});
+
+<span class="comment">// 2. Validate data against the schema</span>
+<span class="keyword">const</span> { <span class="param">error</span>, <span class="param">value</span> } = <span class="param">schema</span>.<span class="method">validate</span>(<span class="param">req</span>.<span class="param">body</span>);
+
+<span class="comment">// 3. Check for errors</span>
+<span class="keyword">if</span> (<span class="param">error</span>) {
+    <span class="keyword">return</span> <span class="param">res</span>.<span class="method">status</span>(<span class="number">400</span>).<span class="method">json</span>({ <span class="param">message</span>: <span class="param">error</span>.<span class="param">details</span>[<span class="number">0</span>].<span class="param">message</span> });
+}
+</pre>
+
+            <div class="tip-box">
+                <strong>The <code>validate()</code> method</strong> returns an object with two properties: <code>error</code> (contains validation errors, or <code>undefined</code> if valid) and <code>value</code> (the validated and potentially transformed data).
+            </div>
+
+            <!-- General Validations -->
+            <h2>🔑 General Validations</h2>
+
+            <p>These validations can be applied to <strong>any data type</strong>. They control whether a field is required, optional, or restricted to specific values.</p>
+
+            <h3>Joi.required() &amp; Joi.optional()</h3>
+
+            <p><code>required()</code> marks a field as mandatory — validation fails if the field is missing. <code>optional()</code> is the default behavior and marks a field as not required.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// This field MUST be present</span>
+    <span class="param">username</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">required</span>(),
+
+    <span class="comment">// This field is optional (default behavior)</span>
+    <span class="param">nickname</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">optional</span>()
+});
+
+<span class="comment">// ✅ Valid: { username: "jsmith" }</span>
+<span class="comment">// ✅ Valid: { username: "jsmith", nickname: "Johnny" }</span>
+<span class="comment">// ❌ Invalid: { nickname: "Johnny" }  → "username" is required</span>
+</pre>
+
+            <h3>Joi.valid() &amp; Joi.invalid()</h3>
+
+            <p><code>valid()</code> creates a <strong>whitelist</strong> of allowed values (like an enum). <code>invalid()</code> creates a <strong>blacklist</strong> of disallowed values.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Only these exact values are allowed</span>
+    <span class="param">role</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">valid</span>(<span class="string">'admin'</span>, <span class="string">'editor'</span>, <span class="string">'viewer'</span>).<span class="method">required</span>(),
+
+    <span class="comment">// These values are NOT allowed</span>
+    <span class="param">status</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">invalid</span>(<span class="string">'deleted'</span>, <span class="string">'banned'</span>)
+});
+
+<span class="comment">// ✅ Valid: { role: "admin", status: "active" }</span>
+<span class="comment">// ❌ Invalid: { role: "superuser" }  → not in whitelist</span>
+<span class="comment">// ❌ Invalid: { role: "admin", status: "banned" }  → in blacklist</span>
+</pre>
+
+            <h3>Joi.any()</h3>
+
+            <p><code>any()</code> matches <strong>any data type</strong>. Use it when a field can accept strings, numbers, booleans, or any other value.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Accepts any type of value</span>
+    <span class="param">metadata</span>: <span class="type">Joi</span>.<span class="method">any</span>(),
+
+    <span class="comment">// any() combined with required()</span>
+    <span class="param">payload</span>: <span class="type">Joi</span>.<span class="method">any</span>().<span class="method">required</span>()
+});
+
+<span class="comment">// ✅ Valid: { metadata: "text", payload: 42 }</span>
+<span class="comment">// ✅ Valid: { metadata: true, payload: [1, 2, 3] }</span>
+<span class="comment">// ❌ Invalid: { metadata: "text" }  → "payload" is required</span>
+</pre>
+
+            <!-- String Validations -->
+            <h2>🔤 String Validations</h2>
+
+            <p><code>Joi.string()</code> ensures the value is a string. You can chain additional methods to enforce specific string rules.</p>
+
+            <h3>alphanum(), min(), max(), length()</h3>
+
+            <p>These methods control the <strong>characters allowed</strong> and the <strong>length</strong> of the string.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Only letters and numbers (a-z, A-Z, 0-9)</span>
+    <span class="param">username</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">alphanum</span>().<span class="method">min</span>(<span class="number">3</span>).<span class="method">max</span>(<span class="number">30</span>).<span class="method">required</span>(),
+
+    <span class="comment">// Password: at least 8 characters</span>
+    <span class="param">password</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">min</span>(<span class="number">8</span>).<span class="method">required</span>(),
+
+    <span class="comment">// Exact length: US zip code must be exactly 5 characters</span>
+    <span class="param">zipCode</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">length</span>(<span class="number">5</span>)
+});
+
+<span class="comment">// ✅ Valid: { username: "jsmith42", password: "SecureP@ss", zipCode: "63301" }</span>
+<span class="comment">// ❌ Invalid: { username: "j" }  → min 3 characters</span>
+<span class="comment">// ❌ Invalid: { username: "j_smith" }  → alphanum does not allow underscores</span>
+<span class="comment">// ❌ Invalid: { ..., zipCode: "6330" }  → must be exactly 5 characters</span>
+</pre>
+
+            <h3>email() &amp; uri()</h3>
+
+            <p><code>email()</code> validates standard email format. <code>uri()</code> validates that a string is a properly formatted URL/URI.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be a valid email address</span>
+    <span class="param">email</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">email</span>().<span class="method">required</span>(),
+
+    <span class="comment">// Must be a valid URL</span>
+    <span class="param">website</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">uri</span>()
+});
+
+<span class="comment">// ✅ Valid: { email: "user@example.com", website: "https://example.com" }</span>
+<span class="comment">// ❌ Invalid: { email: "not-an-email" }  → invalid email format</span>
+<span class="comment">// ❌ Invalid: { ..., website: "just-some-text" }  → invalid URI</span>
+</pre>
+
+            <h3>regex()</h3>
+
+            <p><code>regex()</code> validates the string against a <strong>custom Regular Expression pattern</strong>. This is useful when built-in validators don't cover your specific format.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// US phone format: (XXX) XXX-XXXX</span>
+    <span class="param">phone</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">regex</span>(<span class="regex">/^\(\d{3}\) \d{3}-\d{4}$/</span>),
+
+    <span class="comment">// Must start with a letter, then letters/numbers/underscores</span>
+    <span class="param">handle</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">regex</span>(<span class="regex">/^[a-zA-Z][a-zA-Z0-9_]*$/</span>).<span class="method">min</span>(<span class="number">3</span>)
+});
+
+<span class="comment">// ✅ Valid: { phone: "(314) 555-1234", handle: "myHandle_1" }</span>
+<span class="comment">// ❌ Invalid: { phone: "314-555-1234" }  → doesn't match pattern</span>
+<span class="comment">// ❌ Invalid: { handle: "1bad" }  → must start with a letter</span>
+</pre>
+
+            <h3>trim(), lowercase(), uppercase()</h3>
+
+            <p>These methods <strong>transform</strong> the string during validation. They clean up the data so you don't have to do it manually.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Strips leading/trailing whitespace</span>
+    <span class="param">name</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">trim</span>().<span class="method">required</span>(),
+
+    <span class="comment">// Converts to lowercase automatically</span>
+    <span class="param">email</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">email</span>().<span class="method">lowercase</span>(),
+
+    <span class="comment">// Converts to uppercase automatically</span>
+    <span class="param">stateCode</span>: <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">uppercase</span>().<span class="method">length</span>(<span class="number">2</span>)
+});
+
+<span class="comment">// Input:  { name: "  John  ", email: "USER@Email.COM", stateCode: "mo" }</span>
+<span class="comment">// Output: { name: "John",    email: "user@email.com",  stateCode: "MO" }</span>
+</pre>
+
+            <div class="tip-box">
+                <strong>Transformation happens on the <code>value</code> property</strong> returned by <code>validate()</code>. Always use the returned <code>value</code> (not the original <code>req.body</code>) after validation to get the cleaned data.
+            </div>
+
+            <!-- Number Validations -->
+            <h2>🔢 Number Validations</h2>
+
+            <p><code>Joi.number()</code> ensures the value is a number. Chain additional methods to enforce integer, range, and sign rules.</p>
+
+            <h3>integer(), min(), max()</h3>
+
+            <p><code>integer()</code> rejects decimals. <code>min()</code> and <code>max()</code> enforce a numeric range (inclusive).</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be a whole number, between 1 and 120</span>
+    <span class="param">age</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">integer</span>().<span class="method">min</span>(<span class="number">1</span>).<span class="method">max</span>(<span class="number">120</span>).<span class="method">required</span>(),
+
+    <span class="comment">// Price: minimum 0, allows decimals</span>
+    <span class="param">price</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">min</span>(<span class="number">0</span>).<span class="method">required</span>()
+});
+
+<span class="comment">// ✅ Valid: { age: 25, price: 19.99 }</span>
+<span class="comment">// ❌ Invalid: { age: 25.5 }  → must be an integer</span>
+<span class="comment">// ❌ Invalid: { age: 0 }     → min is 1</span>
+<span class="comment">// ❌ Invalid: { price: -5 }  → min is 0</span>
+</pre>
+
+            <h3>positive(), negative()</h3>
+
+            <p><code>positive()</code> requires the number to be greater than 0. <code>negative()</code> requires it to be less than 0.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be > 0</span>
+    <span class="param">quantity</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">integer</span>().<span class="method">positive</span>().<span class="method">required</span>(),
+
+    <span class="comment">// Must be < 0</span>
+    <span class="param">debit</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">negative</span>()
+});
+
+<span class="comment">// ✅ Valid: { quantity: 5, debit: -100.50 }</span>
+<span class="comment">// ❌ Invalid: { quantity: 0 }      → 0 is not positive</span>
+<span class="comment">// ❌ Invalid: { debit: 50 }        → must be negative</span>
+</pre>
+
+            <h3>greater() &amp; less()</h3>
+
+            <p><code>greater(limit)</code> and <code>less(limit)</code> are <strong>strictly exclusive</strong> — the value cannot equal the limit. Compare with <code>min()</code> and <code>max()</code> which are inclusive.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be strictly greater than 0 (not equal to 0)</span>
+    <span class="param">score</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">greater</span>(<span class="number">0</span>).<span class="method">less</span>(<span class="number">100</span>),
+
+    <span class="comment">// Compare: min/max are inclusive, greater/less are exclusive</span>
+    <span class="param">rating</span>: <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">min</span>(<span class="number">1</span>).<span class="method">max</span>(<span class="number">5</span>)   <span class="comment">// 1 and 5 ARE allowed</span>
+});
+
+<span class="comment">// ✅ Valid: { score: 0.1, rating: 1 }</span>
+<span class="comment">// ✅ Valid: { score: 99.9, rating: 5 }</span>
+<span class="comment">// ❌ Invalid: { score: 0 }    → must be strictly greater than 0</span>
+<span class="comment">// ❌ Invalid: { score: 100 }  → must be strictly less than 100</span>
+</pre>
+
+            <div class="highlight-box">
+                <h4>min/max vs greater/less</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Boundary</th>
+                            <th>Example</th>
+                            <th>Value 5 Allowed?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>min(5)</code></td>
+                            <td>Inclusive (≥)</td>
+                            <td>5 or higher</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>greater(5)</code></td>
+                            <td>Exclusive (>)</td>
+                            <td>Above 5 only</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td><code>max(5)</code></td>
+                            <td>Inclusive (≤)</td>
+                            <td>5 or lower</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>less(5)</code></td>
+                            <td>Exclusive (<)</td>
+                            <td>Below 5 only</td>
+                            <td>❌ No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Boolean Validations -->
+            <h2>✅ Boolean Validations</h2>
+
+            <p><code>Joi.boolean()</code> ensures the value is a boolean (<code>true</code> or <code>false</code>). You can expand what counts as "truthy" or "falsy" using <code>truthy()</code> and <code>falsy()</code>.</p>
+
+            <h3>boolean(), truthy(), falsy()</h3>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Standard boolean: only true or false</span>
+    <span class="param">isActive</span>: <span class="type">Joi</span>.<span class="method">boolean</span>().<span class="method">required</span>(),
+
+    <span class="comment">// Extended: "Y", "Yes", and 1 also count as true</span>
+    <span class="comment">// "N", "No", and 0 also count as false</span>
+    <span class="param">subscribe</span>: <span class="type">Joi</span>.<span class="method">boolean</span>()
+        .<span class="method">truthy</span>(<span class="string">'Y'</span>, <span class="string">'Yes'</span>, <span class="number">1</span>)
+        .<span class="method">falsy</span>(<span class="string">'N'</span>, <span class="string">'No'</span>, <span class="number">0</span>)
+});
+
+<span class="comment">// ✅ Valid: { isActive: true, subscribe: "Y" }</span>
+<span class="comment">// ✅ Valid: { isActive: false, subscribe: 0 }</span>
+<span class="comment">// ❌ Invalid: { isActive: "yes" }  → standard boolean doesn't accept strings</span>
+<span class="comment">// ✅ Valid: { isActive: true, subscribe: "Yes" }  → truthy allows it</span>
+</pre>
+
+            <div class="tip-box">
+                <strong><code>truthy()</code> and <code>falsy()</code></strong> are especially useful when accepting form data or CSV imports where boolean values might come in as strings like <code>"Y"</code>/<code>"N"</code> or numbers like <code>1</code>/<code>0</code>.
+            </div>
+
+            <!-- Date Validations -->
+            <h2>📅 Date Validations</h2>
+
+            <p><code>Joi.date()</code> ensures the value is a valid date. Joi can parse date strings, timestamps, and Date objects.</p>
+
+            <h3>min(), max(), greater()</h3>
+
+            <p>Date boundaries work just like number boundaries — <code>min()</code>/<code>max()</code> are inclusive, <code>greater()</code> is exclusive.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be today or later</span>
+    <span class="param">startDate</span>: <span class="type">Joi</span>.<span class="method">date</span>().<span class="method">min</span>(<span class="string">'now'</span>).<span class="method">required</span>(),
+
+    <span class="comment">// Must be before Dec 31, 2030</span>
+    <span class="param">endDate</span>: <span class="type">Joi</span>.<span class="method">date</span>().<span class="method">max</span>(<span class="string">'2030-12-31'</span>),
+
+    <span class="comment">// Must be strictly after Jan 1, 2020</span>
+    <span class="param">createdAfter</span>: <span class="type">Joi</span>.<span class="method">date</span>().<span class="method">greater</span>(<span class="string">'2020-01-01'</span>)
+});
+
+<span class="comment">// ✅ Valid: { startDate: "2026-06-15", endDate: "2028-01-01" }</span>
+<span class="comment">// ❌ Invalid: { startDate: "2020-01-01" }  → must be today or later</span>
+<span class="comment">// ❌ Invalid: { endDate: "2031-06-01" }    → must be before 2030-12-31</span>
+</pre>
+
+            <h3>iso() &amp; timestamp()</h3>
+
+            <p><code>iso()</code> requires the date to be in <strong>ISO 8601 format</strong> (e.g., <code>2026-02-08T14:30:00Z</code>). <code>timestamp()</code> requires a <strong>Unix or JavaScript timestamp</strong>.</p>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be ISO 8601 format</span>
+    <span class="param">eventDate</span>: <span class="type">Joi</span>.<span class="method">date</span>().<span class="method">iso</span>().<span class="method">required</span>(),
+
+    <span class="comment">// Must be a Unix timestamp (seconds) or JS timestamp (milliseconds)</span>
+    <span class="param">createdAt</span>: <span class="type">Joi</span>.<span class="method">date</span>().<span class="method">timestamp</span>()
+});
+
+<span class="comment">// ✅ Valid: { eventDate: "2026-02-08T14:30:00Z" }</span>
+<span class="comment">// ✅ Valid: { createdAt: 1770000000 }  → Unix timestamp</span>
+<span class="comment">// ❌ Invalid: { eventDate: "Feb 8, 2026" }  → not ISO format</span>
+<span class="comment">// ❌ Invalid: { eventDate: "02/08/2026" }   → not ISO format</span>
+</pre>
+
+            <div class="warning-box">
+                <strong>ISO 8601 format</strong> follows the pattern <code>YYYY-MM-DDTHH:mm:ssZ</code>. This is the standard format used in most APIs. If your client sends dates in other formats (like <code>MM/DD/YYYY</code>), you'll need to convert them before validation or use <code>Joi.date()</code> without <code>.iso()</code>.
+            </div>
+
+            <!-- Array Validations -->
+            <h2>📦 Array Validations</h2>
+
+            <p><code>Joi.array()</code> ensures the value is an array. You can use <code>.items()</code> to validate the contents of the array.</p>
+
+            <h3>array() with items()</h3>
+
+            <pre><span class="keyword">const</span> <span class="param">schema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="comment">// Must be an array of strings</span>
+    <span class="param">tags</span>: <span class="type">Joi</span>.<span class="method">array</span>().<span class="method">items</span>(<span class="type">Joi</span>.<span class="method">string</span>()),
+
+    <span class="comment">// Array of numbers, at least 1 item, max 10 items</span>
+    <span class="param">scores</span>: <span class="type">Joi</span>.<span class="method">array</span>().<span class="method">items</span>(
+        <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">min</span>(<span class="number">0</span>).<span class="method">max</span>(<span class="number">100</span>)
+    ).<span class="method">min</span>(<span class="number">1</span>).<span class="method">max</span>(<span class="number">10</span>).<span class="method">required</span>()
+});
+
+<span class="comment">// ✅ Valid: { tags: ["rock", "jazz"], scores: [85, 92, 78] }</span>
+<span class="comment">// ❌ Invalid: { tags: "rock" }           → not an array</span>
+<span class="comment">// ❌ Invalid: { scores: [] }              → min 1 item required</span>
+<span class="comment">// ❌ Invalid: { scores: [85, 105] }       → 105 exceeds max of 100</span>
+</pre>
+
+            <div class="tip-box">
+                <strong>Array's <code>min()</code> and <code>max()</code></strong> refer to the number of <strong>items</strong> in the array, not numeric values. This is different from <code>Joi.number().min()</code> which sets a minimum numeric value.
+            </div>
+
+            <!-- Real-World Example -->
+            <h2>🌍 Putting It All Together: Express Middleware</h2>
+
+            <p>In a real application, you typically create a <strong>reusable validation middleware</strong> that validates the request body before it reaches your route handler.</p>
+
+            <h3>Step 1: Define the Schema (separate file)</h3>
+
+            <pre><span class="comment">// schemas/userSchema.js</span>
+<span class="keyword">const</span> <span class="type">Joi</span> = <span class="method">require</span>(<span class="string">'joi'</span>);
+
+<span class="keyword">const</span> <span class="param">userSchema</span> = <span class="type">Joi</span>.<span class="method">object</span>({
+    <span class="param">username</span>:    <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">alphanum</span>().<span class="method">min</span>(<span class="number">3</span>).<span class="method">max</span>(<span class="number">30</span>).<span class="method">required</span>(),
+    <span class="param">email</span>:       <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">email</span>().<span class="method">lowercase</span>().<span class="method">trim</span>().<span class="method">required</span>(),
+    <span class="param">password</span>:    <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">min</span>(<span class="number">8</span>).<span class="method">max</span>(<span class="number">128</span>).<span class="method">required</span>(),
+    <span class="param">age</span>:         <span class="type">Joi</span>.<span class="method">number</span>().<span class="method">integer</span>().<span class="method">min</span>(<span class="number">13</span>).<span class="method">max</span>(<span class="number">120</span>),
+    <span class="param">role</span>:        <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">valid</span>(<span class="string">'user'</span>, <span class="string">'admin'</span>).<span class="method">default</span>(<span class="string">'user'</span>),
+    <span class="param">website</span>:     <span class="type">Joi</span>.<span class="method">string</span>().<span class="method">uri</span>().<span class="method">optional</span>(),
+    <span class="param">subscribe</span>:   <span class="type">Joi</span>.<span class="method">boolean</span>().<span class="method">truthy</span>(<span class="string">'Y'</span>, <span class="string">'Yes'</span>).<span class="method">falsy</span>(<span class="string">'N'</span>, <span class="string">'No'</span>),
+    <span class="param">tags</span>:        <span class="type">Joi</span>.<span class="method">array</span>().<span class="method">items</span>(<span class="type">Joi</span>.<span class="method">string</span>().<span class="method">max</span>(<span class="number">20</span>)).<span class="method">max</span>(<span class="number">5</span>)
+});
+
+<span class="param">module</span>.<span class="param">exports</span> = <span class="param">userSchema</span>;
+</pre>
+
+            <h3>Step 2: Create the Validation Middleware</h3>
+
+            <pre><span class="comment">// middleware/validate.js</span>
+<span class="keyword">const</span> <span class="method">validate</span> = (<span class="param">schema</span>) => {
+    <span class="keyword">return</span> (<span class="param">req</span>, <span class="param">res</span>, <span class="param">next</span>) => {
+        <span class="keyword">const</span> { <span class="param">error</span>, <span class="param">value</span> } = <span class="param">schema</span>.<span class="method">validate</span>(<span class="param">req</span>.<span class="param">body</span>, {
+            <span class="param">abortEarly</span>: <span class="keyword">false</span>  <span class="comment">// Return ALL errors, not just the first</span>
+        });
+
+        <span class="keyword">if</span> (<span class="param">error</span>) {
+            <span class="keyword">const</span> <span class="param">messages</span> = <span class="param">error</span>.<span class="param">details</span>.<span class="method">map</span>(<span class="param">d</span> => <span class="param">d</span>.<span class="param">message</span>);
+            <span class="keyword">return</span> <span class="param">res</span>.<span class="method">status</span>(<span class="number">400</span>).<span class="method">json</span>({ <span class="param">errors</span>: <span class="param">messages</span> });
+        }
+
+        <span class="comment">// Replace req.body with validated + transformed data</span>
+        <span class="param">req</span>.<span class="param">body</span> = <span class="param">value</span>;
+        <span class="method">next</span>();
+    };
+};
+
+<span class="param">module</span>.<span class="param">exports</span> = <span class="param">validate</span>;
+</pre>
+
+            <h3>Step 3: Use in Your Route</h3>
+
+            <pre><span class="comment">// routes/users.js</span>
+<span class="keyword">const</span> <span class="param">express</span> = <span class="method">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> <span class="param">router</span> = <span class="param">express</span>.<span class="method">Router</span>();
+<span class="keyword">const</span> <span class="param">validate</span> = <span class="method">require</span>(<span class="string">'../middleware/validate'</span>);
+<span class="keyword">const</span> <span class="param">userSchema</span> = <span class="method">require</span>(<span class="string">'../schemas/userSchema'</span>);
+
+<span class="comment">// The validate middleware runs BEFORE the route handler</span>
+<span class="param">router</span>.<span class="method">post</span>(<span class="string">'/users'</span>, <span class="method">validate</span>(<span class="param">userSchema</span>), (<span class="param">req</span>, <span class="param">res</span>) => {
+    <span class="comment">// If we get here, req.body is already validated and clean!</span>
+    <span class="param">res</span>.<span class="method">status</span>(<span class="number">201</span>).<span class="method">json</span>({ <span class="param">message</span>: <span class="string">'User created'</span>, <span class="param">data</span>: <span class="param">req</span>.<span class="param">body</span> });
+});
+</pre>
+
+            <div class="success-box">
+                <strong>This pattern separates concerns:</strong> the schema defines <em>what</em> valid data looks like, the middleware handles <em>how</em> to validate, and the route handler focuses on <em>business logic</em>. Each piece is reusable and testable.
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Method</th>
+                            <th>What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>General</td>
+                            <td><code>.required()</code></td>
+                            <td>Field must be present</td>
+                        </tr>
+                        <tr>
+                            <td>General</td>
+                            <td><code>.optional()</code></td>
+                            <td>Field is not required (default)</td>
+                        </tr>
+                        <tr>
+                            <td>General</td>
+                            <td><code>.valid('a', 'b')</code></td>
+                            <td>Whitelist of allowed values</td>
+                        </tr>
+                        <tr>
+                            <td>General</td>
+                            <td><code>.invalid('x')</code></td>
+                            <td>Blacklist of disallowed values</td>
+                        </tr>
+                        <tr>
+                            <td>General</td>
+                            <td><code>Joi.any()</code></td>
+                            <td>Accepts any data type</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.alphanum()</code></td>
+                            <td>Letters and numbers only</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.min(n) / .max(n)</code></td>
+                            <td>Min/max character length</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.length(n)</code></td>
+                            <td>Exact character length</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.email()</code></td>
+                            <td>Valid email format</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.uri()</code></td>
+                            <td>Valid URL/URI format</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.regex(pattern)</code></td>
+                            <td>Custom regex validation</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.trim()</code></td>
+                            <td>Strip leading/trailing whitespace</td>
+                        </tr>
+                        <tr>
+                            <td>String</td>
+                            <td><code>.lowercase() / .uppercase()</code></td>
+                            <td>Convert case</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><code>.integer()</code></td>
+                            <td>No decimals allowed</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><code>.min(n) / .max(n)</code></td>
+                            <td>Inclusive numeric range</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><code>.greater(n) / .less(n)</code></td>
+                            <td>Exclusive numeric range</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><code>.positive() / .negative()</code></td>
+                            <td>Sign constraint</td>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td><code>Joi.boolean()</code></td>
+                            <td>Must be true or false</td>
+                        </tr>
+                        <tr>
+                            <td>Boolean</td>
+                            <td><code>.truthy() / .falsy()</code></td>
+                            <td>Extra values treated as true/false</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><code>.iso()</code></td>
+                            <td>ISO 8601 format required</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><code>.timestamp()</code></td>
+                            <td>Unix/JS timestamp required</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><code>.min() / .max()</code></td>
+                            <td>Date range (inclusive)</td>
+                        </tr>
+                        <tr>
+                            <td>Array</td>
+                            <td><code>Joi.array().items()</code></td>
+                            <td>Validate array contents</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Using <code>req.body</code> after validation</td>
+                            <td>Use the returned <code>value</code> (it has transforms applied)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Joi.string().min(8)</code> without <code>required()</code></td>
+                            <td>Add <code>.required()</code> if the field must be present</td>
+                        </tr>
+                        <tr>
+                            <td><code>Joi.number().min(0).positive()</code></td>
+                            <td>Redundant — <code>.positive()</code> already means > 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>Joi.date().min('2026-01-01').greater('2026-01-01')</code></td>
+                            <td>Pick one — <code>min</code> is ≥, <code>greater</code> is ></td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting <code>abortEarly: false</code></td>
+                            <td>Set it to get ALL validation errors at once</td>
+                        </tr>
+                        <tr>
+                            <td>Calling <code>validate(data)</code> without a schema</td>
+                            <td><code>schema.validate(data)</code> — call validate on the schema</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>Joi Validation Quick Reference Guide</p>
+            <p>AWD 1111 — Database Driven Web Development</p>
+        </footer>
+    </div>
+</body>
+
+</html>
