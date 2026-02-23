@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #12 Part 2: Inheritance, Enums, Composition &amp; Polymorphism</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* UML diagram styling */
+        .uml-box {
+            background: #FAFAFA;
+            border: 2px solid #333;
+            border-radius: 4px;
+            margin: 25px auto;
+            max-width: 420px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+        }
+
+        .uml-box .uml-title {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-bottom: 2px solid #333;
+            background: #E8EAF6;
+        }
+
+        .uml-box .uml-title.abstract-title {
+            background: #FCE4EC;
+            font-style: italic;
+        }
+
+        .uml-box .uml-title.enum-title {
+            background: #E8F5E9;
+        }
+
+        .uml-box .uml-section {
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .uml-box .uml-section:last-child {
+            border-bottom: none;
+        }
+
+        .uml-box .uml-section p {
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .uml-private {
+            color: #D83B01;
+        }
+
+        .uml-public {
+            color: #107C10;
+        }
+
+        /* Relationship diagram */
+        .relationship-diagram {
+            background: #F8F9FA;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .relationship-diagram .rel-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+
+        .rel-box {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .rel-base {
+            background: #E8EAF6;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .rel-derived {
+            background: #E3F2FD;
+            border: 2px solid #1976D2;
+            color: #1565C0;
+        }
+
+        .rel-arrow {
+            font-size: 1.5rem;
+            color: #888;
+        }
+
+        .rel-label {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* UML group layout */
+        .uml-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .uml-group .uml-box {
+            margin: 0;
+            flex: 0 1 auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .uml-group {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #12 Part 2: Inheritance, Enums, Composition &amp; Polymorphism</h1>
+        <p>Enums, Composition, Inheritance, Abstract Classes, Polymorphism, and the <code
+                style="background:#333;color:#9CDCFE;">is</code> Keyword</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Big Picture -->
+            <h2>🗺️ The Big Picture</h2>
+
+            <p>Guide #12 Part 1 covered how to create a single class with fields, properties, constructors, and
+                methods. This guide builds on that foundation with more advanced OOP concepts that let you <strong>reuse
+                    code</strong>, <strong>organize related values</strong>, and <strong>build objects from other
+                    objects</strong>.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🏷️ Enums</h4>
+                    <p>Define a fixed set of named constants — like a dropdown of choices built into your code.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧩 Composition</h4>
+                    <p>Build complex objects by using other objects as fields — an Order <em>has a</em> Sundae.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧬 Inheritance</h4>
+                    <p>Create new classes based on existing ones — a Dog <em>is an</em> Animal.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎭 Polymorphism</h4>
+                    <p>Call the same method on different types and get type-specific behavior.</p>
+                </div>
+            </div>
+
+            <!-- ==================== ENUMS ==================== -->
+            <h2>🏷️ Enums (Enumerations)</h2>
+
+            <p>An <strong>enum</strong> defines a set of named constants that represent a fixed group of related values.
+                Instead of using "magic numbers" or raw strings to represent options like room numbers, flavors, or
+                categories, you create a named type with specific allowed values.</p>
+
+            <h3>Declaring an Enum</h3>
+
+            <p>An enum is declared outside of any class (typically in its own <code>.cs</code> file, or at the top of a
+                file before the class). Each value in an enum is automatically assigned an integer starting from 0
+                unless you specify otherwise.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Basic Enum</h4>
+                <pre><span class="comment">// Simple enum — values are 0, 1, 2, 3 automatically</span>
+<span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">Season</span>
+{
+    SPRING,      <span class="comment">// = 0</span>
+    SUMMER,      <span class="comment">// = 1</span>
+    FALL,        <span class="comment">// = 2</span>
+    WINTER       <span class="comment">// = 3</span>
+}</pre>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Syntax: Enum with Custom Values</h4>
+                <pre><span class="comment">// Enum with explicit integer values</span>
+<span class="keyword">public</span> <span class="keyword">enum</span> <span class="type">Building</span>
+{
+    MAIN_HALL   = <span class="number">100</span>,
+    ANNEX_A     = <span class="number">200</span>,
+    ANNEX_B     = <span class="number">201</span>,
+    WAREHOUSE   = <span class="number">300</span>
+}</pre>
+            </div>
+
+            <h3>Using an Enum</h3>
+
+            <p>Once declared, you use an enum like any other data type — as a field type, a property type, a parameter
+                type, or a local variable type. You access a specific value using the enum name, a dot, and the value
+                name.</p>
+
+            <pre><span class="comment">// Declare a variable of the enum type</span>
+<span class="type">Season</span> <span class="param">current</span> = <span class="type">Season</span>.SUMMER;
+
+<span class="comment">// Use as a field in a class</span>
+<span class="keyword">private</span> <span class="type">Building</span> <span class="param">_location</span>;
+
+<span class="comment">// Use as an auto-implemented property</span>
+<span class="keyword">public</span> <span class="type">Season</span> <span class="param">FavoriteSeason</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+<span class="comment">// Use in a constructor parameter</span>
+<span class="keyword">public</span> <span class="method">Event</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">Building</span> <span class="param">location</span>)
+{
+    <span class="param">_location</span> = <span class="param">location</span>;
+}
+
+<span class="comment">// Compare enum values</span>
+<span class="keyword">if</span> (<span class="param">current</span> == <span class="type">Season</span>.WINTER)
+{
+    <span class="param">lblMessage</span>.Text = <span class="string">"Bundle up!"</span>;
+}</pre>
+
+            <h3>Enums in UML Diagrams</h3>
+
+            <p>In UML, enums are marked with <code>«enum»</code> above the name. Each value is listed inside the box.
+                When you see this in a lab assignment, create a separate enum in your project.</p>
+
+            <div class="uml-group">
+                <div class="uml-box">
+                    <div class="uml-title enum-title">«enum»<br>Season</div>
+                    <div class="uml-section">
+                        <p>SPRING</p>
+                        <p>SUMMER</p>
+                        <p>FALL</p>
+                        <p>WINTER</p>
+                    </div>
+                </div>
+                <div class="uml-box">
+                    <div class="uml-title enum-title">«enum»<br>Building</div>
+                    <div class="uml-section">
+                        <p>MAIN_HALL = 100</p>
+                        <p>ANNEX_A = 200</p>
+                        <p>ANNEX_B = 201</p>
+                        <p>WAREHOUSE = 300</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Naming convention:</strong> Enum type names are PascalCase (e.g., <code>Season</code>,
+                <code>Building</code>). Enum values are typically UPPER_CASE (e.g., <code>SPRING</code>,
+                <code>MAIN_HALL</code>).
+            </div>
+
+            <h3>Using Enums with Properties</h3>
+
+            <p>A property's type can be an enum. This is extremely common — it lets a class store a value that is
+                restricted to a known set of options.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Event</span>
+{
+    <span class="comment">// Auto-implemented property with enum type</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">Building</span> <span class="param">Location</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Capacity</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">Display</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Name</span> + <span class="string">" in "</span> + <span class="param">Location</span> + 
+               <span class="string">" (capacity: "</span> + <span class="param">Capacity</span> + <span class="string">")"</span>;
+    }
+}
+
+<span class="comment">// Creating an Event with an enum value</span>
+<span class="type">Event</span> <span class="param">meeting</span> = <span class="keyword">new</span> <span class="type">Event</span>();
+<span class="param">meeting</span>.Name = <span class="string">"Staff Meeting"</span>;
+<span class="param">meeting</span>.Location = <span class="type">Building</span>.MAIN_HALL;
+<span class="param">meeting</span>.Capacity = <span class="number">50</span>;</pre>
+
+            <div class="tip-box">
+                <strong>When you display an enum value in a string</strong> (using <code>+</code> or string
+                interpolation), C# automatically converts it to its name. So <code>Building.MAIN_HALL</code> becomes the
+                string <code>"MAIN_HALL"</code>. If you want its integer value, cast it: <code>(int)Building.MAIN_HALL</code> gives you <code>100</code>.
+            </div>
+
+            <!-- ==================== COMPOSITION ==================== -->
+            <h2>🧩 Composition ("Has-A" Relationships)</h2>
+
+            <p><strong>Composition</strong> is when one class contains an object of another class as a field.
+                This models "has-a" relationships: a <code>Car</code> <em>has an</em> <code>Engine</code>. The contained
+                object is part of the containing object.</p>
+
+            <h3>How It Works</h3>
+
+            <p>You simply declare a field or property whose type is another class (or enum). The containing class
+                "owns" or "uses" the contained object.</p>
+
+            <div class="syntax-box">
+                <h4>Example: A Classroom Has a Projector</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Projector</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_brand</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_lumens</span>;
+
+    <span class="keyword">public</span> <span class="method">Projector</span>(<span class="type">string</span> <span class="param">brand</span>, <span class="type">int</span> <span class="param">lumens</span>)
+    {
+        <span class="param">_brand</span> = <span class="param">brand</span>;
+        <span class="param">_lumens</span> = <span class="param">lumens</span>;
+    }
+
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetBrand</span>() => <span class="param">_brand</span>;
+    <span class="keyword">public</span> <span class="type">int</span> <span class="method">GetLumens</span>() => <span class="param">_lumens</span>;
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Classroom</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_roomNumber</span>;
+    <span class="keyword">private</span> <span class="type">Projector</span> <span class="param">_projector</span>;    <span class="comment">// ← Composition!</span>
+
+    <span class="keyword">public</span> <span class="method">Classroom</span>(<span class="type">string</span> <span class="param">roomNumber</span>, <span class="type">Projector</span> <span class="param">projector</span>)
+    {
+        <span class="param">_roomNumber</span> = <span class="param">roomNumber</span>;
+        <span class="param">_projector</span> = <span class="param">projector</span>;
+    }
+
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetInfo</span>()
+    {
+        <span class="keyword">return</span> <span class="string">"Room "</span> + <span class="param">_roomNumber</span> + <span class="string">" - Projector: "</span> + 
+               <span class="param">_projector</span>.<span class="method">GetBrand</span>() + <span class="string">" ("</span> + 
+               <span class="param">_projector</span>.<span class="method">GetLumens</span>() + <span class="string">" lumens)"</span>;
+    }
+}</pre>
+            </div>
+
+            <pre><span class="comment">// Creating composed objects from the form</span>
+<span class="type">Projector</span> <span class="param">proj</span> = <span class="keyword">new</span> <span class="type">Projector</span>(<span class="string">"Epson"</span>, <span class="number">3200</span>);
+<span class="type">Classroom</span> <span class="param">room</span> = <span class="keyword">new</span> <span class="type">Classroom</span>(<span class="string">"A204"</span>, <span class="param">proj</span>);
+
+<span class="param">lblInfo</span>.Text = <span class="param">room</span>.<span class="method">GetInfo</span>();
+<span class="comment">// Output: "Room A204 - Projector: Epson (3200 lumens)"</span></pre>
+
+            <h3>Composition with Enums</h3>
+
+            <p>Composition doesn't only work with classes — a class can also "contain" enum values as fields or
+                properties. In fact, you'll frequently combine both in a single class.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Classroom</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_roomNumber</span>;
+    <span class="keyword">private</span> <span class="type">Building</span> <span class="param">_building</span>;        <span class="comment">// ← Enum field</span>
+    <span class="keyword">private</span> <span class="type">Projector</span> <span class="param">_projector</span>;      <span class="comment">// ← Object field</span>
+    <span class="comment">// ...</span>
+}</pre>
+
+            <h3>Composition with Arrays of Objects</h3>
+
+            <p>A class can also hold an <strong>array</strong> of objects. This is useful when one object needs to
+                contain a variable number of related items — for example, a sundae that can have multiple toppings.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Playlist</span>
+{
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_name</span>;
+    <span class="keyword">private</span> <span class="type">Song</span>[] <span class="param">_songs</span>;           <span class="comment">// ← Array of objects</span>
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_songCount</span>;
+
+    <span class="keyword">public</span> <span class="method">Playlist</span>(<span class="type">string</span> <span class="param">name</span>)
+    {
+        <span class="param">_name</span> = <span class="param">name</span>;
+        <span class="param">_songs</span> = <span class="keyword">new</span> <span class="type">Song</span>[<span class="number">50</span>];
+        <span class="param">_songCount</span> = <span class="number">0</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">AddSong</span>(<span class="type">Song</span> <span class="param">song</span>)
+    {
+        <span class="keyword">if</span> (<span class="param">_songCount</span> &lt; <span class="param">_songs</span>.Length)
+        {
+            <span class="param">_songs</span>[<span class="param">_songCount</span>] = <span class="param">song</span>;
+            <span class="param">_songCount</span>++;
+        }
+    }
+}</pre>
+
+            <div class="highlight-box">
+                <h4>Composition vs. Inheritance — Know the Difference</h4>
+                <p><strong>Composition</strong> = "has-a" → A Classroom <em>has a</em> Projector. The Classroom
+                    <em>contains</em> a Projector object as a field.</p>
+                <p><strong>Inheritance</strong> = "is-a" → A Dog <em>is an</em> Animal. Dog <em>extends</em> Animal and
+                    gains all of its members.</p>
+                <p>If you're unsure which to use, ask yourself: "Is X a kind of Y?" (inheritance) or "Does X contain
+                    Y?" (composition).</p>
+            </div>
+
+            <!-- ==================== Constants ==================== -->
+            <h2>📌 Constants in Classes</h2>
+
+            <p>A <strong>constant</strong> is a field whose value is set once and can never change. In UML diagrams,
+                constants are marked with <code>«const»</code>. In C#, you use the <code>const</code> keyword. Constants
+                are always <code>static</code> (they belong to the class, not to individual objects).</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Delivery</span>
+{
+    <span class="keyword">public</span> <span class="keyword">const</span> <span class="type">double</span> <span class="param">BASE_FEE</span> = <span class="number">5.99</span>;
+    <span class="keyword">public</span> <span class="keyword">const</span> <span class="type">double</span> <span class="param">PER_MILE_RATE</span> = <span class="number">0.75</span>;
+
+    <span class="keyword">private</span> <span class="type">double</span> <span class="param">_miles</span>;
+
+    <span class="keyword">public</span> <span class="method">Delivery</span>(<span class="type">double</span> <span class="param">miles</span>)
+    {
+        <span class="param">_miles</span> = <span class="param">miles</span>;
+    }
+
+    <span class="keyword">public</span> <span class="type">double</span> <span class="method">CalcTotal</span>()
+    {
+        <span class="keyword">return</span> <span class="param">BASE_FEE</span> + (<span class="param">_miles</span> * <span class="param">PER_MILE_RATE</span>);
+    }
+}
+
+<span class="comment">// Access from outside the class using the class name</span>
+<span class="type">double</span> <span class="param">fee</span> = <span class="type">Delivery</span>.BASE_FEE;  <span class="comment">// 5.99</span></pre>
+
+            <div class="tip-box">
+                <strong>UML notation:</strong> When you see <code>+ «const» BASE_FEE : double = 5.99</code> in a UML
+                diagram, translate it to <code>public const double BASE_FEE = 5.99;</code> in your class.
+            </div>
+
+            <!-- ==================== INHERITANCE ==================== -->
+            <h2>🧬 Inheritance ("Is-A" Relationships)</h2>
+
+            <p><strong>Inheritance</strong> lets you create a new class (the <strong>derived class</strong> or
+                <strong>child class</strong>) that is based on an existing class (the <strong>base class</strong> or
+                <strong>parent class</strong>). The derived class automatically inherits all public and protected
+                members of the base class, and can add its own unique members.</p>
+
+            <h3>Basic Syntax</h3>
+
+            <p>Use a colon (<code>:</code>) after the derived class name, followed by the base class name.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Inheritance</h4>
+                <pre><span class="comment">// Base class</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Make</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Year</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetBasicInfo</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Year</span> + <span class="string">" "</span> + <span class="param">Make</span>;
+    }
+}
+
+<span class="comment">// Derived class — inherits Make, Year, and GetBasicInfo()</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Truck</span> : <span class="type">Vehicle</span>       <span class="comment">// ← Truck IS A Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">TowingCapacity</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}</pre>
+            </div>
+
+            <pre><span class="comment">// Truck has its own TowingCapacity PLUS inherited Make, Year, GetBasicInfo()</span>
+<span class="type">Truck</span> <span class="param">t</span> = <span class="keyword">new</span> <span class="type">Truck</span>();
+<span class="param">t</span>.Make = <span class="string">"Ford"</span>;           <span class="comment">// inherited from Vehicle</span>
+<span class="param">t</span>.Year = <span class="number">2024</span>;             <span class="comment">// inherited from Vehicle</span>
+<span class="param">t</span>.TowingCapacity = <span class="number">12000</span>;  <span class="comment">// unique to Truck</span>
+
+<span class="param">lblInfo</span>.Text = <span class="param">t</span>.<span class="method">GetBasicInfo</span>();  <span class="comment">// inherited method works!</span></pre>
+
+            <h3>Calling the Base Constructor</h3>
+
+            <p>When a derived class has a constructor, it can pass values up to the base class constructor using
+                <code>: base(...)</code>.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Make</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Year</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="method">Vehicle</span>(<span class="type">string</span> <span class="param">make</span>, <span class="type">int</span> <span class="param">year</span>)
+    {
+        <span class="param">Make</span> = <span class="param">make</span>;
+        <span class="param">Year</span> = <span class="param">year</span>;
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Truck</span> : <span class="type">Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">TowingCapacity</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// Pass make and year up to Vehicle's constructor</span>
+    <span class="keyword">public</span> <span class="method">Truck</span>(<span class="type">string</span> <span class="param">make</span>, <span class="type">int</span> <span class="param">year</span>, <span class="type">double</span> <span class="param">towCap</span>)
+        : <span class="keyword">base</span>(<span class="param">make</span>, <span class="param">year</span>)         <span class="comment">// ← calls Vehicle(make, year)</span>
+    {
+        <span class="param">TowingCapacity</span> = <span class="param">towCap</span>;   <span class="comment">// handle Truck-specific field</span>
+    }
+}</pre>
+
+            <!-- ==================== ABSTRACT CLASSES ==================== -->
+            <h2>🎨 Abstract Classes and Methods</h2>
+
+            <p>An <strong>abstract class</strong> is a class that <em>cannot be instantiated directly</em>. It serves as
+                a base class only — you must create a derived class from it. Abstract classes can contain both regular
+                methods (with code) and <strong>abstract methods</strong> (with no code — just a signature that derived
+                classes <em>must</em> implement).</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Abstract Class</h4>
+                <pre><span class="comment">// Abstract base class — cannot do: new Appliance()</span>
+<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Appliance</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">Watts</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="method">Appliance</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">double</span> <span class="param">watts</span>)
+    {
+        <span class="param">Name</span> = <span class="param">name</span>;
+        <span class="param">Watts</span> = <span class="param">watts</span>;
+    }
+
+    <span class="comment">// Regular method — shared code, inherited as-is</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetBasicInfo</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Name</span> + <span class="string">" ("</span> + <span class="param">Watts</span> + <span class="string">"W)"</span>;
+    }
+
+    <span class="comment">// Abstract method — NO body, derived classes MUST override this</span>
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="type">double</span> <span class="method">CalcMonthlyCost</span>();
+}</pre>
+            </div>
+
+            <h3>Overriding Abstract Methods</h3>
+
+            <p>Every derived class <strong>must</strong> provide its own implementation for each abstract method using
+                the <code>override</code> keyword. Each derived class can have a completely different formula or logic.
+            </p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Refrigerator</span> : <span class="type">Appliance</span>
+{
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">HoursPerDay</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="method">Refrigerator</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">double</span> <span class="param">watts</span>, <span class="type">double</span> <span class="param">hours</span>)
+        : <span class="keyword">base</span>(<span class="param">name</span>, <span class="param">watts</span>)
+    {
+        <span class="param">HoursPerDay</span> = <span class="param">hours</span>;
+    }
+
+    <span class="comment">// MUST override the abstract method</span>
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">double</span> <span class="method">CalcMonthlyCost</span>()
+    {
+        <span class="comment">// Runs 24/7 — different formula than other appliances</span>
+        <span class="keyword">return</span> (<span class="param">Watts</span> / <span class="number">1000.0</span>) * <span class="param">HoursPerDay</span> * <span class="number">30</span> * <span class="number">0.12</span>;
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">WashingMachine</span> : <span class="type">Appliance</span>
+{
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">LoadsPerWeek</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">MinutesPerLoad</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="method">WashingMachine</span>(<span class="type">string</span> <span class="param">name</span>, <span class="type">double</span> <span class="param">watts</span>, 
+        <span class="type">int</span> <span class="param">loads</span>, <span class="type">double</span> <span class="param">minutes</span>)
+        : <span class="keyword">base</span>(<span class="param">name</span>, <span class="param">watts</span>)
+    {
+        <span class="param">LoadsPerWeek</span> = <span class="param">loads</span>;
+        <span class="param">MinutesPerLoad</span> = <span class="param">minutes</span>;
+    }
+
+    <span class="comment">// Different formula — based on loads per week</span>
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">double</span> <span class="method">CalcMonthlyCost</span>()
+    {
+        <span class="type">double</span> <span class="param">hoursPerMonth</span> = (<span class="param">LoadsPerWeek</span> * <span class="param">MinutesPerLoad</span> / <span class="number">60.0</span>) * <span class="number">4</span>;
+        <span class="keyword">return</span> (<span class="param">Watts</span> / <span class="number">1000.0</span>) * <span class="param">hoursPerMonth</span> * <span class="number">0.12</span>;
+    }
+}</pre>
+
+            <div class="warning-box">
+                <strong>You cannot instantiate an abstract class directly.</strong>
+                <code>Appliance a = new Appliance(...);</code> will cause a compile error. You must create a
+                <code>Refrigerator</code> or <code>WashingMachine</code> instead.
+            </div>
+
+            <!-- ==================== POLYMORPHISM ==================== -->
+            <h2>🎭 Polymorphism</h2>
+
+            <p><strong>Polymorphism</strong> means "many forms." It's what happens when you call a method on a base
+                class variable, but the <em>actual derived class</em> determines which version of the method runs. This
+                is the most powerful concept in OOP.</p>
+
+            <h3>How It Works</h3>
+
+            <p>You can store a derived class object in a variable of the base class type. When you call an overridden
+                method on that variable, C# automatically calls the correct derived class version.</p>
+
+            <pre><span class="comment">// Array of the BASE class type — holds ANY derived type</span>
+<span class="type">Appliance</span>[] <span class="param">appliances</span> = <span class="keyword">new</span> <span class="type">Appliance</span>[<span class="number">10</span>];
+<span class="type">int</span> <span class="param">count</span> = <span class="number">0</span>;
+
+<span class="comment">// Store different derived types in the same array</span>
+<span class="param">appliances</span>[<span class="number">0</span>] = <span class="keyword">new</span> <span class="type">Refrigerator</span>(<span class="string">"Kitchen Fridge"</span>, <span class="number">150</span>, <span class="number">8</span>);
+<span class="param">appliances</span>[<span class="number">1</span>] = <span class="keyword">new</span> <span class="type">WashingMachine</span>(<span class="string">"Front Loader"</span>, <span class="number">500</span>, <span class="number">5</span>, <span class="number">45</span>);
+<span class="param">count</span> = <span class="number">2</span>;
+
+<span class="comment">// Polymorphism: the SAME method call produces DIFFERENT results</span>
+<span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">count</span>; <span class="param">i</span>++)
+{
+    <span class="type">double</span> <span class="param">cost</span> = <span class="param">appliances</span>[<span class="param">i</span>].<span class="method">CalcMonthlyCost</span>();  <span class="comment">// ← correct formula runs!</span>
+    <span class="param">lstOutput</span>.Items.Add(<span class="param">appliances</span>[<span class="param">i</span>].<span class="method">GetBasicInfo</span>() + 
+        <span class="string">" - $"</span> + <span class="param">cost</span>.ToString(<span class="string">"F2"</span>) + <span class="string">"/month"</span>);
+}</pre>
+
+            <div class="success-box">
+                <strong>This is the core pattern in your demos and labs:</strong> declare an array of the base type, fill
+                it with objects of various derived types, then loop through and call methods. Each object responds with
+                its own behavior. See Demo 1 (<code>Animal[]</code> holding <code>Dog</code> and <code>Cat</code>),
+                Demo 2 (<code>Workout[]</code> holding <code>CardioWorkout</code> and <code>StrengthWorkout</code>), and
+                Demo 4 (<code>Container[]</code> holding <code>BoxContainer</code>, <code>CylinderContainer</code>, and
+                <code>ConeContainer</code>).
+            </div>
+
+            <!-- ==================== VIRTUAL vs ABSTRACT ==================== -->
+            <h3>Virtual vs. Abstract Methods</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th><code>abstract</code></th>
+                        <th><code>virtual</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Has a method body?</td>
+                        <td>❌ No — just a signature</td>
+                        <td>✅ Yes — provides a default implementation</td>
+                    </tr>
+                    <tr>
+                        <td>Derived class must override?</td>
+                        <td>✅ Yes — required</td>
+                        <td>❌ No — optional</td>
+                    </tr>
+                    <tr>
+                        <td>Can the class be instantiated?</td>
+                        <td>❌ No — the class must also be abstract</td>
+                        <td>✅ Yes — the class can be regular</td>
+                    </tr>
+                    <tr>
+                        <td>Derived class keyword</td>
+                        <td><code>override</code></td>
+                        <td><code>override</code></td>
+                    </tr>
+                    <tr>
+                        <td>Use when...</td>
+                        <td>Every derived class MUST have its own version</td>
+                        <td>Most derived classes can use the default, but some may change it</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><span class="comment">// Virtual: provides a default that CAN be overridden</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="type">string</span> <span class="method">GetDescription</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Year</span> + <span class="string">" "</span> + <span class="param">Make</span>;  <span class="comment">// default behavior</span>
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Truck</span> : <span class="type">Vehicle</span>
+{
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">string</span> <span class="method">GetDescription</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Year</span> + <span class="string">" "</span> + <span class="param">Make</span> + <span class="string">" (Towing: "</span> + <span class="param">TowingCapacity</span> + <span class="string">" lbs)"</span>;
+    }
+}</pre>
+
+            <!-- ==================== IS KEYWORD ==================== -->
+            <h2>🔍 Type Checking with the <code>is</code> Keyword</h2>
+
+            <p>When you have an array of base class type, sometimes you need to know the <em>actual</em> derived type
+                of a specific object. The <code>is</code> keyword checks the type and casts in one step.</p>
+
+            <pre><span class="comment">// Check what type an object actually is</span>
+<span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">count</span>; <span class="param">i</span>++)
+{
+    <span class="keyword">if</span> (<span class="param">appliances</span>[<span class="param">i</span>] <span class="keyword">is</span> <span class="type">Refrigerator</span> <span class="param">fridge</span>)
+    {
+        <span class="comment">// fridge is now a Refrigerator variable — access Refrigerator-only members</span>
+        <span class="param">lblMessage</span>.Text = <span class="param">fridge</span>.Name + <span class="string">" runs "</span> + <span class="param">fridge</span>.HoursPerDay + <span class="string">" hrs/day"</span>;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="param">appliances</span>[<span class="param">i</span>] <span class="keyword">is</span> <span class="type">WashingMachine</span> <span class="param">washer</span>)
+    {
+        <span class="param">lblMessage</span>.Text = <span class="param">washer</span>.Name + <span class="string">": "</span> + <span class="param">washer</span>.LoadsPerWeek + <span class="string">" loads/week"</span>;
+    }
+}</pre>
+
+            <div class="tip-box">
+                <strong>When to use <code>is</code>:</strong> Use it when you need to access a property or method that
+                only exists on a specific derived class. If you only need to call methods that are defined on the base
+                class, you don't need <code>is</code> — polymorphism handles it. See Demo 1's
+                <code>btnSearch_Click</code> for a real example using <code>is Dog dog</code> and
+                <code>is Cat cat</code>.
+            </div>
+
+            <!-- ==================== DATETIME ==================== -->
+            <h2>📅 Working with DateTime</h2>
+
+            <p>The <code>DateTime</code> type in C# represents a date and time. It's useful when your classes need to
+                store dates — for events, logs, records, etc.</p>
+
+            <h3>Creating a DateTime</h3>
+
+            <pre><span class="comment">// From a constructor (year, month, day)</span>
+<span class="type">DateTime</span> <span class="param">eventDate</span> = <span class="keyword">new</span> <span class="type">DateTime</span>(<span class="number">2026</span>, <span class="number">3</span>, <span class="number">15</span>);
+
+<span class="comment">// Current date and time</span>
+<span class="type">DateTime</span> <span class="param">now</span> = <span class="type">DateTime</span>.Now;
+
+<span class="comment">// Parsing from a text box string</span>
+<span class="type">DateTime</span> <span class="param">parsed</span> = <span class="type">DateTime</span>.<span class="method">Parse</span>(<span class="param">txtDate</span>.Text);
+
+<span class="comment">// Safer parsing with TryParse</span>
+<span class="keyword">if</span> (<span class="type">DateTime</span>.<span class="method">TryParse</span>(<span class="param">txtDate</span>.Text, <span class="keyword">out</span> <span class="type">DateTime</span> <span class="param">result</span>))
+{
+    <span class="comment">// result now holds the parsed date</span>
+}</pre>
+
+            <h3>Comparing Dates</h3>
+
+            <p>You can compare <code>DateTime</code> values using the standard comparison operators. This is essential
+                for searching by date range.</p>
+
+            <pre><span class="type">DateTime</span> <span class="param">start</span> = <span class="type">DateTime</span>.<span class="method">Parse</span>(<span class="param">txtBegin</span>.Text);
+<span class="type">DateTime</span> <span class="param">end</span> = <span class="type">DateTime</span>.<span class="method">Parse</span>(<span class="param">txtEnd</span>.Text);
+
+<span class="comment">// Check if a date falls within a range</span>
+<span class="keyword">if</span> (<span class="param">eventDate</span> >= <span class="param">start</span> && <span class="param">eventDate</span> &lt;= <span class="param">end</span>)
+{
+    <span class="comment">// This date is within the search range</span>
+}</pre>
+
+            <h3>Formatting Dates</h3>
+
+            <pre><span class="type">DateTime</span> <span class="param">d</span> = <span class="keyword">new</span> <span class="type">DateTime</span>(<span class="number">2026</span>, <span class="number">10</span>, <span class="number">16</span>);
+
+<span class="param">d</span>.<span class="method">ToString</span>(<span class="string">"MM/dd/yyyy"</span>)     <span class="comment">// "10/16/2026"</span>
+<span class="param">d</span>.<span class="method">ToString</span>(<span class="string">"MMM dd, yyyy"</span>)   <span class="comment">// "Oct 16, 2026"</span>
+<span class="param">d</span>.<span class="method">ToShortDateString</span>()       <span class="comment">// "10/16/2026"</span></pre>
+
+            <!-- ==================== PUTTING IT TOGETHER ==================== -->
+            <h2>🧪 Putting It All Together — Inheritance Hierarchy</h2>
+
+            <p>Here is a complete example showing how a base class, derived classes, and polymorphism work together in a
+                form. This mirrors the pattern used across all four demos.</p>
+
+            <div class="relationship-diagram">
+                <div class="rel-row">
+                    <div class="rel-box rel-base">Appliance (abstract)</div>
+                </div>
+                <div class="rel-row">
+                    <span class="rel-arrow">↗</span>
+                    <span class="rel-label" style="margin-right:40px;">inherits</span>
+                    <span class="rel-arrow">↖</span>
+                </div>
+                <div class="rel-row">
+                    <div class="rel-box rel-derived">Refrigerator</div>
+                    <div class="rel-box rel-derived">WashingMachine</div>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Form Code — Polymorphic Pattern</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="type">Form1</span> : <span class="type">Form</span>
+{
+    <span class="comment">// Array of ABSTRACT BASE type — holds ANY derived type</span>
+    <span class="type">Appliance</span>[] <span class="param">appliances</span> = <span class="keyword">new</span> <span class="type">Appliance</span>[<span class="number">20</span>];
+    <span class="type">int</span> <span class="param">count</span> = <span class="number">0</span>;
+
+    <span class="keyword">public</span> <span class="method">Form1</span>()
+    {
+        <span class="method">InitializeComponent</span>();
+
+        <span class="comment">// Pre-load with different derived types</span>
+        <span class="param">appliances</span>[<span class="number">0</span>] = <span class="keyword">new</span> <span class="type">Refrigerator</span>(<span class="string">"Kitchen Fridge"</span>, <span class="number">150</span>, <span class="number">8</span>);
+        <span class="param">appliances</span>[<span class="number">1</span>] = <span class="keyword">new</span> <span class="type">WashingMachine</span>(<span class="string">"Front Loader"</span>, <span class="number">500</span>, <span class="number">5</span>, <span class="number">45</span>);
+        <span class="param">count</span> = <span class="number">2</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnDisplayAll_Click</span>(<span class="type">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+    {
+        <span class="param">lstOutput</span>.Items.Clear();
+
+        <span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">count</span>; <span class="param">i</span>++)
+        {
+            <span class="comment">// Polymorphism — correct CalcMonthlyCost() runs for each type</span>
+            <span class="type">string</span> <span class="param">info</span> = <span class="param">appliances</span>[<span class="param">i</span>].<span class="method">GetBasicInfo</span>() + 
+                <span class="string">" - $"</span> + <span class="param">appliances</span>[<span class="param">i</span>].<span class="method">CalcMonthlyCost</span>().<span class="method">ToString</span>(<span class="string">"F2"</span>);
+            <span class="param">lstOutput</span>.Items.Add(<span class="param">info</span>);
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnAdd_Click</span>(<span class="type">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+    {
+        <span class="comment">// Determine which derived type to create</span>
+        <span class="keyword">if</span> (<span class="param">rdoFridge</span>.Checked)
+        {
+            <span class="param">appliances</span>[<span class="param">count</span>] = <span class="keyword">new</span> <span class="type">Refrigerator</span>(
+                <span class="param">txtName</span>.Text, 
+                <span class="type">double</span>.<span class="method">Parse</span>(<span class="param">txtWatts</span>.Text),
+                <span class="type">double</span>.<span class="method">Parse</span>(<span class="param">txtExtra</span>.Text));
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="param">rdoWasher</span>.Checked)
+        {
+            <span class="param">appliances</span>[<span class="param">count</span>] = <span class="keyword">new</span> <span class="type">WashingMachine</span>(
+                <span class="param">txtName</span>.Text, 
+                <span class="type">double</span>.<span class="method">Parse</span>(<span class="param">txtWatts</span>.Text),
+                <span class="type">int</span>.<span class="method">Parse</span>(<span class="param">txtExtra</span>.Text),
+                <span class="type">double</span>.<span class="method">Parse</span>(<span class="param">txtExtra2</span>.Text));
+        }
+        <span class="param">count</span>++;
+    }
+}</pre>
+            </div>
+
+            <!-- ==================== DEMO REFERENCE ==================== -->
+            <h2>📂 How the Demos Map to These Concepts</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Demo</th>
+                        <th>Key Concepts Demonstrated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Demo 1</strong> — Pet Shelter</td>
+                        <td>Base class <code>Animal</code> with derived classes <code>Dog</code> and <code>Cat</code>.
+                            Array of base type (<code>Animal[]</code>). Polymorphic <code>GetDescription()</code>. Type
+                            checking with <code>is Dog dog</code> and <code>is Cat cat</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demo 2</strong> — Fitness Tracker</td>
+                        <td>Abstract base class <code>Workout</code> with derived classes <code>CardioWorkout</code> and
+                            <code>StrengthWorkout</code>. Polymorphic <code>CalcCaloriesBurned()</code> with different
+                            formulas per type. Radio buttons switch labels dynamically.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demo 3</strong> — Music Library</td>
+                        <td>Base class <code>MediaItem</code> with derived classes <code>Song</code> and
+                            <code>Podcast</code>. Filtering by type using <code>is Song</code> and
+                            <code>is Podcast</code>. Polymorphic <code>GetInfo()</code> and
+                            <code>GetNowPlaying()</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demo 4</strong> — Container Calculator</td>
+                        <td>Abstract base class <code>Container</code> with three derived types:
+                            <code>BoxContainer</code>, <code>CylinderContainer</code>, <code>ConeContainer</code>.
+                            Polymorphic <code>CalcVolume()</code> with different geometric formulas. Finding the largest
+                            via comparison loop.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- ==================== QUICK REFERENCE ==================== -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Enum</td>
+                            <td>A named set of constants: <code>public enum Season { SPRING, SUMMER, ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td>Enum values</td>
+                            <td>Auto-numbered from 0, or assign custom integers</td>
+                        </tr>
+                        <tr>
+                            <td>Using an enum</td>
+                            <td><code>Season s = Season.FALL;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Composition</td>
+                            <td>"Has-a" — a class contains another object as a field</td>
+                        </tr>
+                        <tr>
+                            <td>Inheritance</td>
+                            <td>"Is-a" — <code>class Dog : Animal</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>: base(...)</code></td>
+                            <td>Call the parent constructor from a derived constructor</td>
+                        </tr>
+                        <tr>
+                            <td><code>abstract class</code></td>
+                            <td>Cannot be instantiated — serves as base class only</td>
+                        </tr>
+                        <tr>
+                            <td><code>abstract</code> method</td>
+                            <td>No body — derived classes <strong>must</strong> override</td>
+                        </tr>
+                        <tr>
+                            <td><code>virtual</code> method</td>
+                            <td>Has a body — derived classes <em>may</em> override</td>
+                        </tr>
+                        <tr>
+                            <td><code>override</code></td>
+                            <td>Replaces a virtual or abstract method in a derived class</td>
+                        </tr>
+                        <tr>
+                            <td>Polymorphism</td>
+                            <td>Same method call, different behavior depending on actual type</td>
+                        </tr>
+                        <tr>
+                            <td>Base-type array</td>
+                            <td><code>Animal[] arr</code> can hold <code>Dog</code>, <code>Cat</code>, etc.</td>
+                        </tr>
+                        <tr>
+                            <td><code>is</code> keyword</td>
+                            <td>Type check + cast: <code>if (obj is Dog d) { ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>const</code></td>
+                            <td>Value set once, never changes: <code>public const double FEE = 5.99;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>DateTime</code></td>
+                            <td><code>new DateTime(2026, 3, 15)</code> or <code>DateTime.Parse(text)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Date comparison</td>
+                            <td>Use <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code> operators directly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ==================== COMMON MISTAKES ==================== -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Appliance a = new Appliance(...);</code></td>
+                            <td>Cannot instantiate abstract class — use <code>new Refrigerator(...)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>public class Dog : Animal { }</code> without overriding abstract methods</td>
+                            <td>You <strong>must</strong> override every abstract method from the base class</td>
+                        </tr>
+                        <tr>
+                            <td><code>Season s = "SUMMER";</code></td>
+                            <td><code>Season s = Season.SUMMER;</code> — enums are types, not strings</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting <code>: base(...)</code> when parent has a parameterized constructor</td>
+                            <td>Must call <code>: base(param1, param2)</code> to pass values to the parent</td>
+                        </tr>
+                        <tr>
+                            <td><code>public string GetInfo()</code> in derived class (missing override)</td>
+                            <td><code>public override string GetInfo()</code> — need the <code>override</code> keyword
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>enum Season { SPRING; SUMMER; }</code></td>
+                            <td><code>enum Season { SPRING, SUMMER }</code> — use <strong>commas</strong>, not
+                                semicolons</td>
+                        </tr>
+                        <tr>
+                            <td>Putting enum declaration inside a class</td>
+                            <td>Declare enums <strong>outside</strong> of any class (or in their own .cs file)</td>
+                        </tr>
+                        <tr>
+                            <td>Accessing derived-only members on a base-type variable</td>
+                            <td>Use <code>is</code> to check type and cast first: <code>if (a is Refrigerator
+                                    r)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ==================== VOCABULARY ==================== -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary for Part 2</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Enum (enumeration)</td>
+                            <td>A type that defines a set of named integer constants</td>
+                        </tr>
+                        <tr>
+                            <td>Composition</td>
+                            <td>"Has-a" relationship — a class contains objects of another class as fields</td>
+                        </tr>
+                        <tr>
+                            <td>Aggregation</td>
+                            <td>A weaker form of composition where the contained object can exist independently</td>
+                        </tr>
+                        <tr>
+                            <td>Inheritance</td>
+                            <td>"Is-a" relationship — a derived class gains all members of a base class</td>
+                        </tr>
+                        <tr>
+                            <td>Base class / Parent class</td>
+                            <td>The class being inherited from</td>
+                        </tr>
+                        <tr>
+                            <td>Derived class / Child class</td>
+                            <td>The class that inherits from the base class</td>
+                        </tr>
+                        <tr>
+                            <td>Abstract class</td>
+                            <td>A class that cannot be instantiated directly — must be inherited</td>
+                        </tr>
+                        <tr>
+                            <td>Abstract method</td>
+                            <td>A method with no body — derived classes must provide the implementation</td>
+                        </tr>
+                        <tr>
+                            <td>Virtual method</td>
+                            <td>A method with a default body — derived classes may optionally override</td>
+                        </tr>
+                        <tr>
+                            <td>Override</td>
+                            <td>Replacing a virtual or abstract method in a derived class</td>
+                        </tr>
+                        <tr>
+                            <td>Polymorphism</td>
+                            <td>Calling the same method on different derived types, getting type-specific behavior</td>
+                        </tr>
+                        <tr>
+                            <td><code>is</code> keyword</td>
+                            <td>Checks an object's actual type and casts it in one step</td>
+                        </tr>
+                        <tr>
+                            <td>Constant (<code>const</code>)</td>
+                            <td>A field whose value is set at declaration and can never change</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
