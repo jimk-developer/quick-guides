@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #14: How to Work with Inheritance</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Hierarchy diagram */
+        .hierarchy-diagram {
+            background: #F8F9FA;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .hier-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 6px 0;
+            flex-wrap: wrap;
+        }
+
+        .hier-box {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            font-weight: 600;
+            min-width: 130px;
+        }
+
+        .hier-root {
+            background: #FCE4EC;
+            border: 2px solid #C62828;
+            color: #B71C1C;
+        }
+
+        .hier-base {
+            background: #E8EAF6;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .hier-mid {
+            background: #E3F2FD;
+            border: 2px solid #1976D2;
+            color: #1565C0;
+        }
+
+        .hier-derived {
+            background: #E8F5E9;
+            border: 2px solid #388E3C;
+            color: #2E7D32;
+        }
+
+        .hier-arrow {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        .hier-label {
+            font-size: 0.75rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        .hier-spacer {
+            width: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #14: How to Work with Inheritance</h1>
+        <p>Base Classes, Derived Classes, Virtual/Override, Abstract, Sealed, Polymorphism, and Casting</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- The Object Hierarchy -->
+            <h2>🌳 The .NET Inheritance Hierarchy</h2>
+
+            <p>In C#, <strong>every class</strong> ultimately inherits from <code>System.Object</code>. This means
+                every object — whether it's a <code>string</code>, a <code>Button</code>, or a class you wrote
+                yourself — automatically has access to the methods defined in <code>Object</code>.</p>
+
+            <h3>Methods Inherited from System.Object</h3>
+
+            <p>Because all classes inherit from <code>Object</code>, every object you create has these methods available
+                without you doing anything:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>What It Does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ToString()</code></td>
+                        <td>Returns a string representation of the object. You can override this to customize it.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Equals(object)</code></td>
+                        <td>Determines whether two objects are equal. By default compares references, not values.</td>
+                    </tr>
+                    <tr>
+                        <td><code>GetHashCode()</code></td>
+                        <td>Returns a hash code for the object (used in collections like dictionaries).</td>
+                    </tr>
+                    <tr>
+                        <td><code>GetType()</code></td>
+                        <td>Returns a <strong>Type object</strong> that contains information about the object's type.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Why does this matter?</strong> You can call <code>ToString()</code> or
+                <code>GetType()</code> on <em>any</em> object because those methods come from <code>Object</code>,
+                the ultimate ancestor of every class.
+            </div>
+
+            <h3>Windows Forms Hierarchy Example</h3>
+
+            <p>The .NET framework itself is built using inheritance. For example, in the
+                <code>System.Windows.Forms</code> namespace, there is a <code>Control</code> class that provides
+                properties and methods that <strong>all controls</strong> have in common (like <code>Text</code>,
+                <code>Visible</code>, <code>Enabled</code>, etc.). More specific classes like <code>Button</code>,
+                <code>TextBox</code>, and <code>Label</code> inherit from <code>Control</code>.</p>
+
+            <div class="hierarchy-diagram">
+                <div class="hier-row">
+                    <div class="hier-box hier-root">System.Object</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↓</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-base">Control</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow">↓</span>
+                    <span class="hier-arrow">↘</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-derived">Button</div>
+                    <div class="hier-box hier-derived">TextBox</div>
+                    <div class="hier-box hier-derived">Label</div>
+                </div>
+            </div>
+
+            <p>This is why you can set <code>.Text</code> on a Button, a TextBox, or a Label — they all inherit that
+                property from the same <code>Control</code> base class.</p>
+
+            <!-- Inheritance Basics -->
+            <h2>🧬 Inheritance Basics</h2>
+
+            <p><strong>Inheritance</strong> lets you create a new class (the <strong>derived class</strong> or
+                <strong>child class</strong>) based on an existing class (the <strong>base class</strong> or
+                <strong>parent class</strong>). The derived class inherits all public and protected members of the
+                base class and can add its own.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Declaring Inheritance</h4>
+                <pre><span class="comment">// Use a colon (:) to inherit from a base class</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Animal</span>          <span class="comment">// base class</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Age</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dog</span> : <span class="type">Animal</span>    <span class="comment">// derived class inherits from Animal</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Breed</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Key Facts About Inheritance</h4>
+                <p>A class can be <strong>both</strong> a base class and a derived class at the same time. For example,
+                    <code>MotorVehicle</code> can inherit from <code>Vehicle</code> while also being the base class
+                    for <code>Automobile</code> and <code>Motorcycle</code>.</p>
+                <p>C# supports only <strong>single inheritance</strong> — a class can inherit from exactly one base
+                    class. It can, however, implement multiple interfaces.</p>
+            </div>
+
+            <h3>Multi-Level Inheritance Hierarchies</h3>
+
+            <p>Inheritance can form chains. When a class inherits from a class that itself inherits from another class,
+                it gains members from <em>every class</em> up the chain.</p>
+
+            <div class="hierarchy-diagram">
+                <div class="hier-row">
+                    <div class="hier-box hier-root">Vehicle</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↙</span>
+                    <div class="hier-spacer"></div>
+                    <span class="hier-arrow">↘</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-base">MotorVehicle</div>
+                    <div class="hier-box hier-base">WaterCraft</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow">↘</span>
+                    <div class="hier-spacer"></div>
+                    <span class="hier-arrow">↓</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-derived">Automobile</div>
+                    <div class="hier-box hier-derived">Motorcycle</div>
+                    <div class="hier-box hier-derived">Sailboat</div>
+                </div>
+            </div>
+
+            <p>In this hierarchy, an <code>Automobile</code> inherits from <code>MotorVehicle</code>, which inherits
+                from <code>Vehicle</code>. So <code>Automobile</code> has access to members from all three classes.</p>
+
+            <!-- Access Modifiers -->
+            <h2>🔒 Access Modifiers in Inheritance</h2>
+
+            <p>Access modifiers control <em>who</em> can see and use a member. In an inheritance context, the
+                <code>protected</code> keyword becomes especially important.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Access Modifier</th>
+                        <th>Accessible From</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>public</code></td>
+                        <td>Anywhere — the class itself, derived classes, and external code</td>
+                    </tr>
+                    <tr>
+                        <td><code>protected</code></td>
+                        <td>The class itself <strong>and</strong> any class that inherits from it — but NOT from
+                            external code</td>
+                    </tr>
+                    <tr>
+                        <td><code>private</code></td>
+                        <td><strong>Only</strong> the class itself — not derived classes, not external code</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Animal</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }        <span class="comment">// anyone can access</span>
+    <span class="keyword">protected</span> <span class="type">int</span> <span class="param">_heartRate</span>;               <span class="comment">// Animal + derived classes only</span>
+    <span class="keyword">private</span> <span class="type">string</span> <span class="param">_dnaSequence</span>;             <span class="comment">// ONLY Animal class itself</span>
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dog</span> : <span class="type">Animal</span>
+{
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">ShowVitals</span>()
+    {
+        <span class="param">Name</span> = <span class="string">"Rex"</span>;         <span class="comment">// ✅ public — works</span>
+        <span class="param">_heartRate</span> = <span class="number">80</span>;       <span class="comment">// ✅ protected — works in derived class</span>
+        <span class="comment">// _dnaSequence = "...";  ❌ private — compile error!</span>
+    }
+}</pre>
+
+            <div class="warning-box">
+                <strong>You cannot access <code>private</code> members of a base class from a derived class.</strong>
+                This is a very common mistake. If the base class has a private method, the derived class cannot call
+                it — even though it inherits from that class.
+            </div>
+
+            <div class="tip-box">
+                <strong>When to use <code>protected</code>:</strong> Use it for members that derived classes need to
+                access directly, but that shouldn't be exposed to the rest of the application. It's the "family only"
+                access level — shared between parent and children but hidden from outsiders.
+            </div>
+
+            <!-- Constructors and base -->
+            <h2>🏗️ Constructors and the <code>base</code> Keyword</h2>
+
+            <p>When you create a derived class object, the base class constructor runs <em>first</em>, then the
+                derived class constructor runs. If the base class has a parameterized constructor, the derived class
+                must pass values to it using <code>: base(...)</code>.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Calling the Base Constructor</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">BankAccount</span>
+{
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Number</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Type</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">decimal</span> <span class="param">Balance</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="method">BankAccount</span>() { }
+
+    <span class="keyword">public</span> <span class="method">BankAccount</span>(<span class="type">int</span> <span class="param">number</span>)
+    {
+        <span class="param">Number</span> = <span class="param">number</span>;
+    }
+
+    <span class="keyword">public</span> <span class="method">BankAccount</span>(<span class="type">int</span> <span class="param">number</span>, <span class="type">string</span> <span class="param">type</span>, <span class="type">decimal</span> <span class="param">balance</span>)
+    {
+        <span class="param">Number</span> = <span class="param">number</span>;
+        <span class="param">Type</span> = <span class="param">type</span>;
+        <span class="param">Balance</span> = <span class="param">balance</span>;
+    }
+}</pre>
+            </div>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">CheckingAccount</span> : <span class="type">BankAccount</span>
+{
+    <span class="keyword">public</span> <span class="type">decimal</span> <span class="param">OverdraftLimit</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// Calls the parameterless base constructor</span>
+    <span class="keyword">public</span> <span class="method">CheckingAccount</span>() : <span class="keyword">base</span>()
+    {
+        <span class="keyword">base</span>.Type = <span class="string">"Checking"</span>;
+    }
+
+    <span class="comment">// Calls base(number) — passing one arg up</span>
+    <span class="keyword">public</span> <span class="method">CheckingAccount</span>(<span class="type">int</span> <span class="param">number</span>) : <span class="keyword">base</span>(<span class="param">number</span>)
+    {
+        <span class="keyword">base</span>.Type = <span class="string">"Checking"</span>;
+    }
+
+    <span class="comment">// Calls base(number, type, balance) — passing all three up</span>
+    <span class="keyword">public</span> <span class="method">CheckingAccount</span>(<span class="type">int</span> <span class="param">number</span>, <span class="type">decimal</span> <span class="param">balance</span>) 
+        : <span class="keyword">base</span>(<span class="param">number</span>, <span class="string">"Checking"</span>, <span class="param">balance</span>)
+    {
+    }
+}</pre>
+
+            <h3>Constructor Chain</h3>
+
+            <p>When you call <code>new CheckingAccount(500)</code>, here's what happens:</p>
+
+            <div class="highlight-box">
+                <h4>Order of Execution</h4>
+                <p><strong>1.</strong> <code>CheckingAccount(int number)</code> is matched.</p>
+                <p><strong>2.</strong> Before its body runs, <code>: base(number)</code> calls
+                    <code>BankAccount(int number)</code> on the parent.</p>
+                <p><strong>3.</strong> The parent constructor body runs first (sets <code>Number</code>).</p>
+                <p><strong>4.</strong> Then the child constructor body runs (sets <code>Type = "Checking"</code>).</p>
+            </div>
+
+            <h3>Using <code>base</code> to Access Parent Members</h3>
+
+            <p>The <code>base</code> keyword refers to the <em>parent class</em>. Use it to access public or protected
+                members of the parent from within the derived class.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dog</span> : <span class="type">Animal</span>
+{
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">string</span> <span class="method">GetInfo</span>()
+    {
+        <span class="comment">// Call the parent's version of GetInfo(), then add to it</span>
+        <span class="keyword">return</span> <span class="keyword">base</span>.<span class="method">GetInfo</span>() + <span class="string">", Breed: "</span> + <span class="param">Breed</span>;
+    }
+}</pre>
+
+            <!-- Virtual and Override -->
+            <h2>🔄 Virtual Methods and Overriding</h2>
+
+            <p>A <strong>virtual method</strong> is a method in the base class that derived classes are <em>allowed</em>
+                to replace with their own version. The base class marks the method with <code>virtual</code>, and the
+                derived class uses <code>override</code> to provide its own implementation.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Virtual + Override</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Shape</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Color</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// virtual = "derived classes MAY override this"</span>
+    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="type">double</span> <span class="method">CalcArea</span>()
+    {
+        <span class="keyword">return</span> <span class="number">0</span>;  <span class="comment">// default implementation</span>
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Circle</span> : <span class="type">Shape</span>
+{
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">Radius</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// override = "I'm replacing the base class version"</span>
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">double</span> <span class="method">CalcArea</span>()
+    {
+        <span class="keyword">return</span> <span class="type">Math</span>.PI * <span class="param">Radius</span> * <span class="param">Radius</span>;
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Rectangle</span> : <span class="type">Shape</span>
+{
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">Width</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">Height</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">double</span> <span class="method">CalcArea</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Width</span> * <span class="param">Height</span>;
+    }
+}</pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>The override must match the base method signature exactly.</strong> Same return type, same
+                method name, and same parameter types. If you change the parameter types, you're creating a
+                <em>new</em> method (overloading), not overriding.
+            </div>
+
+            <!-- Polymorphism -->
+            <h2>🎭 Polymorphism — The Power of Inheritance</h2>
+
+            <p><strong>Polymorphism</strong> means "many forms." It's what happens when you store a derived class
+                object in a base class variable and call a virtual method — C# automatically calls the <em>most
+                derived</em> version of that method, based on the <strong>actual type</strong> of the object, not the
+                type of the variable.</p>
+
+            <div class="syntax-box">
+                <h4>Polymorphism in Action</h4>
+                <pre><span class="comment">// Variable type is Shape, but actual object is a Circle</span>
+<span class="type">Shape</span> <span class="param">myShape</span> = <span class="keyword">new</span> <span class="type">Circle</span> { Radius = <span class="number">5</span>, Color = <span class="string">"Red"</span> };
+
+<span class="comment">// Which CalcArea() runs? The Circle version!</span>
+<span class="type">double</span> <span class="param">area</span> = <span class="param">myShape</span>.<span class="method">CalcArea</span>();  <span class="comment">// → 78.54 (π × 5²)</span></pre>
+            </div>
+
+            <p>Even though the variable <code>myShape</code> is declared as type <code>Shape</code>, the actual object
+                is a <code>Circle</code>. So C# calls <code>Circle.CalcArea()</code>, not <code>Shape.CalcArea()</code>.
+                This is polymorphism.</p>
+
+            <h3>Polymorphism with Arrays</h3>
+
+            <p>The most common use of polymorphism is storing mixed derived objects in a base-type array, then looping
+                through and calling the same method on each. Each object responds with its own behavior.</p>
+
+            <pre><span class="type">Shape</span>[] <span class="param">shapes</span> = <span class="keyword">new</span> <span class="type">Shape</span>[<span class="number">3</span>];
+<span class="param">shapes</span>[<span class="number">0</span>] = <span class="keyword">new</span> <span class="type">Circle</span> { Radius = <span class="number">5</span> };
+<span class="param">shapes</span>[<span class="number">1</span>] = <span class="keyword">new</span> <span class="type">Rectangle</span> { Width = <span class="number">4</span>, Height = <span class="number">6</span> };
+<span class="param">shapes</span>[<span class="number">2</span>] = <span class="keyword">new</span> <span class="type">Circle</span> { Radius = <span class="number">3</span> };
+
+<span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="param">shapes</span>.Length; <span class="param">i</span>++)
+{
+    <span class="comment">// Each call uses the ACTUAL type's override</span>
+    <span class="param">lstOutput</span>.Items.Add(<span class="param">shapes</span>[<span class="param">i</span>].<span class="method">CalcArea</span>().<span class="method">ToString</span>(<span class="string">"F2"</span>));
+}
+<span class="comment">// Output: 78.54, 24.00, 28.27</span></pre>
+
+            <h3>Multi-Level Polymorphism</h3>
+
+            <p>When multiple classes in a chain each override the same method, C# always calls the version from the
+                <strong>actual (most derived) type</strong> of the object — not the variable type, and not some
+                middle-level class.</p>
+
+            <pre><span class="comment">// Vehicle defines virtual CalculateMaxSpeed()</span>
+<span class="comment">// MotorVehicle overrides CalculateMaxSpeed()</span>
+<span class="comment">// Automobile overrides CalculateMaxSpeed()</span>
+
+<span class="type">MotorVehicle</span> <span class="param">car</span> = <span class="keyword">new</span> <span class="type">Automobile</span>();
+<span class="param">car</span>.<span class="method">CalculateMaxSpeed</span>();  <span class="comment">// Calls Automobile's version!</span>
+                               <span class="comment">// Because the OBJECT is an Automobile</span></pre>
+
+            <div class="success-box">
+                <strong>The golden rule:</strong> The <em>actual object type</em> determines which override runs — not
+                the variable type. If the variable is <code>MotorVehicle</code> but the object is
+                <code>Automobile</code>, you get <code>Automobile</code>'s method.
+            </div>
+
+            <!-- Casting -->
+            <h2>🔀 Casting Between Types</h2>
+
+            <p>Because a derived class <em>is a</em> base class, you can assign a derived object to a base-type
+                variable automatically. Going the other direction requires an explicit cast.</p>
+
+            <h3>Implicit Upcasting (Derived → Base)</h3>
+
+            <p>You can always assign a more specific type to a more general type without any special syntax. This is
+                safe because a <code>Dog</code> <em>is</em> always an <code>Animal</code>.</p>
+
+            <pre><span class="type">Dog</span> <span class="param">myDog</span> = <span class="keyword">new</span> <span class="type">Dog</span>();
+<span class="type">Animal</span> <span class="param">a</span> = <span class="param">myDog</span>;          <span class="comment">// ✅ Implicit — always safe</span></pre>
+
+            <h3>Explicit Downcasting (Base → Derived)</h3>
+
+            <p>Going from a base type to a derived type requires an explicit cast because it might fail at runtime — not
+                every <code>Animal</code> is a <code>Dog</code>.</p>
+
+            <pre><span class="type">Animal</span> <span class="param">a</span> = <span class="keyword">new</span> <span class="type">Dog</span>();
+<span class="type">Dog</span> <span class="param">d</span> = (<span class="type">Dog</span>)<span class="param">a</span>;            <span class="comment">// ✅ Explicit cast — works because a IS a Dog</span>
+
+<span class="type">Animal</span> <span class="param">a2</span> = <span class="keyword">new</span> <span class="type">Cat</span>();
+<span class="comment">// Dog d2 = (Dog)a2;       ❌ Runtime error! a2 is actually a Cat</span></pre>
+
+            <h3>Safe Casting with <code>is</code> (Pattern Matching)</h3>
+
+            <p>The safest way to downcast is with the <code>is</code> keyword, which checks the type <em>and</em>
+                casts in one step. If the check fails, the code inside the <code>if</code> block simply doesn't
+                execute.</p>
+
+            <pre><span class="type">Animal</span> <span class="param">a</span> = <span class="keyword">new</span> <span class="type">Dog</span> { Name = <span class="string">"Rex"</span>, Breed = <span class="string">"Labrador"</span> };
+
+<span class="comment">// Pattern matching: checks type AND casts in one step</span>
+<span class="keyword">if</span> (<span class="param">a</span> <span class="keyword">is</span> <span class="type">Dog</span> <span class="param">d</span>)
+{
+    <span class="comment">// d is now a Dog variable — can access Dog-specific members</span>
+    <span class="param">lblOutput</span>.Text = <span class="param">d</span>.Breed;   <span class="comment">// "Labrador"</span>
+}</pre>
+
+            <h3>Type Checking with <code>typeof</code></h3>
+
+            <p>The <code>typeof</code> operator and <code>GetType()</code> method can also be used to check types.
+                <code>GetType()</code> returns a <strong>Type object</strong> that you can compare using
+                <code>typeof</code>.</p>
+
+            <pre><span class="comment">// GetType() returns a Type object; typeof() gets a Type from a class name</span>
+<span class="keyword">if</span> (<span class="param">a</span>.<span class="method">GetType</span>() == <span class="keyword">typeof</span>(<span class="type">Dog</span>))
+{
+    <span class="comment">// Exact type match (does NOT match derived types of Dog)</span>
+}
+
+<span class="comment">// 'is' is usually preferred — it also catches derived types</span>
+<span class="keyword">if</span> (<span class="param">a</span> <span class="keyword">is</span> <span class="type">Dog</span>)
+{
+    <span class="comment">// Matches Dog AND any class derived from Dog</span>
+}</pre>
+
+            <h3>Accepting Any Object</h3>
+
+            <p>Since every class inherits from <code>Object</code>, a method that accepts an <code>Object</code>
+                parameter can accept <strong>any object of any type</strong>.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">void</span> <span class="method">PrintInfo</span>(<span class="type">object</span> <span class="param">item</span>)
+{
+    <span class="param">lblOutput</span>.Text = <span class="param">item</span>.<span class="method">ToString</span>();   <span class="comment">// Works on ANY object</span>
+}
+
+<span class="comment">// Can pass anything:</span>
+<span class="method">PrintInfo</span>(<span class="keyword">new</span> <span class="type">Dog</span>());       <span class="comment">// ✅</span>
+<span class="method">PrintInfo</span>(<span class="string">"hello"</span>);          <span class="comment">// ✅</span>
+<span class="method">PrintInfo</span>(<span class="number">42</span>);               <span class="comment">// ✅</span></pre>
+
+            <!-- Abstract and Sealed -->
+            <h2>🏛️ Abstract and Sealed Classes</h2>
+
+            <h3>Abstract Classes</h3>
+
+            <p>An <strong>abstract class</strong> is designed to be a base class only — it <strong>cannot be
+                    instantiated</strong> directly. You must create a derived class from it. Abstract classes can
+                contain both regular methods (with code) and abstract methods (without code).</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Shape</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Color</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// Abstract method — NO body; derived classes MUST override</span>
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="type">double</span> <span class="method">CalcArea</span>();
+
+    <span class="comment">// Regular method — inherited as-is</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="method">GetColor</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Color</span>;
+    }
+}
+
+<span class="comment">// Shape s = new Shape();  ❌ Cannot instantiate abstract class!</span>
+<span class="type">Shape</span> <span class="param">s</span> = <span class="keyword">new</span> <span class="type">Circle</span>();     <span class="comment">// ✅ Must use a derived class</span></pre>
+
+            <h3>Sealed Classes</h3>
+
+            <p>A <strong>sealed class</strong> is the opposite of abstract — it <strong>cannot be inherited</strong>.
+                Sealing a class prevents other developers from extending it.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="type">FinalReport</span>
+{
+    <span class="comment">// This class cannot have any child classes</span>
+}
+
+<span class="comment">// public class ExtendedReport : FinalReport { }  ❌ Compile error!</span></pre>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class Type</th>
+                        <th>Can Be Instantiated?</th>
+                        <th>Can Be Inherited?</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Regular class</td>
+                        <td>✅ Yes</td>
+                        <td>✅ Yes</td>
+                        <td>General-purpose class</td>
+                    </tr>
+                    <tr>
+                        <td><code>abstract</code> class</td>
+                        <td>❌ No</td>
+                        <td>✅ Yes (required)</td>
+                        <td>Base class template — forces derived classes to implement abstract members</td>
+                    </tr>
+                    <tr>
+                        <td><code>sealed</code> class</td>
+                        <td>✅ Yes</td>
+                        <td>❌ No</td>
+                        <td>Prevents inheritance for security or performance</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Reasons to seal a class:</strong> to prevent others from inheriting it, to prevent others
+                from changing how methods work through overriding, and to improve efficiency (the runtime can
+                optimize calls to sealed methods).
+            </div>
+
+            <!-- Overriding ToString -->
+            <h2>✏️ Overriding <code>ToString()</code></h2>
+
+            <p>Since <code>ToString()</code> is defined as a virtual method in <code>Object</code>, you can override
+                it in any class to control what string representation your objects produce.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Dog</span> : <span class="type">Animal</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Breed</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="type">string</span> <span class="method">ToString</span>()
+    {
+        <span class="keyword">return</span> <span class="param">Name</span> + <span class="string">" ("</span> + <span class="param">Breed</span> + <span class="string">", age "</span> + <span class="param">Age</span> + <span class="string">")"</span>;
+    }
+}
+
+<span class="type">Dog</span> <span class="param">d</span> = <span class="keyword">new</span> <span class="type">Dog</span> { Name = <span class="string">"Rex"</span>, Breed = <span class="string">"Lab"</span>, Age = <span class="number">3</span> };
+<span class="param">lblOutput</span>.Text = <span class="param">d</span>.<span class="method">ToString</span>();     <span class="comment">// "Rex (Lab, age 3)"</span>
+<span class="param">lstAnimals</span>.Items.Add(<span class="param">d</span>);            <span class="comment">// Also calls ToString() automatically!</span></pre>
+
+            <div class="tip-box">
+                <strong>When you add an object to a ListBox</strong> (with <code>Items.Add(object)</code>), the ListBox
+                automatically calls <code>ToString()</code> on that object to get the display text. Overriding
+                <code>ToString()</code> is a great way to control how objects appear in lists.
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>System.Object</code></td>
+                            <td>Ultimate base class of all C# classes — provides <code>ToString()</code>,
+                                <code>Equals()</code>, <code>GetHashCode()</code>, <code>GetType()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Inheritance syntax</td>
+                            <td><code>class Derived : Base</code> (colon, not "extends" or "inherits")</td>
+                        </tr>
+                        <tr>
+                            <td>Multiple levels</td>
+                            <td>A class can be both a base class and a derived class simultaneously</td>
+                        </tr>
+                        <tr>
+                            <td><code>public</code></td>
+                            <td>Accessible from anywhere</td>
+                        </tr>
+                        <tr>
+                            <td><code>protected</code></td>
+                            <td>Accessible from the class itself AND derived classes — not external code</td>
+                        </tr>
+                        <tr>
+                            <td><code>private</code></td>
+                            <td>Accessible ONLY from the class itself — NOT derived classes</td>
+                        </tr>
+                        <tr>
+                            <td><code>virtual</code></td>
+                            <td>Marks a base class method as overridable by derived classes</td>
+                        </tr>
+                        <tr>
+                            <td><code>override</code></td>
+                            <td>Replaces a virtual/abstract method — must match signature exactly</td>
+                        </tr>
+                        <tr>
+                            <td><code>abstract class</code></td>
+                            <td>Cannot be instantiated — must be inherited</td>
+                        </tr>
+                        <tr>
+                            <td><code>abstract method</code></td>
+                            <td>No body — derived classes MUST override it</td>
+                        </tr>
+                        <tr>
+                            <td><code>sealed class</code></td>
+                            <td>Cannot be inherited — prevents extension</td>
+                        </tr>
+                        <tr>
+                            <td><code>base</code> keyword</td>
+                            <td>Refers to the parent class — <code>base.Method()</code> or <code>: base(...)</code></td>
+                        </tr>
+                        <tr>
+                            <td>Constructor chaining</td>
+                            <td><code>: base(args)</code> passes values to parent constructor</td>
+                        </tr>
+                        <tr>
+                            <td>Polymorphism</td>
+                            <td>Actual object type determines which override runs — not the variable type</td>
+                        </tr>
+                        <tr>
+                            <td>Implicit upcast</td>
+                            <td><code>Animal a = new Dog();</code> — always safe, no cast needed</td>
+                        </tr>
+                        <tr>
+                            <td>Explicit downcast</td>
+                            <td><code>Dog d = (Dog)a;</code> — required when going from base to derived</td>
+                        </tr>
+                        <tr>
+                            <td><code>is</code> keyword</td>
+                            <td>Pattern matching: <code>if (a is Dog d) { ... }</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>GetType()</code></td>
+                            <td>Returns a Type object with info about the object's actual type</td>
+                        </tr>
+                        <tr>
+                            <td><code>typeof(ClassName)</code></td>
+                            <td>Gets the Type object for a class name — use to compare with GetType()</td>
+                        </tr>
+                        <tr>
+                            <td><code>Object</code> parameter</td>
+                            <td>A method accepting <code>Object</code> can accept any type at all</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>class Dog extends Animal</code></td>
+                            <td><code>class Dog : Animal</code> — C# uses a colon, not "extends"</td>
+                        </tr>
+                        <tr>
+                            <td><code>class Dog inherits Animal</code></td>
+                            <td><code>class Dog : Animal</code> — no "inherits" keyword in C#</td>
+                        </tr>
+                        <tr>
+                            <td>Calling a <code>private</code> base member from a derived class</td>
+                            <td>Use <code>protected</code> if derived classes need access</td>
+                        </tr>
+                        <tr>
+                            <td><code>new Shape()</code> when Shape is abstract</td>
+                            <td><code>new Circle()</code> — must instantiate a concrete derived class</td>
+                        </tr>
+                        <tr>
+                            <td><code>class Child : SealedParent</code></td>
+                            <td>Cannot inherit from a sealed class — compile error</td>
+                        </tr>
+                        <tr>
+                            <td>Overriding with different parameter types</td>
+                            <td>Override signature must <strong>exactly match</strong> the base method</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting <code>override</code> keyword</td>
+                            <td>Without <code>override</code>, you're <em>hiding</em> the method, not overriding it
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thinking variable type determines which method runs</td>
+                            <td>The <strong>actual object type</strong> determines the method — that's polymorphism</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Vocabulary -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Inheritance</td>
+                            <td>A derived class gains all public/protected members of a base class</td>
+                        </tr>
+                        <tr>
+                            <td>Base class (parent)</td>
+                            <td>The class being inherited from</td>
+                        </tr>
+                        <tr>
+                            <td>Derived class (child)</td>
+                            <td>The class that inherits from another class</td>
+                        </tr>
+                        <tr>
+                            <td>Polymorphism</td>
+                            <td>One method call, many forms — actual object type determines behavior</td>
+                        </tr>
+                        <tr>
+                            <td>Virtual method</td>
+                            <td>A method in a base class that <em>can</em> be overridden</td>
+                        </tr>
+                        <tr>
+                            <td>Abstract method</td>
+                            <td>A method with no body that <em>must</em> be overridden</td>
+                        </tr>
+                        <tr>
+                            <td>Abstract class</td>
+                            <td>A class that cannot be instantiated — only inherited</td>
+                        </tr>
+                        <tr>
+                            <td>Sealed class</td>
+                            <td>A class that cannot be inherited — prevents extension</td>
+                        </tr>
+                        <tr>
+                            <td>Override</td>
+                            <td>Providing a new implementation of a virtual/abstract method in a derived class</td>
+                        </tr>
+                        <tr>
+                            <td>Upcasting</td>
+                            <td>Storing a derived type in a base-type variable (implicit, always safe)</td>
+                        </tr>
+                        <tr>
+                            <td>Downcasting</td>
+                            <td>Converting a base-type variable to a derived type (explicit, can fail)</td>
+                        </tr>
+                        <tr>
+                            <td>Pattern matching</td>
+                            <td>Using <code>is</code> to check type and cast simultaneously</td>
+                        </tr>
+                        <tr>
+                            <td><code>base</code></td>
+                            <td>Keyword to access parent class members or call parent constructors</td>
+                        </tr>
+                        <tr>
+                            <td><code>protected</code></td>
+                            <td>Accessible to the class and its derived classes, but not external code</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>

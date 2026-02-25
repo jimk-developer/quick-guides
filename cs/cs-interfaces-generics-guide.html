@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #15: How to Work with Interfaces and Generics</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+
+        header {
+            text-align: center; padding: 15px 20px; background: var(--bg-dark);
+            color: var(--text-light); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+        header h1 {
+            font-family: 'Merriweather', serif; font-size: 1.6rem; margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        header p { font-size: 0.95rem; opacity: 0.9; color: #B4B4B4; }
+
+        main {
+            background: white; border-radius: 20px; padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow); margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif; font-size: 1.8rem; color: var(--primary-dark);
+            margin: 50px 0 25px 0; padding-bottom: 12px; border-bottom: 3px solid var(--primary);
+            display: flex; align-items: center; gap: 12px;
+        }
+        h2:first-child { margin-top: 0; }
+        h3 { font-size: 1.35rem; color: var(--text-dark); margin: 35px 0 18px 0; font-weight: 700; }
+        h4 { font-size: 1.1rem; color: var(--primary-dark); margin: 25px 0 12px 0; font-weight: 600; }
+        p { margin-bottom: 18px; font-size: 1.05rem; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary); padding: 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .highlight-box h4 { margin-top: 0; color: var(--primary-dark); }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .tip-box::before { content: "💡 "; font-size: 1.2rem; }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .warning-box::before { content: "⚠️ "; font-size: 1.2rem; }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .success-box::before { content: "✅ "; font-size: 1.2rem; }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace; background: #F5F5F5;
+            padding: 3px 8px; border-radius: 4px; font-size: 0.9rem; color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg); color: #D4D4D4; padding: 20px; border-radius: 10px;
+            overflow-x: auto; margin: 20px 0; font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem; line-height: 1.6;
+        }
+        pre .keyword { color: #569CD6; }
+        pre .type { color: #4EC9B0; }
+        pre .string { color: #CE9178; }
+        pre .comment { color: #6A9955; }
+        pre .method { color: #DCDCAA; }
+        pre .param { color: #9CDCFE; }
+        pre .number { color: #B5CEA8; }
+        pre .interface { color: #B8D7A3; }
+
+        table {
+            width: 100%; border-collapse: collapse; margin: 25px 0; background: white;
+            border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        th, td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+        th {
+            background: var(--primary); color: white; font-weight: 600;
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;
+        }
+        tr:hover { background: #F8F9FA; }
+        tr:last-child td { border-bottom: none; }
+
+        .concept-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; margin: 25px 0;
+        }
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border); border-radius: 12px; padding: 25px;
+            transition: all 0.3s ease;
+        }
+        .concept-card:hover {
+            border-color: var(--primary); box-shadow: 0 8px 25px rgba(92,45,145,0.15);
+            transform: translateY(-3px);
+        }
+        .concept-card h4 { margin-top: 0; color: var(--primary-dark); display: flex; align-items: center; gap: 10px; }
+        .concept-card p { margin-bottom: 0; color: #666; font-size: 0.95rem; }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF; border-radius: 12px; padding: 20px; margin: 20px 0;
+        }
+        .syntax-box h4 { color: #5C2D91; margin-top: 0; margin-bottom: 10px; }
+        .syntax-box pre { margin: 0; background: #1E1E1E; }
+
+        .quick-ref {
+            background: var(--bg-dark); color: var(--text-light); padding: 30px;
+            border-radius: 15px; margin: 30px 0;
+        }
+        .quick-ref h3 { color: var(--accent); margin-top: 0; margin-bottom: 20px; }
+        .quick-ref table { background: #2D2D30; box-shadow: none; }
+        .quick-ref th { background: #3E3E42; }
+        .quick-ref td { color: #D4D4D4; border-color: #3E3E42; }
+        .quick-ref tr:hover { background: #383838; }
+        .quick-ref code { background: #1E1E1E; color: #9CDCFE; }
+
+        .comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0;
+        }
+        .comparison-item { background: #F8F9FA; border-radius: 10px; padding: 20px; }
+        .comparison-item h4 { margin-top: 0; }
+        .comparison-item.good { border-left: 4px solid var(--success); }
+        .comparison-item.bad { border-left: 4px solid var(--danger); }
+
+        footer { text-align: center; padding: 40px 20px; color: white; margin-top: 40px; }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.3rem; }
+            main { padding: 30px 20px; }
+            h2 { font-size: 1.5rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #15: How to Work with Interfaces and Generics</h1>
+        <p>Interfaces, Default Methods, Common .NET Interfaces, Generic Classes, and Generic Interfaces</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- What is an Interface -->
+            <h2>📋 What Is an Interface?</h2>
+
+            <p>An <strong>interface</strong> defines a contract — a set of methods, properties, and other members that
+                a class <em>promises</em> to implement. Think of it as a checklist: if a class says "I implement
+                <code>IPlayable</code>," then it <em>guarantees</em> it has every member that <code>IPlayable</code>
+                requires.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📝 Contract</h4>
+                    <p>An interface says <em>what</em> a class must do, but not <em>how</em> to do it. Each class that
+                        implements the interface provides its own code.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔌 Multiple Interfaces</h4>
+                    <p>A class can implement <strong>multiple interfaces</strong> (unlike inheritance, which is limited
+                        to one base class).</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧬 Interface Inheritance</h4>
+                    <p>An interface can <strong>inherit other interfaces</strong>, combining their requirements into one.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🚫 No Instantiation</h4>
+                    <p>You <strong>cannot create an object</strong> from an interface directly. You can only create
+                        objects from classes that implement it.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Naming convention:</strong> Interface names in C# always start with a capital
+                <code>I</code> — for example, <code>ICloneable</code>, <code>IComparable</code>,
+                <code>IPlayable</code>. This makes them instantly recognizable.
+            </div>
+
+            <!-- Declaring an Interface -->
+            <h2>🔧 Declaring and Implementing Interfaces</h2>
+
+            <h3>Declaring an Interface</h3>
+
+            <p>An interface declares method signatures, properties, and other members — but traditionally does not
+                provide any code for them. The members have no access modifier (they're implicitly public).</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Interface Declaration</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">interface</span> <span class="interface">IPlayable</span>
+{
+    <span class="comment">// Method signature — no body, just a semicolon</span>
+    <span class="keyword">void</span> <span class="method">Play</span>();
+    <span class="keyword">void</span> <span class="method">Pause</span>();
+    <span class="keyword">void</span> <span class="method">Stop</span>();
+
+    <span class="comment">// Property — just get; and/or set; with no body</span>
+    <span class="type">string</span> <span class="param">Title</span> { <span class="keyword">get</span>; }
+    <span class="type">double</span> <span class="param">Duration</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}</pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Interface properties use <code>get;</code> and <code>set;</code> with just a semicolon</strong>
+                — no curly braces, no return statements, no value assignments. The implementing class provides the
+                actual code.
+            </div>
+
+            <h3>Implementing an Interface</h3>
+
+            <p>A class implements an interface by listing it after a colon (just like inheritance) and then providing
+                code for <strong>every</strong> member the interface requires.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Implementing an Interface</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Podcast</span> : <span class="interface">IPlayable</span>
+{
+    <span class="comment">// MUST implement every member from IPlayable</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Title</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">double</span> <span class="param">Duration</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Play</span>()
+    {
+        <span class="comment">// Podcast-specific play logic</span>
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Pause</span>()
+    {
+        <span class="comment">// Podcast-specific pause logic</span>
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Stop</span>()
+    {
+        <span class="comment">// Podcast-specific stop logic</span>
+    }
+
+    <span class="comment">// Can also have its own additional members</span>
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Host</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}</pre>
+            </div>
+
+            <h3>Inheriting a Base Class AND Implementing Interfaces</h3>
+
+            <p>A class can inherit from a base class and implement interfaces at the same time. The rule is:
+                <strong>base class first, then interfaces</strong>, all separated by commas.</p>
+
+            <pre><span class="comment">// Base class first, then interface(s) — separated by commas</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">AudioBook</span> : <span class="type">Book</span>, <span class="interface">IPlayable</span>
+{
+    <span class="comment">// Inherits from Book AND implements IPlayable</span>
+}
+
+<span class="comment">// Multiple interfaces — separated by commas</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Movie</span> : <span class="interface">IPlayable</span>, <span class="interface">ICloneable</span>
+{
+    <span class="comment">// Implements both IPlayable AND ICloneable</span>
+}</pre>
+
+            <div class="warning-box">
+                <strong>Order matters when mixing inheritance and interfaces:</strong> the base class
+                <em>must</em> come first. <code>class AudioBook : IPlayable, Book</code> is a compile error —
+                it must be <code>class AudioBook : Book, IPlayable</code>.
+            </div>
+
+            <!-- Interfaces vs Abstract Classes -->
+            <h2>⚖️ Interfaces vs. Abstract Classes</h2>
+
+            <p>Interfaces and abstract classes both define contracts, but they have important differences:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Interface</th>
+                        <th>Abstract Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Instance variables (fields)</td>
+                        <td>❌ Cannot have them</td>
+                        <td>✅ Can have them</td>
+                    </tr>
+                    <tr>
+                        <td>Method implementations</td>
+                        <td>✅ Default methods (C# 8+)</td>
+                        <td>✅ Regular and abstract methods</td>
+                    </tr>
+                    <tr>
+                        <td>Static members</td>
+                        <td>✅ Static fields and methods (C# 8+)</td>
+                        <td>✅ Static fields and methods</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple inheritance</td>
+                        <td>✅ A class can implement many interfaces</td>
+                        <td>❌ A class can only inherit one abstract class</td>
+                    </tr>
+                    <tr>
+                        <td>Constructors</td>
+                        <td>❌ Cannot have constructors</td>
+                        <td>✅ Can have constructors</td>
+                    </tr>
+                    <tr>
+                        <td>Instantiation</td>
+                        <td>❌ Cannot instantiate</td>
+                        <td>❌ Cannot instantiate</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>The Critical Difference</h4>
+                <p>The most important distinction: <strong>interfaces cannot have instance variables</strong> (fields
+                    like <code>private string _name;</code>), even in C# 8.0 and later. They can have static fields and
+                    default method implementations, but no per-object data storage. Abstract classes <em>can</em> have
+                    instance variables.</p>
+            </div>
+
+            <!-- Default Interface Methods -->
+            <h2>🆕 Default Interface Methods (C# 8.0+)</h2>
+
+            <p>Starting with C# 8.0, interfaces can provide <strong>default implementations</strong> for some or all of
+                their members. A class that implements the interface <strong>doesn't need to implement</strong>
+                members that have defaults — though it <em>can</em> override them if it wants.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">interface</span> <span class="interface">IPlayable</span>
+{
+    <span class="keyword">void</span> <span class="method">Play</span>();       <span class="comment">// No default — must be implemented</span>
+    <span class="keyword">void</span> <span class="method">Pause</span>();      <span class="comment">// No default — must be implemented</span>
+
+    <span class="comment">// Default method — implementing class gets this for free</span>
+    <span class="keyword">void</span> <span class="method">Stop</span>()
+    {
+        <span class="comment">// Default behavior provided by the interface</span>
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Podcast</span> : <span class="interface">IPlayable</span>
+{
+    <span class="comment">// MUST implement Play() and Pause()</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Play</span>() { <span class="comment">/* ... */</span> }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Pause</span>() { <span class="comment">/* ... */</span> }
+
+    <span class="comment">// Stop() is NOT required — the default from IPlayable is used</span>
+    <span class="comment">// But we COULD override it if we wanted to</span>
+}</pre>
+
+            <div class="tip-box">
+                <strong>What's still off-limits in interfaces (even with C# 8+):</strong> You still cannot add
+                <strong>instance variables</strong> (fields that store per-object data). Default methods, static
+                fields, and static methods are allowed — but not <code>private string _name;</code>.
+            </div>
+
+            <!-- Using Interfaces as Types -->
+            <h2>🔌 Using Interfaces as Types</h2>
+
+            <p>One of the most powerful features of interfaces is that you can use them as <strong>variable types</strong>
+                and <strong>parameter types</strong>. Any object that implements the interface can be assigned to a
+                variable of that interface type or passed to a method that accepts that interface.</p>
+
+            <h3>Interface-Typed Variables</h3>
+
+            <pre><span class="comment">// Variable type is the INTERFACE — actual object is a class that implements it</span>
+<span class="interface">IPlayable</span> <span class="param">media</span> = <span class="keyword">new</span> <span class="type">Podcast</span>();    <span class="comment">// ✅ Podcast implements IPlayable</span>
+<span class="interface">IPlayable</span> <span class="param">media2</span> = <span class="keyword">new</span> <span class="type">AudioBook</span>(); <span class="comment">// ✅ AudioBook implements IPlayable</span>
+
+<span class="comment">// ❌ Cannot instantiate an interface directly!</span>
+<span class="comment">// IPlayable media3 = new IPlayable();  — COMPILE ERROR</span></pre>
+
+            <h3>Interface-Typed Parameters</h3>
+
+            <p>When a method accepts an interface as a parameter, it can accept <strong>any object that implements
+                    that interface</strong>. This is incredibly flexible.</p>
+
+            <div class="syntax-box">
+                <h4>Example: Method Accepting an Interface</h4>
+                <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">MediaPlayer</span>
+{
+    <span class="comment">// Accepts ANY object that implements IPlayable</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">PlayMedia</span>(<span class="interface">IPlayable</span> <span class="param">item</span>)
+    {
+        <span class="param">item</span>.<span class="method">Play</span>();     <span class="comment">// Calls the specific class's Play() method</span>
+    }
+}
+
+<span class="comment">// Can pass any class that implements IPlayable</span>
+<span class="type">Podcast</span> <span class="param">pod</span> = <span class="keyword">new</span> <span class="type">Podcast</span>();
+<span class="type">AudioBook</span> <span class="param">book</span> = <span class="keyword">new</span> <span class="type">AudioBook</span>();
+
+<span class="type">MediaPlayer</span>.<span class="method">PlayMedia</span>(<span class="param">pod</span>);    <span class="comment">// ✅ Podcast implements IPlayable</span>
+<span class="type">MediaPlayer</span>.<span class="method">PlayMedia</span>(<span class="param">book</span>);   <span class="comment">// ✅ AudioBook implements IPlayable</span></pre>
+            </div>
+
+            <div class="success-box">
+                <strong>Key rule:</strong> A method that accepts an interface type can accept <strong>any object that
+                    implements that interface</strong> — not just any object, and not objects that happen to have
+                methods with the same name but don't implement the interface.
+            </div>
+
+            <!-- Common .NET Interfaces -->
+            <h2>📚 Common .NET Interfaces</h2>
+
+            <p>The .NET framework defines several interfaces that you'll encounter frequently. Implementing these gives
+                your classes built-in capabilities.</p>
+
+            <h3>ICloneable — Making Copies of Objects</h3>
+
+            <p>The <code>ICloneable</code> interface has a single method: <code>Clone()</code>, which returns
+                an <strong><code>Object</code></strong> type. You implement it to create a copy of your object.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">interface</span> <span class="interface">ICloneable</span>
+{
+    <span class="type">object</span> <span class="method">Clone</span>();    <span class="comment">// Returns Object type (not a specific type)</span>
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Recipe</span> : <span class="interface">ICloneable</span>
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Servings</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> <span class="type">object</span> <span class="method">Clone</span>()
+    {
+        <span class="comment">// MemberwiseClone() creates a shallow copy</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.<span class="method">MemberwiseClone</span>();
+    }
+}
+
+<span class="comment">// Using Clone — must cast back since it returns Object</span>
+<span class="type">Recipe</span> <span class="param">original</span> = <span class="keyword">new</span> <span class="type">Recipe</span> { Name = <span class="string">"Pasta"</span>, Servings = <span class="number">4</span> };
+<span class="type">Recipe</span> <span class="param">copy</span> = (<span class="type">Recipe</span>)<span class="param">original</span>.<span class="method">Clone</span>();</pre>
+
+            <h4>Shallow Copy vs. Deep Copy</h4>
+
+            <p>When your object contains reference-type properties (like another object), you have a choice:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Copy Type</th>
+                        <th>What Happens</th>
+                        <th>When to Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Shallow copy</strong></td>
+                        <td>The clone and the original share the same inner objects (references are copied)</td>
+                        <td>When sharing the inner object is acceptable or when all properties are value types</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deep copy</strong></td>
+                        <td>The clone gets its own separate copies of inner objects</td>
+                        <td>When the clone must be fully independent of the original</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>The decision is yours:</strong> When implementing <code>ICloneable</code> for a class that has
+                object properties, you decide whether the clone shares the same inner objects (shallow) or gets
+                independent copies (deep). Neither approach is universally "correct."
+            </div>
+
+            <h3>IComparable&lt;T&gt; — Sorting Objects</h3>
+
+            <p>The <code>IComparable&lt;T&gt;</code> interface defines a <code>CompareTo()</code> method that accepts
+                a <strong>specific type as a parameter</strong> (not <code>Object</code>). It's used to define a
+                natural sort order for your class.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Recipe</span> : <span class="interface">IComparable</span>&lt;<span class="type">Recipe</span>&gt;
+{
+    <span class="keyword">public</span> <span class="type">string</span> <span class="param">Name</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Servings</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// CompareTo accepts a SPECIFIC type (Recipe), not Object</span>
+    <span class="keyword">public</span> <span class="type">int</span> <span class="method">CompareTo</span>(<span class="type">Recipe</span> <span class="param">other</span>)
+    {
+        <span class="comment">// Returns negative, zero, or positive</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.Name.<span class="method">CompareTo</span>(<span class="param">other</span>.Name);
+    }
+}</pre>
+
+            <h3>IEnumerable&lt;T&gt; — Enabling foreach</h3>
+
+            <p>A class that implements <code>IEnumerable&lt;T&gt;</code> can be used with a <strong><code>foreach</code>
+                    statement</strong>. This is the primary reason to implement this interface — it makes your
+                custom collection iterable.</p>
+
+            <pre><span class="comment">// Once a class implements IEnumerable&lt;T&gt;, you can do:</span>
+<span class="keyword">foreach</span> (<span class="type">Recipe</span> <span class="param">r</span> <span class="keyword">in</span> <span class="param">myRecipeCollection</span>)
+{
+    <span class="param">lstOutput</span>.Items.Add(<span class="param">r</span>.Name);
+}</pre>
+
+            <div class="highlight-box">
+                <h4>Remember the Purpose of Each Interface</h4>
+                <p><strong>ICloneable</strong> → making copies of objects (Clone() returns <code>Object</code>)</p>
+                <p><strong>IComparable&lt;T&gt;</strong> → sorting objects (CompareTo() accepts a <strong>specific
+                        type</strong>)</p>
+                <p><strong>IEnumerable&lt;T&gt;</strong> → enabling <code>foreach</code> loops on your class</p>
+            </div>
+
+            <!-- Generics -->
+            <h2>📦 Generics</h2>
+
+            <p><strong>Generics</strong> let you write classes and interfaces that work with <em>any</em> type, with
+                the specific type provided when the class is used. The type placeholder is traditionally called
+                <code>T</code>.</p>
+
+            <h3>Generic Classes</h3>
+
+            <p>A generic class declares a type parameter in angle brackets (<code>&lt;T&gt;</code>). When you create
+                an object from the class, you specify the actual type to use.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Declaring and Using a Generic Class</h4>
+                <pre><span class="comment">// Declaring a generic class</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Shelf</span>&lt;<span class="type">T</span>&gt;
+{
+    <span class="keyword">private</span> <span class="type">T</span>[] <span class="param">_items</span>;
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_count</span>;
+
+    <span class="keyword">public</span> <span class="method">Shelf</span>(<span class="type">int</span> <span class="param">capacity</span>)
+    {
+        <span class="param">_items</span> = <span class="keyword">new</span> <span class="type">T</span>[<span class="param">capacity</span>];
+        <span class="param">_count</span> = <span class="number">0</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Add</span>(<span class="type">T</span> <span class="param">item</span>)
+    {
+        <span class="param">_items</span>[<span class="param">_count</span>] = <span class="param">item</span>;
+        <span class="param">_count</span>++;
+    }
+
+    <span class="keyword">public</span> <span class="type">T</span> <span class="method">Get</span>(<span class="type">int</span> <span class="param">index</span>)
+    {
+        <span class="keyword">return</span> <span class="param">_items</span>[<span class="param">index</span>];
+    }
+}</pre>
+            </div>
+
+            <h3>Instantiating a Generic Class</h3>
+
+            <p>When you create an object from a generic class, you provide the actual type in angle brackets on
+                <strong>both sides</strong> of the statement.</p>
+
+            <pre><span class="comment">// Specify the type in angle brackets on BOTH sides</span>
+<span class="type">Shelf</span>&lt;<span class="type">string</span>&gt; <span class="param">bookShelf</span> = <span class="keyword">new</span> <span class="type">Shelf</span>&lt;<span class="type">string</span>&gt;(<span class="number">20</span>);
+<span class="param">bookShelf</span>.<span class="method">Add</span>(<span class="string">"C# Programming"</span>);
+
+<span class="type">Shelf</span>&lt;<span class="type">int</span>&gt; <span class="param">numberShelf</span> = <span class="keyword">new</span> <span class="type">Shelf</span>&lt;<span class="type">int</span>&gt;(<span class="number">10</span>);
+<span class="param">numberShelf</span>.<span class="method">Add</span>(<span class="number">42</span>);
+
+<span class="type">Shelf</span>&lt;<span class="type">Recipe</span>&gt; <span class="param">recipeShelf</span> = <span class="keyword">new</span> <span class="type">Shelf</span>&lt;<span class="type">Recipe</span>&gt;(<span class="number">50</span>);
+<span class="param">recipeShelf</span>.<span class="method">Add</span>(<span class="keyword">new</span> <span class="type">Recipe</span> { Name = <span class="string">"Soup"</span> });</pre>
+
+            <div class="warning-box">
+                <strong>Common syntax mistake:</strong> Make sure the type appears in angle brackets on <em>both</em>
+                the variable declaration and the constructor call. Writing
+                <code>Shelf bookShelf = new Shelf&lt;string&gt;();</code> is a compile error — the left side
+                must also say <code>Shelf&lt;string&gt;</code>.
+            </div>
+
+            <!-- Generic Interfaces -->
+            <h2>🧬 Generic Interfaces</h2>
+
+            <p>Just like classes, interfaces can be generic. You declare a type parameter in angle brackets after the
+                interface name.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Declaring a Generic Interface</h4>
+                <pre><span class="comment">// Declaring a generic interface</span>
+<span class="keyword">public</span> <span class="keyword">interface</span> <span class="interface">IRepository</span>&lt;<span class="type">T</span>&gt;
+{
+    <span class="keyword">void</span> <span class="method">Add</span>(<span class="type">T</span> <span class="param">item</span>);
+    <span class="type">T</span> <span class="method">GetById</span>(<span class="type">int</span> <span class="param">id</span>);
+    <span class="type">int</span> <span class="param">Count</span> { <span class="keyword">get</span>; }
+}</pre>
+            </div>
+
+            <h3>Implementing a Generic Interface with a Specific Type</h3>
+
+            <p>When a class implements a generic interface, it specifies the <strong>actual type</strong> to replace
+                <code>T</code> — typically its own class name or another concrete type.</p>
+
+            <pre><span class="comment">// Recipe implements IRepository&lt;Recipe&gt; — T becomes Recipe</span>
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">RecipeBook</span> : <span class="interface">IRepository</span>&lt;<span class="type">Recipe</span>&gt;
+{
+    <span class="keyword">private</span> <span class="type">Recipe</span>[] <span class="param">_recipes</span> = <span class="keyword">new</span> <span class="type">Recipe</span>[<span class="number">100</span>];
+    <span class="keyword">private</span> <span class="type">int</span> <span class="param">_count</span> = <span class="number">0</span>;
+
+    <span class="keyword">public</span> <span class="type">int</span> <span class="param">Count</span> => <span class="param">_count</span>;
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Add</span>(<span class="type">Recipe</span> <span class="param">item</span>)     <span class="comment">// T is now Recipe</span>
+    {
+        <span class="param">_recipes</span>[<span class="param">_count</span>] = <span class="param">item</span>;
+        <span class="param">_count</span>++;
+    }
+
+    <span class="keyword">public</span> <span class="type">Recipe</span> <span class="method">GetById</span>(<span class="type">int</span> <span class="param">id</span>)   <span class="comment">// T is now Recipe</span>
+    {
+        <span class="keyword">return</span> <span class="param">_recipes</span>[<span class="param">id</span>];
+    }
+}</pre>
+
+            <div class="tip-box">
+                <strong>Pattern to remember:</strong> When implementing <code>IComparable&lt;T&gt;</code> for your own
+                class, replace <code>T</code> with your class name: <code>class Recipe : IComparable&lt;Recipe&gt;</code>.
+                This makes <code>CompareTo()</code> accept a <code>Recipe</code> parameter instead of <code>Object</code>.
+            </div>
+
+            <!-- Polymorphism with Interfaces -->
+            <h2>🎭 Polymorphism with Interfaces</h2>
+
+            <p>Interfaces enable polymorphism just like inheritance does. When you call a method through an interface
+                variable, the <strong>actual object's implementation</strong> runs.</p>
+
+            <pre><span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Podcast</span> : <span class="interface">IPlayable</span>
+{
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Play</span>() { <span class="comment">/* streams audio */</span> }
+    <span class="comment">// ...</span>
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">VideoClip</span> : <span class="interface">IPlayable</span>
+{
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="method">Play</span>() { <span class="comment">/* streams video */</span> }
+    <span class="comment">// ...</span>
+}
+
+<span class="comment">// Interface-typed array — holds any IPlayable</span>
+<span class="interface">IPlayable</span>[] <span class="param">queue</span> = <span class="keyword">new</span> <span class="interface">IPlayable</span>[<span class="number">10</span>];
+<span class="param">queue</span>[<span class="number">0</span>] = <span class="keyword">new</span> <span class="type">Podcast</span>();
+<span class="param">queue</span>[<span class="number">1</span>] = <span class="keyword">new</span> <span class="type">VideoClip</span>();
+
+<span class="comment">// Polymorphism — each object's own Play() runs</span>
+<span class="keyword">for</span> (<span class="type">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="number">2</span>; <span class="param">i</span>++)
+{
+    <span class="param">queue</span>[<span class="param">i</span>].<span class="method">Play</span>();  <span class="comment">// Podcast streams audio, VideoClip streams video</span>
+}</pre>
+
+            <h3>Calling an Interface Method Directly on an Object</h3>
+
+            <p>If you have a variable of the concrete class type (not the interface type), calling the method works
+                directly — it calls that class's implementation of the interface method.</p>
+
+            <pre><span class="type">Podcast</span> <span class="param">pod</span> = <span class="keyword">new</span> <span class="type">Podcast</span>();
+<span class="param">pod</span>.<span class="method">Play</span>();    <span class="comment">// Calls Podcast's Play() — no interface variable needed</span></pre>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Interface</td>
+                            <td>A contract that defines members a class must implement</td>
+                        </tr>
+                        <tr>
+                            <td>Naming convention</td>
+                            <td>Interfaces start with <code>I</code> — e.g., <code>IPlayable</code>, <code>ICloneable</code></td>
+                        </tr>
+                        <tr>
+                            <td>Multiple interfaces</td>
+                            <td>A class can implement many interfaces: <code>class X : IA, IB, IC</code></td>
+                        </tr>
+                        <tr>
+                            <td>Base class + interfaces</td>
+                            <td>Base class FIRST: <code>class X : BaseClass, IInterface</code></td>
+                        </tr>
+                        <tr>
+                            <td>Interface property syntax</td>
+                            <td><code>string Name { get; }</code> or <code>{ get; set; }</code> — just semicolons</td>
+                        </tr>
+                        <tr>
+                            <td>Cannot instantiate interface</td>
+                            <td><code>new IPlayable()</code> is a compile error — use a class that implements it</td>
+                        </tr>
+                        <tr>
+                            <td>Interfaces can't have</td>
+                            <td><strong>Instance variables</strong> (fields) — even in C# 8+</td>
+                        </tr>
+                        <tr>
+                            <td>Default methods (C# 8+)</td>
+                            <td>Interfaces can provide default implementations; classes don't have to override them</td>
+                        </tr>
+                        <tr>
+                            <td>Interface inheritance</td>
+                            <td>An interface can inherit other interfaces</td>
+                        </tr>
+                        <tr>
+                            <td>Interface as parameter</td>
+                            <td>Accepts any object that implements that interface</td>
+                        </tr>
+                        <tr>
+                            <td><code>ICloneable</code></td>
+                            <td><code>Clone()</code> returns <code>Object</code> — you decide shallow vs. deep copy</td>
+                        </tr>
+                        <tr>
+                            <td><code>IComparable&lt;T&gt;</code></td>
+                            <td><code>CompareTo()</code> accepts a <strong>specific type</strong> parameter</td>
+                        </tr>
+                        <tr>
+                            <td><code>IEnumerable&lt;T&gt;</code></td>
+                            <td>Enables <code>foreach</code> loops on your class</td>
+                        </tr>
+                        <tr>
+                            <td>Generic class syntax</td>
+                            <td><code>class Shelf&lt;T&gt; { }</code> — T is a placeholder for any type</td>
+                        </tr>
+                        <tr>
+                            <td>Generic instantiation</td>
+                            <td><code>Shelf&lt;int&gt; s = new Shelf&lt;int&gt;();</code> — type on BOTH sides</td>
+                        </tr>
+                        <tr>
+                            <td>Generic interface</td>
+                            <td><code>interface IRepository&lt;T&gt; { }</code></td>
+                        </tr>
+                        <tr>
+                            <td>Implementing generic interface</td>
+                            <td><code>class RecipeBook : IRepository&lt;Recipe&gt;</code> — replace T with concrete type</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>IPlayable p = new IPlayable();</code></td>
+                            <td><code>IPlayable p = new Podcast();</code> — cannot instantiate an interface</td>
+                        </tr>
+                        <tr>
+                            <td><code>class AudioBook : IPlayable, Book</code></td>
+                            <td><code>class AudioBook : Book, IPlayable</code> — base class must come first</td>
+                        </tr>
+                        <tr>
+                            <td><code>class Book : ICloneable : IPlayable</code></td>
+                            <td><code>class Book : ICloneable, IPlayable</code> — use commas, not colons</td>
+                        </tr>
+                        <tr>
+                            <td>Adding <code>private string _name;</code> to an interface</td>
+                            <td>Interfaces cannot have instance variables — use abstract class instead</td>
+                        </tr>
+                        <tr>
+                            <td><code>Shelf books = new Shelf&lt;string&gt;();</code></td>
+                            <td><code>Shelf&lt;string&gt; books = new Shelf&lt;string&gt;();</code> — type on both sides</td>
+                        </tr>
+                        <tr>
+                            <td><code>class Book : IComparable&lt;T&gt;</code></td>
+                            <td><code>class Book : IComparable&lt;Book&gt;</code> — replace T with the actual type</td>
+                        </tr>
+                        <tr>
+                            <td>Not implementing all non-default interface members</td>
+                            <td>You must implement every member that doesn't have a default</td>
+                        </tr>
+                        <tr>
+                            <td>Thinking a class can only implement one interface</td>
+                            <td>A class can implement <strong>multiple</strong> interfaces (unlike single inheritance)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Vocabulary -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Interface</td>
+                            <td>A contract that defines methods and properties a class must implement</td>
+                        </tr>
+                        <tr>
+                            <td>Implement</td>
+                            <td>Providing actual code for every member defined in an interface</td>
+                        </tr>
+                        <tr>
+                            <td>Default method</td>
+                            <td>A method in an interface that has a body — implementing classes get it for free</td>
+                        </tr>
+                        <tr>
+                            <td>Generic</td>
+                            <td>A class or interface that uses a type parameter (<code>T</code>) as a placeholder</td>
+                        </tr>
+                        <tr>
+                            <td>Type parameter (<code>T</code>)</td>
+                            <td>A placeholder in a generic that is replaced with a specific type when used</td>
+                        </tr>
+                        <tr>
+                            <td>ICloneable</td>
+                            <td>Interface with <code>Clone()</code> for making object copies (returns <code>Object</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>IComparable&lt;T&gt;</td>
+                            <td>Interface with <code>CompareTo(T)</code> for defining sort order</td>
+                        </tr>
+                        <tr>
+                            <td>IEnumerable&lt;T&gt;</td>
+                            <td>Interface that enables <code>foreach</code> iteration</td>
+                        </tr>
+                        <tr>
+                            <td>Shallow copy</td>
+                            <td>Clone and original share the same inner reference-type objects</td>
+                        </tr>
+                        <tr>
+                            <td>Deep copy</td>
+                            <td>Clone gets independent copies of inner reference-type objects</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
