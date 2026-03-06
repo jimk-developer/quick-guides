@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started with React</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A7EA4;
+            --primary-dark: #06628A;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #0A7EA4 0%, #06628A 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #61DAFB 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #C586C0;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        pre .tag {
+            color: #569CD6;
+        }
+
+        pre .attr {
+            color: #9CDCFE;
+        }
+
+        pre .component {
+            color: #4EC9B0;
+        }
+
+        pre .hook {
+            color: #DCDCAA;
+        }
+
+        pre .interface {
+            color: #4EC9B0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(10, 126, 164, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E0F2FE 0%, #E0F7FA 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: #61DAFB;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        .hierarchy-diagram {
+            background: #F8F9FA;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .hier-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 6px 0;
+            flex-wrap: wrap;
+        }
+
+        .hier-box {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            font-weight: 600;
+            min-width: 130px;
+        }
+
+        .hier-root {
+            background: #E0F2FE;
+            border: 2px solid #0A7EA4;
+            color: #06628A;
+        }
+
+        .hier-base {
+            background: #E8EAF6;
+            border: 2px solid #5C6BC0;
+            color: #3949AB;
+        }
+
+        .hier-derived {
+            background: #E8F5E9;
+            border: 2px solid #388E3C;
+            color: #2E7D32;
+        }
+
+        .hier-arrow {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        .hier-spacer {
+            width: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #61DAFB;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Getting Started with React + TypeScript</h1>
+        <p>Components, TSX, Typed Hooks, Forms, Data Fetching, and React 19 Features</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- I. Getting Started with React -->
+            <h2>🚀 Getting Started with React</h2>
+
+            <p><strong>React</strong> is a JavaScript library for building user interfaces. Instead of writing long,
+                tangled HTML files and manipulating the DOM with vanilla JavaScript, React lets you break your UI
+                into small, reusable pieces called <strong>components</strong>. Each component manages its own
+                chunk of the screen, making your code easier to understand, test, and maintain.</p>
+
+            <p>In this guide, we use <strong>TypeScript</strong> from the ground up. TypeScript adds static type
+                checking to JavaScript, catching bugs at compile time instead of at runtime. React files that
+                contain TSX (the TypeScript version of JSX) use the <code>.tsx</code> extension. Files with
+                plain TypeScript logic (no TSX markup) use <code>.ts</code>.</p>
+
+            <div class="highlight-box">
+                <h4>Why React + TypeScript?</h4>
+                <p>React is used by millions of developers and powers apps at companies like Meta, Netflix, and
+                    Airbnb. Adding TypeScript gives you <strong>autocompletion</strong> in your editor,
+                    <strong>type safety</strong> for your props and state, and <strong>earlier error detection</strong>
+                    — your editor highlights mistakes before you even run the app. If you're building a MERN stack
+                    application with TypeScript on the backend, using TypeScript on the frontend means
+                    your entire stack speaks the same language.</p>
+            </div>
+
+            <h3>Setup &amp; Installation</h3>
+
+            <p>The modern way to create a new React + TypeScript project is with <strong>Vite</strong>
+                (pronounced "veet"). Vite is a lightning-fast build tool that replaces the older Create React App
+                (CRA). Open your terminal and run:</p>
+
+            <div class="syntax-box">
+                <h4>Scaffolding a New React + TypeScript Project with Vite</h4>
+                <pre><span class="comment"># Create a new project with the React + TypeScript template</span>
+npm create vite@latest my-app -- --template react-ts
+
+<span class="comment"># Move into the project folder</span>
+<span class="keyword">cd</span> my-app
+
+<span class="comment"># Install all dependencies</span>
+npm install
+
+<span class="comment"># Start the development server</span>
+npm run dev</pre>
+            </div>
+
+            <p>Your app will launch at <code>http://localhost:5173</code>. Every time you save a file, the browser
+                updates instantly — that's Vite's <strong>Hot Module Replacement (HMR)</strong> in action. Notice
+                that Vite generates <code>.tsx</code> files instead of <code>.jsx</code> — that's the TypeScript
+                template at work.</p>
+
+            <h3>The Starting Point: <code>createRoot</code></h3>
+
+            <p>Every React app starts at one place: the <code>main.tsx</code> file. This file uses
+                <code>createRoot</code> to "mount" your top-level component into the HTML page. This is the single
+                React DOM API you need to kick off your app.</p>
+
+            <div class="syntax-box">
+                <h4>main.tsx — The Entry Point</h4>
+                <pre><span class="keyword">import</span> { <span class="type">StrictMode</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { <span class="method">createRoot</span> } <span class="keyword">from</span> <span class="string">'react-dom/client'</span>;
+<span class="keyword">import</span> <span class="component">App</span> <span class="keyword">from</span> <span class="string">'./App.tsx'</span>;
+<span class="keyword">import</span> <span class="string">'./index.css'</span>;
+
+<span class="comment">// The "!" is a TypeScript non-null assertion — we know #root exists</span>
+<span class="method">createRoot</span>(document.<span class="method">getElementById</span>(<span class="string">'root'</span>)<span class="keyword">!</span>).<span class="method">render</span>(
+  <span class="tag">&lt;</span><span class="component">StrictMode</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;</span><span class="component">App</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/</span><span class="component">StrictMode</span><span class="tag">&gt;</span>
+);</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong><code>StrictMode</code></strong> is a development-only wrapper. It doesn't render anything
+                visible, but it helps catch potential problems in your code (like accidental side effects) by
+                running components twice during development. The <code>!</code> after
+                <code>getElementById('root')</code> tells TypeScript: "I guarantee this element exists — it won't
+                be <code>null</code>."
+            </div>
+
+            <!-- II. React Basics: Components & TSX -->
+            <h2>🧩 React Basics: Components &amp; TSX</h2>
+
+            <h3>Thinking in Components</h3>
+
+            <p>A <strong>component</strong> is a TypeScript function that returns a piece of UI. Every part of
+                your page — the navbar, a product card, a footer — can be its own component. You build your app
+                by composing these small pieces together, like LEGO bricks. Component files use the
+                <code>.tsx</code> extension because they contain TSX markup.</p>
+
+            <div class="hierarchy-diagram">
+                <div class="hier-row">
+                    <div class="hier-box hier-root">&lt;App /&gt;</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow">↓</span>
+                    <span class="hier-arrow">↘</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-base">&lt;Header /&gt;</div>
+                    <div class="hier-box hier-base">&lt;ProductList /&gt;</div>
+                    <div class="hier-box hier-base">&lt;Footer /&gt;</div>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-spacer"></div>
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow">↘</span>
+                    <div class="hier-spacer"></div>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-spacer"></div>
+                    <div class="hier-box hier-derived">&lt;ProductCard /&gt;</div>
+                    <div class="hier-box hier-derived">&lt;ProductCard /&gt;</div>
+                    <div class="hier-spacer"></div>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>A Simple Component (Greeting.tsx)</h4>
+                <pre><span class="comment">// Components are just functions that return TSX</span>
+<span class="keyword">function</span> <span class="component">Greeting</span>(): <span class="type">React.JSX.Element</span> {
+  <span class="keyword">return</span> <span class="tag">&lt;h1&gt;</span>Hello, World!<span class="tag">&lt;/h1&gt;</span>;
+}
+
+<span class="keyword">export default</span> <span class="component">Greeting</span>;</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Return type annotation is optional.</strong> TypeScript can infer the return type of
+                your components automatically. You'll see some codebases write
+                <code>function Greeting(): React.JSX.Element</code> and others just write
+                <code>function Greeting()</code> — both are fine. The explicit annotation can be helpful as
+                documentation while you're learning.
+            </div>
+
+            <h3>Writing TSX</h3>
+
+            <p><strong>TSX</strong> is the TypeScript version of JSX. It looks like HTML, but it lives inside
+                your <code>.tsx</code> files. Under the hood, React transforms TSX into regular JavaScript
+                function calls. There are a few important rules:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>TSX Rule</th>
+                        <th>Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Return a single root element</td>
+                        <td>Wrap everything in one parent <code>&lt;div&gt;</code> or use a
+                            <strong>Fragment</strong> (<code>&lt;&gt;...&lt;/&gt;</code>).</td>
+                    </tr>
+                    <tr>
+                        <td>Close all tags</td>
+                        <td>Self-closing tags like <code>&lt;img&gt;</code> must be written as
+                            <code>&lt;img /&gt;</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>Use <code>className</code>, not <code>class</code></td>
+                        <td>Since <code>class</code> is a reserved word in JavaScript/TypeScript, TSX uses
+                            <code>className</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>Use <code>htmlFor</code>, not <code>for</code></td>
+                        <td>Same reason — <code>for</code> is a reserved keyword. Labels use
+                            <code>htmlFor</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>JavaScript/TypeScript goes inside <code>{ }</code></td>
+                        <td>Use curly braces to embed variables, expressions, or function calls inside TSX.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><span class="keyword">function</span> <span class="component">UserCard</span>() {
+  <span class="keyword">const</span> <span class="param">name</span>: <span class="type">string</span> = <span class="string">"Alice"</span>;
+  <span class="keyword">const</span> <span class="param">isOnline</span>: <span class="type">boolean</span> = <span class="keyword">true</span>;
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;&gt;</span>                              <span class="comment">{/* Fragment — no extra div in the DOM */}</span>
+      <span class="tag">&lt;h2</span> <span class="attr">className</span>=<span class="string">"card-title"</span><span class="tag">&gt;</span>{<span class="param">name</span>}<span class="tag">&lt;/h2&gt;</span>       <span class="comment">{/* Embed a variable */}</span>
+      <span class="tag">&lt;p&gt;</span>Status: {<span class="param">isOnline</span> ? <span class="string">"🟢 Online"</span> : <span class="string">"⚪ Offline"</span>}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"/avatar.png"</span> <span class="attr">alt</span>=<span class="string">"avatar"</span> <span class="tag">/&gt;</span>   <span class="comment">{/* Self-closing tag */}</span>
+    <span class="tag">&lt;/&gt;</span>
+  );
+}</pre>
+
+            <h3>Using Props with TypeScript Interfaces</h3>
+
+            <p><strong>Props</strong> (short for "properties") are how you pass data from a <em>parent</em>
+                component down to a <em>child</em> component. In TypeScript, you define an
+                <strong>interface</strong> to describe the shape of the props object. This gives you
+                autocompletion and type checking — if you misspell a prop name or pass the wrong type,
+                TypeScript catches it immediately.</p>
+
+            <div class="syntax-box">
+                <h4>Defining and Using Typed Props</h4>
+                <pre><span class="comment">// Define an interface for the component's props</span>
+<span class="keyword">interface</span> <span class="interface">ProductCardProps</span> {
+  <span class="param">name</span>: <span class="type">string</span>;
+  <span class="param">price</span>: <span class="type">number</span>;
+  <span class="param">inStock</span>?: <span class="type">boolean</span>;   <span class="comment">// "?" means this prop is optional</span>
+}
+
+<span class="comment">// Destructure props with the interface as the type annotation</span>
+<span class="keyword">function</span> <span class="component">ProductCard</span>({ <span class="param">name</span>, <span class="param">price</span>, <span class="param">inStock</span> = <span class="keyword">true</span> }: <span class="interface">ProductCardProps</span>) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"card"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h3&gt;</span>{<span class="param">name</span>}<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;p&gt;</span>${<span class="param">price</span>.<span class="method">toFixed</span>(<span class="number">2</span>)}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p&gt;</span>{<span class="param">inStock</span> ? <span class="string">"In Stock"</span> : <span class="string">"Out of Stock"</span>}<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <pre><span class="comment">// Parent component passes data via attributes — TypeScript validates them</span>
+<span class="keyword">function</span> <span class="component">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;</span><span class="component">ProductCard</span> <span class="attr">name</span>=<span class="string">"Widget"</span> <span class="attr">price</span>={<span class="number">9.99</span>} <span class="tag">/&gt;</span>
+      <span class="tag">&lt;</span><span class="component">ProductCard</span> <span class="attr">name</span>=<span class="string">"Gadget"</span> <span class="attr">price</span>={<span class="number">24.99</span>} <span class="attr">inStock</span>={<span class="keyword">false</span>} <span class="tag">/&gt;</span>
+      <span class="comment">{/* ❌ TypeScript error: Property 'colour' does not exist */}</span>
+      <span class="comment">{/* &lt;ProductCard name="Gizmo" price={5} colour="red" /&gt; */}</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+
+            <div class="warning-box">
+                <strong>Props are read-only.</strong> A child component should never try to modify the props it
+                receives. If you need data that changes over time, you need <strong>state</strong> (covered in the
+                next section).
+            </div>
+
+            <!-- III. The Essential Hooks -->
+            <h2>🪝 The Essential Hooks: State &amp; Effects</h2>
+
+            <p><strong>Hooks</strong> are special functions that let your components "hook into" React features.
+                The two most important hooks you'll use every day are <code>useState</code> and
+                <code>useEffect</code>. In TypeScript, you can provide <strong>type parameters</strong> (generics)
+                to hooks so that React and your editor know exactly what type of data you're working with.</p>
+
+            <h3><code>useState</code> — Giving Components Memory</h3>
+
+            <p><code>useState</code> lets you add a <strong>state variable</strong> to your component. State is
+                data that can change over time. When the state changes, React automatically re-renders the
+                component to show the updated UI.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: useState with TypeScript</h4>
+                <pre><span class="keyword">import</span> { <span class="hook">useState</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="comment">// Define a type for each item in the cart</span>
+<span class="keyword">interface</span> <span class="interface">CartItem</span> {
+  <span class="param">id</span>: <span class="type">number</span>;
+  <span class="param">name</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="component">ShoppingCart</span>() {
+  <span class="comment">// Provide the type parameter so TypeScript knows items is CartItem[]</span>
+  <span class="keyword">const</span> [<span class="param">items</span>, <span class="method">setItems</span>] = <span class="hook">useState</span>&lt;<span class="interface">CartItem</span>[]&gt;([]);
+
+  <span class="keyword">function</span> <span class="method">addItem</span>(): <span class="type">void</span> {
+    <span class="comment">// Create a NEW array with the old items plus the new one</span>
+    <span class="method">setItems</span>([...<span class="param">items</span>, { <span class="attr">id</span>: Date.<span class="method">now</span>(), <span class="attr">name</span>: <span class="string">"New Item"</span> }]);
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Items in cart: {<span class="param">items</span>.<span class="param">length</span>}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={<span class="method">addItem</span>}<span class="tag">&gt;</span>Add Item<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>How useState Works</h4>
+                <p><strong>1.</strong> <code>useState&lt;Type&gt;(initialValue)</code> returns an array with two things:
+                    the <strong>current value</strong> and a <strong>setter function</strong>.</p>
+                <p><strong>2.</strong> You use <strong>array destructuring</strong> to give them names:
+                    <code>[items, setItems]</code>.</p>
+                <p><strong>3.</strong> Calling the setter (e.g., <code>setItems(...)</code>) tells React the state
+                    changed, and React re-renders the component with the new value.</p>
+                <p><strong>4.</strong> Never modify state directly (e.g., <code>items.push(...)</code>). Always
+                    use the setter function with a <em>new</em> value.</p>
+            </div>
+
+            <div class="tip-box">
+                <strong>When do you need the type parameter?</strong> For simple types like
+                <code>useState(0)</code> or <code>useState("")</code>, TypeScript infers the type
+                automatically and you can skip the generic. You need to provide it when the initial value
+                doesn't tell the full story — like <code>useState&lt;CartItem[]&gt;([])</code> (an empty
+                array could be anything) or <code>useState&lt;User | null&gt;(null)</code> (it starts as
+                <code>null</code> but will later hold a <code>User</code>).
+            </div>
+
+            <h3><code>useEffect</code> — Running Code in the Background</h3>
+
+            <p><code>useEffect</code> lets you run "side effects" — code that reaches outside your component,
+                like fetching data from your Express API, setting up a timer, or updating the document title.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: useEffect with TypeScript</h4>
+                <pre><span class="keyword">import</span> { <span class="hook">useState</span>, <span class="hook">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">interface</span> <span class="interface">User</span> {
+  <span class="param">_id</span>: <span class="type">string</span>;
+  <span class="param">name</span>: <span class="type">string</span>;
+  <span class="param">email</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">interface</span> <span class="interface">UserProfileProps</span> {
+  <span class="param">userId</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="component">UserProfile</span>({ <span class="param">userId</span> }: <span class="interface">UserProfileProps</span>) {
+  <span class="comment">// Starts as null, will eventually hold a User object</span>
+  <span class="keyword">const</span> [<span class="param">user</span>, <span class="method">setUser</span>] = <span class="hook">useState</span>&lt;<span class="interface">User</span> | <span class="type">null</span>&gt;(<span class="keyword">null</span>);
+
+  <span class="comment">// This runs AFTER the component renders</span>
+  <span class="hook">useEffect</span>(() => {
+    <span class="comment">// Fetch data from your Express API</span>
+    <span class="method">fetch</span>(<span class="string">`/api/users/${<span class="param">userId</span>}`</span>)
+      .<span class="method">then</span>((<span class="param">res</span>: <span class="type">Response</span>) => <span class="param">res</span>.<span class="method">json</span>())
+      .<span class="method">then</span>((<span class="param">data</span>: <span class="interface">User</span>) => <span class="method">setUser</span>(<span class="param">data</span>));
+  }, [<span class="param">userId</span>]);  <span class="comment">// ← dependency array: re-run only when userId changes</span>
+
+  <span class="keyword">if</span> (!<span class="param">user</span>) <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>Loading...<span class="tag">&lt;/p&gt;</span>;
+
+  <span class="keyword">return</span> <span class="tag">&lt;h2&gt;</span>{<span class="param">user</span>.<span class="param">name</span>}<span class="tag">&lt;/h2&gt;</span>;
+}</pre>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dependency Array</th>
+                        <th>When the Effect Runs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>useEffect(() =&gt; { ... })</code></td>
+                        <td>After <strong>every</strong> render (rarely what you want)</td>
+                    </tr>
+                    <tr>
+                        <td><code>useEffect(() =&gt; { ... }, [])</code></td>
+                        <td>Only <strong>once</strong>, after the first render (like "on page load")</td>
+                    </tr>
+                    <tr>
+                        <td><code>useEffect(() =&gt; { ... }, [userId])</code></td>
+                        <td>After the first render, <strong>and</strong> whenever <code>userId</code> changes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>The dependency array is the key.</strong> It tells React: "Only re-run this effect if one
+                of these values has changed since the last render." Forgetting a dependency is one of the most
+                common bugs in React — your linter will usually warn you about it.
+            </div>
+
+            <!-- IV. Handling User Interaction & Forms -->
+            <h2>🖱️ Handling User Interaction &amp; Forms</h2>
+
+            <h3>Event Listeners</h3>
+
+            <p>In React, you attach event handlers directly in your TSX using camelCase attributes like
+                <code>onClick</code>, <code>onChange</code>, <code>onMouseOver</code>, and
+                <code>onKeyDown</code>. You pass a <em>function reference</em>, not a function call. TypeScript
+                provides specific event types like <code>React.MouseEvent</code> and
+                <code>React.ChangeEvent</code> so you get full type checking on the event object.</p>
+
+            <pre><span class="keyword">import</span> { <span class="hook">useState</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="component">LikeButton</span>() {
+  <span class="keyword">const</span> [<span class="param">likes</span>, <span class="method">setLikes</span>] = <span class="hook">useState</span>&lt;<span class="type">number</span>&gt;(<span class="number">0</span>);
+
+  <span class="comment">// TypeScript event type for a button click</span>
+  <span class="keyword">function</span> <span class="method">handleClick</span>(<span class="param">e</span>: <span class="type">React.MouseEvent</span>&lt;<span class="type">HTMLButtonElement</span>&gt;): <span class="type">void</span> {
+    <span class="method">setLikes</span>(<span class="param">likes</span> + <span class="number">1</span>);
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;button</span> <span class="attr">onClick</span>={<span class="method">handleClick</span>}<span class="tag">&gt;</span>
+      👍 {<span class="param">likes</span>} Likes
+    <span class="tag">&lt;/button&gt;</span>
+  );
+}</pre>
+
+            <div class="warning-box">
+                <strong>Pass the function, don't call it!</strong> Write <code>onClick={handleClick}</code>, NOT
+                <code>onClick={handleClick()}</code>. Adding the parentheses would call the function immediately
+                on every render, not when the user clicks.
+            </div>
+
+            <h3>Form Handling in React 19</h3>
+
+            <p>React 19 introduced the ability to pass an <strong>action function</strong> directly to a form's
+                <code>action</code> prop. This gives you a clean, modern way to handle form submissions without
+                manually calling <code>e.preventDefault()</code>. The action function receives the native
+                <code>FormData</code> object.</p>
+
+            <div class="syntax-box">
+                <h4>React 19 Form Actions with TypeScript</h4>
+                <pre><span class="keyword">function</span> <span class="component">ContactForm</span>() {
+  <span class="keyword">async function</span> <span class="method">submitForm</span>(<span class="param">formData</span>: <span class="type">FormData</span>): <span class="type">Promise</span>&lt;<span class="type">void</span>&gt; {
+    <span class="keyword">const</span> <span class="param">name</span>: <span class="type">string</span> = <span class="param">formData</span>.<span class="method">get</span>(<span class="string">"name"</span>) <span class="keyword">as</span> <span class="type">string</span>;
+    <span class="keyword">const</span> <span class="param">email</span>: <span class="type">string</span> = <span class="param">formData</span>.<span class="method">get</span>(<span class="string">"email"</span>) <span class="keyword">as</span> <span class="type">string</span>;
+
+    <span class="keyword">await</span> <span class="method">fetch</span>(<span class="string">"/api/contacts"</span>, {
+      <span class="attr">method</span>: <span class="string">"POST"</span>,
+      <span class="attr">headers</span>: { <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span> },
+      <span class="attr">body</span>: JSON.<span class="method">stringify</span>({ <span class="param">name</span>, <span class="param">email</span> }),
+    });
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;form</span> <span class="attr">action</span>={<span class="method">submitForm</span>}<span class="tag">&gt;</span>
+      <span class="tag">&lt;input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">placeholder</span>=<span class="string">"Name"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;input</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"Email"</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Why is this a big deal?</strong> In earlier versions of React, you had to wire up
+                <code>onSubmit</code>, call <code>e.preventDefault()</code>, and manually read values from state
+                or refs. With React 19 form actions, the form just <em>works</em> — React handles the submission
+                and hands you a <code>FormData</code> object automatically. The <code>as string</code> cast is
+                needed because <code>formData.get()</code> returns <code>FormDataEntryValue | null</code>.
+            </div>
+
+            <h3>Conditional Rendering &amp; Lists</h3>
+
+            <p>Two of the most common patterns you'll use in React are <strong>conditional rendering</strong>
+                (showing or hiding UI based on state) and <strong>rendering lists</strong> (turning an array of
+                data into an array of components using <code>.map()</code>).</p>
+
+            <pre><span class="keyword">interface</span> <span class="interface">Task</span> {
+  <span class="param">id</span>: <span class="type">number</span>;
+  <span class="param">text</span>: <span class="type">string</span>;
+  <span class="param">done</span>: <span class="type">boolean</span>;
+}
+
+<span class="keyword">function</span> <span class="component">TaskList</span>() {
+  <span class="keyword">const</span> [<span class="param">tasks</span>, <span class="method">setTasks</span>] = <span class="hook">useState</span>&lt;<span class="interface">Task</span>[]&gt;([
+    { <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">text</span>: <span class="string">"Learn React"</span>, <span class="attr">done</span>: <span class="keyword">true</span> },
+    { <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">text</span>: <span class="string">"Build a project"</span>, <span class="attr">done</span>: <span class="keyword">false</span> },
+    { <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">text</span>: <span class="string">"Deploy to the cloud"</span>, <span class="attr">done</span>: <span class="keyword">false</span> },
+  ]);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;ul&gt;</span>
+      {<span class="param">tasks</span>.<span class="method">map</span>((<span class="param">task</span>: <span class="interface">Task</span>) => (
+        <span class="tag">&lt;li</span> <span class="attr">key</span>={<span class="param">task</span>.<span class="param">id</span>}<span class="tag">&gt;</span>
+          <span class="comment">{/* Conditional rendering with the ternary operator */}</span>
+          {<span class="param">task</span>.<span class="param">done</span> ? <span class="string">"✅"</span> : <span class="string">"⬜"</span>} {<span class="param">task</span>.<span class="param">text</span>}
+        <span class="tag">&lt;/li&gt;</span>
+      ))}
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</pre>
+
+            <div class="warning-box">
+                <strong>Always include a <code>key</code> prop when rendering lists.</strong> React uses the
+                <code>key</code> to efficiently track which items have changed, been added, or been removed. Use a
+                unique, stable identifier (like an <code>_id</code> from your database) — never use the array index
+                as the key if items can be reordered or deleted.
+            </div>
+
+            <!-- V. Connecting to Your Backend -->
+            <h2>🔌 Connecting to Your Backend (e.g., Express)</h2>
+
+            <h3>Fetching Data</h3>
+
+            <p>To connect your React front end to your Express API, you make standard HTTP requests using
+                <code>fetch</code> (built into the browser) or a library like <strong>axios</strong>. The most
+                common pattern is to fetch data inside a <code>useEffect</code> when a component first mounts.
+                TypeScript lets you type the response data so your editor knows exactly what fields are available.</p>
+
+            <div class="syntax-box">
+                <h4>Fetching Typed Data from an Express API</h4>
+                <pre><span class="keyword">import</span> { <span class="hook">useState</span>, <span class="hook">useEffect</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">interface</span> <span class="interface">Concert</span> {
+  <span class="param">_id</span>: <span class="type">string</span>;
+  <span class="param">artist</span>: <span class="type">string</span>;
+  <span class="param">venue</span>: <span class="type">string</span>;
+  <span class="param">date</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="component">ConcertList</span>() {
+  <span class="keyword">const</span> [<span class="param">concerts</span>, <span class="method">setConcerts</span>] = <span class="hook">useState</span>&lt;<span class="interface">Concert</span>[]&gt;([]);
+  <span class="keyword">const</span> [<span class="param">error</span>, <span class="method">setError</span>] = <span class="hook">useState</span>&lt;<span class="type">string</span> | <span class="type">null</span>&gt;(<span class="keyword">null</span>);
+
+  <span class="hook">useEffect</span>(() => {
+    <span class="method">fetch</span>(<span class="string">"http://localhost:3000/api/concerts"</span>)
+      .<span class="method">then</span>((<span class="param">res</span>: <span class="type">Response</span>) => {
+        <span class="keyword">if</span> (!<span class="param">res</span>.<span class="param">ok</span>) <span class="keyword">throw new</span> <span class="type">Error</span>(<span class="string">"Network response was not ok"</span>);
+        <span class="keyword">return</span> <span class="param">res</span>.<span class="method">json</span>();
+      })
+      .<span class="method">then</span>((<span class="param">data</span>: <span class="interface">Concert</span>[]) => <span class="method">setConcerts</span>(<span class="param">data</span>))
+      .<span class="method">catch</span>((<span class="param">err</span>: <span class="type">Error</span>) => <span class="method">setError</span>(<span class="param">err</span>.<span class="param">message</span>));
+  }, []);  <span class="comment">// Empty array = fetch once on mount</span>
+
+  <span class="keyword">if</span> (<span class="param">error</span>) <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>Error: {<span class="param">error</span>}<span class="tag">&lt;/p&gt;</span>;
+  <span class="keyword">if</span> (<span class="param">concerts</span>.<span class="param">length</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>Loading...<span class="tag">&lt;/p&gt;</span>;
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;ul&gt;</span>
+      {<span class="param">concerts</span>.<span class="method">map</span>((<span class="param">c</span>: <span class="interface">Concert</span>) => (
+        <span class="tag">&lt;li</span> <span class="attr">key</span>={<span class="param">c</span>.<span class="param">_id</span>}<span class="tag">&gt;</span>{<span class="param">c</span>.<span class="param">artist</span>} — {<span class="param">c</span>.<span class="param">venue</span>}<span class="tag">&lt;/li&gt;</span>
+      ))}
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <h3>Managing Loading States with <code>&lt;Suspense&gt;</code></h3>
+
+            <p>React's built-in <code>&lt;Suspense&gt;</code> component lets you declaratively show a fallback UI
+                (like a spinner or "Loading..." message) while a child component is waiting for asynchronous data.
+                This keeps your loading logic clean and out of your component code.</p>
+
+            <pre><span class="keyword">import</span> { <span class="type">Suspense</span>, <span class="keyword">lazy</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="comment">// Lazy-load a component (its code is only fetched when needed)</span>
+<span class="keyword">const</span> <span class="component">ConcertList</span> = <span class="keyword">lazy</span>(() => <span class="keyword">import</span>(<span class="string">'./ConcertList.tsx'</span>));
+
+<span class="keyword">function</span> <span class="component">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;</span><span class="component">Suspense</span> <span class="attr">fallback</span>={<span class="tag">&lt;p&gt;</span>Loading concerts...<span class="tag">&lt;/p&gt;</span>}<span class="tag">&gt;</span>
+      <span class="tag">&lt;</span><span class="component">ConcertList</span> <span class="tag">/&gt;</span>
+    <span class="tag">&lt;/</span><span class="component">Suspense</span><span class="tag">&gt;</span>
+  );
+}</pre>
+
+            <div class="tip-box">
+                <strong><code>Suspense</code> works great with lazy loading.</strong> Use
+                <code>lazy()</code> to split your app into smaller chunks. The code for a component is only
+                downloaded when it's actually needed, making your initial page load faster.
+            </div>
+
+            <!-- VI. The Rules of React -->
+            <h2>📏 The Rules of React (How to Avoid Bugs)</h2>
+
+            <h3>Component Purity</h3>
+
+            <p>A React component should be a <strong>pure function</strong>: given the same props and state, it
+                should always return the same TSX. Components should not change any variables that existed
+                before they were called (no mutating external objects), and they should not have side effects
+                during rendering.</p>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>❌ Impure (Bad)</h4>
+                    <pre style="font-size: 0.82rem;"><span class="keyword">let</span> <span class="param">count</span>: <span class="type">number</span> = <span class="number">0</span>;
+
+<span class="keyword">function</span> <span class="component">Counter</span>() {
+  <span class="comment">// Mutating an external</span>
+  <span class="comment">// variable during render!</span>
+  <span class="param">count</span>++;
+  <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>{<span class="param">count</span>}<span class="tag">&lt;/p&gt;</span>;
+}</pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>✅ Pure (Good)</h4>
+                    <pre style="font-size: 0.82rem;"><span class="keyword">function</span> <span class="component">Counter</span>() {
+  <span class="keyword">const</span> [<span class="param">count</span>, <span class="method">setCount</span>] =
+    <span class="hook">useState</span>&lt;<span class="type">number</span>&gt;(<span class="number">0</span>);
+  <span class="comment">// State is managed by React</span>
+  <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>{<span class="param">count</span>}<span class="tag">&lt;/p&gt;</span>;
+}</pre>
+                </div>
+            </div>
+
+            <h3>The Rules of Hooks</h3>
+
+            <p>Hooks (<code>useState</code>, <code>useEffect</code>, etc.) have two strict rules. Breaking
+                them will cause confusing, hard-to-debug errors.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>What It Means</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Only call Hooks at the top level</strong></td>
+                        <td>Never call a Hook inside a loop, an <code>if</code> statement, or a nested function.
+                            Hooks must always run in the same order on every render.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Only call Hooks from React functions</strong></td>
+                        <td>Call Hooks from React function components or from custom Hooks — not from regular
+                            TypeScript functions.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>❌ Wrong — Hook inside an if</h4>
+                    <pre style="font-size: 0.82rem;"><span class="keyword">function</span> <span class="component">Bad</span>() {
+  <span class="keyword">if</span> (loggedIn) {
+    <span class="comment">// ❌ Conditional Hook!</span>
+    <span class="keyword">const</span> [<span class="param">name</span>, <span class="method">setName</span>] =
+      <span class="hook">useState</span>&lt;<span class="type">string</span>&gt;(<span class="string">""</span>);
+  }
+}</pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>✅ Right — Hook at the top level</h4>
+                    <pre style="font-size: 0.82rem;"><span class="keyword">function</span> <span class="component">Good</span>() {
+  <span class="keyword">const</span> [<span class="param">name</span>, <span class="method">setName</span>] =
+    <span class="hook">useState</span>&lt;<span class="type">string</span>&gt;(<span class="string">""</span>);
+
+  <span class="keyword">if</span> (!loggedIn) <span class="keyword">return null</span>;
+  <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>{<span class="param">name</span>}<span class="tag">&lt;/p&gt;</span>;
+}</pre>
+                </div>
+            </div>
+
+            <!-- VII. React 19 Magic -->
+            <h2>✨ React 19 Magic (The "Good to Know" Features)</h2>
+
+            <h3>The React Compiler</h3>
+
+            <p>In older versions of React, developers had to manually optimize performance using techniques
+                like <code>useMemo</code>, <code>useCallback</code>, and <code>React.memo</code>. These were
+                confusing, easy to misuse, and added a lot of boilerplate. React 19 ships with a
+                <strong>compiler</strong> that automatically analyzes your components and inserts these
+                optimizations for you behind the scenes.</p>
+
+            <div class="success-box">
+                <strong>What this means for you:</strong> You don't have to learn advanced memoization techniques
+                right away. Just write clean, standard React + TypeScript code, and the compiler will figure out
+                the optimal way to re-render your components. Early adopters report 25–40% fewer unnecessary
+                re-renders without changing a single line of code.
+            </div>
+
+            <h3>Easy Document Heads</h3>
+
+            <p>Previously, if you wanted to change the page's <code>&lt;title&gt;</code> or add
+                <code>&lt;meta&gt;</code> tags from inside a component, you needed a third-party library like
+                React Helmet. In React 19, you can just drop these tags directly into your component's TSX, and
+                React will automatically hoist them into the document's <code>&lt;head&gt;</code>.</p>
+
+            <div class="syntax-box">
+                <h4>Document Metadata in Components</h4>
+                <pre><span class="keyword">function</span> <span class="component">AboutPage</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;&gt;</span>
+      <span class="comment">{/* These are hoisted to the document &lt;head&gt; automatically */}</span>
+      <span class="tag">&lt;title&gt;</span>About Us | My App<span class="tag">&lt;/title&gt;</span>
+      <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"Learn about our team."</span> <span class="tag">/&gt;</span>
+
+      <span class="comment">{/* Normal page content */}</span>
+      <span class="tag">&lt;h1&gt;</span>About Us<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span>We build great things.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>This is especially useful for SEO and multi-page apps.</strong> Each page component
+                can declare its own title and meta tags, and React takes care of updating the document head
+                whenever the user navigates. No extra libraries needed.
+            </div>
+
+            <!-- Quick Reference Cheat Sheet -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference Cheat Sheet</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Component</td>
+                            <td>A TypeScript function that returns TSX. Saved as a <code>.tsx</code> file.</td>
+                        </tr>
+                        <tr>
+                            <td>TSX</td>
+                            <td>TypeScript XML — HTML-like syntax inside <code>.tsx</code> files. Use
+                                <code>className</code> instead of <code>class</code>, and embed TS with
+                                <code>{ }</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>Props</td>
+                            <td>Data passed from parent → child. Define the shape with an
+                                <code>interface</code>. Props are read-only.</td>
+                        </tr>
+                        <tr>
+                            <td><code>interface</code></td>
+                            <td>Defines the shape of an object (props, state, API response). Gives you
+                                autocompletion and type checking.</td>
+                        </tr>
+                        <tr>
+                            <td><code>useState&lt;T&gt;</code></td>
+                            <td>Returns <code>[value, setter]</code>. Provide a type parameter when TypeScript
+                                can't infer it (e.g., <code>useState&lt;User | null&gt;(null)</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><code>useEffect</code></td>
+                            <td>Runs side effects after render. The dependency array controls when it re-runs.</td>
+                        </tr>
+                        <tr>
+                            <td>Event types</td>
+                            <td><code>React.MouseEvent&lt;HTMLButtonElement&gt;</code>,
+                                <code>React.ChangeEvent&lt;HTMLInputElement&gt;</code>, etc.</td>
+                        </tr>
+                        <tr>
+                            <td>Form actions (React 19)</td>
+                            <td>Pass an async function to <code>&lt;form action={fn}&gt;</code> — receives
+                                <code>FormData</code> automatically.</td>
+                        </tr>
+                        <tr>
+                            <td><code>.map()</code> for lists</td>
+                            <td>Transform an array of data into an array of TSX elements. Always provide a unique
+                                <code>key</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>Conditional rendering</td>
+                            <td>Use ternary <code>? :</code> or logical <code>&amp;&amp;</code> inside TSX to
+                                show/hide elements.</td>
+                        </tr>
+                        <tr>
+                            <td><code>fetch</code> / <code>axios</code></td>
+                            <td>Make HTTP requests to your Express API. Usually done inside <code>useEffect</code>.
+                                Type the response with your <code>interface</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;Suspense&gt;</code></td>
+                            <td>Shows a fallback UI while a child component is loading. Works with
+                                <code>lazy()</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>createRoot</code></td>
+                            <td>The entry point API — mounts your React app into the DOM. Uses <code>!</code>
+                                (non-null assertion).</td>
+                        </tr>
+                        <tr>
+                            <td>React Compiler</td>
+                            <td>Automatically optimizes re-renders — no manual <code>useMemo</code> /
+                                <code>useCallback</code> needed.</td>
+                        </tr>
+                        <tr>
+                            <td>Document Metadata</td>
+                            <td>Drop <code>&lt;title&gt;</code> and <code>&lt;meta&gt;</code> directly into components
+                                — React hoists them to <code>&lt;head&gt;</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>onClick={handleClick()}</code></td>
+                            <td><code>onClick={handleClick}</code> — pass the function, don't call it</td>
+                        </tr>
+                        <tr>
+                            <td><code>items.push(newItem)</code></td>
+                            <td><code>setItems([...items, newItem])</code> — never mutate state directly</td>
+                        </tr>
+                        <tr>
+                            <td>Using <code>class</code> in TSX</td>
+                            <td>Use <code>className</code> — <code>class</code> is a reserved word in TS/JS</td>
+                        </tr>
+                        <tr>
+                            <td>Calling a Hook inside an <code>if</code></td>
+                            <td>Hooks must be at the top level of your component — every render, same order</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting <code>key</code> on list items</td>
+                            <td>Always pass a unique <code>key</code> prop when using <code>.map()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Using the array index as <code>key</code></td>
+                            <td>Use a stable, unique ID from your data (e.g., <code>_id</code> from MongoDB)</td>
+                        </tr>
+                        <tr>
+                            <td>Missing dependency in <code>useEffect</code></td>
+                            <td>Include all referenced variables in the dependency array — your linter will warn you</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting to check <code>res.ok</code> with fetch</td>
+                            <td><code>fetch</code> doesn't throw on HTTP errors — always check the response status</td>
+                        </tr>
+                        <tr>
+                            <td>Saving a component as <code>.ts</code> instead of <code>.tsx</code></td>
+                            <td>Files that contain TSX markup <strong>must</strong> use the <code>.tsx</code>
+                                extension</td>
+                        </tr>
+                        <tr>
+                            <td>Skipping the generic on <code>useState(null)</code></td>
+                            <td>Use <code>useState&lt;User | null&gt;(null)</code> — otherwise TS thinks it's
+                                always <code>null</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Vocabulary -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Component</td>
+                            <td>A reusable TypeScript function that returns a piece of UI (TSX)</td>
+                        </tr>
+                        <tr>
+                            <td>TSX</td>
+                            <td>TypeScript XML — an HTML-like syntax in <code>.tsx</code> files that gets compiled to
+                                JavaScript</td>
+                        </tr>
+                        <tr>
+                            <td>Props</td>
+                            <td>Read-only data passed from a parent component to a child component, typed with an
+                                <code>interface</code></td>
+                        </tr>
+                        <tr>
+                            <td>Interface</td>
+                            <td>A TypeScript construct that defines the shape (properties and types) of an object</td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td>Data managed within a component that can change over time, triggering re-renders</td>
+                        </tr>
+                        <tr>
+                            <td>Hook</td>
+                            <td>A special function (starting with <code>use</code>) that lets you "hook into" React
+                                features</td>
+                        </tr>
+                        <tr>
+                            <td>Generic / Type Parameter</td>
+                            <td>The <code>&lt;T&gt;</code> syntax on hooks like <code>useState&lt;T&gt;</code> that
+                                tells TypeScript what type of data to expect</td>
+                        </tr>
+                        <tr>
+                            <td>Re-render</td>
+                            <td>React calling your component function again to get the updated UI after state
+                                changes</td>
+                        </tr>
+                        <tr>
+                            <td>Side effect</td>
+                            <td>Any code that reaches outside the component — API calls, timers, DOM manipulation</td>
+                        </tr>
+                        <tr>
+                            <td>Dependency array</td>
+                            <td>The second argument to <code>useEffect</code> — controls when the effect re-runs</td>
+                        </tr>
+                        <tr>
+                            <td>Fragment</td>
+                            <td><code>&lt;&gt;...&lt;/&gt;</code> — groups elements without adding a wrapper to the
+                                DOM</td>
+                        </tr>
+                        <tr>
+                            <td>Non-null assertion</td>
+                            <td>The <code>!</code> operator — tells TypeScript a value is guaranteed not to be
+                                <code>null</code></td>
+                        </tr>
+                        <tr>
+                            <td>Type assertion</td>
+                            <td>The <code>as Type</code> syntax — tells TypeScript to treat a value as a specific
+                                type (e.g., <code>as string</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Lazy loading</td>
+                            <td>Loading a component's code only when it is needed, using <code>lazy()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Vite</td>
+                            <td>A modern, fast build tool for React + TypeScript projects — replaces Create React
+                                App</td>
+                        </tr>
+                        <tr>
+                            <td>HMR</td>
+                            <td>Hot Module Replacement — updates the browser instantly when you save a file</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>React + TypeScript Quick Reference Guide — Covers React 19.x (including 19.2)</p>
+        </footer>
+    </div>
+</body>
+
+</html>

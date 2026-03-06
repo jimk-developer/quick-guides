@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Core Concepts</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0891B2;
+            --primary-dark: #0E7490;
+            --accent: #F59E0B;
+            --success: #059669;
+            --danger: #DC2626;
+            --warning: #F59E0B;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #FBBF24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        pre .tag {
+            color: #569CD6;
+        }
+
+        pre .attr {
+            color: #9CDCFE;
+        }
+
+        pre .attr-val {
+            color: #CE9178;
+        }
+
+        pre .component {
+            color: #4EC9B0;
+        }
+
+        pre .punctuation {
+            color: #D4D4D4;
+        }
+
+        pre .css-prop {
+            color: #9CDCFE;
+        }
+
+        pre .css-val {
+            color: #CE9178;
+        }
+
+        pre .directive {
+            color: #C586C0;
+        }
+
+        pre .utility {
+            color: #DCDCAA;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(8, 145, 178, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E0F2F1 0%, #E0F7FA 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Tailwind CSS Core Concepts</h1>
+        <p>Utility-First Styling, Responsive Design, Dark Mode, Theming, and Configuration — Tailwind v4.1+</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- ==================== INTRODUCTION ==================== -->
+            <h2>🌊 Introduction</h2>
+
+            <p><strong>Tailwind CSS</strong> is a <strong>utility-first CSS framework</strong> that gives you low-level
+                utility classes to build designs directly in your markup. Instead of writing custom CSS class names like
+                <code>.card-header</code> or <code>.sidebar-nav</code>, you compose designs using small, single-purpose
+                classes like <code>p-4</code>, <code>bg-white</code>, and <code>text-lg</code>.</p>
+
+            <div class="highlight-box">
+                <h4>The Utility-First Mindset</h4>
+                <p>Traditional CSS encourages you to invent semantic class names and write separate stylesheets. Over
+                    time, these stylesheets grow, overlap, and become difficult to maintain. Tailwind flips this
+                    approach: <strong>styles live where your markup lives</strong>. Every element's appearance is clear at
+                    a glance — no hunting through external <code>.css</code> files to understand what a class does.</p>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🎯 Utility-First</h4>
+                    <p>Small, composable classes that each do one thing — like <code>mt-4</code> for margin-top or
+                        <code>rounded-lg</code> for border-radius.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📱 Mobile-First</h4>
+                    <p>Responsive prefixes (<code>sm:</code>, <code>md:</code>, <code>lg:</code>) apply styles at a
+                        given breakpoint and above.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌙 Dark Mode Built-In</h4>
+                    <p>The <code>dark:</code> modifier makes theme adaptation effortless — no separate stylesheet
+                        required.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ CSS-First Config (v4+)</h4>
+                    <p>Starting with v4, Tailwind is configured directly in CSS using <code>@theme</code> — no more
+                        JavaScript config file required.</p>
+                </div>
+            </div>
+
+            <p>This guide covers the essential concepts you need to be productive with Tailwind CSS v4.1 and later. All
+                examples use <strong>React with TypeScript (TSX)</strong> unless noted otherwise, and use generic
+                placeholder data throughout.</p>
+
+            <!-- ==================== STYLING WITH UTILITY CLASSES ==================== -->
+            <h2>🎨 Styling with Utility Classes</h2>
+
+            <p>The core idea behind Tailwind is that you build your UI by applying pre-existing utility classes directly
+                to HTML or JSX elements. Each class maps to a single CSS property — <code>p-4</code> sets
+                <code>padding: 1rem</code>, <code>bg-white</code> sets <code>background-color: white</code>,
+                <code>rounded-xl</code> sets a large border-radius, and so on.</p>
+
+            <p>This approach <strong>improves maintainability</strong> because you never need to invent class names,
+                and you never end up with bloated stylesheets full of unused rules. Every class you see in your markup
+                is doing exactly one thing, and removing an element removes its styles too.</p>
+
+            <div class="syntax-box">
+                <h4>Example: A Styled Card Component (TSX)</h4>
+                <pre><span class="comment">// ProductCard.tsx</span>
+<span class="keyword">interface</span> <span class="type">ProductCardProps</span> {
+  <span class="param">title</span>: <span class="type">string</span>;
+  <span class="param">description</span>: <span class="type">string</span>;
+  <span class="param">price</span>: <span class="type">number</span>;
+}
+
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">ProductCard</span>({ <span class="param">title</span>, <span class="param">description</span>, <span class="param">price</span> }: <span class="type">ProductCardProps</span>) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"max-w-sm rounded-xl bg-white p-6 shadow-lg"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2</span> <span class="attr">className</span>=<span class="string">"mb-2 text-xl font-bold text-gray-900"</span><span class="tag">&gt;</span>
+        {<span class="param">title</span>}
+      <span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"mb-4 text-sm text-gray-600"</span><span class="tag">&gt;</span>
+        {<span class="param">description</span>}
+      <span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">className</span>=<span class="string">"inline-block rounded-full bg-cyan-100 px-3 py-1 text-sm font-semibold text-cyan-800"</span><span class="tag">&gt;</span>
+        ${<span class="param">price</span>.toFixed(<span class="number">2</span>)}
+      <span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>No custom CSS was written.</strong> The card's padding, border-radius, shadow, typography, and
+                colors are all handled by utility classes. If you later remove this component, zero leftover CSS remains
+                in your project.
+            </div>
+
+            <!-- ==================== HOVER, FOCUS, AND OTHER STATES ==================== -->
+            <h2>🖱️ Hover, Focus, and Other States</h2>
+
+            <p>Tailwind provides <strong>state modifiers</strong> that let you conditionally apply styles based on
+                user interaction — without writing any custom CSS pseudo-class rules. You simply prefix a utility class
+                with the state name and a colon.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modifier</th>
+                        <th>CSS Equivalent</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>hover:</code></td>
+                        <td><code>:hover</code></td>
+                        <td><code>hover:bg-blue-700</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>focus:</code></td>
+                        <td><code>:focus</code></td>
+                        <td><code>focus:outline-none focus:ring-2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>active:</code></td>
+                        <td><code>:active</code></td>
+                        <td><code>active:scale-95</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>disabled:</code></td>
+                        <td><code>:disabled</code></td>
+                        <td><code>disabled:opacity-50</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>first:</code></td>
+                        <td><code>:first-child</code></td>
+                        <td><code>first:rounded-t-lg</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="syntax-box">
+                <h4>Example: Interactive Submit Button (TSX)</h4>
+                <pre><span class="comment">// SubmitButton.tsx</span>
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">SubmitButton</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;button</span>
+      <span class="attr">type</span>=<span class="string">"submit"</span>
+      <span class="attr">className</span>=<span class="string">"rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white
+                 transition-all duration-200
+                 hover:bg-blue-700 hover:shadow-lg
+                 focus:outline-none focus:ring-4 focus:ring-blue-300
+                 active:scale-95 active:bg-blue-800
+                 disabled:cursor-not-allowed disabled:opacity-50"</span>
+    <span class="tag">&gt;</span>
+      Submit Form
+    <span class="tag">&lt;/button&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Modifiers are stackable.</strong> You can combine them like
+                <code>sm:hover:bg-blue-700</code> to apply a hover effect only on small screens and above, or
+                <code>dark:hover:bg-blue-400</code> for dark-mode-specific hover colors.
+            </div>
+
+            <!-- ==================== RESPONSIVE DESIGN ==================== -->
+            <h2>📱 Responsive Design</h2>
+
+            <p>Tailwind uses a <strong>mobile-first</strong> breakpoint system. Un-prefixed utilities apply to all
+                screen sizes, and breakpoint prefixes apply at that breakpoint <em>and above</em>. This means you
+                design for small screens first, then layer on styles for larger screens.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prefix</th>
+                        <th>Minimum Width</th>
+                        <th>CSS Media Query</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>sm:</code></td>
+                        <td>640px</td>
+                        <td><code>@media (min-width: 640px)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>md:</code></td>
+                        <td>768px</td>
+                        <td><code>@media (min-width: 768px)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lg:</code></td>
+                        <td>1024px</td>
+                        <td><code>@media (min-width: 1024px)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>xl:</code></td>
+                        <td>1280px</td>
+                        <td><code>@media (min-width: 1280px)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>2xl:</code></td>
+                        <td>1536px</td>
+                        <td><code>@media (min-width: 1536px)</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="syntax-box">
+                <h4>Example: Responsive Grid Layout (TSX)</h4>
+                <pre><span class="comment">// FeatureGrid.tsx</span>
+<span class="keyword">const</span> <span class="param">features</span> = [
+  { <span class="param">id</span>: <span class="number">1</span>, <span class="param">label</span>: <span class="string">"Fast Builds"</span>, <span class="param">detail</span>: <span class="string">"Incremental compilation in microseconds."</span> },
+  { <span class="param">id</span>: <span class="number">2</span>, <span class="param">label</span>: <span class="string">"Responsive"</span>, <span class="param">detail</span>: <span class="string">"Mobile-first breakpoints out of the box."</span> },
+  { <span class="param">id</span>: <span class="number">3</span>, <span class="param">label</span>: <span class="string">"Customizable"</span>, <span class="param">detail</span>: <span class="string">"CSS-first config with @theme."</span> },
+];
+
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">FeatureGrid</span>() {
+  <span class="keyword">return</span> (
+    <span class="comment">{/* Single column on mobile → 2 cols on md → 3 cols on lg */}</span>
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"</span><span class="tag">&gt;</span>
+      {<span class="param">features</span>.<span class="method">map</span>((<span class="param">feat</span>) =&gt; (
+        <span class="tag">&lt;div</span>
+          <span class="attr">key</span>={<span class="param">feat</span>.<span class="param">id</span>}
+          <span class="attr">className</span>=<span class="string">"rounded-lg border border-gray-200 bg-white p-6 shadow-sm"</span>
+        <span class="tag">&gt;</span>
+          <span class="tag">&lt;h3</span> <span class="attr">className</span>=<span class="string">"mb-2 text-lg font-bold"</span><span class="tag">&gt;</span>{<span class="param">feat</span>.<span class="param">label</span>}<span class="tag">&lt;/h3&gt;</span>
+          <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"text-sm text-gray-600"</span><span class="tag">&gt;</span>{<span class="param">feat</span>.<span class="param">detail</span>}<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      ))}
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Key Insight: Mobile-First Means "Work Upward"</h4>
+                <p>The un-prefixed <code>grid-cols-1</code> establishes a single column layout for all screens. Then
+                    <code>md:grid-cols-2</code> kicks in at 768px, and <code>lg:grid-cols-3</code> at 1024px. You
+                    never need to write a <code>max-width</code> media query — if you don't override a breakpoint, the
+                    previous style simply carries through.</p>
+            </div>
+
+            <!-- ==================== DARK MODE ==================== -->
+            <h2>🌙 Dark Mode</h2>
+
+            <p>Tailwind includes a built-in <code>dark:</code> modifier that lets you style elements differently when
+                dark mode is active. By default in v4, the <code>dark:</code> variant is driven by the user's
+                operating system preference via <code>prefers-color-scheme</code> — <strong>no configuration
+                    needed</strong>.</p>
+
+            <h3>Strategy Options</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>How It Works</th>
+                        <th>CSS Setup</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Media (default)</strong></td>
+                        <td>Follows the OS preference automatically</td>
+                        <td>No setup required — works out of the box</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Selector / Class</strong></td>
+                        <td>Toggle via a <code>.dark</code> class on <code>&lt;html&gt;</code></td>
+                        <td><code>@custom-variant dark (&:is(.dark *));</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Attribute</strong></td>
+                        <td>Toggle via a <code>data-theme="dark"</code> attribute</td>
+                        <td><code>@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="syntax-box">
+                <h4>Example: Dashboard Widget with Dark Mode (TSX)</h4>
+                <pre><span class="comment">// StatsWidget.tsx</span>
+<span class="keyword">interface</span> <span class="type">StatsWidgetProps</span> {
+  <span class="param">label</span>: <span class="type">string</span>;
+  <span class="param">value</span>: <span class="type">string</span>;
+  <span class="param">change</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">StatsWidget</span>({ <span class="param">label</span>, <span class="param">value</span>, <span class="param">change</span> }: <span class="type">StatsWidgetProps</span>) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"rounded-xl bg-white p-6 shadow-md
+                 dark:bg-gray-800 dark:shadow-gray-900/30"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"text-sm font-medium text-gray-500
+                 dark:text-gray-400"</span><span class="tag">&gt;</span>
+        {<span class="param">label</span>}
+      <span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"mt-1 text-3xl font-bold text-gray-900
+                 dark:text-white"</span><span class="tag">&gt;</span>
+        {<span class="param">value</span>}
+      <span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"mt-2 text-sm font-semibold text-green-600
+                 dark:text-green-400"</span><span class="tag">&gt;</span>
+        {<span class="param">change</span>}
+      <span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Setting up class-based toggling in v4.</strong> If you want manual control, add
+                <code>@custom-variant dark (&:is(.dark *));</code> to your main CSS file alongside the Tailwind
+                import. Then toggle the <code>.dark</code> class on <code>&lt;html&gt;</code> with JavaScript, saving
+                the preference to <code>localStorage</code>.
+            </div>
+
+            <!-- ==================== THEME VARIABLES ==================== -->
+            <h2>🎛️ Theme Variables</h2>
+
+            <p>In Tailwind CSS v4 and later, customization is done <strong>directly in CSS</strong> using the
+                <code>@theme</code> directive — no <code>tailwind.config.js</code> file needed. Values you define
+                inside <code>@theme</code> become CSS custom properties <em>and</em> are automatically available as
+                Tailwind utility classes.</p>
+
+            <div class="syntax-box">
+                <h4>Defining Theme Variables (CSS)</h4>
+                <pre><span class="comment">/* app.css */</span>
+<span class="directive">@import</span> <span class="string">"tailwindcss"</span>;
+
+<span class="directive">@theme</span> {
+  <span class="comment">/* Custom spacing */</span>
+  <span class="css-prop">--spacing-nav</span>: <span class="css-val">4.5rem</span>;
+  <span class="css-prop">--spacing-header</span>: <span class="css-val">3.5rem</span>;
+
+  <span class="comment">/* Custom fonts */</span>
+  <span class="css-prop">--font-display</span>: <span class="css-val">"Inter", "Helvetica Neue", sans-serif</span>;
+  <span class="css-prop">--font-mono</span>: <span class="css-val">"Fira Code", "Consolas", monospace</span>;
+
+  <span class="comment">/* Custom breakpoint */</span>
+  <span class="css-prop">--breakpoint-3xl</span>: <span class="css-val">1920px</span>;
+
+  <span class="comment">/* Brand colors */</span>
+  <span class="css-prop">--color-brand-500</span>: <span class="css-val">#0891B2</span>;
+  <span class="css-prop">--color-brand-600</span>: <span class="css-val">#0E7490</span>;
+}</pre>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Example: Using Theme Variables in a Nav Bar (TSX)</h4>
+                <pre><span class="comment">// NavBar.tsx — uses the custom theme values defined above</span>
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">NavBar</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;nav</span> <span class="attr">className</span>=<span class="string">"flex h-header items-center bg-brand-600 px-nav font-display"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;span</span> <span class="attr">className</span>=<span class="string">"text-lg font-bold text-white"</span><span class="tag">&gt;</span>
+        My App
+      <span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"ml-auto flex gap-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"/dashboard"</span> <span class="attr">className</span>=<span class="string">"text-white/80 hover:text-white"</span><span class="tag">&gt;</span>Dashboard<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"/settings"</span> <span class="attr">className</span>=<span class="string">"text-white/80 hover:text-white"</span><span class="tag">&gt;</span>Settings<span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>How It Connects</h4>
+                <p>The variable <code>--spacing-nav: 4.5rem</code> defined in <code>@theme</code> creates the utility
+                    <code>px-nav</code>. The variable <code>--spacing-header: 3.5rem</code> creates <code>h-header</code>.
+                    The variable <code>--font-display</code> creates <code>font-display</code>. And
+                    <code>--color-brand-600</code> creates <code>bg-brand-600</code>, <code>text-brand-600</code>,
+                    etc. — all automatically.</p>
+            </div>
+
+            <!-- ==================== COLORS ==================== -->
+            <h2>🎨 Colors</h2>
+
+            <p>Tailwind ships with an extensive default color palette organized into shades from <code>50</code>
+                (lightest) through <code>950</code> (darkest). You apply colors using the pattern
+                <code>{property}-{color}-{shade}</code>, for example <code>bg-blue-500</code> or
+                <code>text-gray-700</code>.</p>
+
+            <h3>Opacity Modifiers</h3>
+            <p>Tailwind v4 uses <code>color-mix()</code> under the hood. You can apply opacity directly with a
+                slash modifier: <code>bg-blue-500/75</code> renders blue-500 at 75% opacity. This works on
+                <em>any</em> color utility — backgrounds, text, borders, shadows, and more.</p>
+
+            <h3>Custom Brand Colors</h3>
+            <p>You can define custom brand colors in your <code>@theme</code> block and then use them just like
+                built-in colors:</p>
+
+            <div class="syntax-box">
+                <h4>Example: Task List with Color Highlights (TSX)</h4>
+                <pre><span class="comment">// TaskList.tsx</span>
+<span class="keyword">interface</span> <span class="type">Task</span> {
+  <span class="param">id</span>: <span class="type">number</span>;
+  <span class="param">name</span>: <span class="type">string</span>;
+  <span class="param">isActive</span>: <span class="type">boolean</span>;
+}
+
+<span class="keyword">const</span> <span class="param">tasks</span>: <span class="type">Task</span>[] = [
+  { <span class="param">id</span>: <span class="number">1</span>, <span class="param">name</span>: <span class="string">"Review pull request"</span>, <span class="param">isActive</span>: <span class="keyword">true</span> },
+  { <span class="param">id</span>: <span class="number">2</span>, <span class="param">name</span>: <span class="string">"Update documentation"</span>, <span class="param">isActive</span>: <span class="keyword">false</span> },
+  { <span class="param">id</span>: <span class="number">3</span>, <span class="param">name</span>: <span class="string">"Deploy staging build"</span>, <span class="param">isActive</span>: <span class="keyword">false</span> },
+];
+
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="method">TaskList</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"space-y-2"</span><span class="tag">&gt;</span>
+      {<span class="param">tasks</span>.<span class="method">map</span>((<span class="param">task</span>) =&gt; (
+        <span class="tag">&lt;li</span>
+          <span class="attr">key</span>={<span class="param">task</span>.<span class="param">id</span>}
+          <span class="attr">className</span>={`rounded-lg px-4 py-3 text-sm font-medium ${
+            <span class="param">task</span>.<span class="param">isActive</span>
+              ? <span class="string">"border-l-4 border-cyan-500 bg-cyan-50 text-cyan-900"</span>
+              : <span class="string">"bg-gray-50 text-gray-700"</span>
+          }`}
+        <span class="tag">&gt;</span>
+          {<span class="param">task</span>.<span class="param">name</span>}
+        <span class="tag">&lt;/li&gt;</span>
+      ))}
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</pre>
+            </div>
+
+            <h3>Plain HTML Version</h3>
+
+            <p>The same pattern works identically outside React — in a standard HTML file:</p>
+
+            <div class="syntax-box">
+                <h4>Alternative: Task List in Plain HTML</h4>
+                <pre><span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="string">"space-y-2"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"rounded-lg border-l-4 border-cyan-500 bg-cyan-50 px-4 py-3 text-sm font-medium text-cyan-900"</span><span class="tag">&gt;</span>
+    Review pull request
+  <span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"rounded-lg bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700"</span><span class="tag">&gt;</span>
+    Update documentation
+  <span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li</span> <span class="attr">class</span>=<span class="string">"rounded-lg bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700"</span><span class="tag">&gt;</span>
+    Deploy staging build
+  <span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Opacity on any color.</strong> Try <code>bg-blue-500/50</code> for a 50% transparent blue, or
+                <code>text-gray-900/75</code> for slightly faded text. In v4, this compiles to
+                <code>color-mix(in oklab, ...)</code> for accurate color blending.
+            </div>
+
+            <!-- ==================== ADDING CUSTOM STYLES ==================== -->
+            <h2>🔧 Adding Custom Styles</h2>
+
+            <p>Sometimes utility classes alone aren't enough. Tailwind provides <strong>escape hatches</strong> to
+                handle one-off values or integrate standard CSS alongside the utility system.</p>
+
+            <h3>Arbitrary Values</h3>
+            <p>If Tailwind doesn't have a utility for a specific value, you can use bracket notation to supply any
+                CSS value directly:</p>
+
+            <div class="syntax-box">
+                <h4>Using Arbitrary Values in Markup</h4>
+                <pre><span class="comment">&lt;!-- Position an element exactly 117px from the top --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"absolute top-[117px] left-[2.5rem] w-[calc(100%-3rem)]"</span><span class="tag">&gt;</span>
+  Precisely positioned content
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- Use an arbitrary color --&gt;</span>
+<span class="tag">&lt;span</span> <span class="attr">className</span>=<span class="string">"text-[#1DA1F2]"</span><span class="tag">&gt;</span>Custom brand blue<span class="tag">&lt;/span&gt;</span>
+
+<span class="comment">&lt;!-- Arbitrary font size --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">className</span>=<span class="string">"text-[2.75rem] leading-[1.2]"</span><span class="tag">&gt;</span>Big headline<span class="tag">&lt;/h1&gt;</span></pre>
+            </div>
+
+            <h3>Custom CSS with @theme and @layer</h3>
+            <p>For styles that go beyond one-off values, you can extend Tailwind in your CSS file using
+                <code>@theme</code> for new design tokens or <code>@layer</code> to inject styles into
+                Tailwind's cascade layers:</p>
+
+            <div class="syntax-box">
+                <h4>Custom CSS in Your Stylesheet</h4>
+                <pre><span class="directive">@import</span> <span class="string">"tailwindcss"</span>;
+
+<span class="directive">@theme</span> {
+  <span class="comment">/* Add a custom color to the theme */</span>
+  <span class="css-prop">--color-corporate</span>: <span class="css-val">#1B3A5C</span>;
+
+  <span class="comment">/* Add a custom spacing value */</span>
+  <span class="css-prop">--spacing-18</span>: <span class="css-val">4.5rem</span>;
+}
+
+<span class="comment">/* Add base styles to Tailwind's base layer */</span>
+<span class="directive">@layer</span> base {
+  h1 {
+    <span class="css-prop">font-size</span>: <span class="css-val">2.25rem</span>;
+    <span class="css-prop">font-weight</span>: <span class="css-val">700</span>;
+    <span class="css-prop">line-height</span>: <span class="css-val">1.2</span>;
+  }
+}
+
+<span class="comment">/* Add a custom component style */</span>
+<span class="directive">@layer</span> components {
+  .card {
+    <span class="css-prop">background</span>: <span class="css-val">white</span>;
+    <span class="css-prop">border-radius</span>: <span class="css-val">var(--radius-lg)</span>;
+    <span class="css-prop">padding</span>: <span class="css-val">var(--spacing-6)</span>;
+    <span class="css-prop">box-shadow</span>: <span class="css-val">var(--shadow-md)</span>;
+  }
+}</pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Use escape hatches sparingly.</strong> The power of Tailwind comes from staying within the
+                utility system. Arbitrary values and custom CSS are perfectly fine for one-off situations, but if you
+                find yourself repeating the same arbitrary value, consider adding it to <code>@theme</code> instead.
+            </div>
+
+            <!-- ==================== DETECTING CLASSES IN SOURCE FILES ==================== -->
+            <h2>🔍 Detecting Classes in Source Files</h2>
+
+            <p>Tailwind's compiler scans your source files (<code>.tsx</code>, <code>.html</code>,
+                <code>.jsx</code>, <code>.vue</code>, etc.) to find which utility classes you've used, and generates
+                a CSS file containing <strong>only those styles</strong>. Classes that never appear in your code are
+                never included in the output — keeping your CSS bundle small.</p>
+
+            <p>In v4, Tailwind <strong>automatically detects</strong> your source files using smart heuristics. It
+                ignores files in <code>.gitignore</code> and skips binary files. If you need to include an additional
+                source, use the <code>@source</code> directive:</p>
+
+            <pre><span class="comment">/* Tell Tailwind to also scan files in a specific directory */</span>
+<span class="directive">@source</span> <span class="string">"../shared-components"</span>;</pre>
+
+            <h3>The Class Detection Gotcha</h3>
+
+            <p>The compiler works by scanning for <strong>complete class strings</strong>. If you dynamically build
+                class names using string concatenation, the compiler won't find them and they'll be purged from the
+                output.</p>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>❌ Dynamically Constructed (Broken)</h4>
+                    <pre><span class="comment">// The compiler cannot detect these!</span>
+<span class="keyword">const</span> <span class="param">color</span> = <span class="string">"red"</span>;
+<span class="keyword">const</span> <span class="param">shade</span> = <span class="string">"500"</span>;
+
+<span class="tag">&lt;div</span> <span class="attr">className</span>={<span class="string">`bg-${<span class="param">color</span>}-${<span class="param">shade</span>}`</span>}<span class="tag">&gt;</span>
+  Oops — this will be unstyled!
+<span class="tag">&lt;/div&gt;</span></pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>✅ Complete Strings (Works)</h4>
+                    <pre><span class="comment">// Full class names ARE detected</span>
+<span class="keyword">const</span> <span class="param">colorClass</span> =
+  <span class="param">isError</span> ? <span class="string">"bg-red-500"</span> : <span class="string">"bg-green-500"</span>;
+
+<span class="tag">&lt;div</span> <span class="attr">className</span>={<span class="param">colorClass</span>}<span class="tag">&gt;</span>
+  This works perfectly!
+<span class="tag">&lt;/div&gt;</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Rule of thumb:</strong> Always use complete, unbroken class name strings.
+                Never build Tailwind class names by concatenating partial strings — map conditions to full class names
+                instead.
+            </div>
+
+            <!-- ==================== FUNCTIONS AND DIRECTIVES ==================== -->
+            <h2>📐 Functions and Directives</h2>
+
+            <p>Tailwind provides several <strong>CSS-level directives and functions</strong> that let you work with
+                the framework at a deeper level. These are used inside your CSS files, not in markup.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Directive / Function</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>@import "tailwindcss"</code></td>
+                        <td>The single entry point for Tailwind in v4 — imports base, components, and utilities
+                            layers.</td>
+                    </tr>
+                    <tr>
+                        <td><code>@theme { ... }</code></td>
+                        <td>Defines design tokens (colors, spacing, fonts, breakpoints) as CSS custom properties.</td>
+                    </tr>
+                    <tr>
+                        <td><code>@apply</code></td>
+                        <td>Inlines Tailwind utility classes into a custom CSS rule. Useful for styling elements you
+                            don't control.</td>
+                    </tr>
+                    <tr>
+                        <td><code>@layer base / components / utilities</code></td>
+                        <td>Injects custom CSS into one of Tailwind's cascade layers for correct specificity ordering.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>@source</code></td>
+                        <td>Tells the compiler to scan an additional directory or glob pattern for class names.</td>
+                    </tr>
+                    <tr>
+                        <td><code>@custom-variant</code></td>
+                        <td>Defines a custom variant (e.g., overriding the <code>dark:</code> variant for class-based
+                            toggling).</td>
+                    </tr>
+                    <tr>
+                        <td><code>theme()</code></td>
+                        <td>References a theme value inside CSS. In v4 you can often use <code>var()</code> instead,
+                            but <code>theme()</code> is kept for compatibility.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Using @apply for Reusable Styles</h3>
+            <p>The <code>@apply</code> directive lets you extract a set of utility classes into a single CSS rule.
+                This is especially helpful for elements you <strong>don't control directly</strong> — such as
+                third-party components or elements generated by a CMS.</p>
+
+            <div class="syntax-box">
+                <h4>Example: Extracting a Reusable Button Style (CSS)</h4>
+                <pre><span class="directive">@import</span> <span class="string">"tailwindcss"</span>;
+
+<span class="comment">/* Extract a reusable .btn class from utility classes */</span>
+<span class="directive">@layer</span> components {
+  .btn {
+    <span class="directive">@apply</span> <span class="utility">inline-flex items-center justify-center rounded-lg px-5 py-2.5
+           text-sm font-semibold transition-colors duration-200</span>;
+  }
+
+  .btn-primary {
+    <span class="directive">@apply</span> <span class="utility">btn bg-blue-600 text-white hover:bg-blue-700
+           focus:outline-none focus:ring-4 focus:ring-blue-300</span>;
+  }
+
+  .btn-outline {
+    <span class="directive">@apply</span> <span class="utility">btn border border-gray-300 bg-transparent text-gray-700
+           hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-200</span>;
+  }
+}</pre>
+            </div>
+
+            <p>Now you can use <code>&lt;button class="btn-primary"&gt;Save&lt;/button&gt;</code> anywhere in your
+                project, and the styling is pulled from a centralized definition that's still powered by Tailwind
+                utilities.</p>
+
+            <div class="warning-box">
+                <strong>Don't overuse @apply.</strong> The Tailwind team recommends using it only when you
+                <em>cannot</em> apply utility classes directly — such as third-party elements or CMS-generated
+                content. If you can use utilities in your markup, that's almost always the better choice.
+            </div>
+
+            <!-- ==================== COMMON MISTAKES ==================== -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>bg-${color}-500</code></td>
+                            <td>Use complete class strings: <code>"bg-red-500"</code> or <code>"bg-green-500"</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Writing a separate <code>.card { ... }</code> stylesheet</td>
+                            <td>Apply utilities directly in markup: <code>className="rounded-lg p-6 shadow"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sm:grid-cols-1 lg:grid-cols-3</code> without the un-prefixed base</td>
+                            <td>Start with <code>grid-cols-1</code> then add <code>lg:grid-cols-3</code> — mobile-first!
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Using <code>tailwind.config.js</code> in a v4 project</td>
+                            <td>Use the <code>@theme</code> directive in your CSS — v4 is CSS-first by default</td>
+                        </tr>
+                        <tr>
+                            <td><code>@tailwind base; @tailwind components; @tailwind utilities;</code></td>
+                            <td>In v4, just <code>@import "tailwindcss";</code> — one line replaces the three directives
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Applying <code>dark:</code> classes without testing both themes</td>
+                            <td>Always verify components in both light and dark mode during development</td>
+                        </tr>
+                        <tr>
+                            <td>Creating deeply nested <code>@apply</code> chains</td>
+                            <td>Use <code>@apply</code> sparingly — prefer utilities in markup wherever possible</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting <code>transition</code> with hover/focus effects</td>
+                            <td>Add <code>transition-colors</code> or <code>transition-all</code> for smooth state
+                                changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ==================== CONCLUSION & NEXT STEPS ==================== -->
+            <h2>🚀 Conclusion &amp; Next Steps</h2>
+
+            <p>Tailwind CSS transforms the way you style web applications. Instead of maintaining separate stylesheets
+                that grow out of control, you compose designs right in your markup using a powerful, consistent set of
+                utility classes. Here's what we covered:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🎯 Utility-First</h4>
+                    <p>Build layouts using small, composable classes applied directly in your HTML or JSX.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🖱️ State Modifiers</h4>
+                    <p>Use <code>hover:</code>, <code>focus:</code>, <code>active:</code>, and more to handle
+                        interactivity without custom CSS.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📱 Responsive Design</h4>
+                    <p>Mobile-first breakpoint prefixes let you progressively enhance layouts for larger screens.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌙 Dark Mode</h4>
+                    <p>The <code>dark:</code> modifier adapts your UI to dark themes via OS preferences or class-based
+                        toggling.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎛️ Theme Variables</h4>
+                    <p>The <code>@theme</code> directive lets you define a custom design system right in CSS.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📐 Directives &amp; Functions</h4>
+                    <p><code>@apply</code>, <code>@layer</code>, and <code>@source</code> give you fine-grained control
+                        when you need it.</p>
+                </div>
+            </div>
+
+            <h3>Best Practices for Scaling Tailwind</h3>
+
+            <div class="highlight-box">
+                <h4>Tips for Larger Applications</h4>
+                <p><strong>Extract repeated patterns into components, not CSS classes.</strong> In frameworks like
+                    React, create reusable components (e.g., <code>&lt;Button&gt;</code>, <code>&lt;Card&gt;</code>)
+                    that encapsulate their Tailwind classes. This is far more maintainable than creating dozens of
+                    <code>@apply</code>-based CSS classes.</p>
+                <p><strong>Keep your <code>@theme</code> block organized.</strong> Group tokens by category — spacing,
+                    colors, typography, breakpoints — and add comments. This serves as your project's design system
+                    documentation.</p>
+                <p><strong>Use consistent naming conventions.</strong> If you add custom colors, follow Tailwind's
+                    shade pattern (<code>brand-50</code> through <code>brand-950</code>) so the API feels familiar to
+                    your team.</p>
+                <p><strong>Leverage a class-sorting tool.</strong> The official Prettier plugin for Tailwind CSS
+                    automatically sorts utility classes in a consistent, predictable order — reducing merge conflicts
+                    and making code review easier.</p>
+            </div>
+
+            <!-- ==================== KEY VOCABULARY ==================== -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Utility class</td>
+                            <td>A single-purpose CSS class that maps to one property, e.g. <code>p-4</code> →
+                                <code>padding: 1rem</code></td>
+                        </tr>
+                        <tr>
+                            <td>Modifier</td>
+                            <td>A prefix that conditionally applies a utility, e.g. <code>hover:</code>,
+                                <code>dark:</code>, <code>md:</code></td>
+                        </tr>
+                        <tr>
+                            <td>Breakpoint</td>
+                            <td>A responsive prefix (<code>sm:</code>, <code>md:</code>, <code>lg:</code>,
+                                <code>xl:</code>) that applies styles at a minimum screen width</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile-first</td>
+                            <td>Design strategy where un-prefixed styles target all screens; breakpoints layer on larger
+                                styles</td>
+                        </tr>
+                        <tr>
+                            <td>Arbitrary value</td>
+                            <td>A one-off value in brackets, e.g. <code>top-[117px]</code>, when no utility exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>@theme</code></td>
+                            <td>CSS directive in v4 for defining design tokens (colors, spacing, fonts) that become
+                                utilities</td>
+                        </tr>
+                        <tr>
+                            <td><code>@apply</code></td>
+                            <td>Directive to inline Tailwind utilities into a CSS rule — useful for elements you don't
+                                control</td>
+                        </tr>
+                        <tr>
+                            <td><code>@layer</code></td>
+                            <td>Injects custom CSS into Tailwind's cascade layers (<code>base</code>,
+                                <code>components</code>, <code>utilities</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><code>@source</code></td>
+                            <td>Tells the compiler to scan additional files/directories for class names</td>
+                        </tr>
+                        <tr>
+                            <td><code>@custom-variant</code></td>
+                            <td>Defines a custom variant, e.g. overriding <code>dark:</code> to use a class selector
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Class detection / purging</td>
+                            <td>The process of scanning source files and generating CSS only for classes actually used
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Design token</td>
+                            <td>A named value (color, spacing, font) that defines your project's visual language</td>
+                        </tr>
+                        <tr>
+                            <td>Cascade layer</td>
+                            <td>A native CSS feature (<code>@layer</code>) that controls specificity ordering between
+                                base, component, and utility styles</td>
+                        </tr>
+                        <tr>
+                            <td>CSS-first config</td>
+                            <td>Tailwind v4's approach of configuring the framework in CSS via <code>@theme</code>
+                                instead of a JavaScript config file</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Development Guides</a></p>
+            <p>Tailwind CSS Quick Reference Guide — v4.1+</p>
+        </footer>
+    </div>
+</body>
+
+</html>
