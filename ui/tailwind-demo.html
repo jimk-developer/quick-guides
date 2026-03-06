@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind CSS — Live Concept Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Sora', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── @apply demo (simulating what @layer components does) ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      border: 2px solid transparent;
+    }
+    .btn-primary:hover { background: #1d4ed8; box-shadow: 0 4px 14px rgba(37,99,235,.4); }
+    .btn-primary:focus { outline: none; box-shadow: 0 0 0 4px rgba(147,197,253,.6); }
+    .btn-primary:active { transform: scale(0.95); background: #1e40af; }
+    .btn-outline {
+      background: transparent;
+      color: #374151;
+      border: 2px solid #d1d5db;
+    }
+    .btn-outline:hover { background: #f9fafb; }
+    .btn-outline:focus { outline: none; box-shadow: 0 0 0 4px rgba(209,213,219,.6); }
+
+    /* smooth scroll */
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+  <!-- ═══════════════════════════════════════════════════
+       STICKY NAVBAR — demonstrates bg, text, flex, gap, shadow, sticky, z
+  ═══════════════════════════════════════════════════ -->
+  <nav class="sticky top-0 z-50 bg-slate-900 dark:bg-slate-950 shadow-lg">
+    <div class="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">
+      <span class="text-lg font-bold text-cyan-400 tracking-wide">🌊 Tailwind Demo</span>
+      <div class="hidden sm:flex items-center gap-5 text-sm text-slate-300">
+        <a href="#utility-first"   class="hover:text-white transition-colors">Utility-First</a>
+        <a href="#states"          class="hover:text-white transition-colors">States</a>
+        <a href="#responsive"      class="hover:text-white transition-colors">Responsive</a>
+        <a href="#dark-mode"       class="hover:text-white transition-colors">Dark Mode</a>
+        <a href="#colors"          class="hover:text-white transition-colors">Colors</a>
+        <a href="#typography"      class="hover:text-white transition-colors">Typography</a>
+        <a href="#spacing"         class="hover:text-white transition-colors">Spacing</a>
+        <a href="#layout"          class="hover:text-white transition-colors">Layout</a>
+        <a href="#apply"           class="hover:text-white transition-colors">@apply</a>
+        <a href="#arbitrary"       class="hover:text-white transition-colors">Arbitrary</a>
+        <a href="#class-detection" class="hover:text-white transition-colors">Detection</a>
+      </div>
+      <!-- Dark-mode toggle -->
+      <button
+        id="dark-toggle"
+        onclick="document.getElementById('html-root').classList.toggle('dark')"
+        class="ml-4 rounded-full bg-slate-700 hover:bg-slate-600 active:scale-95
+               px-3 py-1.5 text-xs font-semibold text-white transition-all duration-200
+               focus:outline-none focus:ring-2 focus:ring-cyan-400">
+        Toggle Dark
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="bg-gradient-to-br from-cyan-600 to-blue-700 dark:from-cyan-800 dark:to-blue-900
+                 text-white py-16 px-6 text-center">
+    <p class="text-xs font-semibold uppercase tracking-widest text-cyan-200 mb-3">AWD 1111 — Tailwind CSS</p>
+    <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
+      Core Concepts <span class="text-yellow-300">Live Demo</span>
+    </h1>
+    <p class="text-lg text-cyan-100 max-w-2xl mx-auto">
+      Every section below demonstrates a concept from the guide — styled entirely with Tailwind utility classes.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#utility-first"
+         class="rounded-full bg-white text-blue-700 font-bold px-6 py-2.5 text-sm
+                hover:bg-yellow-300 hover:text-blue-900 transition-all duration-200 active:scale-95">
+        Start Exploring ↓
+      </a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 sm:px-6 py-12 space-y-20">
+
+    <!-- ═══════════════════════════════════════════════════
+         1. UTILITY-FIRST — product card built only with utilities
+    ═══════════════════════════════════════════════════ -->
+    <section id="utility-first">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🎯 1 — Utility-First
+      </h2>
+      <p class="mb-6 text-slate-600 dark:text-slate-400">
+        Each class maps to a <em>single</em> CSS property. No custom stylesheet was written for this card —
+        every property is applied inline via utilities.
+      </p>
+
+      <div class="flex flex-wrap gap-6">
+        <!-- Product Card -->
+        <div class="max-w-sm w-full rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-xl border border-slate-200 dark:border-slate-700">
+          <div class="h-40 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 mb-5 flex items-center justify-center text-5xl">
+            🦋
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Monarch Pro Kit</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            Professional-grade collection tools for serious lepidopterists.
+          </p>
+          <div class="flex items-center justify-between">
+            <span class="inline-block rounded-full bg-cyan-100 dark:bg-cyan-900 px-3 py-1
+                         text-sm font-semibold text-cyan-800 dark:text-cyan-300">
+              $49.99
+            </span>
+            <span class="text-xs text-slate-400">★★★★★ (128)</span>
+          </div>
+        </div>
+
+        <!-- Class annotations -->
+        <div class="flex-1 min-w-64 bg-slate-800 dark:bg-slate-950 rounded-xl p-5 text-sm text-slate-300 self-start">
+          <p class="text-yellow-400 font-semibold mb-3 text-xs uppercase tracking-wider">Utility Classes Used:</p>
+          <ul class="space-y-1 text-xs leading-relaxed">
+            <li><code class="text-cyan-300">rounded-2xl</code> → border-radius: 1rem</li>
+            <li><code class="text-cyan-300">bg-white</code> → background-color: white</li>
+            <li><code class="text-cyan-300">p-6</code> → padding: 1.5rem</li>
+            <li><code class="text-cyan-300">shadow-xl</code> → box-shadow: extra-large</li>
+            <li><code class="text-cyan-300">text-xl font-bold</code> → font-size + weight</li>
+            <li><code class="text-cyan-300">mb-4</code> → margin-bottom: 1rem</li>
+            <li><code class="text-cyan-300">rounded-full</code> → border-radius: 9999px</li>
+            <li><code class="text-cyan-300">dark:bg-slate-800</code> → dark-mode bg</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         2. HOVER / FOCUS / ACTIVE / DISABLED STATES
+    ═══════════════════════════════════════════════════ -->
+    <section id="states">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🖱️ 2 — Hover, Focus, Active &amp; Disabled States
+      </h2>
+      <p class="mb-6 text-slate-600 dark:text-slate-400">
+        State modifiers prefix any utility with <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">hover:</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">focus:</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">active:</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">disabled:</code>, etc.
+        Interact with each button below.
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-start">
+        <!-- Normal button -->
+        <button class="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white
+                       transition-all duration-200
+                       hover:bg-blue-700 hover:shadow-lg
+                       focus:outline-none focus:ring-4 focus:ring-blue-300
+                       active:scale-95 active:bg-blue-800">
+          Submit Form
+        </button>
+
+        <!-- Danger button -->
+        <button class="rounded-lg bg-red-600 px-6 py-3 font-semibold text-white
+                       transition-all duration-200
+                       hover:bg-red-700 hover:shadow-lg hover:shadow-red-200
+                       focus:outline-none focus:ring-4 focus:ring-red-300
+                       active:scale-95">
+          Delete Record
+        </button>
+
+        <!-- Disabled button -->
+        <button disabled
+                class="rounded-lg bg-slate-400 px-6 py-3 font-semibold text-white
+                       cursor-not-allowed opacity-50
+                       disabled:cursor-not-allowed disabled:opacity-50">
+          Disabled
+        </button>
+
+        <!-- Link-like with group/hover -->
+        <div class="group flex items-center gap-2 px-4 py-3 rounded-lg border-2
+                    border-cyan-500 text-cyan-600 dark:text-cyan-400 font-semibold
+                    hover:bg-cyan-50 dark:hover:bg-cyan-900/30 transition-colors cursor-pointer">
+          <span>Hover me</span>
+          <span class="transition-transform group-hover:translate-x-1">→</span>
+        </div>
+
+        <!-- Input with focus ring -->
+        <input type="text" placeholder="Focus me..."
+               class="rounded-lg border-2 border-slate-300 dark:border-slate-600
+                      bg-white dark:bg-slate-800 px-4 py-3 text-sm
+                      focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-200
+                      dark:focus:ring-cyan-800 transition-all duration-200" />
+      </div>
+
+      <div class="mt-4 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 rounded-r-lg px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+        💡 <strong>Stackable modifiers:</strong> <code>sm:hover:bg-blue-700</code> applies hover only on sm+ screens.
+        <code>dark:hover:bg-blue-400</code> applies hover only in dark mode.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         3. RESPONSIVE DESIGN — mobile-first breakpoints
+    ═══════════════════════════════════════════════════ -->
+    <section id="responsive">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        📱 3 — Responsive Design (Mobile-First)
+      </h2>
+      <p class="mb-2 text-slate-600 dark:text-slate-400">
+        Un-prefixed utilities target <em>all</em> sizes. Breakpoint prefixes layer on larger screens.
+        Resize the window to see the grid change.
+      </p>
+      <div class="mb-4 flex flex-wrap gap-2 text-xs font-mono">
+        <span class="bg-slate-700 text-white rounded px-2 py-1">base: 1 col</span>
+        <span class="bg-blue-600 text-white rounded px-2 py-1">md: 2 cols (768px+)</span>
+        <span class="bg-cyan-600 text-white rounded px-2 py-1">lg: 3 cols (1024px+)</span>
+      </div>
+
+      <!-- Responsive grid: 1 → 2 → 3 columns -->
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">⚡</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">Fast Builds</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Incremental compilation in microseconds.</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">📱</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">Responsive</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Mobile-first breakpoints out of the box.</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">🎨</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">Customizable</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">CSS-first config with @theme.</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">🌙</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">Dark Mode</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Built-in dark: modifier.</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">🔧</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">@apply</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Extract reusable CSS component classes.</p>
+        </div>
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+          <div class="text-2xl mb-2">🎯</div>
+          <h3 class="font-bold text-slate-900 dark:text-white mb-1">Utility-First</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Small composable classes in markup.</p>
+        </div>
+      </div>
+
+      <!-- Responsive text sizing demo -->
+      <div class="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 shadow border border-slate-200 dark:border-slate-700">
+        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Responsive Text</p>
+        <p class="text-base sm:text-xl md:text-2xl lg:text-4xl font-bold text-cyan-600 dark:text-cyan-400 transition-all">
+          I grow with the screen! 📐
+        </p>
+        <code class="text-xs text-slate-500 dark:text-slate-400 mt-1 block">
+          class="text-base sm:text-xl md:text-2xl lg:text-4xl"
+        </code>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         4. DARK MODE
+    ═══════════════════════════════════════════════════ -->
+    <section id="dark-mode">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🌙 4 — Dark Mode
+      </h2>
+      <p class="mb-6 text-slate-600 dark:text-slate-400">
+        The <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">dark:</code> modifier pairs with a
+        matching light-mode class. Toggle dark mode via the button in the navbar to see every card below flip.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <!-- Stats widget demo -->
+        <div class="rounded-xl bg-white dark:bg-gray-800 p-6 shadow-md dark:shadow-gray-900/30 border border-slate-200 dark:border-slate-700">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Monthly Revenue</p>
+          <p class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">$84,210</p>
+          <p class="mt-2 text-sm font-semibold text-green-600 dark:text-green-400">↑ +12.4% vs last month</p>
+        </div>
+        <div class="rounded-xl bg-white dark:bg-gray-800 p-6 shadow-md dark:shadow-gray-900/30 border border-slate-200 dark:border-slate-700">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active Users</p>
+          <p class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">3,409</p>
+          <p class="mt-2 text-sm font-semibold text-green-600 dark:text-green-400">↑ +5.1% vs last week</p>
+        </div>
+        <div class="rounded-xl bg-white dark:bg-gray-800 p-6 shadow-md dark:shadow-gray-900/30 border border-slate-200 dark:border-slate-700">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Bounce Rate</p>
+          <p class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">28.6%</p>
+          <p class="mt-2 text-sm font-semibold text-red-500 dark:text-red-400">↓ -2.3% vs last month</p>
+        </div>
+      </div>
+
+      <div class="mt-4 bg-cyan-50 dark:bg-cyan-900/20 border-l-4 border-cyan-500 rounded-r-lg px-4 py-3 text-sm text-cyan-800 dark:text-cyan-300">
+        💡 Each card uses paired classes like <code>bg-white dark:bg-gray-800</code> and
+        <code>text-gray-900 dark:text-white</code>. The toggle in the nav adds/removes the
+        <code>.dark</code> class on <code>&lt;html&gt;</code>.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         5. COLORS & OPACITY MODIFIERS
+    ═══════════════════════════════════════════════════ -->
+    <section id="colors">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🎨 5 — Colors &amp; Opacity Modifiers
+      </h2>
+      <p class="mb-4 text-slate-600 dark:text-slate-400">
+        Colors follow the pattern <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">{property}-{color}-{shade}</code>.
+        Opacity is appended with a slash: <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">bg-blue-500/75</code>.
+      </p>
+
+      <!-- Color swatches -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 mb-8">
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-slate-500"></div><span class="text-xs text-slate-500">slate-500</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-red-500"></div><span class="text-xs text-slate-500">red-500</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-orange-500"></div><span class="text-xs text-slate-500">orange-500</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-yellow-400"></div><span class="text-xs text-slate-500">yellow-400</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-green-500"></div><span class="text-xs text-slate-500">green-500</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-cyan-500"></div><span class="text-xs text-slate-500">cyan-500</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-blue-600"></div><span class="text-xs text-slate-500">blue-600</span>
+        </div>
+        <div class="flex flex-col gap-1 items-center">
+          <div class="w-full h-10 rounded-lg bg-purple-600"></div><span class="text-xs text-slate-500">purple-600</span>
+        </div>
+      </div>
+
+      <!-- Opacity modifier demo -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">
+        Opacity modifiers with <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">bg-blue-600/{n}</code>:
+      </p>
+      <div class="flex flex-wrap gap-3 mb-8">
+        <div class="w-24 h-16 rounded-lg bg-blue-600/100 flex items-end p-1"><span class="text-white text-xs font-bold">100%</span></div>
+        <div class="w-24 h-16 rounded-lg bg-blue-600/75  flex items-end p-1"><span class="text-white text-xs font-bold">75%</span></div>
+        <div class="w-24 h-16 rounded-lg bg-blue-600/50  flex items-end p-1"><span class="text-slate-700 text-xs font-bold">50%</span></div>
+        <div class="w-24 h-16 rounded-lg bg-blue-600/25  flex items-end p-1"><span class="text-slate-700 text-xs font-bold">25%</span></div>
+        <div class="w-24 h-16 rounded-lg bg-blue-600/10  border border-slate-300 flex items-end p-1"><span class="text-slate-700 text-xs font-bold">10%</span></div>
+      </div>
+
+      <!-- Text color shades -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">Blue shade scale — <code>text-blue-{shade}</code>:</p>
+      <div class="flex flex-wrap gap-2 text-sm font-semibold">
+        <span class="text-blue-100 bg-slate-800 px-2 py-1 rounded">blue-100</span>
+        <span class="text-blue-200 bg-slate-800 px-2 py-1 rounded">blue-200</span>
+        <span class="text-blue-300 bg-slate-800 px-2 py-1 rounded">blue-300</span>
+        <span class="text-blue-400 bg-slate-800 px-2 py-1 rounded">blue-400</span>
+        <span class="text-blue-500 bg-slate-800 px-2 py-1 rounded">blue-500</span>
+        <span class="text-blue-600 bg-white px-2 py-1 rounded">blue-600</span>
+        <span class="text-blue-700 bg-white px-2 py-1 rounded">blue-700</span>
+        <span class="text-blue-800 bg-white px-2 py-1 rounded">blue-800</span>
+        <span class="text-blue-900 bg-white px-2 py-1 rounded">blue-900</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         6. TYPOGRAPHY
+    ═══════════════════════════════════════════════════ -->
+    <section id="typography">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🔤 6 — Typography
+      </h2>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow border border-slate-200 dark:border-slate-700 space-y-4">
+        <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">text-xs + tracking-widest</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400">text-sm — Small body copy or helper text.</p>
+        <p class="text-base text-slate-700 dark:text-slate-300">text-base — Default body size (1rem / 16px).</p>
+        <p class="text-lg font-medium text-slate-800 dark:text-slate-200">text-lg font-medium — Slightly larger.</p>
+        <p class="text-2xl font-bold text-slate-900 dark:text-white">text-2xl font-bold — Heading size.</p>
+        <p class="text-4xl font-extrabold text-cyan-600 dark:text-cyan-400 leading-tight">text-4xl extrabold</p>
+        <p class="text-base italic text-slate-500 dark:text-slate-400">italic — Oblique emphasis.</p>
+        <p class="text-base line-through text-slate-400">line-through — Strikethrough text.</p>
+        <p class="text-base underline decoration-cyan-500 decoration-2 underline-offset-4 text-slate-700 dark:text-slate-300">
+          underline with decoration-cyan-500 decoration-2 underline-offset-4
+        </p>
+        <p class="text-base text-right text-slate-500 dark:text-slate-400">text-right — Right-aligned.</p>
+        <p class="text-base text-center font-semibold text-slate-700 dark:text-slate-300">text-center — Centered.</p>
+        <p class="truncate text-slate-700 dark:text-slate-300 max-w-xs">
+          truncate — This very long sentence will be cut off with an ellipsis when it exceeds its container width...
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         7. SPACING — padding, margin, gap
+    ═══════════════════════════════════════════════════ -->
+    <section id="spacing">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        📏 7 — Spacing (Padding, Margin, Gap)
+      </h2>
+      <p class="mb-5 text-slate-600 dark:text-slate-400">
+        Tailwind's spacing scale uses 4px increments: <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">p-1 = 4px</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">p-4 = 16px</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">p-8 = 32px</code>.
+      </p>
+
+      <!-- Padding comparison -->
+      <div class="flex flex-wrap gap-4 mb-8">
+        <div class="p-1 bg-blue-100 dark:bg-blue-900/30 rounded border-2 border-blue-400 text-xs font-mono text-blue-700 dark:text-blue-300">p-1 (4px)</div>
+        <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded border-2 border-blue-400 text-xs font-mono text-blue-700 dark:text-blue-300">p-2 (8px)</div>
+        <div class="p-4 bg-blue-100 dark:bg-blue-900/30 rounded border-2 border-blue-400 text-xs font-mono text-blue-700 dark:text-blue-300">p-4 (16px)</div>
+        <div class="p-6 bg-blue-100 dark:bg-blue-900/30 rounded border-2 border-blue-400 text-xs font-mono text-blue-700 dark:text-blue-300">p-6 (24px)</div>
+        <div class="p-8 bg-blue-100 dark:bg-blue-900/30 rounded border-2 border-blue-400 text-xs font-mono text-blue-700 dark:text-blue-300">p-8 (32px)</div>
+      </div>
+
+      <!-- Directional padding -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">Directional padding:</p>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="px-8 py-2 bg-green-100 dark:bg-green-900/30 border-2 border-green-400 rounded text-xs font-mono text-green-700 dark:text-green-300">px-8 py-2</div>
+        <div class="pt-6 pb-1 px-3 bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-400 rounded text-xs font-mono text-orange-700 dark:text-orange-300">pt-6 pb-1 px-3</div>
+        <div class="pl-10 pr-2 py-3 bg-purple-100 dark:bg-purple-900/30 border-2 border-purple-400 rounded text-xs font-mono text-purple-700 dark:text-purple-300">pl-10 pr-2 py-3</div>
+      </div>
+
+      <!-- Gap -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">Gap (Flexbox / Grid):</p>
+      <div class="flex gap-1 mb-2">
+        <div class="w-12 h-8 bg-cyan-400 rounded text-center text-xs leading-8 text-white font-bold">gap-1</div>
+        <div class="w-12 h-8 bg-cyan-400 rounded"></div><div class="w-12 h-8 bg-cyan-400 rounded"></div>
+      </div>
+      <div class="flex gap-6 mb-2">
+        <div class="w-12 h-8 bg-cyan-500 rounded text-center text-xs leading-8 text-white font-bold">gap-6</div>
+        <div class="w-12 h-8 bg-cyan-500 rounded"></div><div class="w-12 h-8 bg-cyan-500 rounded"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         8. LAYOUT — Flexbox & Grid
+    ═══════════════════════════════════════════════════ -->
+    <section id="layout">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        📐 8 — Layout: Flexbox &amp; Grid
+      </h2>
+
+      <!-- Flexbox demos -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">Flexbox alignment combos:</p>
+      <div class="space-y-3 mb-8">
+        <div class="flex justify-between items-center bg-slate-200 dark:bg-slate-700 rounded-lg p-3 text-sm">
+          <span class="bg-cyan-500 text-white px-3 py-1 rounded font-mono text-xs">justify-between</span>
+          <span class="bg-cyan-500 text-white px-3 py-1 rounded font-mono text-xs">items-center</span>
+          <span class="bg-cyan-500 text-white px-3 py-1 rounded font-mono text-xs">flex</span>
+        </div>
+        <div class="flex justify-center gap-4 bg-slate-200 dark:bg-slate-700 rounded-lg p-3">
+          <span class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-xs">justify-center</span>
+          <span class="bg-blue-500 text-white px-3 py-1 rounded font-mono text-xs">gap-4</span>
+        </div>
+        <div class="flex flex-col gap-2 bg-slate-200 dark:bg-slate-700 rounded-lg p-3">
+          <span class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-xs self-start">flex-col</span>
+          <span class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-xs self-center">self-center</span>
+          <span class="bg-purple-500 text-white px-3 py-1 rounded font-mono text-xs self-end">self-end</span>
+        </div>
+      </div>
+
+      <!-- Grid demos -->
+      <p class="font-semibold mb-3 text-slate-700 dark:text-slate-300">CSS Grid layouts:</p>
+      <div class="grid grid-cols-4 gap-2 mb-4">
+        <div class="col-span-4 bg-cyan-600 text-white text-xs text-center py-2 rounded font-mono">col-span-4 (full width)</div>
+        <div class="col-span-3 bg-blue-500 text-white text-xs text-center py-2 rounded font-mono">col-span-3</div>
+        <div class="col-span-1 bg-blue-400 text-white text-xs text-center py-2 rounded font-mono">col-span-1</div>
+        <div class="col-span-2 bg-indigo-500 text-white text-xs text-center py-2 rounded font-mono">col-span-2</div>
+        <div class="col-span-2 bg-indigo-400 text-white text-xs text-center py-2 rounded font-mono">col-span-2</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         9. @APPLY — extracted reusable component classes
+    ═══════════════════════════════════════════════════ -->
+    <section id="apply">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🔧 9 — @apply &amp; @layer (Reusable Classes)
+      </h2>
+      <p class="mb-2 text-slate-600 dark:text-slate-400">
+        The <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">.btn</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">.btn-primary</code>, and
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">.btn-outline</code> classes below are defined using
+        <code>@apply</code> in the <code>&lt;style&gt;</code> block at the top of this file — not with Tailwind directly in markup.
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-center mt-5">
+        <button class="btn btn-primary">btn-primary</button>
+        <button class="btn btn-outline">btn-outline</button>
+      </div>
+
+      <div class="mt-5 bg-slate-800 rounded-xl p-5 text-sm text-slate-300 font-mono">
+        <span class="text-purple-400">@layer</span> components {<br/>
+        &nbsp;&nbsp;.btn {<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">@apply</span> <span class="text-yellow-300">inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-200</span>;<br/>
+        &nbsp;&nbsp;}<br/>
+        &nbsp;&nbsp;.btn-primary {<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">@apply</span> <span class="text-yellow-300">btn bg-blue-600 text-white hover:bg-blue-700 focus:ring-4 focus:ring-blue-300</span>;<br/>
+        &nbsp;&nbsp;}<br/>
+        }
+      </div>
+
+      <div class="mt-4 bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-400 rounded-r-lg px-4 py-3 text-sm text-orange-800 dark:text-orange-300">
+        ⚠️ <strong>Don't overuse @apply.</strong> Use utilities directly in markup whenever possible.
+        Reserve @apply for third-party elements or CMS-generated content you can't add classes to directly.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         10. ARBITRARY VALUES
+    ═══════════════════════════════════════════════════ -->
+    <section id="arbitrary">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🎲 10 — Arbitrary Values
+      </h2>
+      <p class="mb-5 text-slate-600 dark:text-slate-400">
+        When no built-in utility exists, use square brackets for a one-off value:
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">top-[117px]</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">bg-[#1DA1F2]</code>,
+        <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">w-[37.5%]</code>.
+      </p>
+
+      <div class="flex flex-wrap gap-5 items-start">
+        <!-- Custom color with arbitrary value -->
+        <div class="bg-[#1DA1F2] text-white rounded-xl px-5 py-3 font-semibold text-sm shadow-md">
+          bg-[#1DA1F2] — Twitter Blue 🐦
+        </div>
+
+        <!-- Custom width -->
+        <div class="w-[37.5%] bg-emerald-400 dark:bg-emerald-600 rounded-xl px-4 py-3 text-white text-sm font-mono">
+          w-[37.5%]
+        </div>
+
+        <!-- Custom font size -->
+        <p class="text-[11px] text-slate-400">text-[11px] — custom 11px size</p>
+        <p class="text-[22px] font-bold text-slate-700 dark:text-slate-300">text-[22px] — custom 22px</p>
+
+        <!-- Custom top offset using relative/absolute -->
+        <div class="relative h-20 w-40 bg-slate-200 dark:bg-slate-700 rounded-xl overflow-hidden">
+          <div class="absolute top-[14px] left-[18px] bg-rose-500 text-white text-xs px-2 py-1 rounded">
+            top-[14px] left-[18px]
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         11. CLASS DETECTION GOTCHA
+    ═══════════════════════════════════════════════════ -->
+    <section id="class-detection">
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🔍 11 — Class Detection &amp; The Dynamic Class Gotcha
+      </h2>
+      <p class="mb-5 text-slate-600 dark:text-slate-400">
+        Tailwind scans your source files for <strong>complete class strings</strong>. Dynamically constructed
+        class names won't be detected and will be missing from the compiled output.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+        <!-- BAD -->
+        <div class="border-l-4 border-red-500 bg-red-50 dark:bg-red-900/20 rounded-r-xl p-5">
+          <h3 class="font-bold text-red-700 dark:text-red-400 mb-3">❌ Dynamic Construction (Broken)</h3>
+          <div class="bg-slate-800 rounded-lg p-4 text-xs font-mono text-slate-300">
+            <span class="text-green-400">// Compiler CANNOT detect these</span><br/>
+            <span class="text-blue-300">const</span> color = <span class="text-orange-300">"red"</span>;<br/>
+            <span class="text-blue-300">const</span> shade = <span class="text-orange-300">"500"</span>;<br/><br/>
+            &lt;<span class="text-cyan-300">div</span> class={<span class="text-orange-300">`bg-${color}-${shade}`</span>}&gt;<br/>
+            &nbsp;&nbsp;Unstyled! 😱<br/>
+            &lt;/<span class="text-cyan-300">div</span>&gt;
+          </div>
+        </div>
+
+        <!-- GOOD -->
+        <div class="border-l-4 border-green-500 bg-green-50 dark:bg-green-900/20 rounded-r-xl p-5">
+          <h3 class="font-bold text-green-700 dark:text-green-400 mb-3">✅ Complete Strings (Works)</h3>
+          <div class="bg-slate-800 rounded-lg p-4 text-xs font-mono text-slate-300">
+            <span class="text-green-400">// Full class names ARE detected</span><br/>
+            <span class="text-blue-300">const</span> colorClass =<br/>
+            &nbsp;&nbsp;isError<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;? <span class="text-orange-300">"bg-red-500"</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;: <span class="text-orange-300">"bg-green-500"</span>;<br/><br/>
+            &lt;<span class="text-cyan-300">div</span> class={colorClass}&gt;<br/>
+            &nbsp;&nbsp;Styled! ✅<br/>
+            &lt;/<span class="text-cyan-300">div</span>&gt;
+          </div>
+        </div>
+      </div>
+
+      <!-- Live demonstration of the right way -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow border border-slate-200 dark:border-slate-700">
+        <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+          Live demo — click to toggle status (uses complete class strings):
+        </p>
+        <button
+          id="status-toggle"
+          onclick="toggleStatus()"
+          class="rounded-lg bg-slate-200 dark:bg-slate-700 px-5 py-2 text-sm font-semibold mb-4 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">
+          Toggle Error State
+        </button>
+        <div id="status-box" class="rounded-xl px-6 py-4 font-semibold text-white bg-green-500 transition-colors duration-300">
+          ✅ Success — everything looks good!
+        </div>
+      </div>
+
+      <script>
+        let isError = false;
+        function toggleStatus() {
+          isError = !isError;
+          const box = document.getElementById('status-box');
+          // ✅ Using complete class strings — not concatenation
+          if (isError) {
+            box.className = 'rounded-xl px-6 py-4 font-semibold text-white bg-red-500 transition-colors duration-300';
+            box.textContent = '❌ Error — something went wrong!';
+          } else {
+            box.className = 'rounded-xl px-6 py-4 font-semibold text-white bg-green-500 transition-colors duration-300';
+            box.textContent = '✅ Success — everything looks good!';
+          }
+        }
+      </script>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         12. BORDERS, SHADOWS, RING UTILITIES
+    ═══════════════════════════════════════════════════ -->
+    <section>
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        ✨ 12 — Borders, Shadows &amp; Ring Utilities
+      </h2>
+      <div class="flex flex-wrap gap-5">
+        <div class="border border-slate-300 dark:border-slate-600 rounded p-5 text-sm text-slate-600 dark:text-slate-400">border (1px)</div>
+        <div class="border-2 border-cyan-500 rounded-lg p-5 text-sm text-slate-700 dark:text-slate-300">border-2 border-cyan-500</div>
+        <div class="border-4 border-dashed border-blue-400 rounded-xl p-5 text-sm text-slate-700 dark:text-slate-300">border-4 border-dashed</div>
+        <div class="shadow-sm bg-white dark:bg-slate-800 rounded-lg p-5 text-sm text-slate-700 dark:text-slate-300">shadow-sm</div>
+        <div class="shadow-lg bg-white dark:bg-slate-800 rounded-lg p-5 text-sm text-slate-700 dark:text-slate-300">shadow-lg</div>
+        <div class="shadow-2xl bg-white dark:bg-slate-800 rounded-xl p-5 text-sm text-slate-700 dark:text-slate-300">shadow-2xl</div>
+        <div class="ring-4 ring-cyan-400 ring-offset-2 bg-white dark:bg-slate-800 rounded-lg p-5 text-sm text-slate-700 dark:text-slate-300">ring-4 ring-cyan-400</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         13. TRANSITIONS & TRANSFORMS
+    ═══════════════════════════════════════════════════ -->
+    <section>
+      <h2 class="text-2xl font-bold text-cyan-700 dark:text-cyan-400 border-b-2 border-cyan-400 pb-2 mb-6">
+        🎞️ 13 — Transitions &amp; Transforms
+      </h2>
+      <p class="mb-5 text-slate-600 dark:text-slate-400">
+        Hover over each card to see transitions and transforms in action.
+        Always add <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded">transition</code> to get smooth state changes.
+      </p>
+      <div class="flex flex-wrap gap-5">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 text-sm font-semibold text-slate-700 dark:text-slate-300
+                    transition-all duration-300 hover:-translate-y-3 hover:shadow-xl cursor-pointer">
+          hover:-translate-y-3<br/>hover:shadow-xl
+        </div>
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 text-sm font-semibold text-slate-700 dark:text-slate-300
+                    transition-all duration-300 hover:scale-110 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 cursor-pointer">
+          hover:scale-110
+        </div>
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 text-sm font-semibold text-slate-700 dark:text-slate-300
+                    transition-all duration-500 hover:rotate-6 cursor-pointer">
+          hover:rotate-6<br/>duration-500
+        </div>
+        <div class="bg-blue-600 rounded-xl p-6 text-sm font-semibold text-white
+                    transition-colors duration-300 hover:bg-emerald-500 cursor-pointer">
+          transition-colors<br/>hover:bg-emerald-500
+        </div>
+        <div class="opacity-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 text-sm font-semibold text-slate-700 dark:text-slate-300
+                    transition-opacity duration-300 hover:opacity-100 cursor-pointer">
+          opacity-50<br/>hover:opacity-100
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 dark:bg-slate-950 text-slate-400 text-center py-10 mt-16 text-sm">
+    <p class="text-cyan-400 font-bold text-base mb-1">Tailwind CSS Core Concepts Demo</p>
+    <p>AWD 1111 — Built with Tailwind CSS via CDN. All styles applied with utility classes.</p>
+    <p class="mt-2 text-xs text-slate-600">13 concepts demonstrated: Utility-First · States · Responsive · Dark Mode · Colors · Typography · Spacing · Layout · @apply · Arbitrary Values · Class Detection · Borders/Shadows · Transitions</p>
+  </footer>
+
+</body>
+</html>
