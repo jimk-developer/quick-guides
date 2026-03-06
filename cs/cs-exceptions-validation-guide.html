@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #7: How to Handle Exceptions and Validate Data</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+
+        header {
+            text-align: center; padding: 15px 20px; background: var(--bg-dark);
+            color: var(--text-light); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif; font-size: 1.6rem; margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        header p { font-size: 0.95rem; opacity: 0.9; color: #B4B4B4; }
+
+        main {
+            background: white; border-radius: 20px; padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow); margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif; font-size: 1.8rem; color: var(--primary-dark);
+            margin: 50px 0 25px 0; padding-bottom: 12px; border-bottom: 3px solid var(--primary);
+            display: flex; align-items: center; gap: 12px;
+        }
+        h2:first-child { margin-top: 0; }
+
+        h3 { font-size: 1.35rem; color: var(--text-dark); margin: 35px 0 18px 0; font-weight: 700; }
+        h4 { font-size: 1.1rem; color: var(--primary-dark); margin: 25px 0 12px 0; font-weight: 600; }
+        p { margin-bottom: 18px; font-size: 1.05rem; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary); padding: 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .highlight-box h4 { margin-top: 0; color: var(--primary-dark); }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .tip-box::before { content: "💡 "; font-size: 1.2rem; }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .warning-box::before { content: "⚠️ "; font-size: 1.2rem; }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success); padding: 20px 25px;
+            border-radius: 0 12px 12px 0; margin: 25px 0;
+        }
+        .success-box::before { content: "✅ "; font-size: 1.2rem; }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace; background: #F5F5F5;
+            padding: 3px 8px; border-radius: 4px; font-size: 0.9rem; color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg); color: #D4D4D4; padding: 20px; border-radius: 10px;
+            overflow-x: auto; margin: 20px 0; font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem; line-height: 1.6;
+        }
+        pre .keyword { color: #569CD6; }
+        pre .type { color: #4EC9B0; }
+        pre .string { color: #CE9178; }
+        pre .comment { color: #6A9955; }
+        pre .method { color: #DCDCAA; }
+        pre .param { color: #9CDCFE; }
+        pre .number { color: #B5CEA8; }
+
+        table {
+            width: 100%; border-collapse: collapse; margin: 25px 0; background: white;
+            border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        th, td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+        th {
+            background: var(--primary); color: white; font-weight: 600;
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;
+        }
+        tr:hover { background: #F8F9FA; }
+        tr:last-child td { border-bottom: none; }
+
+        .concept-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; margin: 25px 0;
+        }
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border); border-radius: 12px; padding: 25px;
+            transition: all 0.3s ease;
+        }
+        .concept-card:hover {
+            border-color: var(--primary); box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+        .concept-card h4 { margin-top: 0; color: var(--primary-dark); display: flex; align-items: center; gap: 10px; }
+        .concept-card p { margin-bottom: 0; color: #666; font-size: 0.95rem; }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF; border-radius: 12px; padding: 20px; margin: 20px 0;
+        }
+        .syntax-box h4 { color: #5C2D91; margin-top: 0; margin-bottom: 10px; }
+        .syntax-box pre { margin: 0; background: #1E1E1E; }
+
+        .quick-ref {
+            background: var(--bg-dark); color: var(--text-light); padding: 30px;
+            border-radius: 15px; margin: 30px 0;
+        }
+        .quick-ref h3 { color: var(--accent); margin-top: 0; margin-bottom: 20px; }
+        .quick-ref table { background: #2D2D30; box-shadow: none; }
+        .quick-ref th { background: #3E3E42; }
+        .quick-ref td { color: #D4D4D4; border-color: #3E3E42; }
+        .quick-ref tr:hover { background: #383838; }
+        .quick-ref code { background: #1E1E1E; color: #9CDCFE; }
+
+        .comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 25px 0;
+        }
+        .comparison-item { background: #F8F9FA; border-radius: 10px; padding: 20px; }
+        .comparison-item h4 { margin-top: 0; }
+        .comparison-item.good { border-left: 4px solid var(--success); }
+        .comparison-item.bad { border-left: 4px solid var(--danger); }
+
+        .hierarchy-diagram {
+            background: #F8F9FA; padding: 30px; border-radius: 12px; margin: 25px 0;
+            text-align: center; overflow-x: auto;
+        }
+        .hier-row {
+            display: flex; justify-content: center; align-items: center;
+            gap: 15px; margin: 6px 0; flex-wrap: wrap;
+        }
+        .hier-box {
+            padding: 10px 20px; border-radius: 8px; font-family: 'Fira Code', monospace;
+            font-size: 0.88rem; font-weight: 600; min-width: 130px;
+        }
+        .hier-root { background: #FCE4EC; border: 2px solid #C62828; color: #B71C1C; }
+        .hier-base { background: #E8EAF6; border: 2px solid var(--primary); color: var(--primary-dark); }
+        .hier-mid { background: #E3F2FD; border: 2px solid #1976D2; color: #1565C0; }
+        .hier-derived { background: #E8F5E9; border: 2px solid #388E3C; color: #2E7D32; }
+        .hier-arrow { font-size: 1.2rem; color: #888; }
+        .hier-label { font-size: 0.75rem; color: #999; font-style: italic; }
+
+        footer { text-align: center; padding: 40px 20px; color: white; margin-top: 40px; }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.3rem; }
+            main { padding: 30px 20px; }
+            h2 { font-size: 1.5rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #7: How to Handle Exceptions and Validate Data</h1>
+        <p>Exceptions, Try-Catch, Throw Statements, Data Validation, and Dialog Boxes</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- What Is an Exception? -->
+            <h2>💥 What Is an Exception?</h2>
+
+            <p>An <strong>exception</strong> is a runtime error — a problem that occurs while your program is running,
+                not while it's compiling. When something goes wrong (like trying to convert the text
+                <code>"abc"</code> to a number), the .NET runtime creates an <strong>exception object</strong> and
+                <strong>throws</strong> it. If your code doesn't <strong>handle</strong> the exception, the
+                application will crash.</p>
+
+            <div class="highlight-box">
+                <h4>Key Terminology</h4>
+                <p><strong>Thrown:</strong> When a runtime error occurs, the system creates an exception object and
+                    "throws" it — meaning it interrupts normal execution and looks for code that can handle the
+                    problem.</p>
+                <p><strong>Handled (Caught):</strong> Your code "catches" the exception using a
+                    <code>try-catch</code> statement, allowing the program to respond gracefully instead of
+                    crashing.</p>
+                <p><strong>Unhandled:</strong> If no catch block exists for the exception, the program terminates
+                    with an error message.</p>
+            </div>
+
+            <h3>Common Scenarios That Cause Exceptions</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔤 Invalid Format</h4>
+                    <p>A user types "hello" into a field that expects a number, and your code tries to convert it
+                        with <code>Convert.ToDecimal()</code>.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📈 Value Too Large</h4>
+                    <p>A calculation produces a number too large to fit in the target data type, like storing
+                        999,999,999,999 in an <code>int</code>.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>➗ Division by Zero</h4>
+                    <p>Your code attempts to divide an integer by zero, which is mathematically undefined.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🚫 Null Reference</h4>
+                    <p>Your code tries to use an object that hasn't been initialized (is <code>null</code>).</p>
+                </div>
+            </div>
+
+
+            <!-- The Exception Hierarchy -->
+            <h2>🌳 The Exception Hierarchy</h2>
+
+            <p>All exceptions in C# are objects created from the <code>Exception</code> class or one of its
+                <strong>subclasses</strong>. This forms a hierarchy — more specific exception types inherit from
+                more general ones.</p>
+
+            <div class="hierarchy-diagram">
+                <div class="hier-row">
+                    <div class="hier-box hier-root">Exception</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow"> </span>
+                    <span class="hier-arrow">↘</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-base">FormatException</div>
+                    <div class="hier-box hier-base">ArithmeticException</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-arrow"> </span>
+                    <span class="hier-arrow"> </span>
+                    <span class="hier-arrow">↙</span>
+                    <span class="hier-arrow">↘</span>
+                </div>
+                <div class="hier-row">
+                    <div class="hier-box hier-mid">OverflowException</div>
+                    <div class="hier-box hier-mid">DivideByZeroException</div>
+                </div>
+                <div class="hier-row">
+                    <span class="hier-label">...and many more subclasses</span>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Exception Type</th>
+                        <th>When It's Thrown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>FormatException</code></td>
+                        <td>A value can't be converted to the target type (e.g., converting <code>"abc"</code> to <code>decimal</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>OverflowException</code></td>
+                        <td>A value is too large or too small for the target data type</td>
+                    </tr>
+                    <tr>
+                        <td><code>DivideByZeroException</code></td>
+                        <td>An integer division or remainder operation has a divisor of zero</td>
+                    </tr>
+                    <tr>
+                        <td><code>NullReferenceException</code></td>
+                        <td>Code attempts to use a member on an object reference that is <code>null</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Exception</code></td>
+                        <td>The base class — can be used to catch <em>any</em> exception type</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Why does the hierarchy matter?</strong> Because a catch block for <code>Exception</code>
+                will catch <em>any</em> exception (since all exceptions inherit from it), while a catch block for
+                <code>FormatException</code> will only catch format-related errors. You use specific types first
+                and the general <code>Exception</code> type last.
+            </div>
+
+
+            <!-- Try-Catch Statements -->
+            <h2>🛡️ Try-Catch Statements</h2>
+
+            <p>The <code>try-catch</code> statement is the primary mechanism for handling exceptions. You place the
+                code that <em>might</em> throw an exception inside the <code>try</code> block, and you place the
+                code that should run <em>if</em> an exception occurs inside one or more <code>catch</code> blocks.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Basic Try-Catch</h4>
+                <pre><span class="keyword">try</span>
+{
+    <span class="comment">// Code that might throw an exception</span>
+}
+<span class="keyword">catch</span> (<span class="type">FormatException</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Runs if a FormatException is thrown</span>
+}
+<span class="keyword">catch</span> (<span class="type">OverflowException</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Runs if an OverflowException is thrown</span>
+}
+<span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Runs for any other exception not caught above</span>
+}</pre>
+            </div>
+
+            <h3>How Try-Catch Execution Works</h3>
+
+            <p>When an exception occurs inside the <code>try</code> block, execution <strong>immediately
+                jumps</strong> to the first matching <code>catch</code> block. The remaining statements in the
+                <code>try</code> block are <strong>skipped</strong> — they do not execute. If no exception occurs,
+                all the <code>catch</code> blocks are skipped entirely.</p>
+
+            <div class="warning-box">
+                <strong>Order matters!</strong> Place catch blocks from <strong>most specific</strong> to
+                <strong>most general</strong>. A catch block for <code>Exception</code> must come
+                <em>last</em>, because it matches every exception type. If you put it first, the more specific
+                catch blocks would never be reached.
+            </div>
+
+            <h3>Example: Catching a Format Exception</h3>
+
+            <pre><span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnConvert_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">try</span>
+    {
+        <span class="type">decimal</span> <span class="param">temperature</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtFahrenheit</span>.Text);
+        <span class="type">decimal</span> <span class="param">celsius</span> = (<span class="param">temperature</span> - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>;
+        <span class="param">lblCelsius</span>.Text = <span class="param">celsius</span>.<span class="method">ToString</span>(<span class="string">"f1"</span>);
+    }
+    <span class="keyword">catch</span> (<span class="type">FormatException</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Please enter a valid number."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">txtFahrenheit</span>.<span class="method">Focus</span>();
+    }
+}</pre>
+
+            <p>In this example, if the user types something non-numeric (like "hot"), the
+                <code>Convert.ToDecimal()</code> call throws a <code>FormatException</code>. The calculation line
+                is skipped, and the catch block displays a helpful message.</p>
+
+            <h3>Catching Multiple Exception Types</h3>
+
+            <pre><span class="keyword">try</span>
+{
+    <span class="type">decimal</span> <span class="param">rate</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtRate</span>.Text);
+    <span class="type">decimal</span> <span class="param">result</span> = <span class="number">1000</span> / <span class="param">rate</span>;
+    <span class="param">lblResult</span>.Text = <span class="param">result</span>.<span class="method">ToString</span>(<span class="string">"c"</span>);
+}
+<span class="keyword">catch</span> (<span class="type">FormatException</span>)
+{
+    <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Rate must be a number."</span>, <span class="string">"Entry Error"</span>);
+}
+<span class="keyword">catch</span> (<span class="type">OverflowException</span>)
+{
+    <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Rate is too large or too small."</span>, <span class="string">"Entry Error"</span>);
+}
+<span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+{
+    <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">ex</span>.Message, <span class="string">"Unexpected Error"</span>);
+}</pre>
+
+
+            <!-- Exception Properties and Methods -->
+            <h2>🔍 Exception Properties and Methods</h2>
+
+            <p>When you catch an exception, the exception object provides useful information about what went wrong.
+                You access this information through its <strong>properties</strong> and <strong>methods</strong>.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property / Method</th>
+                        <th>What It Returns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Message</code></td>
+                        <td>A human-readable description of the error (e.g., "Input string was not in a correct format.")</td>
+                    </tr>
+                    <tr>
+                        <td><code>StackTrace</code></td>
+                        <td>The list of methods that were called before the exception occurred — extremely useful for debugging</td>
+                    </tr>
+                    <tr>
+                        <td><code>GetType()</code></td>
+                        <td>Returns the specific type of the exception (e.g., <code>FormatException</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ToString()</code></td>
+                        <td>Returns a string that combines the exception type, message, and stack trace</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Using Exception Properties</h3>
+
+            <pre><span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Display the error message to the user</span>
+    <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">ex</span>.Message, <span class="string">"Error"</span>);
+
+    <span class="comment">// Get the type of exception</span>
+    <span class="type">string</span> <span class="param">type</span> = <span class="param">ex</span>.<span class="method">GetType</span>().<span class="method">ToString</span>();
+
+    <span class="comment">// Get the full stack trace for debugging</span>
+    <span class="type">string</span> <span class="param">trace</span> = <span class="param">ex</span>.StackTrace;
+}</pre>
+
+            <div class="tip-box">
+                <strong>The <code>StackTrace</code> property</strong> shows you the exact sequence of method calls
+                that led to the exception. Think of it as a trail of breadcrumbs — it shows where the error
+                originated and how execution got there. This is invaluable when debugging.
+            </div>
+
+
+            <!-- The Finally Block -->
+            <h2>🔒 The Finally Block</h2>
+
+            <p>A <code>try-catch</code> statement can include an optional <code>finally</code> block. The code in
+                the <code>finally</code> block <strong>always executes</strong> — whether an exception occurred or
+                not, and whether or not a catch block was executed.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Try-Catch-Finally</h4>
+                <pre><span class="keyword">try</span>
+{
+    <span class="comment">// Code that might throw an exception</span>
+}
+<span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Handle the exception</span>
+}
+<span class="keyword">finally</span>
+{
+    <span class="comment">// This code ALWAYS runs, no matter what</span>
+    <span class="comment">// Commonly used for cleanup (closing files, connections, etc.)</span>
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>When to Use Finally</h4>
+                <p>The <code>finally</code> block is most useful when you need to <strong>clean up
+                    resources</strong> — like closing a file, releasing a database connection, or resetting a
+                    control's state — regardless of whether the operation succeeded or failed.</p>
+            </div>
+
+
+            <!-- Throw Statements -->
+            <h2>🚀 Throw Statements</h2>
+
+            <p>In addition to catching exceptions, you can also <strong>throw</strong> exceptions yourself using
+                the <code>throw</code> statement. This is useful when your code detects a condition that shouldn't
+                continue — such as invalid data passed to a method.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: Throwing an Exception</h4>
+                <pre><span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Exception</span>(<span class="string">"Something went wrong."</span>);
+
+<span class="comment">// Or throw a more specific exception type</span>
+<span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">ArgumentException</span>(<span class="string">"Value cannot be negative."</span>);</pre>
+            </div>
+
+            <h3>Common Reasons to Throw an Exception</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🧪 Testing Exception Handlers</h4>
+                    <p>You can throw an exception to verify that your catch blocks are working correctly during
+                        development.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🚫 Method Can't Complete</h4>
+                    <p>When processing in a method can't be completed (e.g., a required value is missing), throw
+                        an exception to signal the problem to the calling code.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 Re-Throwing After Processing</h4>
+                    <p>You can catch an exception, perform some processing (like logging), and then throw it again
+                        so calling code can handle it too.</p>
+                </div>
+            </div>
+
+            <h3>Example: Throwing and Re-Throwing</h3>
+
+            <pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">decimal</span> <span class="method">CalculateDiscount</span>(<span class="type">decimal</span> <span class="param">price</span>, <span class="type">decimal</span> <span class="param">discountPercent</span>)
+{
+    <span class="keyword">if</span> (<span class="param">discountPercent</span> &lt; <span class="number">0</span> || <span class="param">discountPercent</span> &gt; <span class="number">100</span>)
+    {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">ArgumentException</span>(<span class="string">"Discount must be between 0 and 100."</span>);
+    }
+    <span class="keyword">return</span> <span class="param">price</span> * <span class="param">discountPercent</span> / <span class="number">100</span>;
+}
+
+<span class="comment">// Re-throwing an exception after logging</span>
+<span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+{
+    <span class="comment">// Log the error, then pass it along</span>
+    <span class="type">Console</span>.<span class="method">WriteLine</span>(<span class="param">ex</span>.Message);
+    <span class="keyword">throw</span>;  <span class="comment">// re-throws the original exception</span>
+}</pre>
+
+            <div class="warning-box">
+                <strong>Use <code>throw;</code> (without an argument)</strong> to re-throw the current exception.
+                This preserves the original stack trace. Writing <code>throw ex;</code> resets the stack trace,
+                making debugging harder.
+            </div>
+
+
+            <!-- Dialog Boxes -->
+            <h2>💬 Dialog Boxes with MessageBox</h2>
+
+            <p>The <code>MessageBox</code> class provides the <code>Show()</code> method, which displays a dialog
+                box to the user. This is commonly used in exception handling to display error messages, and in
+                validation to notify users of invalid entries.</p>
+
+            <div class="syntax-box">
+                <h4>Syntax: MessageBox.Show()</h4>
+                <pre><span class="comment">// Simple message</span>
+<span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Operation complete."</span>);
+
+<span class="comment">// Message with a title</span>
+<span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Please enter a valid number."</span>, <span class="string">"Entry Error"</span>);
+
+<span class="comment">// Message with title, buttons, and icon</span>
+<span class="type">DialogResult</span> <span class="param">result</span> = <span class="type">MessageBox</span>.<span class="method">Show</span>(
+    <span class="string">"Are you sure you want to exit?"</span>,
+    <span class="string">"Confirm Exit"</span>,
+    <span class="type">MessageBoxButtons</span>.YesNo,
+    <span class="type">MessageBoxIcon</span>.Question);
+
+<span class="keyword">if</span> (<span class="param">result</span> == <span class="type">DialogResult</span>.Yes)
+{
+    <span class="keyword">this</span>.<span class="method">Close</span>();
+}</pre>
+            </div>
+
+            <h3>Common MessageBox Options</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Common Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>MessageBoxButtons</code></td>
+                        <td><code>OK</code>, <code>OKCancel</code>, <code>YesNo</code>, <code>YesNoCancel</code>, <code>RetryCancel</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxIcon</code></td>
+                        <td><code>Information</code>, <code>Warning</code>, <code>Error</code>, <code>Question</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult</code></td>
+                        <td><code>OK</code>, <code>Cancel</code>, <code>Yes</code>, <code>No</code>, <code>Retry</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Using <code>DialogResult</code>:</strong> When you use buttons like
+                <code>YesNo</code>, the <code>Show()</code> method returns a <code>DialogResult</code> value
+                that tells you which button the user clicked. You can then use an <code>if</code> statement
+                to respond accordingly.
+            </div>
+
+
+            <!-- Data Validation -->
+            <h2>✅ Data Validation</h2>
+
+            <p><strong>Data validation</strong> is the process of checking user entries <em>before</em> processing
+                them. Instead of relying solely on exception handling to catch bad input, you proactively verify
+                that entries are correct. This provides a better user experience and prevents unnecessary
+                exceptions from being thrown.</p>
+
+            <h3>Three Types of Validation</h3>
+
+            <p>When working with text box input in a Windows Forms application, there are three common types of
+                validation you'll perform:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>1️⃣ Presence Check</h4>
+                    <p>Has the user entered anything? Check that required fields are not empty or whitespace
+                        before processing.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>2️⃣ Numeric Type Check</h4>
+                    <p>Can the entry be converted to the required numeric type? Verify that a text box meant
+                        for numbers actually contains a valid number.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>3️⃣ Range Check</h4>
+                    <p>Is the value within an acceptable range? Confirm that a number falls between a minimum
+                        and maximum value (e.g., a quantity must be greater than 0). This type of check can
+                        also prevent <code>OverflowException</code> errors.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Why Validate Instead of Just Catching Exceptions?</h4>
+                <p>Exception handling is a safety net, but it shouldn't be your primary strategy for dealing with
+                    bad input. Validation gives users <strong>specific, helpful feedback</strong> about what's
+                    wrong (e.g., "Quantity must be greater than 0" instead of a generic error message). It also
+                    avoids the performance overhead of throwing and catching exceptions.</p>
+            </div>
+
+            <h3>Example: Validating Before Processing</h3>
+
+            <pre><span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="comment">// 1. Presence check</span>
+    <span class="keyword">if</span> (<span class="param">txtQuantity</span>.Text == <span class="string">""</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Quantity is required."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">txtQuantity</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">// 2. Numeric type check using TryParse</span>
+    <span class="keyword">if</span> (!<span class="type">int</span>.<span class="method">TryParse</span>(<span class="param">txtQuantity</span>.Text, <span class="keyword">out</span> <span class="type">int</span> <span class="param">quantity</span>))
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Quantity must be a valid integer."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">txtQuantity</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">// 3. Range check</span>
+    <span class="keyword">if</span> (<span class="param">quantity</span> &lt;= <span class="number">0</span> || <span class="param">quantity</span> &gt; <span class="number">100</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="string">"Quantity must be between 1 and 100."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">txtQuantity</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">// All validation passed — safe to process</span>
+    <span class="type">decimal</span> <span class="param">total</span> = <span class="param">quantity</span> * <span class="number">19.99m</span>;
+    <span class="param">lblTotal</span>.Text = <span class="param">total</span>.<span class="method">ToString</span>(<span class="string">"c"</span>);
+}</pre>
+
+
+            <!-- TryParse vs Convert -->
+            <h2>🔄 TryParse vs. Convert</h2>
+
+            <p>There are two common approaches to converting text to a number. Understanding when to use each one
+                is important for writing clean, robust code.</p>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>Convert (Throws on Failure)</h4>
+                    <pre><span class="comment">// Throws FormatException if invalid</span>
+<span class="type">decimal</span> <span class="param">price</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtPrice</span>.Text);
+
+<span class="comment">// Must use try-catch to handle errors</span></pre>
+                    <p style="margin-top: 10px; color: #666;">Throws an exception if the text can't be converted.
+                        Requires a <code>try-catch</code> to handle gracefully.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>TryParse (Returns True/False)</h4>
+                    <pre><span class="comment">// Returns false if invalid — no exception</span>
+<span class="keyword">if</span> (<span class="type">decimal</span>.<span class="method">TryParse</span>(<span class="param">txtPrice</span>.Text,
+    <span class="keyword">out</span> <span class="type">decimal</span> <span class="param">price</span>))
+{
+    <span class="comment">// price is valid, use it</span>
+}</pre>
+                    <p style="margin-top: 10px; color: #666;">Returns <code>false</code> if conversion fails —
+                        no exception is thrown. Cleaner for validation.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Best practice:</strong> Use <code>TryParse()</code> when you're validating user input.
+                It's designed specifically for this purpose — it attempts the conversion and returns
+                <code>true</code> or <code>false</code> instead of throwing an exception. Use
+                <code>Convert</code> methods when you're confident the data is valid (like data from a database
+                or after validation has already passed).
+            </div>
+
+
+            <!-- Generic Validation Methods -->
+            <h2>♻️ Generic Validation Methods</h2>
+
+            <p>When a form has multiple text boxes that all need similar validation, writing the same validation
+                code over and over creates duplication. Instead, you can write <strong>generic validation
+                methods</strong> — reusable methods that validate one entry at a time and can be called for
+                each field.</p>
+
+            <h3>Why Write Generic Methods?</h3>
+
+            <p>Generic validation methods let you <strong>reuse your validation code</strong> across multiple
+                fields and even across multiple forms. Instead of repeating the same checks for every text box,
+                you write the logic once and call it as needed.</p>
+
+            <h3>Example: Reusable Validation Methods</h3>
+
+            <pre><span class="comment">// Returns true if the text box has an entry</span>
+<span class="keyword">public</span> <span class="keyword">bool</span> <span class="method">IsPresent</span>(<span class="type">TextBox</span> <span class="param">textBox</span>, <span class="type">string</span> <span class="param">name</span>)
+{
+    <span class="keyword">if</span> (<span class="param">textBox</span>.Text == <span class="string">""</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">name</span> + <span class="string">" is a required field."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">textBox</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="comment">// Returns true if the text box contains a valid decimal</span>
+<span class="keyword">public</span> <span class="keyword">bool</span> <span class="method">IsDecimal</span>(<span class="type">TextBox</span> <span class="param">textBox</span>, <span class="type">string</span> <span class="param">name</span>)
+{
+    <span class="keyword">if</span> (!<span class="type">decimal</span>.<span class="method">TryParse</span>(<span class="param">textBox</span>.Text, <span class="keyword">out</span> _))
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">name</span> + <span class="string">" must be a valid decimal."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">textBox</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="comment">// Returns true if the value is within the specified range</span>
+<span class="keyword">public</span> <span class="keyword">bool</span> <span class="method">IsWithinRange</span>(<span class="type">TextBox</span> <span class="param">textBox</span>, <span class="type">string</span> <span class="param">name</span>,
+    <span class="type">decimal</span> <span class="param">min</span>, <span class="type">decimal</span> <span class="param">max</span>)
+{
+    <span class="type">decimal</span> <span class="param">value</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">textBox</span>.Text);
+    <span class="keyword">if</span> (<span class="param">value</span> &lt; <span class="param">min</span> || <span class="param">value</span> &gt; <span class="param">max</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">name</span> + <span class="string">" must be between "</span> +
+            <span class="param">min</span> + <span class="string">" and "</span> + <span class="param">max</span> + <span class="string">"."</span>, <span class="string">"Entry Error"</span>);
+        <span class="param">textBox</span>.<span class="method">Focus</span>();
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</pre>
+
+            <h3>Two Ways to Use Generic Validation Methods</h3>
+
+            <p>Once you have reusable validation methods, there are two common patterns for calling them in a
+                method that validates all entries on a form:</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>Approach 1: Sequential with Early Return</h4>
+                    <pre><span class="keyword">private</span> <span class="keyword">bool</span> <span class="method">IsValidData</span>()
+{
+    <span class="keyword">if</span> (!<span class="method">IsPresent</span>(<span class="param">txtPrice</span>, <span class="string">"Price"</span>))
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="keyword">if</span> (!<span class="method">IsDecimal</span>(<span class="param">txtPrice</span>, <span class="string">"Price"</span>))
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="keyword">if</span> (!<span class="method">IsPresent</span>(<span class="param">txtQty</span>, <span class="string">"Quantity"</span>))
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</pre>
+                    <p style="margin-top: 10px; color: #666;">Stops at the first error and shows one message at
+                        a time. User fixes one issue, then sees the next (if any).</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>Approach 2: Boolean AND Chain</h4>
+                    <pre><span class="keyword">private</span> <span class="keyword">bool</span> <span class="method">IsValidData</span>()
+{
+    <span class="keyword">return</span>
+        <span class="method">IsPresent</span>(<span class="param">txtPrice</span>, <span class="string">"Price"</span>) &&
+        <span class="method">IsDecimal</span>(<span class="param">txtPrice</span>, <span class="string">"Price"</span>) &&
+        <span class="method">IsPresent</span>(<span class="param">txtQty</span>, <span class="string">"Quantity"</span>) &&
+        <span class="method">IsDecimal</span>(<span class="param">txtQty</span>, <span class="string">"Quantity"</span>);
+}</pre>
+                    <p style="margin-top: 10px; color: #666;">Uses short-circuit evaluation — the <code>&&</code>
+                        operator stops evaluating as soon as one method returns <code>false</code>.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Both approaches work the same way</strong> thanks to short-circuit evaluation. The
+                <code>&&</code> operator won't evaluate the right side if the left side is <code>false</code>,
+                so validation stops at the first failure in either approach.
+            </div>
+
+            <h3>Calling the Validation Method</h3>
+
+            <pre><span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">if</span> (<span class="method">IsValidData</span>())
+    {
+        <span class="comment">// All validation passed — safe to process</span>
+        <span class="type">decimal</span> <span class="param">price</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtPrice</span>.Text);
+        <span class="type">int</span> <span class="param">qty</span> = <span class="type">Convert</span>.<span class="method">ToInt32</span>(<span class="param">txtQty</span>.Text);
+        <span class="type">decimal</span> <span class="param">total</span> = <span class="param">price</span> * <span class="param">qty</span>;
+        <span class="param">lblTotal</span>.Text = <span class="param">total</span>.<span class="method">ToString</span>(<span class="string">"c"</span>);
+    }
+}</pre>
+
+            <div class="success-box">
+                <strong>Notice:</strong> Because <code>IsValidData()</code> has already confirmed the entries are
+                present, numeric, and in range, the <code>Convert</code> calls inside the <code>if</code> block
+                are guaranteed to succeed — no <code>try-catch</code> needed for those conversions!
+            </div>
+
+
+            <!-- Putting It All Together -->
+            <h2>🧩 Putting It All Together</h2>
+
+            <p>In practice, you'll often use <strong>both</strong> validation and exception handling. Validation
+                handles the expected cases (missing entries, bad formats, out-of-range values), while exception
+                handling serves as a safety net for anything unexpected.</p>
+
+            <h3>Recommended Approach</h3>
+
+            <pre><span class="keyword">private</span> <span class="keyword">void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">try</span>
+    {
+        <span class="keyword">if</span> (<span class="method">IsValidData</span>())
+        {
+            <span class="type">decimal</span> <span class="param">price</span> = <span class="type">Convert</span>.<span class="method">ToDecimal</span>(<span class="param">txtPrice</span>.Text);
+            <span class="type">int</span> <span class="param">qty</span> = <span class="type">Convert</span>.<span class="method">ToInt32</span>(<span class="param">txtQty</span>.Text);
+            <span class="type">decimal</span> <span class="param">total</span> = <span class="param">price</span> * <span class="param">qty</span>;
+            <span class="param">lblTotal</span>.Text = <span class="param">total</span>.<span class="method">ToString</span>(<span class="string">"c"</span>);
+        }
+    }
+    <span class="keyword">catch</span> (<span class="type">Exception</span> <span class="param">ex</span>)
+    {
+        <span class="type">MessageBox</span>.<span class="method">Show</span>(<span class="param">ex</span>.Message, <span class="string">"Unexpected Error"</span>);
+    }
+}</pre>
+
+            <div class="highlight-box">
+                <h4>The Two-Layer Defense</h4>
+                <p><strong>Layer 1 — Validation:</strong> Catches expected input problems (empty fields, non-numeric
+                    text, out-of-range values) and provides specific, user-friendly messages.</p>
+                <p><strong>Layer 2 — Exception Handling:</strong> Catches anything unexpected that slips through,
+                    preventing the application from crashing.</p>
+            </div>
+
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>📋 Quick Reference: Key Terms</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Exception</td>
+                            <td>A runtime error represented as an object — created when something goes wrong during execution</td>
+                        </tr>
+                        <tr>
+                            <td>Thrown</td>
+                            <td>When the runtime creates an exception object and interrupts normal execution</td>
+                        </tr>
+                        <tr>
+                            <td>Caught / Handled</td>
+                            <td>When a <code>catch</code> block intercepts and responds to a thrown exception</td>
+                        </tr>
+                        <tr>
+                            <td>Stack trace</td>
+                            <td>The list of methods that were called before an exception occurred</td>
+                        </tr>
+                        <tr>
+                            <td><code>try</code> block</td>
+                            <td>Contains code that might throw an exception</td>
+                        </tr>
+                        <tr>
+                            <td><code>catch</code> block</td>
+                            <td>Contains code that runs when a specific exception type is thrown</td>
+                        </tr>
+                        <tr>
+                            <td><code>finally</code> block</td>
+                            <td>Contains code that always executes, whether or not an exception occurred</td>
+                        </tr>
+                        <tr>
+                            <td><code>throw</code></td>
+                            <td>Statement that explicitly creates and throws an exception</td>
+                        </tr>
+                        <tr>
+                            <td>Data validation</td>
+                            <td>The process of checking user entries to make sure they're valid before processing</td>
+                        </tr>
+                        <tr>
+                            <td>Presence check</td>
+                            <td>Verifying that a required field is not empty</td>
+                        </tr>
+                        <tr>
+                            <td>Numeric type check</td>
+                            <td>Verifying that an entry can be converted to the appropriate numeric data type</td>
+                        </tr>
+                        <tr>
+                            <td>Range check</td>
+                            <td>Verifying that a numeric value falls within an acceptable minimum and maximum</td>
+                        </tr>
+                        <tr>
+                            <td><code>TryParse()</code></td>
+                            <td>A method that attempts conversion and returns <code>true</code>/<code>false</code> instead of throwing an exception</td>
+                        </tr>
+                        <tr>
+                            <td><code>MessageBox.Show()</code></td>
+                            <td>Displays a dialog box with a message, optional title, buttons, and icon</td>
+                        </tr>
+                        <tr>
+                            <td>Generic validation method</td>
+                            <td>A reusable method that validates a single entry and can be called for any field</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
