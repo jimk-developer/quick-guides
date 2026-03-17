@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide #10: More Skills for Windows Forms and Controls</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5C2D91;
+            --primary-dark: #4A2377;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #5C2D91 0%, #4A2377 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre .keyword {
+            color: #569CD6;
+        }
+
+        pre .type {
+            color: #4EC9B0;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .method {
+            color: #DCDCAA;
+        }
+
+        pre .param {
+            color: #9CDCFE;
+        }
+
+        pre .number {
+            color: #B5CEA8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(92, 45, 145, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E8EAF6 0%, #E3F2FD 100%);
+            border: 2px solid #7C4DFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: #5C2D91;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide #10: More Skills for Windows Forms and Controls</h1>
+        <p>Combo Boxes, List Boxes, Radio Buttons, Check Boxes, Group Boxes, Custom Dialogs, and Multi-Form Apps</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Overview of Controls -->
+            <h2>🎛️ Additional Windows Forms Controls</h2>
+
+            <p>Beyond labels, text boxes, and buttons, Windows Forms provides several controls that let users
+                <strong>select from predefined options</strong> rather than typing free-form input. These controls
+                reduce input errors and make your forms more user-friendly.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📋 ComboBox</h4>
+                    <p>A drop-down list that lets the user pick one item. Can also allow typed input depending on its
+                        <code>DropDownStyle</code> property. Great for long lists of choices like states or categories.
+                    </p>
+                </div>
+                <div class="concept-card">
+                    <h4>📜 ListBox</h4>
+                    <p>Displays a scrollable list of items. The user clicks to select. Unlike a combo box, the list is
+                        always visible — ideal when you want users to see all options at once.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔘 RadioButton</h4>
+                    <p>Used in a group where only <strong>one option</strong> can be selected at a time. Think
+                        "pick one" — like choosing a shirt size (S, M, L, XL).</p>
+                </div>
+                <div class="concept-card">
+                    <h4>☑️ CheckBox</h4>
+                    <p>An independent on/off toggle. Multiple check boxes can be selected simultaneously. Think
+                        "pick any that apply" — like choosing pizza toppings.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 GroupBox</h4>
+                    <p>A container that visually groups related controls. When radio buttons are placed inside a group
+                        box, they form an <strong>independent selection group</strong>.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Radio buttons vs. check boxes:</strong> Radio buttons work as a group — selecting one
+                deselects the others. Check boxes are independent — each one can be toggled on or off without
+                affecting the others.
+            </div>
+
+            <!-- Combo Box -->
+            <h2>📋 Working with Combo Boxes</h2>
+
+            <h3>Key Properties and Methods</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property / Method</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Items</code></td>
+                        <td>The collection of items in the combo box</td>
+                    </tr>
+                    <tr>
+                        <td><code>Items.Add(item)</code></td>
+                        <td>Adds a single item to the end of the list</td>
+                    </tr>
+                    <tr>
+                        <td><code>Items.Clear()</code></td>
+                        <td>Removes all items from the list</td>
+                    </tr>
+                    <tr>
+                        <td><code>Items.Count</code></td>
+                        <td>Returns the number of items in the list</td>
+                    </tr>
+                    <tr>
+                        <td><code>Items[index]</code></td>
+                        <td>Gets or sets the item at a specific index (zero-based)</td>
+                    </tr>
+                    <tr>
+                        <td><code>SelectedIndex</code></td>
+                        <td>Gets or sets the index of the currently selected item (−1 if none)</td>
+                    </tr>
+                    <tr>
+                        <td><code>SelectedItem</code></td>
+                        <td>Gets or sets the currently selected item as an <code>object</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>Text</code></td>
+                        <td>Gets or sets the text displayed in the text portion of the combo box</td>
+                    </tr>
+                    <tr>
+                        <td><code>DropDownStyle</code></td>
+                        <td><code>DropDown</code> (editable), <code>DropDownList</code> (selection only), or <code>Simple</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Loading Items at Startup</h3>
+
+            <p>To fill a combo box when the form first appears, add items inside the form's <code>Load</code> event
+                handler. This ensures the list is ready before the user interacts with the form.</p>
+
+            <div class="syntax-box">
+                <h4>Loading a combo box in the Load event</h4>
+<pre><span class="keyword">private void</span> <span class="method">OrderForm_Load</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="comment">// Clear any existing items first</span>
+    cboSize.<span class="method">Items</span>.<span class="method">Clear</span>();
+
+    <span class="comment">// Add items one at a time</span>
+    cboSize.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Small"</span>);
+    cboSize.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Medium"</span>);
+    cboSize.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Large"</span>);
+    cboSize.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Extra Large"</span>);
+
+    <span class="comment">// Optionally select the first item</span>
+    cboSize.<span class="param">SelectedIndex</span> = <span class="number">0</span>;
+}</pre>
+            </div>
+
+            <h3>Loading Items with a Loop</h3>
+
+<pre><span class="keyword">private void</span> <span class="method">PaymentForm_Load</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="comment">// Fill a combo box with years</span>
+    <span class="keyword">int</span> <span class="param">currentYear</span> = <span class="type">DateTime</span>.Now.Year;
+    <span class="keyword">for</span> (<span class="keyword">int</span> <span class="param">i</span> = <span class="number">0</span>; <span class="param">i</span> &lt; <span class="number">10</span>; <span class="param">i</span>++)
+    {
+        cboYear.<span class="method">Items</span>.<span class="method">Add</span>(<span class="param">currentYear</span> + <span class="param">i</span>);
+    }
+    cboYear.<span class="param">SelectedIndex</span> = <span class="number">0</span>;
+}</pre>
+
+            <h3>Responding to Selection Changes</h3>
+
+            <p>The <code>SelectedIndexChanged</code> event fires whenever the user picks a different item from the
+                drop-down list. Use this event to respond to the user's selection.</p>
+
+<pre><span class="keyword">private void</span> <span class="method">cboCategory_SelectedIndexChanged</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">string</span> <span class="param">selected</span> = cboCategory.<span class="param">SelectedItem</span>.<span class="method">ToString</span>();
+    lblStatus.<span class="param">Text</span> = <span class="string">"You selected: "</span> + <span class="param">selected</span>;
+}</pre>
+
+            <div class="warning-box">
+                <strong>Watch the Clear() placement!</strong> If you call <code>Items.Clear()</code> inside a loop
+                that also calls <code>Items.Add()</code>, the list gets cleared on every iteration. Move the
+                <code>Clear()</code> call <em>before</em> the loop so it runs only once.
+            </div>
+
+            <!-- List Box -->
+            <h2>📜 Working with List Boxes</h2>
+
+            <p>A <code>ListBox</code> works similarly to a combo box, but the items are always visible in a scrollable
+                list. It shares many of the same properties: <code>Items</code>, <code>SelectedIndex</code>,
+                <code>SelectedItem</code>, and <code>Items.Add()</code>.</p>
+
+            <div class="syntax-box">
+                <h4>Populating and reading a list box</h4>
+<pre><span class="comment">// Add items to a list box</span>
+lstColors.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Red"</span>);
+lstColors.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Green"</span>);
+lstColors.<span class="method">Items</span>.<span class="method">Add</span>(<span class="string">"Blue"</span>);
+
+<span class="comment">// Select the first item by index</span>
+lstColors.<span class="param">SelectedIndex</span> = <span class="number">0</span>;
+
+<span class="comment">// Retrieve the selected item</span>
+<span class="keyword">string</span> <span class="param">color</span> = lstColors.<span class="param">SelectedItem</span>.<span class="method">ToString</span>();</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Combo box vs. list box:</strong> Use a combo box when space is limited and you have many
+                options. Use a list box when you want the user to see all (or most) options at a glance without
+                clicking a drop-down.
+            </div>
+
+            <!-- Radio Buttons and Check Boxes -->
+            <h2>🔘 Radio Buttons and Check Boxes</h2>
+
+            <h3>Radio Buttons</h3>
+
+            <p>Radio buttons let the user choose <strong>exactly one option</strong> from a group. All radio buttons
+                placed directly on a form (or inside the same group box) belong to the same group — selecting one
+                automatically deselects the others.</p>
+
+            <div class="syntax-box">
+                <h4>Reading radio button selections</h4>
+<pre><span class="keyword">private void</span> <span class="method">btnCalculate_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">decimal</span> <span class="param">shippingCost</span>;
+
+    <span class="keyword">if</span> (rdoStandard.<span class="param">Checked</span>)
+    {
+        <span class="param">shippingCost</span> = <span class="number">5.99m</span>;
+    }
+    <span class="keyword">else if</span> (rdoExpress.<span class="param">Checked</span>)
+    {
+        <span class="param">shippingCost</span> = <span class="number">12.99m</span>;
+    }
+    <span class="keyword">else</span>  <span class="comment">// rdoOvernight.Checked</span>
+    {
+        <span class="param">shippingCost</span> = <span class="number">24.99m</span>;
+    }
+
+    lblShipping.<span class="param">Text</span> = <span class="param">shippingCost</span>.<span class="method">ToString</span>(<span class="string">"c"</span>);
+}</pre>
+            </div>
+
+            <h3>Group Boxes and Independent Groups</h3>
+
+            <p>If you need <strong>multiple independent sets</strong> of radio buttons on the same form, place each
+                set inside its own <code>GroupBox</code>. Selecting a radio button in one group box does not affect
+                radio buttons in another group box.</p>
+
+            <div class="highlight-box">
+                <h4>What about radio buttons NOT in a group box?</h4>
+                <p>Radio buttons placed directly on the form (not inside any group box) automatically form their own
+                    group. They function as a single selection set — selecting one deselects all others on the form
+                    that are not inside a group box.</p>
+            </div>
+
+            <h3>Check Boxes</h3>
+
+            <p>Unlike radio buttons, each check box operates independently. Use the <code>Checked</code> property
+                (a <code>bool</code>) to determine whether the box is checked or to set its state in code.</p>
+
+<pre><span class="comment">// Reading a check box</span>
+<span class="keyword">bool</span> <span class="param">wantsNewsletter</span> = chkNewsletter.<span class="param">Checked</span>;
+
+<span class="comment">// Setting a check box in code</span>
+chkAgreeToTerms.<span class="param">Checked</span> = <span class="keyword">true</span>;
+
+<span class="comment">// Using a check box in a calculation</span>
+<span class="keyword">decimal</span> <span class="param">total</span> = <span class="param">subtotal</span>;
+<span class="keyword">if</span> (chkGiftWrap.<span class="param">Checked</span>)
+{
+    <span class="param">total</span> += <span class="number">3.50m</span>;
+}</pre>
+
+            <!-- Tab Order -->
+            <h2>⌨️ Setting Tab Order</h2>
+
+            <p>The <strong>tab order</strong> determines the order in which controls receive focus when the user
+                presses the Tab key. A logical tab order makes your form easier to navigate, especially for keyboard
+                users.</p>
+
+            <h3>Two Ways to Set Tab Order</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>How It Works</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Properties Window</strong></td>
+                        <td>Select each control and set its <code>TabIndex</code> property to a number.
+                            Lower numbers receive focus first.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tab Order View</strong></td>
+                        <td>Go to <strong>View → Tab Order</strong> in the menu. The designer shows numbered
+                            badges on each control. Click the controls in the order you want them to receive
+                            focus. Click outside the form or press Escape to exit Tab Order view.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Tab Order view</strong> is the fastest way to set tab order for multiple controls.
+                Just click each control in sequence and Visual Studio renumbers them automatically.
+            </div>
+
+            <!-- Program Class and Global Usings -->
+            <h2>🏗️ The Program Class and Global Using Directives</h2>
+
+            <h3>The Program Class</h3>
+
+            <p>Every Windows Forms app has a <code>Program</code> class with a <code>Main()</code> method — this is
+                the entry point of the application. The <code>Main()</code> method calls
+                <code>Application.Run()</code> and passes in a <strong>new instance of the startup form</strong>,
+                which causes that form to be displayed.</p>
+
+            <div class="syntax-box">
+                <h4>A typical Program.cs file</h4>
+<pre><span class="keyword">namespace</span> <span class="type">OrderEntryApp</span>
+{
+    <span class="keyword">internal static class</span> <span class="type">Program</span>
+    {
+        [<span class="type">STAThread</span>]
+        <span class="keyword">static void</span> <span class="method">Main</span>()
+        {
+            <span class="type">ApplicationConfiguration</span>.<span class="method">Initialize</span>();
+            <span class="type">Application</span>.<span class="method">Run</span>(<span class="keyword">new</span> <span class="type">OrderForm</span>());
+        }
+    }
+}</pre>
+            </div>
+
+            <p>If you want to change which form appears at startup, change the form name inside
+                <code>Application.Run()</code>. For example, replacing <code>new OrderForm()</code> with
+                <code>new LoginForm()</code> would make the login form appear first.</p>
+
+            <h3>Global Using Directives</h3>
+
+            <p>A <strong>global using directive</strong> makes a namespace available to <em>every file</em> in the
+                project — not just the file where the directive is written. This eliminates the need to add the same
+                <code>using</code> statement at the top of every <code>.cs</code> file.</p>
+
+<pre><span class="comment">// In Usings.cs (or any file — the convention is Usings.cs)</span>
+<span class="keyword">global using</span> <span class="type">System</span>;
+<span class="keyword">global using</span> <span class="type">System.Windows.Forms</span>;
+<span class="keyword">global using</span> <span class="type">System.Drawing</span>;</pre>
+
+            <div class="highlight-box">
+                <h4>Where do global usings go?</h4>
+                <p>Most developers store global using directives in a file named <strong>Usings.cs</strong> at the
+                    root of the project. You can name this file anything, but <code>Usings.cs</code> is the
+                    common convention. The directives apply project-wide regardless of which file they're in.</p>
+            </div>
+
+            <!-- Renaming Forms -->
+            <h2>✏️ Renaming Forms and Refactoring</h2>
+
+            <p>When you rename a form's file in Solution Explorer, Visual Studio's refactoring feature automatically
+                updates <strong>most</strong> references to the old form name throughout your code — including the
+                class declaration, the constructor, and calls like <code>Application.Run()</code>.</p>
+
+            <div class="warning-box">
+                <strong>Event handler names are NOT automatically updated.</strong> If your form was originally named
+                <code>Form1</code> and had an event handler called <code>Form1_Load</code>, renaming the form to
+                <code>OrderForm</code> does <em>not</em> rename the handler to <code>OrderForm_Load</code>. You need
+                to use the <strong>Rename refactoring</strong> command (right-click the method name → Rename, or
+                press F2) to update the handler name and its wiring in the designer-generated code.
+            </div>
+
+            <!-- Multi-Form Apps and Custom Dialogs -->
+            <h2>🪟 Multi-Form Apps and Custom Dialogs</h2>
+
+            <h3>Modal vs. Modeless Forms</h3>
+
+            <p>A <strong>modal form</strong> (also called a dialog) must be closed before the user can interact with
+                any other form in the application. A <strong>modeless form</strong> allows the user to switch between
+                open forms freely.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Method</th>
+                        <th>Behavior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Modal</td>
+                        <td><code>form.ShowDialog()</code></td>
+                        <td>Blocks until the dialog is closed; code after <code>ShowDialog()</code> waits</td>
+                    </tr>
+                    <tr>
+                        <td>Modeless</td>
+                        <td><code>form.Show()</code></td>
+                        <td>Opens the form and immediately continues executing the next line of code</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Displaying a Custom Dialog</h3>
+
+            <div class="syntax-box">
+                <h4>Showing a modal dialog and checking the result</h4>
+<pre><span class="keyword">private void</span> <span class="method">btnPreferences_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="comment">// Create an instance of the dialog form</span>
+    <span class="keyword">var</span> <span class="param">prefsDialog</span> = <span class="keyword">new</span> <span class="type">PreferencesForm</span>();
+
+    <span class="comment">// Show it as a modal dialog</span>
+    <span class="type">DialogResult</span> <span class="param">result</span> = <span class="param">prefsDialog</span>.<span class="method">ShowDialog</span>();
+
+    <span class="comment">// Check how the user closed it</span>
+    <span class="keyword">if</span> (<span class="param">result</span> == <span class="type">DialogResult</span>.OK)
+    {
+        lblStatus.<span class="param">Text</span> = <span class="string">"Preferences saved."</span>;
+    }
+    <span class="keyword">else</span>
+    {
+        lblStatus.<span class="param">Text</span> = <span class="string">"Preferences cancelled."</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>The DialogResult Enumeration</h3>
+
+            <p>When a modal dialog closes, it returns a <code>DialogResult</code> value that tells the calling form
+                <em>how</em> the user dismissed it. You set this on the dialog's button or directly on the form.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Typical Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DialogResult.OK</code></td>
+                        <td>User confirmed the action (e.g., clicked "Save" or "OK")</td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult.Cancel</code></td>
+                        <td>User cancelled the action (e.g., clicked "Cancel" or the X button)</td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult.Yes</code></td>
+                        <td>User responded "Yes" to a yes/no prompt</td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult.No</code></td>
+                        <td>User responded "No" to a yes/no prompt</td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult.Abort</code></td>
+                        <td>User chose to abort an operation</td>
+                    </tr>
+                    <tr>
+                        <td><code>DialogResult.Retry</code></td>
+                        <td>User chose to retry an operation</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Setting DialogResult on a Button</h3>
+
+            <p>The quickest way to make a dialog return a result is to set the <code>DialogResult</code> property of
+                a button in the Properties window. When the user clicks that button, the form automatically closes
+                and returns that result — no extra code required.</p>
+
+<pre><span class="comment">// Or set it in code inside the dialog form:</span>
+<span class="keyword">private void</span> <span class="method">btnSave_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="comment">// Validate data, then close with OK result</span>
+    <span class="keyword">this</span>.<span class="param">DialogResult</span> = <span class="type">DialogResult</span>.OK;
+}</pre>
+
+            <h3>Passing Data with the Tag Property</h3>
+
+            <p>The <code>Tag</code> property is available on every form and control. It's typed as <code>object</code>,
+                which means you can store <strong>any type of data</strong> in it — a string, a number, a custom
+                object, or anything else. This makes it a convenient way to pass data between a form and a custom
+                dialog.</p>
+
+            <div class="syntax-box">
+                <h4>Using Tag to pass data to and from a dialog</h4>
+<pre><span class="comment">// CALLING FORM: Pass data to the dialog via Tag before showing it</span>
+<span class="keyword">var</span> <span class="param">settingsDialog</span> = <span class="keyword">new</span> <span class="type">SettingsForm</span>();
+<span class="param">settingsDialog</span>.<span class="param">Tag</span> = <span class="param">currentTheme</span>;   <span class="comment">// store a string</span>
+<span class="type">DialogResult</span> <span class="param">result</span> = <span class="param">settingsDialog</span>.<span class="method">ShowDialog</span>();
+
+<span class="keyword">if</span> (<span class="param">result</span> == <span class="type">DialogResult</span>.OK)
+{
+    <span class="comment">// Retrieve updated data from Tag</span>
+    <span class="keyword">string</span> <span class="param">newTheme</span> = <span class="param">settingsDialog</span>.<span class="param">Tag</span>.<span class="method">ToString</span>();
+    <span class="method">ApplyTheme</span>(<span class="param">newTheme</span>);
+}
+
+<span class="comment">// DIALOG FORM: Read incoming data and update Tag before closing</span>
+<span class="keyword">private void</span> <span class="method">SettingsForm_Load</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">string</span> <span class="param">theme</span> = <span class="keyword">this</span>.<span class="param">Tag</span>.<span class="method">ToString</span>();
+    cboTheme.<span class="param">Text</span> = <span class="param">theme</span>;
+}
+
+<span class="keyword">private void</span> <span class="method">btnApply_Click</span>(<span class="keyword">object</span> <span class="param">sender</span>, <span class="type">EventArgs</span> <span class="param">e</span>)
+{
+    <span class="keyword">this</span>.<span class="param">Tag</span> = cboTheme.<span class="param">Text</span>;            <span class="comment">// store updated value</span>
+    <span class="keyword">this</span>.<span class="param">DialogResult</span> = <span class="type">DialogResult</span>.OK;   <span class="comment">// close the dialog</span>
+}</pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Tag holds <code>object</code>.</strong> Because <code>Tag</code> is typed as
+                <code>object</code>, you can store anything — but you'll need to cast it back to the correct type
+                when you retrieve it.
+            </div>
+
+            <!-- Standard Dialogs (MessageBox) -->
+            <h2>💬 Standard Dialogs with MessageBox</h2>
+
+            <p>The <code>MessageBox.Show()</code> method displays a standard Windows dialog with a message, title,
+                buttons, and an icon. It returns a <code>DialogResult</code> value indicating which button the user
+                clicked.</p>
+
+            <div class="syntax-box">
+                <h4>MessageBox.Show() with full parameters</h4>
+<pre><span class="type">DialogResult</span> <span class="param">answer</span> = <span class="type">MessageBox</span>.<span class="method">Show</span>(
+    <span class="string">"Do you want to save your changes?"</span>,       <span class="comment">// message text</span>
+    <span class="string">"Save Changes"</span>,                            <span class="comment">// title bar text</span>
+    <span class="type">MessageBoxButtons</span>.YesNoCancel,              <span class="comment">// which buttons</span>
+    <span class="type">MessageBoxIcon</span>.Question,                    <span class="comment">// which icon</span>
+    <span class="type">MessageBoxDefaultButton</span>.Button1             <span class="comment">// default button</span>
+);
+
+<span class="keyword">if</span> (<span class="param">answer</span> == <span class="type">DialogResult</span>.Yes)
+{
+    <span class="method">SaveData</span>();
+}
+<span class="keyword">else if</span> (<span class="param">answer</span> == <span class="type">DialogResult</span>.No)
+{
+    <span class="method">DiscardChanges</span>();
+}
+<span class="comment">// Cancel → do nothing, return to the form</span></pre>
+            </div>
+
+            <h3>Common MessageBoxButtons Values</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Buttons Shown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>MessageBoxButtons.OK</code></td>
+                        <td>OK</td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxButtons.OKCancel</code></td>
+                        <td>OK, Cancel</td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxButtons.YesNo</code></td>
+                        <td>Yes, No</td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxButtons.YesNoCancel</code></td>
+                        <td>Yes, No, Cancel</td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxButtons.RetryCancel</code></td>
+                        <td>Retry, Cancel</td>
+                    </tr>
+                    <tr>
+                        <td><code>MessageBoxButtons.AbortRetryIgnore</code></td>
+                        <td>Abort, Retry, Ignore</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>MessageBoxDefaultButton</strong> determines which button is focused when the dialog appears.
+                <code>Button1</code> is the first button, <code>Button2</code> is the second, and so on. This
+                controls what happens if the user presses Enter without clicking.
+            </div>
+
+            <!-- FormClosing Event -->
+            <h2>🚪 The FormClosing Event</h2>
+
+            <p>The <code>FormClosing</code> event fires just before a form closes — whether the user clicked the
+                X button, called <code>this.Close()</code>, or the application is shutting down. You can use this
+                event to <strong>confirm</strong> the close or <strong>cancel</strong> it entirely.</p>
+
+            <div class="syntax-box">
+                <h4>Preventing a form from closing</h4>
+<pre><span class="keyword">private void</span> <span class="method">OrderForm_FormClosing</span>(<span class="keyword">object</span> <span class="param">sender</span>,
+    <span class="type">FormClosingEventArgs</span> <span class="param">e</span>)
+{
+    <span class="type">DialogResult</span> <span class="param">answer</span> = <span class="type">MessageBox</span>.<span class="method">Show</span>(
+        <span class="string">"Are you sure you want to exit?"</span>,
+        <span class="string">"Confirm Exit"</span>,
+        <span class="type">MessageBoxButtons</span>.YesNo,
+        <span class="type">MessageBoxIcon</span>.Question,
+        <span class="type">MessageBoxDefaultButton</span>.Button2);   <span class="comment">// default to "No"</span>
+
+    <span class="keyword">if</span> (<span class="param">answer</span> == <span class="type">DialogResult</span>.No)
+    {
+        <span class="param">e</span>.<span class="param">Cancel</span> = <span class="keyword">true</span>;  <span class="comment">// stop the form from closing</span>
+    }
+}</pre>
+            </div>
+
+            <p>Setting <code>e.Cancel = true</code> on the <code>FormClosingEventArgs</code> object cancels the
+                close operation and the form remains open. If you don't set it (or set it to <code>false</code>),
+                the form closes normally.</p>
+
+            <div class="warning-box">
+                <strong>Be careful with always-cancel logic.</strong> If your <code>FormClosing</code> handler always
+                sets <code>e.Cancel = true</code> with no way out, the user won't be able to close the form at all!
+                Always provide a path that allows closing.
+            </div>
+
+            <!-- Quick Reference -->
+            <div class="quick-ref">
+                <h3>⚡ Quick Reference</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Key Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ComboBox</td>
+                            <td>Drop-down list — add items with <code>Items.Add()</code>, read with
+                                <code>SelectedItem</code> or <code>SelectedIndex</code></td>
+                        </tr>
+                        <tr>
+                            <td>ListBox</td>
+                            <td>Always-visible list — same <code>Items</code> collection and selection properties
+                                as ComboBox</td>
+                        </tr>
+                        <tr>
+                            <td>RadioButton</td>
+                            <td>Mutually exclusive within a group — check with <code>.Checked</code> (bool)</td>
+                        </tr>
+                        <tr>
+                            <td>CheckBox</td>
+                            <td>Independent toggle — check with <code>.Checked</code> (bool)</td>
+                        </tr>
+                        <tr>
+                            <td>GroupBox</td>
+                            <td>Creates independent radio button groups; visual container for related controls</td>
+                        </tr>
+                        <tr>
+                            <td><code>SelectedIndexChanged</code></td>
+                            <td>Event raised when the user selects a different item in a combo box or list box</td>
+                        </tr>
+                        <tr>
+                            <td>Form <code>Load</code> event</td>
+                            <td>Best place to populate combo boxes and list boxes when the form first appears</td>
+                        </tr>
+                        <tr>
+                            <td>Tab Order view</td>
+                            <td><strong>View → Tab Order</strong> — click controls in sequence to set tab order</td>
+                        </tr>
+                        <tr>
+                            <td><code>Program</code> class</td>
+                            <td>Contains <code>Main()</code> which calls <code>Application.Run(new FormName())</code>
+                                to display the startup form</td>
+                        </tr>
+                        <tr>
+                            <td>Global using directives</td>
+                            <td><code>global using Namespace;</code> — makes a namespace available to the entire
+                                project; stored in <code>Usings.cs</code></td>
+                        </tr>
+                        <tr>
+                            <td>Renaming a form</td>
+                            <td>Rename in Solution Explorer → VS updates most references; use Rename refactoring
+                                (F2) to update event handler names and wiring</td>
+                        </tr>
+                        <tr>
+                            <td><code>ShowDialog()</code></td>
+                            <td>Displays a form as a modal dialog — returns a <code>DialogResult</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>DialogResult</code></td>
+                            <td>Enumeration: <code>OK</code>, <code>Cancel</code>, <code>Yes</code>,
+                                <code>No</code>, <code>Abort</code>, <code>Retry</code>, <code>Ignore</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Tag</code> property</td>
+                            <td>Typed as <code>object</code> — can store any type of data; useful for passing data
+                                between forms and dialogs</td>
+                        </tr>
+                        <tr>
+                            <td><code>FormClosing</code> event</td>
+                            <td>Set <code>e.Cancel = true</code> to prevent the form from closing</td>
+                        </tr>
+                        <tr>
+                            <td><code>MessageBox.Show()</code></td>
+                            <td>Standard dialog — parameters: message, title, buttons, icon, default button</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="quick-ref">
+                <h3>❌ Common Mistakes to Avoid</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wrong ❌</th>
+                            <th>Right ✓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>cboItems.Add("Apples")</code></td>
+                            <td><code>cboItems.Items.Add("Apples")</code> — must go through the <code>Items</code>
+                                collection</td>
+                        </tr>
+                        <tr>
+                            <td>Calling <code>Items.Clear()</code> inside the <code>Add</code> loop</td>
+                            <td>Call <code>Items.Clear()</code> <em>before</em> the loop, not inside it</td>
+                        </tr>
+                        <tr>
+                            <td>Using <code>chkOption.IsChecked</code></td>
+                            <td>Use <code>chkOption.Checked</code> — there is no <code>IsChecked</code> in WinForms</td>
+                        </tr>
+                        <tr>
+                            <td>Using <code>form.ShowModal()</code></td>
+                            <td>Use <code>form.ShowDialog()</code> — <code>ShowModal</code> does not exist</td>
+                        </tr>
+                        <tr>
+                            <td>Expecting renamed form to update event handler names</td>
+                            <td>Use Rename refactoring (F2) to manually update handler names and wiring</td>
+                        </tr>
+                        <tr>
+                            <td>Storing global usings in <code>GlobalUsings.cs</code></td>
+                            <td>Convention is <code>Usings.cs</code> — the file name doesn't matter technically,
+                                but follow the convention</td>
+                        </tr>
+                        <tr>
+                            <td>Forgetting to cast <code>Tag</code> back to the correct type</td>
+                            <td><code>Tag</code> is <code>object</code> — cast it: <code>(string)form.Tag</code>
+                                or use <code>.ToString()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Using <code>Application.Run(Form1)</code> (no <code>new</code>)</td>
+                            <td><code>Application.Run(new Form1())</code> — must pass a new instance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Vocabulary -->
+            <div class="quick-ref">
+                <h3>📖 Key Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ComboBox</td>
+                            <td>A control that combines a text box with a drop-down list of selectable items</td>
+                        </tr>
+                        <tr>
+                            <td>ListBox</td>
+                            <td>A control that displays a scrollable, always-visible list of selectable items</td>
+                        </tr>
+                        <tr>
+                            <td>RadioButton</td>
+                            <td>A control for mutually exclusive choices — only one can be selected in a group</td>
+                        </tr>
+                        <tr>
+                            <td>CheckBox</td>
+                            <td>A control for independent on/off selections — multiple can be checked at once</td>
+                        </tr>
+                        <tr>
+                            <td>GroupBox</td>
+                            <td>A container control that groups related controls and creates independent radio button sets</td>
+                        </tr>
+                        <tr>
+                            <td>Tab order</td>
+                            <td>The sequence in which controls receive focus when the user presses the Tab key</td>
+                        </tr>
+                        <tr>
+                            <td>Tab Order view</td>
+                            <td>A Visual Studio view that lets you set tab order by clicking controls in sequence</td>
+                        </tr>
+                        <tr>
+                            <td>Modal form (dialog)</td>
+                            <td>A form that must be closed before the user can return to the parent form</td>
+                        </tr>
+                        <tr>
+                            <td>Modeless form</td>
+                            <td>A form that allows the user to switch freely between it and other open forms</td>
+                        </tr>
+                        <tr>
+                            <td><code>ShowDialog()</code></td>
+                            <td>Method that displays a form as a modal dialog and returns a <code>DialogResult</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>DialogResult</code></td>
+                            <td>An enumeration that indicates how the user closed a dialog (OK, Cancel, Yes, No, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Tag</code> property</td>
+                            <td>An <code>object</code>-typed property on every control/form for storing arbitrary data</td>
+                        </tr>
+                        <tr>
+                            <td>Program class</td>
+                            <td>The class containing <code>Main()</code>, which is the entry point of the application</td>
+                        </tr>
+                        <tr>
+                            <td>Global using directive</td>
+                            <td>A <code>global using</code> statement that makes a namespace available to all files in the project</td>
+                        </tr>
+                        <tr>
+                            <td><code>FormClosing</code> event</td>
+                            <td>An event that fires just before a form closes, allowing you to cancel the close</td>
+                        </tr>
+                        <tr>
+                            <td>Refactoring (Rename)</td>
+                            <td>A Visual Studio feature that renames a symbol and updates all references to it across the project</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to C# & Windows Forms Guides</a></p>
+            <p>C# & Windows Forms Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
