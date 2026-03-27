@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide #19: Introduction to Database Programming</title>
+    <style>
+        :root {
+            --primary: #0078D7;
+            --primary-dark: #005A9E;
+            --secondary: #68217A;
+            --accent: #00BCF2;
+            --success: #107C10;
+            --warning: #FF8C00;
+            --danger: #D13438;
+            --bg: #F5F5F5;
+            --surface: #FFFFFF;
+            --text: #1B1B1B;
+            --text-muted: #605E5C;
+            --border: #E0E0E0;
+            --code-bg: #1E1E1E;
+            --code-text: #D4D4D4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        main {
+            background: var(--surface);
+            border-radius: 12px;
+            margin: 30px auto;
+            padding: 40px 50px;
+            max-width: 960px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin: 40px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            color: var(--secondary);
+            margin: 24px 0 10px;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: #2b2b2b;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .concept-card {
+            background: #F0F4FF;
+            border: 1px solid #C7D7F9;
+            border-radius: 10px;
+            padding: 18px;
+            border-top: 4px solid var(--primary);
+        }
+
+        .concept-card h4 {
+            margin: 0 0 8px;
+            font-size: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .concept-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            margin: 16px 0;
+        }
+
+        code {
+            background: #EEF2FF;
+            color: var(--secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88em;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* SQL keyword highlighting within pre */
+        .kw   { color: #569CD6; font-weight: bold; }
+        .fn   { color: #DCDCAA; }
+        .str  { color: #CE9178; }
+        .num  { color: #B5CEA8; }
+        .cmt  { color: #6A9955; font-style: italic; }
+        .col  { color: #9CDCFE; }
+        .tbl  { color: #4EC9B0; }
+
+        /* Quick Reference Table */
+        .quick-ref {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.92rem;
+        }
+
+        .quick-ref th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        .quick-ref td {
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .quick-ref tr:nth-child(even) td {
+            background: #F8F9FF;
+        }
+
+        .quick-ref tr:hover td {
+            background: #EFF3FF;
+        }
+
+        .quick-ref code {
+            background: #EEF2FF;
+            font-size: 0.85em;
+        }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 18px 0;
+            border-left: 4px solid;
+        }
+
+        .callout.info {
+            background: #EFF6FF;
+            border-color: var(--primary);
+        }
+
+        .callout.tip {
+            background: #F0FFF0;
+            border-color: var(--success);
+        }
+
+        .callout.warning {
+            background: #FFF8F0;
+            border-color: var(--warning);
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .callout.info strong  { color: var(--primary); }
+        .callout.tip strong   { color: var(--success); }
+        .callout.warning strong { color: var(--warning); }
+
+        /* Diagram / visual layout */
+        .arch-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .arch-box {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 14px 20px;
+            text-align: center;
+            min-width: 130px;
+        }
+
+        .arch-box .icon { font-size: 1.8rem; }
+        .arch-box .label { font-weight: 600; font-size: 0.95rem; color: var(--primary-dark); margin-top: 4px; }
+        .arch-box .sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0 8px;
+        }
+
+        /* Table structure visual */
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+
+        .db-table th {
+            background: var(--secondary);
+            color: white;
+            padding: 8px 14px;
+            text-align: left;
+        }
+
+        .db-table td {
+            padding: 7px 14px;
+            border: 1px solid #D0D0D0;
+        }
+
+        .db-table tr:nth-child(even) td { background: #FAFAFA; }
+        .db-table .pk { color: var(--primary); font-weight: 700; }
+        .db-table .fk { color: var(--secondary); font-weight: 600; }
+
+        /* Key term badge */
+        .term {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 2px 9px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin: 2px;
+            vertical-align: middle;
+        }
+
+        /* Comparison side-by-side */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 { margin-top: 0; }
+        .comparison-item.good { border-left: 4px solid var(--success); }
+        .comparison-item.neutral { border-left: 4px solid var(--primary); }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.4rem; }
+            main { padding: 30px 20px; }
+            h2 { font-size: 1.35rem; }
+            .concept-grid { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+            .arch-diagram { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Guide #19: Introduction to Database Programming</h1>
+    <p>Multi-User Systems, Relational Databases, SQL Fundamentals: SELECT, INSERT, UPDATE, DELETE</p>
+</header>
+
+<main>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>🖥️ Multi-User System Architecture</h2>
+
+    <p>Most real-world business applications don't run on a single machine. They distribute work across a
+        <strong>network</strong> of hardware so that many users can access shared data at the same time.
+        Understanding this hardware and software stack is the foundation of database programming.</p>
+
+    <h3>Hardware Components</h3>
+
+    <p>A typical multi-user (client/server) system has three hardware components:</p>
+
+    <div class="arch-diagram">
+        <div class="arch-box">
+            <div class="icon">💻</div>
+            <div class="label">Clients</div>
+            <div class="sub">Workstations, laptops, phones</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box">
+            <div class="icon">🌐</div>
+            <div class="label">Network</div>
+            <div class="sub">LAN / Internet</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box">
+            <div class="icon">🖥</div>
+            <div class="label">Server</div>
+            <div class="sub">Hosts the database</div>
+        </div>
+    </div>
+
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>💻 Clients</h4>
+            <p>User workstations or devices that run the front-end application. They send requests and display results.</p>
+        </div>
+        <div class="concept-card">
+            <h4>🌐 Network</h4>
+            <p>The communication backbone (LAN, WAN, or Internet) that carries data between clients and the server.</p>
+        </div>
+        <div class="concept-card">
+            <h4>🖥 Server</h4>
+            <p>A powerful machine dedicated to storing the database and running the DBMS software that manages it.</p>
+        </div>
+    </div>
+
+    <div class="callout info">
+        <strong>Key Term</strong>
+        A <span class="term">client/server system</span> divides processing between the clients (presentation + some logic)
+        and the server (data storage + query processing). This is different from a mainframe model, where
+        all processing happens centrally.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>🛠️ Software Components</h2>
+
+    <p>On top of the hardware, several software layers work together to let your C# application
+        communicate with a database:</p>
+
+    <table class="quick-ref">
+        <thead>
+            <tr>
+                <th>Layer</th>
+                <th>What it does</th>
+                <th>Examples</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Application Software</strong></td>
+                <td>The front-end your users interact with. Requests data via SQL.</td>
+                <td>Your C# Windows Forms app</td>
+            </tr>
+            <tr>
+                <td><strong>Data Access API</strong></td>
+                <td>A set of classes that let your code connect to and communicate with a DBMS.</td>
+                <td>ADO.NET, Entity Framework, Dapper</td>
+            </tr>
+            <tr>
+                <td><strong>SQL Queries</strong></td>
+                <td>Structured commands sent to the DBMS to retrieve or modify data.</td>
+                <td><code>SELECT * FROM Customers</code></td>
+            </tr>
+            <tr>
+                <td><strong>DBMS</strong></td>
+                <td>Database Management System — interprets SQL, enforces rules, returns data.</td>
+                <td>SQL Server, MySQL, SQLite</td>
+            </tr>
+            <tr>
+                <td><strong>Database</strong></td>
+                <td>The actual stored data: tables, indexes, constraints, and relationships.</td>
+                <td>A .mdf file on SQL Server</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout tip">
+        <strong>Flow Summary</strong>
+        Your app → Data Access API → SQL query → DBMS → Database → result set → back to your app.
+        Each layer has a clear responsibility; you typically only write code at the app and SQL layers.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>📊 Relational Database Tables</h2>
+
+    <p>A <strong>relational database</strong> organizes data into <strong>tables</strong>. Each table
+        represents one type of entity (customers, products, orders, etc.).</p>
+
+    <h3>Table Structure</h3>
+
+    <p>Every table is organized in rows and columns — like a spreadsheet, but with strict rules:</p>
+
+    <ul style="margin: 10px 0 16px 24px; line-height: 2;">
+        <li><strong>Column (field)</strong> — one attribute of the entity (e.g., <code>CustomerName</code>)</li>
+        <li><strong>Row (record)</strong> — one instance of the entity (e.g., one customer)</li>
+        <li><strong>Primary Key (PK)</strong> — a column (or set of columns) that uniquely identifies each row</li>
+        <li><strong>Data type</strong> — each column stores one type of data (int, varchar, date, decimal…)</li>
+    </ul>
+
+    <p><strong>Example — Customers table:</strong></p>
+
+    <table class="db-table">
+        <thead>
+            <tr>
+                <th>CustomerID (PK)</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>CityID (FK)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="pk">1</td><td>Alice</td><td>Morgan</td><td>alice@example.com</td><td class="fk">10</td></tr>
+            <tr><td class="pk">2</td><td>Brian</td><td>Torres</td><td>brian@example.com</td><td class="fk">12</td></tr>
+            <tr><td class="pk">3</td><td>Carol</td><td>Nguyen</td><td>carol@example.com</td><td class="fk">10</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout info">
+        <strong>Primary Key Rule</strong>
+        Every table should have a primary key. The DBMS guarantees that no two rows can have the same PK value,
+        so you can always uniquely identify a single row. PK columns are often auto-generated integers
+        (<code>IDENTITY</code> in SQL Server).
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>🔗 Table Relationships</h2>
+
+    <p>The "relational" in <em>relational database</em> means tables are linked to each other through
+        <strong>foreign keys</strong>. A <span class="term">foreign key (FK)</span> is a column in one
+        table whose value matches the primary key of another table.</p>
+
+    <h3>One-to-Many Relationship (Most Common)</h3>
+
+    <p>One row in Table A can be related to <em>many</em> rows in Table B, but each row in Table B
+        points back to exactly one row in Table A.</p>
+
+    <div class="comparison">
+        <div class="comparison-item neutral">
+            <h4>Cities Table</h4>
+            <table class="db-table">
+                <thead><tr><th>CityID (PK)</th><th>CityName</th></tr></thead>
+                <tbody>
+                    <tr><td class="pk">10</td><td>Chicago</td></tr>
+                    <tr><td class="pk">12</td><td>Denver</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="comparison-item neutral">
+            <h4>Customers Table</h4>
+            <table class="db-table">
+                <thead><tr><th>CustomerID (PK)</th><th>Name</th><th>CityID (FK)</th></tr></thead>
+                <tbody>
+                    <tr><td class="pk">1</td><td>Alice</td><td class="fk">10</td></tr>
+                    <tr><td class="pk">2</td><td>Brian</td><td class="fk">12</td></tr>
+                    <tr><td class="pk">3</td><td>Carol</td><td class="fk">10</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <p>City 10 (Chicago) is referenced by two customers — that's the "many" side. Each customer lives in
+        exactly one city — that's the "one" side. Chicago → Alice and Carol is a <em>one-to-many</em> relationship.</p>
+
+    <table class="quick-ref">
+        <thead>
+            <tr><th>Relationship Type</th><th>Meaning</th><th>Typical Example</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>One-to-Many</strong></td>
+                <td>One parent row, many child rows</td>
+                <td>One customer → many orders</td>
+            </tr>
+            <tr>
+                <td><strong>One-to-One</strong></td>
+                <td>One row paired with exactly one other row</td>
+                <td>One employee → one employee detail record</td>
+            </tr>
+            <tr>
+                <td><strong>Many-to-Many</strong></td>
+                <td>Many rows in each table linked together (needs a junction table)</td>
+                <td>Many students ↔ many courses</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>🗄️ SQL Fundamentals</h2>
+
+    <p><strong>SQL (Structured Query Language)</strong> is the universal language for communicating with a
+        relational DBMS. Your C# application builds SQL statements (or uses an ORM that generates them) and
+        sends them to the DBMS via a data access API.</p>
+
+    <p>The four core data-manipulation statements are often called <strong>CRUD</strong>:</p>
+
+    <div class="concept-grid">
+        <div class="concept-card">
+            <h4>🔍 SELECT — Read</h4>
+            <p>Retrieve rows from one or more tables. Returns a <em>result set</em>.</p>
+        </div>
+        <div class="concept-card">
+            <h4>➕ INSERT — Create</h4>
+            <p>Add one or more new rows to a table.</p>
+        </div>
+        <div class="concept-card">
+            <h4>✏️ UPDATE — Modify</h4>
+            <p>Change the values in existing rows.</p>
+        </div>
+        <div class="concept-card">
+            <h4>🗑️ DELETE — Remove</h4>
+            <p>Remove one or more rows from a table.</p>
+        </div>
+    </div>
+
+    <!-- ─── SELECT ─────────────────────────────────────── -->
+    <h3>SELECT — Reading Data</h3>
+
+    <p>The SELECT statement retrieves rows and columns from a table. The data it returns is called a
+        <span class="term">result set</span>.</p>
+
+    <pre><span class="cmt">-- Retrieve all columns and all rows from Products</span>
+<span class="kw">SELECT</span> <span class="col">*</span>
+<span class="kw">FROM</span>   <span class="tbl">Products</span>
+
+<span class="cmt">-- Retrieve specific columns and filter rows</span>
+<span class="kw">SELECT</span> <span class="col">ProductName</span>, <span class="col">Price</span>, <span class="col">Stock</span>
+<span class="kw">FROM</span>   <span class="tbl">Products</span>
+<span class="kw">WHERE</span>  <span class="col">Price</span> <span class="kw">&lt;</span> <span class="num">50</span>
+
+<span class="cmt">-- Retrieve rows ordered by price, highest first</span>
+<span class="kw">SELECT</span> <span class="col">ProductName</span>, <span class="col">Price</span>
+<span class="kw">FROM</span>   <span class="tbl">Products</span>
+<span class="kw">WHERE</span>  <span class="col">Stock</span> <span class="kw">&gt;</span> <span class="num">0</span>
+<span class="kw">ORDER BY</span> <span class="col">Price</span> <span class="kw">DESC</span></pre>
+
+    <h3>SELECT with an INNER JOIN</h3>
+
+    <p>When data lives in multiple related tables, use a <strong>JOIN</strong> to combine it in one result set.
+        An <span class="term">INNER JOIN</span> returns only rows where a match exists in <em>both</em> tables.</p>
+
+    <pre><span class="cmt">-- Combine Orders with CustomerName from Customers</span>
+<span class="kw">SELECT</span> <span class="col">c.CustomerName</span>,
+       <span class="col">o.OrderDate</span>,
+       <span class="col">o.OrderTotal</span>
+<span class="kw">FROM</span>   <span class="tbl">Customers</span> <span class="kw">AS</span> <span class="tbl">c</span>
+    <span class="kw">INNER JOIN</span> <span class="tbl">Orders</span> <span class="kw">AS</span> <span class="tbl">o</span>
+        <span class="kw">ON</span> <span class="col">c.CustomerID</span> <span class="kw">=</span> <span class="col">o.CustomerID</span>
+<span class="kw">WHERE</span>  <span class="col">o.OrderTotal</span> <span class="kw">&gt;=</span> <span class="num">100</span>
+<span class="kw">ORDER BY</span> <span class="col">c.CustomerName</span> <span class="kw">ASC</span></pre>
+
+    <div class="callout tip">
+        <strong>Aliases make JOINs readable</strong>
+        Use <code>AS c</code> and <code>AS o</code> to create short table aliases. Then qualify column names
+        like <code>c.CustomerName</code> to make clear which table each column belongs to — essential when
+        two tables share a column name (e.g., both have <code>CustomerID</code>).
+    </div>
+
+    <!-- ─── INSERT ─────────────────────────────────────── -->
+    <h3>INSERT — Adding a New Row</h3>
+
+    <p>The INSERT statement adds one new row to a table. You list the columns you want to populate,
+        then the matching values.</p>
+
+    <pre><span class="cmt">-- Add a new product to the Products table</span>
+<span class="kw">INSERT INTO</span> <span class="tbl">Products</span> (<span class="col">ProductName</span>, <span class="col">Price</span>, <span class="col">Stock</span>)
+<span class="kw">VALUES</span> (<span class="str">'Wireless Keyboard'</span>, <span class="num">49.99</span>, <span class="num">150</span>)</pre>
+
+    <div class="callout info">
+        <strong>Note on Identity Columns</strong>
+        If the table has an auto-increment primary key (e.g., <code>ProductID IDENTITY</code>), you
+        <em>omit</em> it from the column list. The DBMS assigns the next available value automatically.
+    </div>
+
+    <!-- ─── UPDATE ─────────────────────────────────────── -->
+    <h3>UPDATE — Modifying Existing Rows</h3>
+
+    <p>The UPDATE statement changes values in rows that already exist. Always include a
+        <code>WHERE</code> clause — omitting it updates <em>every</em> row in the table.</p>
+
+    <pre><span class="cmt">-- Reduce the price of one specific product</span>
+<span class="kw">UPDATE</span> <span class="tbl">Products</span>
+    <span class="kw">SET</span>   <span class="col">Price</span> <span class="kw">=</span> <span class="num">39.99</span>
+<span class="kw">WHERE</span> <span class="col">ProductName</span> <span class="kw">=</span> <span class="str">'Wireless Keyboard'</span>
+
+<span class="cmt">-- Update multiple columns for a row identified by primary key</span>
+<span class="kw">UPDATE</span> <span class="tbl">Customers</span>
+    <span class="kw">SET</span>   <span class="col">Email</span>    <span class="kw">=</span> <span class="str">'new@email.com'</span>,
+          <span class="col">CityID</span>   <span class="kw">=</span> <span class="num">12</span>
+<span class="kw">WHERE</span> <span class="col">CustomerID</span> <span class="kw">=</span> <span class="num">1</span></pre>
+
+    <div class="callout warning">
+        <strong>Always use WHERE with UPDATE</strong>
+        An UPDATE without a WHERE clause modifies <em>every row</em> in the table — usually catastrophic.
+        Best practice: identify the target row by its primary key.
+    </div>
+
+    <!-- ─── DELETE ─────────────────────────────────────── -->
+    <h3>DELETE — Removing Rows</h3>
+
+    <p>The DELETE statement removes one or more rows from a table. Like UPDATE, it <em>requires</em> a
+        careful WHERE clause.</p>
+
+    <pre><span class="cmt">-- Remove a single product by its primary key</span>
+<span class="kw">DELETE FROM</span> <span class="tbl">Products</span>
+<span class="kw">WHERE</span> <span class="col">ProductID</span> <span class="kw">=</span> <span class="num">7</span>
+
+<span class="cmt">-- Remove all discontinued products (multiple rows)</span>
+<span class="kw">DELETE FROM</span> <span class="tbl">Products</span>
+<span class="kw">WHERE</span> <span class="col">Discontinued</span> <span class="kw">=</span> <span class="num">1</span></pre>
+
+    <div class="callout warning">
+        <strong>Always use WHERE with DELETE</strong>
+        <code>DELETE FROM Products</code> with no WHERE clause deletes <em>all rows</em> from the table.
+        Always target rows precisely — the primary key is the safest filter.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>📋 SQL Quick Reference</h2>
+
+    <table class="quick-ref">
+        <thead>
+            <tr>
+                <th>Statement</th>
+                <th>Purpose</th>
+                <th>Key Clauses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>SELECT</code></td>
+                <td>Read data; returns a <em>result set</em></td>
+                <td><code>FROM</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>INNER JOIN … ON</code></td>
+            </tr>
+            <tr>
+                <td><code>INSERT INTO … VALUES</code></td>
+                <td>Add a new row</td>
+                <td>Column list must match values list</td>
+            </tr>
+            <tr>
+                <td><code>UPDATE … SET</code></td>
+                <td>Modify existing rows</td>
+                <td><code>WHERE</code> to target rows; <code>SET col = val</code> for each change</td>
+            </tr>
+            <tr>
+                <td><code>DELETE FROM</code></td>
+                <td>Remove rows</td>
+                <td><code>WHERE</code> to target rows — omit at your peril!</td>
+            </tr>
+            <tr>
+                <td><code>*</code> wildcard</td>
+                <td>Select all columns</td>
+                <td>Use sparingly in production (wastes bandwidth)</td>
+            </tr>
+            <tr>
+                <td><code>ORDER BY … ASC/DESC</code></td>
+                <td>Sort the result set</td>
+                <td><code>ASC</code> (default) = A→Z / 0→9; <code>DESC</code> = reverse</td>
+            </tr>
+            <tr>
+                <td><code>INNER JOIN … ON</code></td>
+                <td>Combine data from two tables by matching key columns</td>
+                <td>Only returns rows with a match in both tables</td>
+            </tr>
+            <tr>
+                <td>Table <code>AS</code> alias</td>
+                <td>Shorten a table name for the query</td>
+                <td><code>FROM Customers AS c</code> → use <code>c.ColumnName</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <h2>🧠 Key Vocabulary</h2>
+
+    <table class="quick-ref">
+        <thead>
+            <tr><th>Term</th><th>Definition</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>DBMS</strong></td><td>Database Management System — software that stores, retrieves, and manages data (e.g., SQL Server, MySQL).</td></tr>
+            <tr><td><strong>Client/Server System</strong></td><td>Architecture where clients request data and a dedicated server stores and manages the database.</td></tr>
+            <tr><td><strong>Table</strong></td><td>A grid of rows and columns representing one entity type in a relational database.</td></tr>
+            <tr><td><strong>Primary Key (PK)</strong></td><td>A column (or set of columns) that uniquely identifies each row in a table.</td></tr>
+            <tr><td><strong>Foreign Key (FK)</strong></td><td>A column in one table that references the primary key of another table, creating a relationship.</td></tr>
+            <tr><td><strong>Result Set</strong></td><td>The rows returned by a SELECT statement.</td></tr>
+            <tr><td><strong>SQL</strong></td><td>Structured Query Language — the standard language for querying and manipulating relational databases.</td></tr>
+            <tr><td><strong>Data Access API</strong></td><td>A library (like ADO.NET) that your application code uses to send SQL to a DBMS and receive results.</td></tr>
+            <tr><td><strong>Inner Join</strong></td><td>A JOIN that returns only rows where the related columns match in both tables.</td></tr>
+            <tr><td><strong>One-to-Many</strong></td><td>A relationship where one parent row can be associated with many child rows.</td></tr>
+        </tbody>
+    </table>
+
+</main>
+
+<footer>
+    <p>C# &amp; Windows Forms Quick Guides &nbsp;|&nbsp;
+       <a href="index.html">← Back to Index</a>
+    </p>
+</footer>
+
+</body>
+</html>
