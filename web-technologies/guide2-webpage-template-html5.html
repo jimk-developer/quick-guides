@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide 2: Building a Webpage Template with HTML 5</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E34F26;
+            --primary-dark: #B8371A;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #E34F26 0%, #B8371A 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0 0 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFEBEE 0%, #FFF3E0 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        pre .tag {
+            color: #569CD6;
+        }
+
+        pre .attr {
+            color: #9CDCFE;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .text {
+            color: #D4D4D4;
+        }
+
+        pre .entity {
+            color: #D7BA7D;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(227, 79, 38, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFEBEE 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        /* Semantic wireframe mockup */
+        .wireframe {
+            background: #F8F9FA;
+            border: 2px dashed #888;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 25px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .wf-block {
+            border-radius: 6px;
+            padding: 18px;
+            text-align: center;
+            font-weight: 700;
+            margin: 6px 0;
+        }
+
+        .wf-header {
+            background: #FFE0B2;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .wf-nav {
+            background: #E3F2FD;
+            border: 2px solid #1976D2;
+            color: #1565C0;
+        }
+
+        .wf-main {
+            background: #F3E5F5;
+            border: 2px solid #7B1FA2;
+            color: #6A1B9A;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wf-footer {
+            background: #E8F5E9;
+            border: 2px solid #388E3C;
+            color: #2E7D32;
+        }
+
+        .wf-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 6px;
+        }
+
+        .wf-aside {
+            background: #FFF8E1;
+            border: 2px solid #F57F17;
+            color: #E65100;
+            padding: 18px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Folder tree */
+        .folder-tree {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            margin: 25px 0;
+            line-height: 1.9;
+        }
+
+        .folder-tree .folder {
+            color: #DCDCAA;
+        }
+
+        .folder-tree .file {
+            color: #9CDCFE;
+        }
+
+        .folder-tree .root {
+            color: #4EC9B0;
+        }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Heading size demo */
+        .heading-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .heading-demo .hd {
+            margin: 4px 0;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .heading-demo .hd1 { font-size: 2rem; }
+        .heading-demo .hd2 { font-size: 1.65rem; }
+        .heading-demo .hd3 { font-size: 1.4rem; }
+        .heading-demo .hd4 { font-size: 1.2rem; }
+        .heading-demo .hd5 { font-size: 1.05rem; }
+        .heading-demo .hd6 { font-size: 0.9rem; }
+
+        .heading-demo .hd-tag {
+            color: #999;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            font-weight: 400;
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .wf-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide 2: Building a Webpage Template with HTML 5</h1>
+        <p>Semantic Elements, Templates, Comments, Symbol Entities, Headings, and Validation</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Learning Objectives -->
+            <h2>🎯 Learning Objectives</h2>
+
+            <p>By the end of this guide, you will be able to:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🗂️ Organize Files</h4>
+                    <p>Set up a root folder, subfolders, and naming conventions for a website project.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧱 Use Semantic Elements</h4>
+                    <p>Recognize and use <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, and <code>footer</code>.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📐 Build a Semantic Wireframe</h4>
+                    <p>Map page regions to HTML 5 semantic elements before writing code.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📄 Create a Reusable Template</h4>
+                    <p>Produce a starter HTML file that every page in the site can be cloned from.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>💬 Write Helpful Comments</h4>
+                    <p>Add comments that explain your markup without affecting what the visitor sees.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔣 Insert Symbol Entities</h4>
+                    <p>Use HTML entity names and numbers to display special characters safely.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔖 Use Heading Elements</h4>
+                    <p>Pick the right heading level (h1 through h6) for the content hierarchy.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>✅ Validate HTML</h4>
+                    <p>Run your pages through the W3C validator and correct common errors.</p>
+                </div>
+            </div>
+
+            <!-- Website Planning Recap -->
+            <h2>🗺️ From Plan to Template</h2>
+
+            <p>Before writing any markup, a web designer takes a few planning steps. This keeps the website consistent across every page and prevents surprises later.</p>
+
+            <div class="highlight-box">
+                <h4>The Template Workflow</h4>
+                <ol>
+                    <li><strong>Articulate the purpose</strong> of the website and identify the target audience.</li>
+                    <li><strong>Create a site map</strong> showing how pages relate to each other.</li>
+                    <li><strong>Design a wireframe</strong> showing the layout of a single page.</li>
+                    <li><strong>Pick colors, fonts, and graphics</strong> that support the brand.</li>
+                    <li><strong>Build a template</strong> containing the shared structure of every page.</li>
+                    <li><strong>Clone the template</strong> to create each individual page.</li>
+                </ol>
+            </div>
+
+            <h3>Site Map vs. Wireframe</h3>
+
+            <p>These two tools serve different purposes and are often confused. A site map is about the <strong>collection</strong> of pages. A wireframe is about the <strong>layout</strong> of one page.</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>🗂️ Site Map</h4>
+                    <p><strong>Scope:</strong> Whole website</p>
+                    <p><strong>Shows:</strong> How many pages exist and how they link to each other</p>
+                    <p><strong>Answers:</strong> "How does someone get from the home page to Contact Us?"</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>📐 Wireframe</h4>
+                    <p><strong>Scope:</strong> A single page</p>
+                    <p><strong>Shows:</strong> Where the header, navigation, main content, and footer sit on the page</p>
+                    <p><strong>Answers:</strong> "What goes where on this page?"</p>
+                </div>
+            </div>
+
+            <!-- File Management -->
+            <h2>📁 File Management</h2>
+
+            <p>Every website has many files: HTML documents, images, stylesheets, scripts, and more. Keeping these organized from day one prevents broken links and confusion later.</p>
+
+            <h3>Root Folder and Subfolders</h3>
+
+            <p>The <strong>root folder</strong> is the main folder that holds the entire website. Inside the root folder, you typically create subfolders to group related files. A common layout looks like this:</p>
+
+            <div class="folder-tree">
+<span class="root">📁 my-website/</span>          <span class="comment">// the root folder</span>
+├── <span class="file">📄 index.html</span>      <span class="comment">// the home page</span>
+├── <span class="file">📄 about.html</span>
+├── <span class="file">📄 contact.html</span>
+├── <span class="folder">📁 css/</span>              <span class="comment">// stylesheets</span>
+│   └── <span class="file">📄 styles.css</span>
+├── <span class="folder">📁 images/</span>           <span class="comment">// photos, icons, logos</span>
+│   ├── <span class="file">🖼️ logo.png</span>
+│   └── <span class="file">🖼️ hero.jpg</span>
+└── <span class="folder">📁 scripts/</span>          <span class="comment">// JavaScript files</span>
+    └── <span class="file">📄 main.js</span>
+            </div>
+
+            <div class="tip-box">
+                <strong>The home page belongs in the root.</strong> Name it <code>index.html</code>. Web servers automatically serve this file when someone visits your domain, which is why visitors don't have to type the filename in the address bar.
+            </div>
+
+            <h3>File Naming Rules</h3>
+
+            <ul>
+                <li><strong>Use lowercase.</strong> Some web servers treat <code>About.html</code> and <code>about.html</code> as different files, so stay consistent.</li>
+                <li><strong>No spaces in filenames.</strong> Use hyphens to separate words, such as <code>contact-us.html</code>.</li>
+                <li><strong>Use descriptive names.</strong> <code>product-list.html</code> is clearer than <code>page3.html</code>.</li>
+                <li><strong>Keep names short.</strong> Long filenames make URLs ugly and hard to share.</li>
+            </ul>
+
+            <!-- Semantic Elements -->
+            <h2>🧱 HTML 5 Semantic Elements</h2>
+
+            <p>A <strong>semantic element</strong> is an HTML tag whose name describes the meaning of its content, not just its appearance. Semantic elements are also called <strong>structural elements</strong> because they define the structure of a webpage.</p>
+
+            <h3>Why Semantic Elements Matter</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>♿ Accessibility</h4>
+                    <p>Screen readers use semantic tags to help visually impaired users navigate directly to the main content, skipping past menus and headers.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 Search Engines</h4>
+                    <p>Search engines give more weight to content inside <code>main</code> and <code>article</code> than content in headers or footers.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧹 Readability</h4>
+                    <p>Code is easier to scan when tag names describe their purpose. Another developer can understand your page at a glance.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎨 Styling</h4>
+                    <p>Semantic tags give CSS and JavaScript meaningful hooks without requiring extra class names.</p>
+                </div>
+            </div>
+
+            <h3>The div Element</h3>
+
+            <p>Before HTML 5, web designers used the generic <code>div</code> element to divide a page into sections. The <code>div</code> element has no meaning of its own. It is just a container. Each <code>div</code> typically needed a unique name (given by an <code>id</code> or <code>class</code> attribute) to distinguish it from other divs.</p>
+
+            <p>HTML 5 added semantic elements so that common page regions have descriptive tag names. Many professional designers prefer these semantic tags over generic <code>div</code> elements whenever possible. You will still see <code>div</code> in modern code, but it is typically reserved for grouping content that doesn't fit any semantic tag.</p>
+
+            <h3>Common Semantic Elements</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Meaning</th>
+                        <th>Typical Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;header&gt;</code></td>
+                        <td>Identifies the top region of a page or section</td>
+                        <td>Site name, logo, tagline</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;nav&gt;</code></td>
+                        <td>Contains navigation links</td>
+                        <td>Menu of page links to other parts of the site</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;main&gt;</code></td>
+                        <td>The primary, unique content of the page</td>
+                        <td>Article text, product listing, form, or whatever the page is <em>about</em></td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;section&gt;</code></td>
+                        <td>A thematic grouping of content inside <code>main</code></td>
+                        <td>Distinct topic areas, each with its own heading</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;article&gt;</code></td>
+                        <td>Self-contained content that could stand alone</td>
+                        <td>Blog post, news story, product card</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;aside&gt;</code></td>
+                        <td>Content related but tangential to the main content</td>
+                        <td>Sidebar, related links, pull quote, ads</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;footer&gt;</code></td>
+                        <td>Identifies the bottom region of a page or section</td>
+                        <td>Copyright, contact info, page links, social icons</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Head vs. header vs. heading.</strong> These three words sound similar but mean different things.
+                <ul>
+                    <li><code>&lt;head&gt;</code> is the section of the document that holds meta information, such as the title, character encoding, and stylesheet links. The visitor never sees it directly.</li>
+                    <li><code>&lt;header&gt;</code> is a semantic element for the top of the visible page or section, such as a banner with your logo.</li>
+                    <li><strong>Heading</strong> refers to <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, the six levels of titled text that organize content.</li>
+                </ul>
+            </div>
+
+            <!-- Semantic Wireframe -->
+            <h2>📐 Semantic Wireframes</h2>
+
+            <p>A <strong>semantic wireframe</strong> is a wireframe that labels each region with the HTML 5 semantic element you plan to use. It is a planning tool that bridges the gap between design and code.</p>
+
+            <div class="wireframe">
+                <div class="wf-block wf-header">&lt;header&gt;</div>
+                <div class="wf-block wf-nav">&lt;nav&gt;</div>
+                <div class="wf-row">
+                    <div class="wf-block wf-main">&lt;main&gt;</div>
+                    <div class="wf-aside">&lt;aside&gt;</div>
+                </div>
+                <div class="wf-block wf-footer">&lt;footer&gt;</div>
+            </div>
+
+            <p>Labeling the wireframe with semantic tags turns a visual sketch into a structural plan. When you sit down to write the HTML, the skeleton is already decided.</p>
+
+            <!-- Templates -->
+            <h2>📄 Creating a Webpage Template</h2>
+
+            <p>A <strong>template</strong> is a predefined HTML document containing the shared structure of every page in a website. Instead of rewriting the same header, navigation, and footer for each page, you write them once in the template and reuse it.</p>
+
+            <h3>What Goes in a Template</h3>
+
+            <ul>
+                <li>The DOCTYPE declaration and the <code>&lt;html&gt;</code> wrapper</li>
+                <li>A complete <code>&lt;head&gt;</code> section (character encoding, viewport, title placeholder)</li>
+                <li>The semantic structure: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code></li>
+                <li>Static content that appears on every page, such as the logo, navigation links, and copyright notice</li>
+                <li>Comments marking where each section ends and where unique page content will be added</li>
+            </ul>
+
+            <h3>A Basic Template Skeleton</h3>
+
+            <p>Here is a starter template for a small business site. This is an original example to show the overall shape. Every element you have seen so far appears inside it.</p>
+
+            <pre><span class="comment">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="string">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Prairie Bakery<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+
+    <span class="comment">&lt;!-- Site header with logo --&gt;</span>
+    <span class="tag">&lt;header&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>Prairie Bakery<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+
+    <span class="comment">&lt;!-- Main site navigation --&gt;</span>
+    <span class="tag">&lt;nav&gt;</span>
+        Home  |  Menu  |  About  |  Contact
+    <span class="tag">&lt;/nav&gt;</span>
+
+    <span class="comment">&lt;!-- Primary page content goes here --&gt;</span>
+    <span class="tag">&lt;main&gt;</span>
+        
+    <span class="tag">&lt;/main&gt;</span>
+
+    <span class="comment">&lt;!-- Page footer with copyright --&gt;</span>
+    <span class="tag">&lt;footer&gt;</span>
+        <span class="entity">&amp;copy;</span> 2026 Prairie Bakery
+    <span class="tag">&lt;/footer&gt;</span>
+
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+
+            <div class="tip-box">
+                <strong>Save your work often.</strong> Web development involves small, frequent changes. Save after each edit so you never lose more than a minute of work if something goes wrong.
+            </div>
+
+            <!-- Comments -->
+            <h2>💬 HTML Comments</h2>
+
+            <p>A <strong>comment</strong> is a note you leave inside an HTML document for yourself or other developers. Comments are ignored by the browser. They appear nowhere on the rendered page. They exist purely to explain the code.</p>
+
+            <h3>Comment Syntax</h3>
+
+            <div class="syntax-box">
+                <h4>The Shape of a Comment</h4>
+                <pre><span class="comment">&lt;!-- This is a comment --&gt;</span></pre>
+            </div>
+
+            <p>Comments start with <code>&lt;!--</code> and end with <code>--&gt;</code>. Anything between those markers is a comment, even if it spans multiple lines.</p>
+
+            <h3>Why Use Comments</h3>
+
+            <ul>
+                <li><strong>Label sections</strong> so you can find them quickly when scrolling through long files.</li>
+                <li><strong>Explain decisions</strong> that aren't obvious from the code alone.</li>
+                <li><strong>Leave reminders</strong> for yourself or teammates about work still to do.</li>
+                <li><strong>Temporarily hide</strong> content or code during testing. The browser will skip over a commented-out block.</li>
+            </ul>
+
+            <h3>Good vs. Bad Comments</h3>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>✅ Helpful</h4>
+                    <pre><span class="comment">&lt;!-- Featured product
+     section. Updated
+     weekly by marketing --&gt;</span></pre>
+                    <p>Adds context that isn't obvious from the code.</p>
+                </div>
+                <div class="comparison-item bad">
+                    <h4>❌ Unhelpful</h4>
+                    <pre><span class="comment">&lt;!-- header --&gt;</span>
+<span class="tag">&lt;header&gt;</span></pre>
+                    <p>Repeats what the tag already says. Adds noise without value.</p>
+                </div>
+            </div>
+
+            <h3>Word Wrap in Your Editor</h3>
+
+            <p>When an HTML line is long, it can run off the right edge of the editor window and become hard to read. <strong>Word wrap</strong> is a feature that causes text lines to break at the right edge of the window so the entire line stays visible. Word wrap only changes how the text looks in your editor. It does not change the file itself or affect the browser.</p>
+
+            <div class="warning-box">
+                <strong>Blank lines in HTML are harmless.</strong> Browsers ignore blank lines when interpreting the page. You can add blank lines between sections of your HTML to make the source easier to read without changing how the page renders.
+            </div>
+
+            <!-- Headings -->
+            <h2>🔖 Heading Elements</h2>
+
+            <p>HTML offers six levels of headings, from <code>&lt;h1&gt;</code> (most important) down to <code>&lt;h6&gt;</code> (least important). Headings organize content into a hierarchy and help both readers and search engines understand the structure.</p>
+
+            <div class="heading-demo">
+                <div class="hd hd1"><span class="hd-tag">&lt;h1&gt;</span>Page Title</div>
+                <div class="hd hd2"><span class="hd-tag">&lt;h2&gt;</span>Major Section</div>
+                <div class="hd hd3"><span class="hd-tag">&lt;h3&gt;</span>Subsection</div>
+                <div class="hd hd4"><span class="hd-tag">&lt;h4&gt;</span>Smaller Heading</div>
+                <div class="hd hd5"><span class="hd-tag">&lt;h5&gt;</span>Even Smaller</div>
+                <div class="hd hd6"><span class="hd-tag">&lt;h6&gt;</span>Smallest Heading</div>
+            </div>
+
+            <h3>Heading Rules of Thumb</h3>
+
+            <ul>
+                <li>Use <strong>one <code>&lt;h1&gt;</code> per page</strong> for the main page title.</li>
+                <li><strong>Don't skip levels.</strong> Go from <code>h1</code> to <code>h2</code> to <code>h3</code> in order. Jumping from <code>h1</code> straight to <code>h4</code> confuses screen readers.</li>
+                <li><strong>Use headings for structure, not for size.</strong> If you just want bigger text, use CSS. Headings carry meaning, not just visual weight.</li>
+                <li>Keep heading text short and descriptive.</li>
+            </ul>
+
+            <h3>Static Content</h3>
+
+            <p><strong>Static content</strong> is the fixed text, images, and markup that doesn't change between visits to the page. A site logo, navigation menu, copyright notice, and page title are all static content. Static content is typically placed directly into a template so it appears on every page automatically.</p>
+
+            <!-- Symbol Entities -->
+            <h2>🔣 Symbol Entities</h2>
+
+            <p>Some characters cannot be typed directly into an HTML document. Either they have a special meaning in HTML (like the less-than sign, which starts a tag), or they are not on a standard keyboard (like the copyright symbol or an arrow).</p>
+
+            <p>To display these characters, HTML provides <strong>character entities</strong>. Every entity starts with an ampersand (<code>&amp;</code>) and ends with a semicolon (<code>;</code>).</p>
+
+            <h3>Two Ways to Write an Entity</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🔤 Entity Name</h4>
+                    <p>A short memorable word between the ampersand and semicolon. Easier to read but not every character has a name.</p>
+                    <p><strong>Example:</strong> <code>&amp;copy;</code> displays the copyright symbol.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔢 Entity Number</h4>
+                    <p>A numeric code preceded by a hash sign. Works for every Unicode character, but harder to remember.</p>
+                    <p><strong>Example:</strong> <code>&amp;#169;</code> also displays the copyright symbol.</p>
+                </div>
+            </div>
+
+            <h3>Common Symbol Entities</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                        <th>Entity Name</th>
+                        <th>Entity Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&nbsp;</td>
+                        <td>Nonbreaking space</td>
+                        <td><code>&amp;nbsp;</code></td>
+                        <td><code>&amp;#160;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&lt;</td>
+                        <td>Less-than sign</td>
+                        <td><code>&amp;lt;</code></td>
+                        <td><code>&amp;#60;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&gt;</td>
+                        <td>Greater-than sign</td>
+                        <td><code>&amp;gt;</code></td>
+                        <td><code>&amp;#62;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&amp;</td>
+                        <td>Ampersand</td>
+                        <td><code>&amp;amp;</code></td>
+                        <td><code>&amp;#38;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">"</td>
+                        <td>Double quotation mark</td>
+                        <td><code>&amp;quot;</code></td>
+                        <td><code>&amp;#34;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&copy;</td>
+                        <td>Copyright</td>
+                        <td><code>&amp;copy;</code></td>
+                        <td><code>&amp;#169;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&reg;</td>
+                        <td>Registered trademark</td>
+                        <td><code>&amp;reg;</code></td>
+                        <td><code>&amp;#174;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&trade;</td>
+                        <td>Trademark</td>
+                        <td><code>&amp;trade;</code></td>
+                        <td><code>&amp;#8482;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&euro;</td>
+                        <td>Euro sign</td>
+                        <td><code>&amp;euro;</code></td>
+                        <td><code>&amp;#8364;</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3rem;">&bull;</td>
+                        <td>Bullet</td>
+                        <td><code>&amp;bull;</code></td>
+                        <td><code>&amp;#8226;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The Nonbreaking Space</h3>
+
+            <p>The <strong>nonbreaking space</strong> entity, written as <code>&amp;nbsp;</code>, forces the browser to display a blank space. It is useful in two situations:</p>
+
+            <ul>
+                <li>When you want extra space between items, because browsers collapse multiple regular spaces into one.</li>
+                <li>When you want to prevent a line break between two words, such as a first and last name or a number and its unit.</li>
+            </ul>
+
+            <div class="syntax-box">
+                <h4>Using Nonbreaking Spaces in Navigation</h4>
+                <pre><span class="tag">&lt;nav&gt;</span>
+    Home <span class="entity">&amp;nbsp;</span><span class="entity">&amp;nbsp;</span> Menu <span class="entity">&amp;nbsp;</span><span class="entity">&amp;nbsp;</span> About <span class="entity">&amp;nbsp;</span><span class="entity">&amp;nbsp;</span> Contact
+<span class="tag">&lt;/nav&gt;</span></pre>
+            </div>
+
+            <p>UTF-8 encoding (declared with <code>&lt;meta charset="UTF-8"&gt;</code>) covers nearly every character in every language, which reduces the need for entity codes. You still need entities for HTML's special characters (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>), but most symbols can simply be typed or copy-pasted into the document.</p>
+
+            <!-- Validation -->
+            <h2>✅ Validating HTML Documents</h2>
+
+            <p><strong>Validation</strong> is the process of checking your HTML against the W3C standard. A validator reads your file, compares it to the official rules, and reports any mistakes it finds.</p>
+
+            <h3>Why Validate</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🐛 Catch Errors Early</h4>
+                    <p>Mistyped tags, unclosed elements, and missing attributes often fail silently in a browser. Validators surface them immediately.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌐 Cross-Browser Consistency</h4>
+                    <p>Valid HTML renders more predictably across Chrome, Safari, Firefox, and Edge. Invalid HTML can behave differently in each.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>♿ Accessibility</h4>
+                    <p>Assistive technology depends on valid markup. Errors in structure can make a page unusable for screen reader users.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🏆 Professional Quality</h4>
+                    <p>Validated pages are a hallmark of careful, professional work. They also rank better in search results.</p>
+                </div>
+            </div>
+
+            <h3>The W3C Online Validator</h3>
+
+            <p>The <strong>World Wide Web Consortium (W3C)</strong> provides a free online validator at <code>validator.w3.org</code>. You can use it three ways:</p>
+
+            <ul>
+                <li><strong>Validate by URI:</strong> paste the web address of a published page.</li>
+                <li><strong>Validate by file upload:</strong> upload an HTML file from your computer.</li>
+                <li><strong>Validate by direct input:</strong> paste HTML code directly into a text box.</li>
+            </ul>
+
+            <p>The validator reports every issue it finds, along with the line number and a short explanation. Warnings are informational. Errors must be fixed for the document to be valid.</p>
+
+            <h3>Common Validation Errors</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error</th>
+                        <th>What It Means</th>
+                        <th>How to Fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Unclosed element</td>
+                        <td>A start tag has no matching end tag.</td>
+                        <td>Add the missing end tag.</td>
+                    </tr>
+                    <tr>
+                        <td>Stray end tag</td>
+                        <td>An end tag has no matching start tag.</td>
+                        <td>Delete the stray end tag or add the missing start tag.</td>
+                    </tr>
+                    <tr>
+                        <td>Missing required attribute</td>
+                        <td>An element is missing an attribute that is required by the HTML specification.</td>
+                        <td>Add the required attribute, such as <code>alt</code> on an image.</td>
+                    </tr>
+                    <tr>
+                        <td>Duplicate ID</td>
+                        <td>Two elements share the same <code>id</code> value.</td>
+                        <td>Rename one of them. IDs must be unique on a page.</td>
+                    </tr>
+                    <tr>
+                        <td>Element nested incorrectly</td>
+                        <td>A block-level element appears inside a tag where it isn't allowed.</td>
+                        <td>Restructure the markup so the nesting follows the rules.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Byte-order mark (BOM) warning.</strong> Some editors save files with an invisible byte-order mark at the start. The validator may report it as a warning. In most cases this is harmless, but if it causes trouble you can change your editor's save setting to "UTF-8 without BOM".
+            </div>
+
+            <!-- Creating a Home Page from the Template -->
+            <h2>🏠 Creating Pages from a Template</h2>
+
+            <p>Once you have a validated template, creating the rest of the site is quick. The process looks like this:</p>
+
+            <div class="highlight-box">
+                <h4>From Template to Home Page</h4>
+                <ol>
+                    <li><strong>Open the template file</strong> in your editor.</li>
+                    <li><strong>Save it with a new name</strong> using "Save As". For the home page, use <code>index.html</code>. Save it in the root folder.</li>
+                    <li><strong>Update the title</strong> inside the <code>&lt;title&gt;</code> tag so the browser tab shows the name of this specific page.</li>
+                    <li><strong>Add unique content</strong> inside the <code>&lt;main&gt;</code> element. This is what makes this page different from all the others.</li>
+                    <li><strong>Save the file</strong> and open it in a browser to preview.</li>
+                    <li><strong>Validate</strong> the new page using the W3C validator.</li>
+                </ol>
+            </div>
+
+            <h3>Adding Paragraphs to the Main Section</h3>
+
+            <p>The <code>&lt;p&gt;</code> element defines a paragraph. Browsers automatically add space above and below each paragraph so blocks of text are visually separated.</p>
+
+            <div class="syntax-box">
+                <h4>Adding Content Inside main</h4>
+                <pre><span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;h2&gt;</span>Welcome<span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;p&gt;</span>We bake fresh bread and pastries every morning
+       in small batches.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Stop by any weekday between 7 AM and 2 PM.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/main&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Uploading to a web server.</strong> To publish a site so the world can see it, you <strong>upload</strong> the files from your computer to a web server. Most hosting providers offer a web-based file manager or accept FTP. Once the files are on the server and the server is reachable through a domain name, your site is live.
+            </div>
+
+            <!-- Best Practices -->
+            <h2>✨ Best Practices</h2>
+
+            <div class="highlight-box">
+                <h4>Habits that make template-based development smooth</h4>
+                <ul>
+                    <li><strong>Build the template first.</strong> Don't start coding individual pages until the template is finished and validated.</li>
+                    <li><strong>Use semantic tags whenever possible.</strong> Reach for <code>&lt;div&gt;</code> only when no semantic tag fits.</li>
+                    <li><strong>Comment your sections.</strong> A one-line comment at the top of each major region makes long files navigable.</li>
+                    <li><strong>One h1 per page.</strong> Use <code>&lt;h2&gt;</code> through <code>&lt;h6&gt;</code> for everything below it, in order.</li>
+                    <li><strong>Keep file and folder names lowercase</strong> with hyphens instead of spaces.</li>
+                    <li><strong>Validate before you publish.</strong> Catching errors in the W3C validator is faster than debugging them later.</li>
+                    <li><strong>Keep the template pristine.</strong> Never edit the master template when building a specific page. Save a copy under a new name first.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Reference -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Core Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Template</td>
+                            <td>A predefined HTML document that contains the shared structure of every page in a website</td>
+                        </tr>
+                        <tr>
+                            <td>Root folder</td>
+                            <td>The main folder that holds all the files of a website</td>
+                        </tr>
+                        <tr>
+                            <td>Site map</td>
+                            <td>A diagram showing every page in a site and how they link together</td>
+                        </tr>
+                        <tr>
+                            <td>Wireframe</td>
+                            <td>A layout sketch of a single page</td>
+                        </tr>
+                        <tr>
+                            <td>Semantic wireframe</td>
+                            <td>A wireframe labeled with the HTML 5 semantic elements each region will use</td>
+                        </tr>
+                        <tr>
+                            <td>Semantic element</td>
+                            <td>An HTML tag whose name describes the meaning of its content</td>
+                        </tr>
+                        <tr>
+                            <td><code>header</code></td>
+                            <td>Semantic element for the top region of a page or section</td>
+                        </tr>
+                        <tr>
+                            <td><code>nav</code></td>
+                            <td>Semantic element for a group of navigation links</td>
+                        </tr>
+                        <tr>
+                            <td><code>main</code></td>
+                            <td>Semantic element for the unique, primary content of the page</td>
+                        </tr>
+                        <tr>
+                            <td><code>footer</code></td>
+                            <td>Semantic element for the bottom region of a page or section</td>
+                        </tr>
+                        <tr>
+                            <td><code>div</code></td>
+                            <td>Generic container element with no semantic meaning</td>
+                        </tr>
+                        <tr>
+                            <td>Comment</td>
+                            <td>A note in the code ignored by the browser, written as <code>&lt;!-- ... --&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Heading element</td>
+                            <td>Any of <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, used to organize content</td>
+                        </tr>
+                        <tr>
+                            <td>Static content</td>
+                            <td>Fixed text or markup that appears on every page without changing</td>
+                        </tr>
+                        <tr>
+                            <td>HTML character entity</td>
+                            <td>A special code that represents a character, starting with <code>&amp;</code> and ending with <code>;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Entity name</td>
+                            <td>The short word version of an entity, such as <code>&amp;copy;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Entity number</td>
+                            <td>The numeric version of an entity, such as <code>&amp;#169;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Validate</td>
+                            <td>To check HTML against the official W3C standard</td>
+                        </tr>
+                        <tr>
+                            <td>Upload</td>
+                            <td>To copy files from your computer to a web server so they can be viewed online</td>
+                        </tr>
+                        <tr>
+                            <td>Word wrap</td>
+                            <td>An editor feature that breaks long lines at the window edge for readability</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Design Quick Guides</a></p>
+            <p>Responsive Web Design Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>

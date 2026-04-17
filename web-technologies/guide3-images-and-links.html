@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide 3: Enhancing a Website with Images and Links</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F6FAC;
+            --primary-dark: #0A4E7A;
+            --accent: #00D4AA;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #0F6FAC 0%, #0A4E7A 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0 0 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E1F5FE 0%, #E0F7FA 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        pre .tag {
+            color: #569CD6;
+        }
+
+        pre .attr {
+            color: #9CDCFE;
+        }
+
+        pre .string {
+            color: #CE9178;
+        }
+
+        pre .comment {
+            color: #6A9955;
+        }
+
+        pre .text {
+            color: #D4D4D4;
+        }
+
+        pre .entity {
+            color: #D7BA7D;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(15, 111, 172, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #E1F5FE 0%, #E0F7FA 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Image format visual */
+        .fmt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .fmt-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid var(--border);
+        }
+
+        .fmt-card .ext {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .fmt-card .pros {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .fmt-card .cons {
+            color: var(--danger);
+            font-size: 0.85rem;
+        }
+
+        /* Link visual demo */
+        .link-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            font-size: 1.05rem;
+        }
+
+        .link-demo .l-normal { color: #0000EE; text-decoration: underline; }
+        .link-demo .l-visited { color: #551A8B; text-decoration: underline; }
+        .link-demo .l-active { color: #FF0000; text-decoration: underline; }
+        .link-demo .l-hover { color: #00B894; text-decoration: underline; }
+        .link-demo .l-row {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 15px;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .link-demo .l-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 700;
+        }
+
+        /* Folder/path visual */
+        .path-example {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            margin: 20px 0;
+            line-height: 1.9;
+        }
+
+        .path-example .folder { color: #DCDCAA; }
+        .path-example .file { color: #9CDCFE; }
+        .path-example .current { color: #4EC9B0; font-weight: 700; }
+
+        /* List demo */
+        .list-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .list-demo ol, .list-demo ul {
+            margin-left: 40px;
+        }
+
+        .list-demo dl {
+            margin: 0;
+        }
+
+        .list-demo dt {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-top: 8px;
+        }
+
+        .list-demo dd {
+            margin-left: 30px;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        .list-demo h5 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .list-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide 3: Enhancing a Website with Images and Links</h1>
+        <p>Image Formats, Div Elements, Hyperlinks, Lists, and Embedded Maps</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Learning Objectives -->
+            <h2>🎯 Learning Objectives</h2>
+
+            <p>By the end of this guide, you will be able to:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🖼️ Work with Image Formats</h4>
+                    <p>Compare GIF, PNG, JPG/JPEG, and SVG, and pick the right format for each job.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📏 Add Images to a Webpage</h4>
+                    <p>Use the image tag and its attributes (<code>src</code>, <code>alt</code>, <code>width</code>, <code>height</code>).</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 Use Div Elements</h4>
+                    <p>Add <code>div</code> containers to group sections and prepare pages for CSS styling.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔗 Create Hyperlinks</h4>
+                    <p>Build relative, absolute, bookmark, image, email, and telephone links.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📋 Create Lists</h4>
+                    <p>Use ordered lists, unordered lists, and description lists correctly.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🗺️ Embed a Map</h4>
+                    <p>Add a Google Maps embed to a webpage using an <code>iframe</code>.</p>
+                </div>
+            </div>
+
+            <!-- Images -->
+            <h2>🖼️ Adding Images to a Website</h2>
+
+            <p>Images give a website personality. A well-chosen photo, illustration, or icon draws the eye, reinforces the brand, and helps visitors understand the content faster than text alone. Images used as business logos are often the first thing a visitor remembers about a site.</p>
+
+            <div class="warning-box">
+                <strong>Don't overuse images.</strong> Too many images slow down the page, distract from the content, and can feel like visual clutter. Every image should serve a purpose. If an image doesn't support the surrounding content, leave it out.
+            </div>
+
+            <h3>Pixels and Image Size</h3>
+
+            <p>A <strong>pixel</strong> is the smallest unit of light or color on a screen. Digital images are grids of pixels arranged in rows and columns. An image listed as 800 by 600 has 800 pixels across and 600 pixels down, for a total of 480,000 pixels.</p>
+
+            <p>Two different measurements matter when you add an image to a webpage:</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>📐 Image size (dimensions)</h4>
+                    <p>The number of pixels wide and tall, such as 800 by 600.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>💾 File size</h4>
+                    <p>How many kilobytes or megabytes the image takes up on disk. This is what determines how fast the image downloads.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Smaller dimensions don't shrink the file.</strong> Setting <code>width="400"</code> in your HTML makes a large image display smaller, but the browser still downloads the full original file. To actually speed up page loading, resize the image in a photo editor before uploading it.
+            </div>
+
+            <h3>Image File Formats</h3>
+
+            <p>Four image formats dominate the web. Each has strengths and weaknesses that determine when you should use it.</p>
+
+            <div class="fmt-grid">
+                <div class="fmt-card">
+                    <span class="ext">.jpg</span>
+                    <strong>JPEG</strong>
+                    <p class="pros">✓ Great for photos</p>
+                    <p class="cons">✗ No transparency</p>
+                </div>
+                <div class="fmt-card">
+                    <span class="ext">.png</span>
+                    <strong>PNG</strong>
+                    <p class="pros">✓ Transparency, crisp edges</p>
+                    <p class="cons">✗ Larger than JPEG for photos</p>
+                </div>
+                <div class="fmt-card">
+                    <span class="ext">.gif</span>
+                    <strong>GIF</strong>
+                    <p class="pros">✓ Animation, small size</p>
+                    <p class="cons">✗ Limited to 256 colors</p>
+                </div>
+                <div class="fmt-card">
+                    <span class="ext">.svg</span>
+                    <strong>SVG</strong>
+                    <p class="pros">✓ Scales perfectly at any size</p>
+                    <p class="cons">✗ Not ideal for photos</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Full Name</th>
+                        <th>Compression</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JPEG / JPG</strong></td>
+                        <td>Joint Photographic Experts Group</td>
+                        <td>Lossy</td>
+                        <td>Photographs and images with many gradients</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PNG</strong></td>
+                        <td>Portable Network Graphics</td>
+                        <td>Lossless</td>
+                        <td>Logos, icons, screenshots, and any image that needs transparency</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GIF</strong></td>
+                        <td>Graphics Interchange Format</td>
+                        <td>Lossless</td>
+                        <td>Short animations and simple graphics with few colors</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SVG</strong></td>
+                        <td>Scalable Vector Graphics</td>
+                        <td>XML-based, not pixels</td>
+                        <td>Logos, icons, charts, and any image that must stay sharp when resized</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Lossy vs. Lossless Compression</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🗜️ Lossy Compression</h4>
+                    <p>Discards some image data to make the file smaller. The result looks almost identical to the human eye. JPEG uses lossy compression, which is why it is great for photos but not for crisp graphics.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 Lossless Compression</h4>
+                    <p>Makes the file smaller without throwing away any data. The image can be restored to its exact original form. PNG and GIF use lossless compression.</p>
+                </div>
+            </div>
+
+            <h3>Optimizing Images for the Web</h3>
+
+            <p>To <strong>optimize</strong> an image means to reduce its file size as much as possible without making the image look noticeably worse. A photo or graphics editor such as Photoshop, GIMP, or an online tool can optimize images by:</p>
+
+            <ul>
+                <li><strong>Resizing</strong> to the actual dimensions needed on the page.</li>
+                <li><strong>Compressing</strong> by saving at a lower quality setting (for JPEG).</li>
+                <li><strong>Stripping metadata</strong> such as camera info that the browser doesn't need.</li>
+                <li><strong>Choosing the right format</strong> for the content.</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Aspect ratio matters.</strong> When you resize an image, turn on "Constrain proportions" or "Maintain aspect ratio" in your editor. This changes width and height together so the image doesn't get stretched or squashed.
+            </div>
+
+            <!-- Image Tag -->
+            <h2>🏷️ The Image Tag</h2>
+
+            <p>The image tag, written as <code>&lt;img&gt;</code>, inserts an image into a webpage. It is an <strong>empty (void) tag</strong>, meaning it has no closing tag because there is no content to wrap. All information travels in the tag's attributes.</p>
+
+            <h3>Core Image Attributes</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Required?</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>src</code></td>
+                        <td>Yes</td>
+                        <td>The source path that tells the browser where to find the image file.</td>
+                    </tr>
+                    <tr>
+                        <td><code>alt</code></td>
+                        <td>Yes (for accessibility)</td>
+                        <td>Alternate text describing the image. Read aloud by screen readers and shown if the image fails to load.</td>
+                    </tr>
+                    <tr>
+                        <td><code>width</code></td>
+                        <td>Optional</td>
+                        <td>The display width in pixels.</td>
+                    </tr>
+                    <tr>
+                        <td><code>height</code></td>
+                        <td>Optional</td>
+                        <td>The display height in pixels.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="syntax-box">
+                <h4>A Basic Image Tag</h4>
+                <pre><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"images/prairie-fields.jpg"</span>
+     <span class="attr">alt</span>=<span class="string">"Rolling prairie fields at sunset"</span>
+     <span class="attr">width</span>=<span class="string">"800"</span>
+     <span class="attr">height</span>=<span class="string">"450"</span><span class="tag">&gt;</span></pre>
+            </div>
+
+            <h3>Writing Good Alt Text</h3>
+
+            <p>Alt text serves three roles: it describes the image for blind and low-vision users, it displays if the image fails to load, and it helps search engines understand the image. Good alt text is specific, concise, and describes what the image <em>shows</em> and why it matters.</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>✅ Good Alt Text</h4>
+                    <code>alt="Golden retriever puppy playing in snow"</code>
+                    <p style="margin-top:8px;">Specific and descriptive. Someone who can't see the image understands what's there.</p>
+                </div>
+                <div class="comparison-item bad">
+                    <h4>❌ Weak Alt Text</h4>
+                    <code>alt="image"</code>
+                    <p style="margin-top:8px;">Adds no information. Tells a screen reader user nothing.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Decorative images:</strong> If an image is purely decorative and adds no meaning, use an empty alt attribute (<code>alt=""</code>). This tells screen readers to skip it rather than announcing a filename.
+            </div>
+
+            <h3>Why an Image Might Not Display</h3>
+
+            <p>When an image doesn't show up, the alt text appears in its place (or a broken image icon). The fix is almost always one of these three things:</p>
+
+            <ul>
+                <li><strong>Wrong file path</strong> in the <code>src</code> attribute. Folder names and filenames must match exactly, including capitalization.</li>
+                <li><strong>File not uploaded</strong> to the server. The image works locally but not after publishing because it wasn't included in the upload.</li>
+                <li><strong>Wrong file extension.</strong> The tag points to <code>.jpg</code> but the file is actually saved as <code>.jpeg</code>.</li>
+            </ul>
+
+            <!-- Layout and Div -->
+            <h2>📦 Div Elements and Layout</h2>
+
+            <p>The <strong>div element</strong> defines a generic division or section of a webpage. A <code>div</code> has no meaning of its own. It is a neutral container that groups related content together so you can style or position the group as a unit.</p>
+
+            <h3>Why Use Divs in an HTML 5 Page</h3>
+
+            <p>HTML 5 provides semantic elements (<code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code>) for common page regions. So why would anyone still use <code>div</code>?</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🎁 Wrapping for Layout</h4>
+                    <p>A common pattern is to wrap everything on the page in a single <code>&lt;div id="container"&gt;</code>. This gives you one element to style for the overall page width, margins, and centering.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🧩 Grouping Within Main</h4>
+                    <p>Inside the <code>&lt;main&gt;</code> element, <code>div</code> blocks can group related content that doesn't fit a semantic tag, such as a two-column layout or a card grid.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎯 CSS Hooks</h4>
+                    <p>Giving a <code>div</code> an <code>id</code> or <code>class</code> creates a target for CSS styling and JavaScript selection.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🕰️ Legacy Code</h4>
+                    <p>Before HTML 5, divs were the only way to divide a page into regions. You will still see this pattern in older sites you may need to maintain.</p>
+                </div>
+            </div>
+
+            <h3>The id Attribute</h3>
+
+            <p>The <strong>id attribute</strong> gives an element a unique name. No two elements on the same page can share the same <code>id</code>. Common uses include styling with CSS, targeting with JavaScript, and creating bookmark links (covered later in this guide).</p>
+
+            <div class="syntax-box">
+                <h4>A Container Div Wrapping the Page</h4>
+                <pre><span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="string">"container"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;header&gt;</span> ... <span class="tag">&lt;/header&gt;</span>
+        <span class="tag">&lt;nav&gt;</span> ... <span class="tag">&lt;/nav&gt;</span>
+        <span class="tag">&lt;main&gt;</span> ... <span class="tag">&lt;/main&gt;</span>
+        <span class="tag">&lt;footer&gt;</span> ... <span class="tag">&lt;/footer&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Why "container"?</strong> The word "container" is a convention. It describes the role of the <code>div</code> (it contains everything) rather than how it looks. Conventions like this make code easier to read because other developers recognize the pattern.
+            </div>
+
+            <h3>Fixed vs. Fluid Layouts</h3>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>📏 Fixed Layout</h4>
+                    <p>Page width is a specific pixel value, such as 960 pixels. The layout stays the same size regardless of the visitor's screen width. Simple to design, but leaves wasted space on wide screens and requires horizontal scrolling on small ones.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>💧 Fluid Layout</h4>
+                    <p>Page width is a percentage, such as 90% of the browser window. The layout expands and contracts with the window. More flexible and the foundation of modern responsive design.</p>
+                </div>
+            </div>
+
+            <!-- Hyperlinks -->
+            <h2>🔗 Adding Links to a Webpage</h2>
+
+            <p>Hyperlinks are the defining feature of the web. A <strong>hyperlink</strong> (or <strong>link</strong>) is text, image, or other content that a visitor can click to jump somewhere else. That somewhere might be another page on the same site, a page on a different site, a spot on the current page, an email address, or a phone number.</p>
+
+            <h3>The Anchor Element</h3>
+
+            <p>All hyperlinks use the <strong>anchor element</strong>, written as <code>&lt;a&gt;</code>. The text or image between the opening and closing anchor tags becomes clickable. The destination is set with the <code>href</code> attribute (short for "hypertext reference").</p>
+
+            <div class="syntax-box">
+                <h4>Anchor Element Structure</h4>
+                <pre><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"destination"</span><span class="tag">&gt;</span>Clickable text<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <h3>Default Link States</h3>
+
+            <p>Browsers display links in distinct colors depending on their state. These default colors have been standard for decades so visitors instinctively recognize clickable text.</p>
+
+            <div class="link-demo">
+                <div class="l-row">
+                    <span class="l-label">normal</span>
+                    <span class="l-normal">Unvisited link (typically blue)</span>
+                </div>
+                <div class="l-row">
+                    <span class="l-label">visited</span>
+                    <span class="l-visited">Visited link (typically purple)</span>
+                </div>
+                <div class="l-row">
+                    <span class="l-label">active</span>
+                    <span class="l-active">Active link being clicked (typically red)</span>
+                </div>
+                <div class="l-row">
+                    <span class="l-label">hover</span>
+                    <span class="l-hover">Mouse hovering over the link</span>
+                </div>
+            </div>
+
+            <p>You can override these colors with CSS to match your site's design, but keep the principle: links should look clearly different from regular text.</p>
+
+            <h3>Six Types of Hyperlinks</h3>
+
+            <p>The <code>href</code> attribute can point to many kinds of destinations. Here are the six common types.</p>
+
+            <!-- Relative Links -->
+            <h4>1. Relative Links</h4>
+
+            <p>A <strong>relative link</strong> points to another page on the same website. The path is relative to the current page's location. Because the link stays within the site, you only need to write the part of the path that differs.</p>
+
+            <div class="syntax-box">
+                <h4>Relative Link Examples</h4>
+                <pre><span class="comment">&lt;!-- File in the same folder --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"about.html"</span><span class="tag">&gt;</span>About Us<span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- File in a subfolder --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"menu/breakfast.html"</span><span class="tag">&gt;</span>Breakfast Menu<span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- File in the parent folder --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"../index.html"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <div class="path-example">
+📁 <span class="folder">my-website/</span>
+├── 📄 <span class="file">index.html</span>      <span class="comment"># link with href="index.html"</span>
+├── 📄 <span class="file">about.html</span>      <span class="comment"># same-folder: href="about.html"</span>
+├── 📁 <span class="folder">menu/</span>
+│   └── 📄 <span class="file">breakfast.html</span>  <span class="comment"># from index: href="menu/breakfast.html"</span>
+└── 📁 <span class="folder">images/</span>
+    └── 🖼️ <span class="file">logo.png</span>     <span class="comment"># from index: href="images/logo.png"</span>
+            </div>
+
+            <!-- Absolute Links -->
+            <h4>2. Absolute Links</h4>
+
+            <p>An <strong>absolute link</strong> points to a page on a different website. The full URL including the protocol (<code>https://</code>) and domain name must be included.</p>
+
+            <div class="syntax-box">
+                <h4>Absolute Link Example</h4>
+                <pre><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"https://www.ranken.edu"</span><span class="tag">&gt;</span>
+    Visit Ranken Technical College
+<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Open external links in a new tab.</strong> Add <code>target="_blank"</code> to keep visitors on your site when they click an absolute link. Pair it with <code>rel="noopener"</code> for security.
+            </div>
+
+            <!-- Bookmark Links -->
+            <h4>3. Bookmark Links</h4>
+
+            <p>A <strong>bookmark link</strong> (or anchor link) jumps to a specific spot on a page. You first mark the destination with an <code>id</code> attribute, then link to that id using a hash symbol.</p>
+
+            <div class="syntax-box">
+                <h4>Creating and Linking to a Bookmark</h4>
+                <pre><span class="comment">&lt;!-- Step 1: mark the destination with an id --&gt;</span>
+<span class="tag">&lt;h2</span> <span class="attr">id</span>=<span class="string">"hours"</span><span class="tag">&gt;</span>Our Hours<span class="tag">&lt;/h2&gt;</span>
+
+<span class="comment">&lt;!-- Step 2: link to it from elsewhere on the page --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"#hours"</span><span class="tag">&gt;</span>Jump to Hours<span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- You can also link to a bookmark on another page --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"about.html#hours"</span><span class="tag">&gt;</span>Our Hours<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <!-- Image Links -->
+            <h4>4. Image Links</h4>
+
+            <p>An <strong>image link</strong> turns an image into a hyperlink by wrapping an <code>&lt;img&gt;</code> tag inside an <code>&lt;a&gt;</code> tag. Logos that link back to the home page are a classic example.</p>
+
+            <div class="syntax-box">
+                <h4>Wrapping an Image in a Link</h4>
+                <pre><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"index.html"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"images/logo.png"</span>
+         <span class="attr">alt</span>=<span class="string">"Prairie Bakery home"</span>
+         <span class="attr">width</span>=<span class="string">"200"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Nesting rule.</strong> The image tag goes <em>inside</em> the anchor tag. The opening <code>&lt;a&gt;</code> comes first, then the <code>&lt;img&gt;</code>, then the closing <code>&lt;/a&gt;</code>.
+            </div>
+
+            <!-- Email Links -->
+            <h4>5. Email Links</h4>
+
+            <p>An <strong>email link</strong> opens the visitor's default email program with a new message addressed to you. Use <code>mailto:</code> followed by the email address in the <code>href</code>.</p>
+
+            <div class="syntax-box">
+                <h4>Email Link with Subject and Body</h4>
+                <pre><span class="comment">&lt;!-- Simple email link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"mailto:hello@prairiebakery.com"</span><span class="tag">&gt;</span>
+    Email us
+<span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Email link with subject and body pre-filled --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"mailto:hello@prairiebakery.com?subject=Catering%20Inquiry&amp;body=Hi,%20I'd%20like..."</span><span class="tag">&gt;</span>
+    Ask about catering
+<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <!-- Telephone Links -->
+            <h4>6. Telephone Links</h4>
+
+            <p>A <strong>telephone link</strong> starts a phone call when tapped on a mobile device. Use <code>tel:</code> followed by the phone number. These links are especially useful on mobile-first websites.</p>
+
+            <div class="syntax-box">
+                <h4>Telephone Link</h4>
+                <pre><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"tel:+15555551234"</span><span class="tag">&gt;</span>
+    Call (555) 555-1234
+<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <h3>Writing Good Link Text</h3>
+
+            <p>The clickable text of a link should describe where the link goes. "Click here" tells the visitor nothing. Screen readers often read through a list of links in isolation, so descriptive text matters for accessibility too.</p>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>✅ Descriptive</h4>
+                    <code>Read our <strong>shipping policy</strong></code>
+                    <p style="margin-top:8px;">The link text describes the destination.</p>
+                </div>
+                <div class="comparison-item bad">
+                    <h4>❌ Vague</h4>
+                    <code>For our shipping policy, <strong>click here</strong></code>
+                    <p style="margin-top:8px;">A screen reader user hearing "click here" in a link list has no idea where it goes.</p>
+                </div>
+            </div>
+
+            <!-- Attribute Syntax Reminder -->
+            <h3>Attribute Syntax Reminder</h3>
+
+            <p>Every HTML attribute follows the same pattern: the attribute name, an equals sign, and the value in quotation marks.</p>
+
+            <div class="syntax-box">
+                <h4>The Shape of an Attribute</h4>
+                <pre><span class="attr">name</span>=<span class="string">"value"</span></pre>
+            </div>
+
+            <p>Tags can have many attributes, separated by spaces: <code>&lt;img src="photo.jpg" alt="A photo" width="400"&gt;</code>. Order doesn't matter, but consistent order makes code easier to read.</p>
+
+            <!-- Lists -->
+            <h2>📋 Creating Lists</h2>
+
+            <p>HTML supports three kinds of lists. Picking the right type carries meaning: a numbered list implies order and priority, a bulleted list implies a group of equal items, and a description list implies pairs of terms and definitions.</p>
+
+            <h3>Ordered Lists</h3>
+
+            <p>An <strong>ordered list</strong> numbers its items automatically. Use it when the sequence matters, such as steps in a recipe, ranked items, or a process.</p>
+
+            <div class="list-columns">
+                <div>
+                    <h5>HTML</h5>
+                    <pre><span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Preheat oven<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Mix ingredients<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Bake 20 minutes<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></pre>
+                </div>
+                <div class="list-demo">
+                    <h5>Displays as</h5>
+                    <ol>
+                        <li>Preheat oven</li>
+                        <li>Mix ingredients</li>
+                        <li>Bake 20 minutes</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>Unordered Lists</h3>
+
+            <p>An <strong>unordered list</strong> displays items with bullets. Use it when the items are a group of equal peers and the order doesn't matter, such as features, ingredients, or navigation links.</p>
+
+            <div class="list-columns">
+                <div>
+                    <h5>HTML</h5>
+                    <pre><span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Sourdough loaves<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Croissants<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Fresh pastries<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+                </div>
+                <div class="list-demo">
+                    <h5>Displays as</h5>
+                    <ul>
+                        <li>Sourdough loaves</li>
+                        <li>Croissants</li>
+                        <li>Fresh pastries</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Description Lists</h3>
+
+            <p>A <strong>description list</strong> pairs terms with their descriptions. Use it for glossaries, key/value pairs, or any content where each item has a label and an explanation.</p>
+
+            <p>Description lists use three tags that work together:</p>
+
+            <ul>
+                <li><code>&lt;dl&gt;</code> wraps the whole description list</li>
+                <li><code>&lt;dt&gt;</code> holds the term (the word being defined)</li>
+                <li><code>&lt;dd&gt;</code> holds the description of that term</li>
+            </ul>
+
+            <div class="list-columns">
+                <div>
+                    <h5>HTML</h5>
+                    <pre><span class="tag">&lt;dl&gt;</span>
+    <span class="tag">&lt;dt&gt;</span>Baguette<span class="tag">&lt;/dt&gt;</span>
+    <span class="tag">&lt;dd&gt;</span>A long, thin French loaf
+        with a crisp crust.<span class="tag">&lt;/dd&gt;</span>
+
+    <span class="tag">&lt;dt&gt;</span>Ciabatta<span class="tag">&lt;/dt&gt;</span>
+    <span class="tag">&lt;dd&gt;</span>An Italian bread with a
+        soft, airy interior.<span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span></pre>
+                </div>
+                <div class="list-demo">
+                    <h5>Displays as</h5>
+                    <dl>
+                        <dt>Baguette</dt>
+                        <dd>A long, thin French loaf with a crisp crust.</dd>
+                        <dt>Ciabatta</dt>
+                        <dd>An Italian bread with a soft, airy interior.</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <h3>Nested Lists</h3>
+
+            <p>Any list item can contain another complete list. This is useful for hierarchical content such as an outline or a multi-level menu.</p>
+
+            <div class="syntax-box">
+                <h4>A Nested Unordered List</h4>
+                <pre><span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Breads
+        <span class="tag">&lt;ul&gt;</span>
+            <span class="tag">&lt;li&gt;</span>Sourdough<span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span>Whole wheat<span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Pastries<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+            </div>
+
+            <!-- Embedded Map -->
+            <h2>🗺️ Embedding a Map</h2>
+
+            <p>Many businesses include a map on their contact page so visitors can see the location at a glance. You don't build the map yourself. You embed one from a service like Google Maps using an <code>&lt;iframe&gt;</code> element.</p>
+
+            <h3>What an iframe Does</h3>
+
+            <p>An <strong>iframe</strong> (inline frame) displays content from another webpage inside your own page. It is a window into someone else's content. Maps, YouTube videos, and some social media widgets are all commonly embedded this way.</p>
+
+            <h3>Embedding from Google Maps</h3>
+
+            <div class="highlight-box">
+                <h4>The Embed Process</h4>
+                <ol>
+                    <li>Go to <code>maps.google.com</code> and search for your location.</li>
+                    <li>Click the <strong>Share</strong> button.</li>
+                    <li>Choose the <strong>Embed a map</strong> tab.</li>
+                    <li>Pick a size, then copy the HTML code Google provides.</li>
+                    <li>Paste that code into your page where you want the map to appear.</li>
+                </ol>
+            </div>
+
+            <div class="syntax-box">
+                <h4>The Shape of an iframe</h4>
+                <pre><span class="tag">&lt;iframe</span>
+    <span class="attr">src</span>=<span class="string">"https://www.google.com/maps/embed?pb=..."</span>
+    <span class="attr">width</span>=<span class="string">"600"</span>
+    <span class="attr">height</span>=<span class="string">"450"</span>
+    <span class="attr">title</span>=<span class="string">"Prairie Bakery location map"</span>
+    <span class="attr">loading</span>=<span class="string">"lazy"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/iframe&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Always include a <code>title</code> attribute.</strong> Screen readers use it to announce the purpose of the embedded content. Without it, the iframe is effectively invisible to users of assistive technology.
+            </div>
+
+            <!-- Testing and Validating -->
+            <h2>🧪 Testing and Validating</h2>
+
+            <p>After adding images and links to a page, two checks matter: every link should actually work, and the page should still validate as proper HTML.</p>
+
+            <h3>Testing Your Links</h3>
+
+            <p>Open the page in a browser and click every link. Look for these specific problems:</p>
+
+            <ul>
+                <li><strong>Broken links.</strong> The target page doesn't exist or the path is wrong. You'll see a "404 Not Found" error.</li>
+                <li><strong>Wrong destination.</strong> The link works but goes somewhere unexpected. Usually a typo in the <code>href</code>.</li>
+                <li><strong>Images not loading.</strong> A broken image icon or the alt text appears in place of the image.</li>
+                <li><strong>External links open in the same tab.</strong> A visitor who follows an external link may not find their way back.</li>
+                <li><strong>Email links don't open an email.</strong> Usually a typo in <code>mailto:</code>.</li>
+            </ul>
+
+            <h3>Validating New Pages</h3>
+
+            <p>Run each new page through the W3C validator at <code>validator.w3.org</code>. Images and links introduce new ways to make mistakes: missing <code>alt</code> attributes, unclosed anchor tags, and duplicate <code>id</code> values are all common.</p>
+
+            <!-- Best Practices -->
+            <h2>✨ Best Practices</h2>
+
+            <div class="highlight-box">
+                <h4>Habits for images and links</h4>
+                <ul>
+                    <li><strong>Always include alt text on images.</strong> Required for accessibility and valid HTML.</li>
+                    <li><strong>Optimize images before uploading.</strong> Resize and compress in a photo editor, not just in the HTML attributes.</li>
+                    <li><strong>Use descriptive link text.</strong> Avoid "click here" at all costs.</li>
+                    <li><strong>Prefer relative links within your site.</strong> They keep working even if you move the site to a new domain.</li>
+                    <li><strong>Use absolute links only for external sites.</strong> They lock you to a specific URL.</li>
+                    <li><strong>Open external links in a new tab.</strong> Keeps visitors on your site while letting them explore.</li>
+                    <li><strong>Keep filenames lowercase and use hyphens.</strong> Avoid spaces, special characters, and mixed capitalization.</li>
+                    <li><strong>Pick the right image format.</strong> JPEG for photos, PNG for graphics with transparency, SVG for logos and icons.</li>
+                    <li><strong>Test every link after adding it.</strong> A single broken link damages the visitor's trust in the whole site.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Reference -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Core Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pixel</td>
+                            <td>The smallest unit of light or color on a screen</td>
+                        </tr>
+                        <tr>
+                            <td>Lossy compression</td>
+                            <td>Compression that discards some data to shrink the file (JPEG)</td>
+                        </tr>
+                        <tr>
+                            <td>Lossless compression</td>
+                            <td>Compression that preserves all data (PNG, GIF)</td>
+                        </tr>
+                        <tr>
+                            <td>Optimize</td>
+                            <td>To reduce an image's file size without noticeable quality loss</td>
+                        </tr>
+                        <tr>
+                            <td>Image tag</td>
+                            <td>The <code>&lt;img&gt;</code> element that places an image on a page</td>
+                        </tr>
+                        <tr>
+                            <td><code>src</code> attribute</td>
+                            <td>The source path where the browser finds an image file</td>
+                        </tr>
+                        <tr>
+                            <td><code>alt</code> attribute</td>
+                            <td>Alternate text read by screen readers or shown when an image fails to load</td>
+                        </tr>
+                        <tr>
+                            <td><code>width</code> / <code>height</code></td>
+                            <td>Display dimensions of an image in pixels</td>
+                        </tr>
+                        <tr>
+                            <td>Div element</td>
+                            <td>A generic container that groups content for layout or styling</td>
+                        </tr>
+                        <tr>
+                            <td><code>id</code> attribute</td>
+                            <td>A unique identifier for a single element on a page</td>
+                        </tr>
+                        <tr>
+                            <td>Style attribute</td>
+                            <td>An inline CSS rule written directly on an element</td>
+                        </tr>
+                        <tr>
+                            <td>Hyperlink / link</td>
+                            <td>Clickable content that jumps to another resource</td>
+                        </tr>
+                        <tr>
+                            <td>Anchor element</td>
+                            <td>The <code>&lt;a&gt;</code> element used to create a hyperlink</td>
+                        </tr>
+                        <tr>
+                            <td><code>href</code> attribute</td>
+                            <td>Hypertext reference that specifies a link's destination</td>
+                        </tr>
+                        <tr>
+                            <td>Relative link</td>
+                            <td>A link to another page on the same website</td>
+                        </tr>
+                        <tr>
+                            <td>Absolute link</td>
+                            <td>A link to a page on a different website, using a full URL</td>
+                        </tr>
+                        <tr>
+                            <td>Bookmark link</td>
+                            <td>A link to a specific spot on a page, marked with an <code>id</code></td>
+                        </tr>
+                        <tr>
+                            <td>Email link</td>
+                            <td>A link using <code>mailto:</code> that opens a new email message</td>
+                        </tr>
+                        <tr>
+                            <td>Telephone link</td>
+                            <td>A link using <code>tel:</code> that starts a phone call on mobile</td>
+                        </tr>
+                        <tr>
+                            <td>Ordered list</td>
+                            <td>A numbered list using <code>&lt;ol&gt;</code> and <code>&lt;li&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Unordered list</td>
+                            <td>A bulleted list using <code>&lt;ul&gt;</code> and <code>&lt;li&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Description list</td>
+                            <td>A list of term/description pairs using <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Iframe</td>
+                            <td>An inline frame that displays another page inside your page</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Design Quick Guides</a></p>
+            <p>Responsive Web Design Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>

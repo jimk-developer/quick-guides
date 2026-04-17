@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Responsive Web Design Quick Guides</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E34F26;
+            --primary-dark: #B8371A;
+            --accent: #00D8FF;
+            --bg-dark: #1E1E1E;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --border: #E1E1E1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #E34F26 0%, #B8371A 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            border-radius: 15px 15px 0 0;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* Guide Cards Grid */
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .guide-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: #F8F9FA;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .guide-card:hover {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 8px 25px rgba(227, 79, 38, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .guide-card .icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .guide-card .content h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .guide-card .content p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Coming Soon Cards */
+        .guide-card.coming-soon {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .guide-card.coming-soon h3 {
+            color: #888;
+        }
+
+        /* Resources Section */
+        .resources-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid var(--border);
+        }
+
+        .resources-section h2 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: #F8F9FA;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .resource-item:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-item .icon {
+            font-size: 1.5rem;
+        }
+
+        .resource-item .text h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .resource-item .text p {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Responsive Web Design Quick Guides</h1>
+            <p>Quick Reference for HTML5, CSS, and Modern Web Design</p>
+        </header>
+
+        <main>
+            <!-- Guide Cards -->
+            <div class="guides-grid">
+                <a href="guide1-intro-internet-web-design.html" target="_blank" class="guide-card">
+                    <span class="icon">🌐</span>
+                    <div class="content">
+                        <h3>Guide 1: Introduction to the Internet and Web Design</h3>
+                        <p>Internet basics, protocols, website planning, wireframes, HTML fundamentals, and authoring tools</p>
+                    </div>
+                </a>
+
+                <a href="guide2-webpage-template-html5.html" target="_blank" class="guide-card">
+                    <span class="icon">🧱</span>
+                    <div class="content">
+                        <h3>Guide 2: Building a Webpage Template with HTML 5</h3>
+                        <p>Semantic elements, templates, comments, symbol entities, headings, and W3C validation</p>
+                    </div>
+                </a>
+
+                <a href="guide3-images-and-links.html" target="_blank" class="guide-card">
+                    <span class="icon">🔗</span>
+                    <div class="content">
+                        <h3>Guide 3: Enhancing a Website with Images and Links</h3>
+                        <p>Image formats, div elements, hyperlinks (relative, absolute, bookmark, email, telephone), lists, and embedded maps</p>
+                    </div>
+                </a>
+
+                <div class="guide-card coming-soon">
+                    <span class="icon">🎨</span>
+                    <div class="content">
+                        <h3>Guide 4: Introduction to CSS</h3>
+                        <p>Selectors, the box model, colors, typography, and linking stylesheets</p>
+                    </div>
+                </div>
+
+                <div class="guide-card coming-soon">
+                    <span class="icon">📐</span>
+                    <div class="content">
+                        <h3>Guide 5: Page Layout with Flexbox and Grid</h3>
+                        <p>Modern CSS layout techniques for responsive page design</p>
+                    </div>
+                </div>
+
+                <div class="guide-card coming-soon">
+                    <span class="icon">📱</span>
+                    <div class="content">
+                        <h3>Guide 6: Responsive Design and Media Queries</h3>
+                        <p>Mobile-first design, breakpoints, and viewport units</p>
+                    </div>
+                </div>
+
+                <div class="guide-card coming-soon">
+                    <span class="icon">📋</span>
+                    <div class="content">
+                        <h3>Guide 7: HTML Forms</h3>
+                        <p>Input types, labels, buttons, validation, and form accessibility</p>
+                    </div>
+                </div>
+
+                <div class="guide-card coming-soon">
+                    <span class="icon">♿</span>
+                    <div class="content">
+                        <h3>Guide 8: Accessibility and Best Practices</h3>
+                        <p>WCAG principles, ARIA, keyboard navigation, and inclusive design</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <section class="resources-section">
+                <h2>🔗 Additional Resources</h2>
+                <div class="resource-links">
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" class="resource-item">
+                        <span class="icon">📘</span>
+                        <div class="text">
+                            <h4>MDN HTML Reference</h4>
+                            <p>Complete HTML documentation</p>
+                        </div>
+                    </a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" class="resource-item">
+                        <span class="icon">🎨</span>
+                        <div class="text">
+                            <h4>MDN CSS Reference</h4>
+                            <p>Complete CSS documentation</p>
+                        </div>
+                    </a>
+                    <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" class="resource-item">
+                        <span class="icon">♿</span>
+                        <div class="text">
+                            <h4>WCAG Quick Reference</h4>
+                            <p>W3C accessibility guidelines</p>
+                        </div>
+                    </a>
+                    <a href="https://validator.w3.org/" target="_blank" class="resource-item">
+                        <span class="icon">✅</span>
+                        <div class="text">
+                            <h4>W3C Validator</h4>
+                            <p>Check your HTML for errors</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Responsive Web Design Quick Guides • Learning Resource</p>
+        </footer>
+    </div>
+</body>
+</html>
