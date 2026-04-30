@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide 5: Designing for Mobile Devices</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #475569;
+            --primary-dark: #334155;
+            --accent: #06B6D4;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent) 0%, #0891B2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0 0 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        pre .tag { color: #569CD6; }
+        pre .attr { color: #9CDCFE; }
+        pre .string { color: #CE9178; }
+        pre .comment { color: #6A9955; }
+        pre .text { color: #D4D4D4; }
+        pre .selector { color: #D7BA7D; }
+        pre .property { color: #9CDCFE; }
+        pre .value { color: #CE9178; }
+        pre .punct { color: #D4D4D4; }
+        pre .keyword { color: #C586C0; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(71, 85, 105, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Device frame visual for mobile-first concept */
+        .devices-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 20px;
+            background: #F1F5F9;
+            border-radius: 12px;
+        }
+
+        .device {
+            background: #1E293B;
+            border-radius: 14px;
+            padding: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .device-screen {
+            background: linear-gradient(180deg, #06B6D4 0%, #0891B2 100%);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .device-phone .device-screen {
+            width: 80px;
+            height: 140px;
+        }
+
+        .device-tablet .device-screen {
+            width: 160px;
+            height: 200px;
+        }
+
+        .device-desktop .device-screen {
+            width: 280px;
+            height: 180px;
+        }
+
+        .device-label {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        /* Viewport demo */
+        .viewport-demo {
+            background: #F1F5F9;
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .viewport-frame {
+            background: white;
+            border: 3px solid #1E293B;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .viewport-frame::before {
+            content: "viewport";
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            background: #1E293B;
+            color: white;
+            padding: 2px 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .viewport-content {
+            background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Layout comparison: fixed vs fluid */
+        .layout-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .layout-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .layout-card h4 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .layout-svg {
+            width: 100%;
+            height: 130px;
+            margin-top: 10px;
+        }
+
+        /* Pseudo-class state demo */
+        .state-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .state-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 15px;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .state-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .state-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            background: var(--primary);
+            color: white;
+        }
+
+        .state-pill-hover {
+            background: #0891B2;
+        }
+
+        .state-pill-visited {
+            background: #581C87;
+        }
+
+        .state-pill-active {
+            background: #BE123C;
+        }
+
+        .state-pill-focus {
+            background: var(--primary);
+            box-shadow: 0 0 0 3px #67E8F9;
+        }
+
+        .state-pill-firstchild {
+            background: #047857;
+        }
+
+        /* Mobile-first ladder */
+        .ladder {
+            background: #F1F5F9;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .ladder-step {
+            background: white;
+            border-left: 5px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .ladder-step .step-num {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Sticky element visual */
+        .sticky-demo {
+            background: #F1F5F9;
+            border-radius: 10px;
+            padding: 0;
+            margin: 20px 0;
+            height: 200px;
+            overflow-y: auto;
+            border: 2px solid #CBD5E1;
+        }
+
+        .sticky-bar {
+            position: sticky;
+            top: 0;
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .sticky-content {
+            padding: 20px;
+        }
+
+        .sticky-content p {
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            color: #475569;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .layout-compare {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide 5: Designing for Mobile Devices</h1>
+        <p>Responsive Design, Mobile-First Strategy, Viewports, Media Queries, and Pseudo-Classes</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Learning Objectives -->
+            <h2>🎯 Learning Objectives</h2>
+
+            <p>By the end of this guide, you will be able to:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📱 Understand Responsive Design</h4>
+                    <p>Explain the three pillars of responsive design and why mobile users matter most.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🚀 Use a Mobile-First Strategy</h4>
+                    <p>Build for the smallest screen first, then enhance for larger devices.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🪟 Set the Viewport</h4>
+                    <p>Add the meta viewport element so the browser scales the page correctly.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📐 Choose CSS Units</h4>
+                    <p>Pick between absolute and relative units for fluid, flexible layouts.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 Write Media Queries</h4>
+                    <p>Apply different style rules at different viewport widths.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📌 Create Sticky Elements</h4>
+                    <p>Pin a navigation bar or header to stay visible as the page scrolls.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎨 Use Custom Fonts</h4>
+                    <p>Integrate Google Fonts and other custom typography into a website.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎯 Use Pseudo-Classes</h4>
+                    <p>Style elements based on user interaction such as hover, focus, and active states.</p>
+                </div>
+            </div>
+
+            <!-- The Mobile Reality -->
+            <h2>📱 The Mobile Reality</h2>
+
+            <p>For most of the early web's history, websites were built almost exclusively for desktop computers. Then smartphones arrived. Today, more than half of all web traffic comes from mobile devices, and for many sites the majority of visitors are on a phone.</p>
+
+            <p>A site that only works well on a 27-inch monitor is failing most of its audience. The job of a modern web designer is to build pages that look good and work smoothly on every screen, from a 4-inch phone to a 32-inch display.</p>
+
+            <div class="devices-row">
+                <div>
+                    <div class="device device-phone">
+                        <div class="device-screen">320 to<br>480 px</div>
+                    </div>
+                    <div class="device-label">Phone</div>
+                </div>
+                <div>
+                    <div class="device device-tablet">
+                        <div class="device-screen">768 to<br>1024 px</div>
+                    </div>
+                    <div class="device-label">Tablet</div>
+                </div>
+                <div>
+                    <div class="device device-desktop">
+                        <div class="device-screen">1280 px and up</div>
+                    </div>
+                    <div class="device-label">Desktop</div>
+                </div>
+            </div>
+
+            <h3>Two Approaches to Mobile</h3>
+
+            <p>There are two strategies for serving mobile visitors: build a separate mobile website, or design one responsive website that adapts to every screen.</p>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>❌ Separate Mobile Website</h4>
+                    <p>A second site at a different address (often <code>m.example.com</code>) built specifically for phones. Visitors get redirected based on their device.</p>
+                    <p style="margin-top:10px;"><strong>Drawbacks:</strong> Two sites to maintain, two URLs to remember, content can drift between them, and converting an existing large site to a separate mobile version is slow.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>✅ Responsive Design</h4>
+                    <p>One website with one URL. The same HTML and CSS adjust their layout based on the visitor's screen size. The page rearranges itself.</p>
+                    <p style="margin-top:10px;"><strong>Benefits:</strong> One codebase to maintain, one URL for sharing and search rankings, content stays in sync, and the design naturally accommodates new device sizes.</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Responsive design is the modern standard.</strong> Almost every website built today uses responsive techniques. Separate mobile sites are now considered a legacy approach.
+            </div>
+
+            <!-- Three Pillars -->
+            <h2>🏛️ The Three Pillars of Responsive Design</h2>
+
+            <p>Responsive design isn't a single feature. It's a combination of three CSS techniques that work together.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>💧 Fluid Layouts</h4>
+                    <p>Layout dimensions use relative units (percentages, <code>rem</code>, <code>em</code>, <code>vw</code>) instead of fixed pixel values. Columns expand and contract with the viewport.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🖼️ Responsive Images</h4>
+                    <p>Images grow and shrink with their container instead of having fixed dimensions. One short CSS rule does most of the work.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 Media Queries</h4>
+                    <p>CSS rules that detect the device's media type or capability and apply different styles based on screen width or other conditions.</p>
+                </div>
+            </div>
+
+            <p>Use all three together and a single page rearranges itself for whatever device the visitor is using.</p>
+
+            <!-- Viewport -->
+            <h2>🪟 The Viewport</h2>
+
+            <p>The <strong>viewport</strong> is the visible area of a webpage inside the browser window. The word "viewport" is preferred over "window" because mobile browsers and embedded browsers don't always have a traditional window. The viewport is whatever rectangular area is currently displaying the page.</p>
+
+            <div class="viewport-demo">
+                <div class="viewport-frame">
+                    <div class="viewport-content">The viewport is the visible area of the page</div>
+                </div>
+            </div>
+
+            <h3>The Meta Viewport Element</h3>
+
+            <p>By default, mobile browsers assume a webpage was designed for a desktop screen. They render the page at a desktop width and then shrink it to fit the phone. The result is text and tap targets that are too small to use comfortably.</p>
+
+            <p>To prevent this, every responsive HTML page must include a <strong>meta viewport element</strong> in the <code>&lt;head&gt;</code>. This single line tells the browser to render the page at the device's actual width.</p>
+
+            <div class="syntax-box">
+                <h4>The Meta Viewport Element</h4>
+                <pre><span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span>
+      <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span></pre>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setting</th>
+                        <th>What It Does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>width=device-width</code></td>
+                        <td>Sets the viewport width to match the actual screen width of the device.</td>
+                    </tr>
+                    <tr>
+                        <td><code>initial-scale=1.0</code></td>
+                        <td>Starts the page at 100% zoom level when first loaded.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Don't skip this.</strong> Without the meta viewport element, your responsive CSS won't work on mobile devices. The browser will pretend it has a desktop-sized screen and shrink everything down. Add it to every HTML file before doing anything else.
+            </div>
+
+            <!-- Mobile First -->
+            <h2>🚀 The Mobile-First Strategy</h2>
+
+            <p>The <strong>mobile-first strategy</strong> is exactly what it sounds like: design for the smallest screen first, then layer on enhancements for larger screens. It is the opposite of starting with a desktop design and trying to cram it into a phone.</p>
+
+            <h3>Why Mobile First Works</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🎯 Forces Prioritization</h4>
+                    <p>A small screen has little room. Designing it first forces you to decide what content really matters and to leave behind anything that doesn't.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>⚡ Better Performance</h4>
+                    <p>Mobile devices often have slower connections. Building lean from the start means a faster site for everyone.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🪜 Progressive Enhancement</h4>
+                    <p>Adding features for bigger screens is easier than removing features for smaller ones. Start simple and grow.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📊 Where Visitors Live</h4>
+                    <p>Mobile traffic dominates most sites. Designing for the majority of your audience first is just good practice.</p>
+                </div>
+            </div>
+
+            <h3>Mobile-First in Five Steps</h3>
+
+            <div class="ladder">
+                <div class="ladder-step">
+                    <div class="step-num">1</div>
+                    <div><strong>Add the meta viewport element</strong> to every HTML file.</div>
+                </div>
+                <div class="ladder-step">
+                    <div class="step-num">2</div>
+                    <div><strong>Write base styles for mobile</strong>. Use a single column. Make text large enough to read. Make tap targets large enough to tap.</div>
+                </div>
+                <div class="ladder-step">
+                    <div class="step-num">3</div>
+                    <div><strong>Test in a mobile viewport</strong> using your browser's device mode or a mobile simulator.</div>
+                </div>
+                <div class="ladder-step">
+                    <div class="step-num">4</div>
+                    <div><strong>Add media queries</strong> with progressively larger breakpoints, expanding the layout for tablets, then desktops.</div>
+                </div>
+                <div class="ladder-step">
+                    <div class="step-num">5</div>
+                    <div><strong>Test on real devices</strong>. Simulators are good, but actual phones reveal issues simulators miss.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Mobile-first design principles:</strong> a single-column layout to avoid horizontal scrolling, large touchable buttons, plenty of spacing between tap targets, readable text at default zoom, and an ideal page that doesn't require any scrolling at all on common phone screens.
+            </div>
+
+            <!-- CSS Units -->
+            <h2>📐 CSS Units of Measurement</h2>
+
+            <p>Responsive sites depend on relative units of measurement. Where a fixed-pixel design says "this column is exactly 300 pixels wide", a fluid design says "this column is 50% of its parent" or "this column is 20rem wide". Relative units adjust automatically.</p>
+
+            <h3>Absolute Units</h3>
+
+            <p><strong>Absolute units</strong> are fixed sizes that never change regardless of context.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Name</th>
+                        <th>Use For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>px</code></td>
+                        <td>Pixels</td>
+                        <td>Borders, small fixed details. The most common absolute unit on the web.</td>
+                    </tr>
+                    <tr>
+                        <td><code>pt</code></td>
+                        <td>Points</td>
+                        <td>Print stylesheets only. Avoid for screen.</td>
+                    </tr>
+                    <tr>
+                        <td><code>cm</code> / <code>mm</code> / <code>in</code></td>
+                        <td>Centimeters / millimeters / inches</td>
+                        <td>Print stylesheets. Rarely useful on screen.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Relative Units</h3>
+
+            <p><strong>Relative units</strong> scale based on something else: the parent element's size, the root element's size, or the viewport's size. These are the workhorses of responsive design.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Relative To</th>
+                        <th>Common Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>%</code></td>
+                        <td>The parent element's size</td>
+                        <td>Column widths, container widths</td>
+                    </tr>
+                    <tr>
+                        <td><code>em</code></td>
+                        <td>The current element's font size</td>
+                        <td>Padding and margins relative to text size</td>
+                    </tr>
+                    <tr>
+                        <td><code>rem</code></td>
+                        <td>The root element's font size (usually 16px)</td>
+                        <td>Font sizes, spacing throughout the site</td>
+                    </tr>
+                    <tr>
+                        <td><code>vw</code> / <code>vh</code></td>
+                        <td>1% of viewport width / height</td>
+                        <td>Hero sections, full-screen elements</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <strong>Rule of thumb:</strong> use <code>rem</code> for font sizes and spacing, <code>%</code> for column widths, and <code>px</code> only for fine details like 1-pixel borders.
+            </div>
+
+            <!-- Fluid Layouts -->
+            <h2>💧 Fluid Layouts</h2>
+
+            <p>A <strong>fluid layout</strong> uses percentage-based widths so columns expand and contract with the viewport. A <strong>fixed layout</strong> uses pixel widths and stays the same size regardless of screen.</p>
+
+            <div class="layout-compare">
+                <div class="layout-card">
+                    <h4>📏 Fixed Layout</h4>
+                    <svg class="layout-svg" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="60" y="10" width="180" height="20" rx="3" fill="#CBD5E1" stroke="#475569" stroke-width="2"/>
+                        <rect x="60" y="40" width="80" height="60" rx="3" fill="#06B6D4" stroke="#475569" stroke-width="2"/>
+                        <rect x="150" y="40" width="90" height="60" rx="3" fill="#06B6D4" stroke="#475569" stroke-width="2"/>
+                        <rect x="60" y="105" width="180" height="15" rx="3" fill="#CBD5E1" stroke="#475569" stroke-width="2"/>
+                        <text x="0" y="65" font-family="monospace" font-size="9" fill="#475569">960px</text>
+                        <text x="245" y="65" font-family="monospace" font-size="9" fill="#475569">empty</text>
+                    </svg>
+                    <p style="font-size:0.9rem;color:#666;margin:0;">Width is a fixed pixel value. Wide screens leave empty space; narrow screens require horizontal scrolling.</p>
+                </div>
+                <div class="layout-card">
+                    <h4>💧 Fluid Layout</h4>
+                    <svg class="layout-svg" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="10" width="280" height="20" rx="3" fill="#CBD5E1" stroke="#475569" stroke-width="2"/>
+                        <rect x="10" y="40" width="135" height="60" rx="3" fill="#06B6D4" stroke="#475569" stroke-width="2"/>
+                        <rect x="155" y="40" width="135" height="60" rx="3" fill="#06B6D4" stroke="#475569" stroke-width="2"/>
+                        <rect x="10" y="105" width="280" height="15" rx="3" fill="#CBD5E1" stroke="#475569" stroke-width="2"/>
+                        <text x="60" y="74" font-family="monospace" font-size="9" fill="white">50%</text>
+                        <text x="205" y="74" font-family="monospace" font-size="9" fill="white">50%</text>
+                    </svg>
+                    <p style="font-size:0.9rem;color:#666;margin:0;">Width is a percentage. Layout fills available space at any screen size.</p>
+                </div>
+            </div>
+
+            <h3>Building a Fluid Layout</h3>
+
+            <div class="syntax-box">
+                <h4>Container with Percentage Children</h4>
+                <pre><span class="comment">/* Container takes full width up to a max */</span>
+<span class="selector">#container</span> <span class="punct">{</span>
+    <span class="property">width</span><span class="punct">:</span> <span class="value">100%</span><span class="punct">;</span>
+    <span class="property">max-width</span><span class="punct">:</span> <span class="value">1200px</span><span class="punct">;</span>
+    <span class="property">margin</span><span class="punct">:</span> <span class="value">0 auto</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Two-column layout using percentages */</span>
+<span class="selector">.column</span> <span class="punct">{</span>
+    <span class="property">width</span><span class="punct">:</span> <span class="value">50%</span><span class="punct">;</span>
+    <span class="property">float</span><span class="punct">:</span> <span class="value">left</span><span class="punct">;</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">1rem</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Media Queries -->
+            <h2>🔍 Media Queries</h2>
+
+            <p>A <strong>media query</strong> is a CSS feature that detects the media type and capabilities of the device viewing the page, then applies different style rules accordingly. Most often, media queries detect <strong>viewport width</strong> and switch the layout when the screen passes a specific size, called a <strong>breakpoint</strong>.</p>
+
+            <h3>The Shape of a Media Query</h3>
+
+            <p>A media query starts with the <code>@media</code> keyword, followed by a condition in parentheses, then a block of CSS rules in curly braces. The rules inside only apply when the condition is true.</p>
+
+            <div class="syntax-box">
+                <h4>A Media Query for Tablets and Larger</h4>
+                <pre><span class="comment">/* Base styles apply to mobile (and everything) */</span>
+<span class="selector">.column</span> <span class="punct">{</span>
+    <span class="property">width</span><span class="punct">:</span> <span class="value">100%</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* When viewport is 768px or wider, use two columns */</span>
+<span class="keyword">@media</span> <span class="punct">(</span><span class="property">min-width</span><span class="punct">:</span> <span class="value">768px</span><span class="punct">) {</span>
+    <span class="selector">.column</span> <span class="punct">{</span>
+        <span class="property">width</span><span class="punct">:</span> <span class="value">50%</span><span class="punct">;</span>
+        <span class="property">float</span><span class="punct">:</span> <span class="value">left</span><span class="punct">;</span>
+    <span class="punct">}</span>
+<span class="punct">}</span>
+
+<span class="comment">/* When viewport is 1200px or wider, use three columns */</span>
+<span class="keyword">@media</span> <span class="punct">(</span><span class="property">min-width</span><span class="punct">:</span> <span class="value">1200px</span><span class="punct">) {</span>
+    <span class="selector">.column</span> <span class="punct">{</span>
+        <span class="property">width</span><span class="punct">:</span> <span class="value">33.33%</span><span class="punct">;</span>
+    <span class="punct">}</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <h3>Common Breakpoints</h3>
+
+            <p>There is no official list of breakpoints, but these widths are widely used because they correspond to common device sizes.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Breakpoint</th>
+                        <th>Targets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>480px</code></td>
+                        <td>Larger phones in landscape</td>
+                    </tr>
+                    <tr>
+                        <td><code>768px</code></td>
+                        <td>Tablets in portrait</td>
+                    </tr>
+                    <tr>
+                        <td><code>1024px</code></td>
+                        <td>Tablets in landscape and small laptops</td>
+                    </tr>
+                    <tr>
+                        <td><code>1200px</code></td>
+                        <td>Standard desktops</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Mobile-first uses <code>min-width</code>.</strong> Start with mobile styles outside any media query. Then add <code>@media (min-width: ...)</code> blocks to enhance larger screens. The opposite approach (starting desktop and using <code>max-width</code> to shrink down) tends to produce slower, harder-to-maintain stylesheets.
+            </div>
+
+            <!-- Responsive Images -->
+            <h2>🖼️ Responsive Images</h2>
+
+            <p><strong>Responsive images</strong> grow and shrink with their container so they look right at any screen size. The CSS that makes this work is short and applies globally.</p>
+
+            <div class="syntax-box">
+                <h4>Making All Images Responsive</h4>
+                <pre><span class="selector">img</span> <span class="punct">{</span>
+    <span class="property">max-width</span><span class="punct">:</span> <span class="value">100%</span><span class="punct">;</span>
+    <span class="property">height</span><span class="punct">:</span> <span class="value">auto</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <p><code>max-width: 100%</code> means the image never exceeds the width of its container. <code>height: auto</code> preserves the aspect ratio so the image doesn't get stretched or squashed.</p>
+
+            <div class="warning-box">
+                <strong>Strip the inline width and height attributes.</strong> If your <code>&lt;img&gt;</code> tags still have <code>width="800"</code> and <code>height="450"</code> attributes from a previous design, those can fight your CSS rules. Remove them and let CSS handle sizing.
+            </div>
+
+            <!-- Sticky Elements -->
+            <h2>📌 Sticky Elements</h2>
+
+            <p>A <strong>sticky element</strong> behaves like a normal block element until you scroll past where it would normally sit, at which point it sticks to a chosen edge of the viewport and stays visible. Sticky headers and navigation bars are the most common use.</p>
+
+            <div class="sticky-demo">
+                <div class="sticky-bar">📌 This nav bar stays at the top as you scroll</div>
+                <div class="sticky-content">
+                    <p>Scroll this box to see the sticky bar in action. The bar will pin to the top of this container as you scroll.</p>
+                    <p>Sticky positioning is perfect for site navigation, table headers, and any UI element that should remain accessible while the user reads content below it.</p>
+                    <p>Unlike fixed positioning, a sticky element only sticks within its parent. Once you scroll past its parent container, the sticky element scrolls away too.</p>
+                    <p>This makes sticky positioning ideal for section headers in a long article, where each header should pin while you read its section, then release when you reach the next one.</p>
+                    <p>The browser handles all the scroll logic automatically. Just set <code>position: sticky</code> and a <code>top</code> value, and the element does the rest.</p>
+                </div>
+            </div>
+
+            <h3>Creating a Sticky Header</h3>
+
+            <div class="syntax-box">
+                <h4>Sticky CSS</h4>
+                <pre><span class="selector">header</span> <span class="punct">{</span>
+    <span class="property">position</span><span class="punct">:</span> <span class="value">sticky</span><span class="punct">;</span>
+    <span class="property">top</span><span class="punct">:</span> <span class="value">0</span><span class="punct">;</span>
+    <span class="property">background-color</span><span class="punct">:</span> <span class="value">white</span><span class="punct">;</span>
+    <span class="property">z-index</span><span class="punct">:</span> <span class="value">100</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <ul>
+                <li><code>position: sticky</code> turns on the sticky behavior.</li>
+                <li><code>top: 0</code> tells the element which edge to stick to. With <code>top: 0</code>, it sticks to the top of the viewport. <code>top: 20px</code> would leave a 20-pixel gap.</li>
+                <li><code>z-index</code> ensures the sticky element appears above other content as it sticks.</li>
+            </ul>
+
+            <!-- Custom Fonts -->
+            <h2>🎨 Custom Fonts</h2>
+
+            <p>The default fonts available on every device are limited. <strong>Custom fonts</strong> let you use any typeface, regardless of whether the visitor has it installed locally. Two methods are common.</p>
+
+            <h3>Method 1: Linking from Google Fonts</h3>
+
+            <p>Google Fonts is a free library of hundreds of typefaces. To use one, add a single <code>&lt;link&gt;</code> in the HTML head, then reference the font in your CSS.</p>
+
+            <div class="syntax-box">
+                <h4>Linking Google Fonts</h4>
+                <pre><span class="comment">&lt;!-- In the HTML head --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/css2?family=Roboto&display=swap"</span>
+      <span class="attr">rel</span>=<span class="string">"stylesheet"</span><span class="tag">&gt;</span>
+
+<span class="comment">/* In the CSS */</span>
+<span class="selector">body</span> <span class="punct">{</span>
+    <span class="property">font-family</span><span class="punct">:</span> <span class="value">'Roboto', sans-serif</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <h3>Method 2: Self-Hosted Custom Fonts</h3>
+
+            <p>Custom fonts can also be downloaded onto your own web server. Use the <code>@font-face</code> rule in your CSS to define the typeface, then reference it like any other font.</p>
+
+            <div class="syntax-box">
+                <h4>Defining a Self-Hosted Font</h4>
+                <pre><span class="keyword">@font-face</span> <span class="punct">{</span>
+    <span class="property">font-family</span><span class="punct">:</span> <span class="value">'BrandFont'</span><span class="punct">;</span>
+    <span class="property">src</span><span class="punct">:</span> <span class="value">url('fonts/brandfont.woff2') format('woff2')</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">h1</span> <span class="punct">{</span>
+    <span class="property">font-family</span><span class="punct">:</span> <span class="value">'BrandFont', Georgia, serif</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Always include a fallback.</strong> Custom fonts can fail to load on slow connections. End the <code>font-family</code> with a system font and a generic family so the page still has reasonable typography even if the custom font never arrives.
+            </div>
+
+            <!-- Pseudo-Classes -->
+            <h2>🎯 Pseudo-Classes</h2>
+
+            <p>A <strong>pseudo-class</strong> is a special selector that targets elements based on their state or position rather than their tag name, ID, or class. Pseudo-classes are written with a colon (<code>:</code>) followed by the state name.</p>
+
+            <h3>Common Pseudo-Classes</h3>
+
+            <div class="state-demo">
+                <div class="state-row">
+                    <span class="state-label">a:link</span>
+                    <span class="state-pill">Unvisited Link</span>
+                </div>
+                <div class="state-row">
+                    <span class="state-label">a:visited</span>
+                    <span class="state-pill state-pill-visited">Visited Link</span>
+                </div>
+                <div class="state-row">
+                    <span class="state-label">a:hover</span>
+                    <span class="state-pill state-pill-hover">Mouse Hovering</span>
+                </div>
+                <div class="state-row">
+                    <span class="state-label">a:active</span>
+                    <span class="state-pill state-pill-active">Being Clicked</span>
+                </div>
+                <div class="state-row">
+                    <span class="state-label">a:focus</span>
+                    <span class="state-pill state-pill-focus">Keyboard Focused</span>
+                </div>
+                <div class="state-row">
+                    <span class="state-label">li:first-child</span>
+                    <span class="state-pill state-pill-firstchild">First List Item</span>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pseudo-Class</th>
+                        <th>Matches</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>:link</code></td>
+                        <td>An unvisited link</td>
+                    </tr>
+                    <tr>
+                        <td><code>:visited</code></td>
+                        <td>A link the visitor has clicked before</td>
+                    </tr>
+                    <tr>
+                        <td><code>:hover</code></td>
+                        <td>An element the mouse pointer is over</td>
+                    </tr>
+                    <tr>
+                        <td><code>:active</code></td>
+                        <td>An element being clicked or tapped right now</td>
+                    </tr>
+                    <tr>
+                        <td><code>:focus</code></td>
+                        <td>An element that has keyboard focus</td>
+                    </tr>
+                    <tr>
+                        <td><code>:first-child</code></td>
+                        <td>An element that is the first child of its parent</td>
+                    </tr>
+                    <tr>
+                        <td><code>:last-child</code></td>
+                        <td>An element that is the last child of its parent</td>
+                    </tr>
+                    <tr>
+                        <td><code>:nth-child(n)</code></td>
+                        <td>The nth child of its parent</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="syntax-box">
+                <h4>Styling Link States</h4>
+                <pre><span class="selector">a:link</span> <span class="punct">{</span> <span class="property">color</span><span class="punct">:</span> <span class="value">#475569</span><span class="punct">;</span> <span class="punct">}</span>
+<span class="selector">a:visited</span> <span class="punct">{</span> <span class="property">color</span><span class="punct">:</span> <span class="value">#581C87</span><span class="punct">;</span> <span class="punct">}</span>
+<span class="selector">a:hover</span> <span class="punct">{</span> <span class="property">color</span><span class="punct">:</span> <span class="value">#06B6D4</span><span class="punct">;</span> <span class="punct">}</span>
+<span class="selector">a:active</span> <span class="punct">{</span> <span class="property">color</span><span class="punct">:</span> <span class="value">#BE123C</span><span class="punct">;</span> <span class="punct">}</span></pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Order matters for link states.</strong> Browsers apply link pseudo-classes in this order: link, visited, hover, active. Writing them out of order can cause some rules to silently override others. Remember the mnemonic LVHA: Link, Visited, Hover, Active.
+            </div>
+
+            <!-- Mobile Navigation -->
+            <h2>🧭 Mobile-Friendly Navigation</h2>
+
+            <p>A navigation system designed for a desktop won't work well on a phone. Horizontal menus with many items become cramped and tap targets become too small. Mobile navigation usually adapts in two stages.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📱 On Mobile</h4>
+                    <p>Stack navigation links vertically in a single column. Each link gets generous padding so it's easy to tap. Some sites collapse the entire menu behind a "hamburger" button to save space.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>💻 On Desktop</h4>
+                    <p>Use a media query to switch the same nav element to a horizontal row when the viewport is wide enough. The same HTML serves both layouts.</p>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>A Responsive Nav Pattern</h4>
+                <pre><span class="comment">/* Mobile: stacked vertical menu */</span>
+<span class="selector">nav ul</span> <span class="punct">{</span>
+    <span class="property">list-style</span><span class="punct">:</span> <span class="value">none</span><span class="punct">;</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">0</span><span class="punct">;</span>
+<span class="punct">}</span>
+<span class="selector">nav li</span> <span class="punct">{</span>
+    <span class="property">border-bottom</span><span class="punct">:</span> <span class="value">1px solid #CBD5E1</span><span class="punct">;</span>
+<span class="punct">}</span>
+<span class="selector">nav a</span> <span class="punct">{</span>
+    <span class="property">display</span><span class="punct">:</span> <span class="value">block</span><span class="punct">;</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">1rem</span><span class="punct">;</span>
+    <span class="property">text-decoration</span><span class="punct">:</span> <span class="value">none</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Desktop: horizontal row */</span>
+<span class="keyword">@media</span> <span class="punct">(</span><span class="property">min-width</span><span class="punct">:</span> <span class="value">768px</span><span class="punct">) {</span>
+    <span class="selector">nav li</span> <span class="punct">{</span>
+        <span class="property">display</span><span class="punct">:</span> <span class="value">inline-block</span><span class="punct">;</span>
+        <span class="property">border</span><span class="punct">:</span> <span class="value">none</span><span class="punct">;</span>
+    <span class="punct">}</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Mobile-Friendly Touches -->
+            <h2>✨ Mobile-Friendly Touches</h2>
+
+            <h3>Telephone Links</h3>
+
+            <p>Telephone links use <code>tel:</code> in the <code>href</code>. On a mobile device, tapping them starts a phone call. They are especially useful in mobile navigation, contact pages, and footer information.</p>
+
+            <div class="syntax-box">
+                <h4>A Tappable Phone Number</h4>
+                <pre><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="string">"tel:+15555551234"</span> <span class="attr">class</span>=<span class="string">"tel-link"</span><span class="tag">&gt;</span>
+    Call (555) 555-1234
+<span class="tag">&lt;/a&gt;</span></pre>
+            </div>
+
+            <h3>Rounded Corners</h3>
+
+            <p>The <code>border-radius</code> property gives any element rounded corners. Modern mobile design often uses generous corner radii on cards, buttons, and images for a softer, friendlier feel.</p>
+
+            <div class="syntax-box">
+                <h4>Rounded Corner Examples</h4>
+                <pre><span class="comment">/* Slightly rounded button */</span>
+<span class="selector">.button</span> <span class="punct">{</span>
+    <span class="property">border-radius</span><span class="punct">:</span> <span class="value">8px</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Pill-shaped tag */</span>
+<span class="selector">.tag</span> <span class="punct">{</span>
+    <span class="property">border-radius</span><span class="punct">:</span> <span class="value">999px</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Circular avatar */</span>
+<span class="selector">.avatar</span> <span class="punct">{</span>
+    <span class="property">border-radius</span><span class="punct">:</span> <span class="value">50%</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Testing -->
+            <h2>🧪 Testing on Mobile</h2>
+
+            <h3>Browser Device Mode</h3>
+
+            <p>Modern browsers include built-in tools to simulate mobile devices. In Chrome, Edge, and Firefox, open the developer tools (F12 or right-click and choose "Inspect"), then toggle the device toolbar. The page will render as if it were on a phone or tablet, and you can switch between common device sizes from a menu.</p>
+
+            <h3>Mobile Simulators</h3>
+
+            <p>A <strong>mobile simulator</strong> shows what a website will look like on a particular phone or tablet. Browser device mode is the fastest option, but standalone simulators provided by Apple, Google, and others give a more accurate preview because they actually run the device's operating system.</p>
+
+            <h3>Mobile-Friendly Tests</h3>
+
+            <p>Search engines provide free tests that grade a published webpage on its mobile-friendliness. They check things like text size, tap target spacing, and viewport configuration, and report any problems with specific recommendations to fix them.</p>
+
+            <div class="warning-box">
+                <strong>Test on real devices.</strong> Simulators are convenient, but they can't replicate every real-world condition. Test on actual phones whenever possible, especially the kind of phones your audience is most likely to use.
+            </div>
+
+            <!-- Best Practices -->
+            <h2>✨ Best Practices</h2>
+
+            <div class="highlight-box">
+                <h4>Habits for mobile-first responsive design</h4>
+                <ul>
+                    <li><strong>Add the meta viewport element</strong> to every HTML file before doing anything else.</li>
+                    <li><strong>Design mobile first.</strong> Write base CSS for the smallest screen, then enhance with <code>min-width</code> media queries.</li>
+                    <li><strong>Use relative units.</strong> Prefer <code>%</code>, <code>rem</code>, and <code>em</code> over fixed pixels for sizing.</li>
+                    <li><strong>Make tap targets at least 44 by 44 pixels.</strong> Smaller buttons are hard to tap accurately.</li>
+                    <li><strong>Use a single column on mobile.</strong> Avoid horizontal scrolling at all costs.</li>
+                    <li><strong>Make every image responsive</strong> with <code>max-width: 100%; height: auto;</code>.</li>
+                    <li><strong>Choose readable font sizes.</strong> 16px or larger for body text.</li>
+                    <li><strong>Order LVHA</strong> when styling link states.</li>
+                    <li><strong>Provide font fallbacks</strong> in case custom fonts fail to load.</li>
+                    <li><strong>Test on real devices</strong>, not just simulators.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Reference -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Core Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Responsive design</td>
+                            <td>An approach where one website adapts its layout for any screen size</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile website</td>
+                            <td>A separate site built specifically for mobile devices, hosted at a different URL</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile-first strategy</td>
+                            <td>Designing for the smallest screen first and enhancing for larger screens</td>
+                        </tr>
+                        <tr>
+                            <td>Viewport</td>
+                            <td>The visible area of a webpage inside the browser</td>
+                        </tr>
+                        <tr>
+                            <td>Meta viewport element</td>
+                            <td>An HTML tag that tells mobile browsers how to render page width</td>
+                        </tr>
+                        <tr>
+                            <td>Fluid layout</td>
+                            <td>A layout using percentage-based widths that expand and contract with the viewport</td>
+                        </tr>
+                        <tr>
+                            <td>Fixed layout</td>
+                            <td>A layout using pixel-based widths that stay the same regardless of screen size</td>
+                        </tr>
+                        <tr>
+                            <td>Responsive image</td>
+                            <td>An image that grows and shrinks with its container</td>
+                        </tr>
+                        <tr>
+                            <td>Media query</td>
+                            <td>A CSS feature that detects device characteristics and applies different rules</td>
+                        </tr>
+                        <tr>
+                            <td>Breakpoint</td>
+                            <td>A viewport width at which the layout changes</td>
+                        </tr>
+                        <tr>
+                            <td>Sticky element</td>
+                            <td>An element that pins to the viewport edge once scrolled past</td>
+                        </tr>
+                        <tr>
+                            <td>Pseudo-class</td>
+                            <td>A selector that targets elements by state or position, written with a colon</td>
+                        </tr>
+                        <tr>
+                            <td>Mobile simulator</td>
+                            <td>A tool that displays how a website would appear on a mobile device</td>
+                        </tr>
+                        <tr>
+                            <td>Web analytics</td>
+                            <td>Data showing how visitors actually use a website, including device and screen size</td>
+                        </tr>
+                        <tr>
+                            <td>Absolute unit</td>
+                            <td>A unit with a fixed size such as <code>px</code> or <code>cm</code></td>
+                        </tr>
+                        <tr>
+                            <td>Relative unit</td>
+                            <td>A unit that scales based on something else, such as <code>%</code>, <code>em</code>, or <code>rem</code></td>
+                        </tr>
+                        <tr>
+                            <td>Custom font</td>
+                            <td>A typeface loaded from a web service or self-hosted file rather than the system</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Design Quick Guides</a></p>
+            <p>Responsive Web Design Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
