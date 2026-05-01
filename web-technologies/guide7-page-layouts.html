@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide 7: Improving Web Design with New Page Layouts</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6D28D9;
+            --primary-dark: #5B21B6;
+            --accent: #06B6D4;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #6D28D9 0%, #5B21B6 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0 0 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFF8E1 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        pre .tag { color: #569CD6; }
+        pre .attr { color: #9CDCFE; }
+        pre .string { color: #CE9178; }
+        pre .comment { color: #6A9955; }
+        pre .text { color: #D4D4D4; }
+        pre .selector { color: #D7BA7D; }
+        pre .property { color: #9CDCFE; }
+        pre .value { color: #CE9178; }
+        pre .punct { color: #D4D4D4; }
+        pre .keyword { color: #C586C0; }
+        pre .func { color: #DCDCAA; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: #C4B5FD;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Semantic structure visual */
+        .semantic-mockup {
+            background: #F8F9FA;
+            border: 2px dashed #888;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 25px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .sm-block {
+            border-radius: 6px;
+            padding: 14px;
+            text-align: center;
+            font-weight: 700;
+            margin: 6px 0;
+        }
+
+        .sm-header { background: #FFE0B2; border: 2px solid #E65100; color: #BF360C; }
+        .sm-nav { background: #BBDEFB; border: 2px solid #1565C0; color: #0D47A1; }
+        .sm-main { background: #DDD6FE; border: 2px solid #6D28D9; color: #5B21B6; min-height: 60px; }
+        .sm-section { background: #E1F5FE; border: 2px solid #0288D1; color: #01579B; padding: 10px; }
+        .sm-article { background: #F3E5F5; border: 2px solid #7B1FA2; color: #4A148C; padding: 10px; margin: 4px 0; }
+        .sm-aside { background: #FFF8E1; border: 2px solid #F57F17; color: #E65100; }
+        .sm-figure { background: #C8E6C9; border: 2px solid #2E7D32; color: #1B5E20; padding: 10px; }
+        .sm-footer { background: #CFD8DC; border: 2px solid #455A64; color: #263238; }
+
+        .sm-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 6px;
+        }
+
+        .sm-aside-block {
+            background: #FFF8E1;
+            border: 2px solid #F57F17;
+            color: #E65100;
+            padding: 14px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Grid demos */
+        .grid-demo {
+            background: #F1F5F9;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-demo h5 {
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .demo-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .grid-3-equal { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-fixed { grid-template-columns: 200px 1fr; }
+        .grid-mixed { grid-template-columns: 1fr 2fr 1fr; }
+        .grid-responsive { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+
+        .grid-cell {
+            background: #6D28D9;
+            color: white;
+            padding: 18px 10px;
+            text-align: center;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .grid-cell.alt { background: #5B21B6; }
+        .grid-cell.alt2 { background: #7C3AED; }
+
+        /* Visual effects demos */
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .effect-card {
+            text-align: center;
+        }
+
+        .effect-demo {
+            background: #6D28D9;
+            color: white;
+            border-radius: 10px;
+            padding: 30px 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .effect-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            color: #666;
+            background: #F5F5F5;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Opacity demo specific */
+        .opacity-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 12px;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B, #4ECDC4, #45B7D1);
+            background-size: 200% 200%;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .op-card {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 20px 10px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Box shadow demos */
+        .shadow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+            padding: 25px;
+            background: #F8F9FA;
+            border-radius: 12px;
+        }
+
+        .shadow-box {
+            background: white;
+            border-radius: 8px;
+            padding: 25px 15px;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .sh-1 { box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
+        .sh-2 { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .sh-3 { box-shadow: 0 10px 30px rgba(109,40,217,0.4); }
+        .sh-4 { box-shadow: inset 0 2px 8px rgba(0,0,0,0.2); background: #EDE9FE; }
+        .sh-5 { box-shadow: 0 0 20px rgba(109,40,217,0.6); }
+
+        /* Box sizing visual */
+        .sizing-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .sizing-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .sizing-card h5 {
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .sizing-box-outer {
+            background: #FFE4E6;
+            border: 2px solid #BE123C;
+            position: relative;
+            margin-top: 18px;
+        }
+
+        .sizing-box-outer::before {
+            content: "200px declared";
+            position: absolute;
+            top: -16px;
+            left: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: #BE123C;
+        }
+
+        .sizing-padding {
+            background: #FECDD3;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .sizing-content {
+            background: #BE123C;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Favicon demo */
+        .favicon-demo {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .browser-tab {
+            background: #334155;
+            color: white;
+            padding: 8px 14px 8px 10px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-family: 'Source Sans Pro', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .favicon-img {
+            width: 16px;
+            height: 16px;
+            background: #6D28D9;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #C4B5FD;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .sizing-compare {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide 7: Improving Web Design with New Page Layouts</h1>
+        <p>Semantic Elements, CSS Grid, Opacity, Box Shadow, Text Shadow, Box Sizing, and Favicons</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Learning Objectives -->
+            <h2>🎯 Learning Objectives</h2>
+
+            <p>By the end of this guide, you will be able to:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📰 Use article and aside</h4>
+                    <p>Recognize self-contained content and tangentially related content, and mark them up correctly.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📑 Use section</h4>
+                    <p>Group related content into sections within a larger document.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🖼️ Use figure and figcaption</h4>
+                    <p>Wrap images, charts, and diagrams with their captions in a single semantic unit.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎛️ Build CSS Grid Layouts</h4>
+                    <p>Lay out content into rows and columns with the modern CSS Grid system.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌫️ Apply Opacity</h4>
+                    <p>Make any element partially transparent with one CSS property.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📦 Add Shadows</h4>
+                    <p>Use box-shadow and text-shadow for depth, focus, and visual polish.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📐 Master box-sizing</h4>
+                    <p>Make element widths predictable by including padding and border in the calculation.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🌐 Add a Favicon</h4>
+                    <p>Display a small site icon in browser tabs and bookmarks.</p>
+                </div>
+            </div>
+
+            <!-- Bridge -->
+            <h2>🌉 The Next Layer of Polish</h2>
+
+            <p>By this point a website has structure (HTML), style (CSS), responsive behavior (media queries), and adapts to phones, tablets, and desktops. The next step is to refine the design with HTML 5 semantic elements that describe content more precisely, modern CSS layout tools that replace older float-based layouts, and visual touches that make the page feel polished.</p>
+
+            <p>Everything in this guide builds on what came before. The goal isn't to throw out the existing pages but to upgrade them.</p>
+
+            <!-- Semantic Elements -->
+            <h2>🧩 More HTML 5 Semantic Elements</h2>
+
+            <p>Earlier guides introduced the high-level semantic elements: <code>header</code>, <code>nav</code>, <code>main</code>, and <code>footer</code>. HTML 5 also provides finer-grained semantic elements that describe specific kinds of content within those regions.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Meaning</th>
+                        <th>Example Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;article&gt;</code></td>
+                        <td>Self-contained content that could stand on its own and be reused elsewhere</td>
+                        <td>Blog post, news story, product card, forum entry</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;aside&gt;</code></td>
+                        <td>Content tangentially related to its surroundings</td>
+                        <td>Sidebar, pull quote, related links, ad block</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;section&gt;</code></td>
+                        <td>A thematic grouping of content with its own heading</td>
+                        <td>A chapter, a tabbed area, a part of a longer document</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;figure&gt;</code></td>
+                        <td>Self-contained visual content referenced by the main flow</td>
+                        <td>Image, chart, diagram, code listing, illustration</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;figcaption&gt;</code></td>
+                        <td>The caption or legend for a figure</td>
+                        <td>Description text under a chart or photo</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>How They Fit Together</h3>
+
+            <p>Semantic elements nest naturally. A typical layout for a content-heavy page combines them like this:</p>
+
+            <div class="semantic-mockup">
+                <div class="sm-block sm-header">&lt;header&gt;</div>
+                <div class="sm-block sm-nav">&lt;nav&gt;</div>
+                <div class="sm-row">
+                    <div class="sm-block sm-main">
+                        <div class="sm-section">
+                            &lt;section&gt;
+                            <div class="sm-article">&lt;article&gt;</div>
+                            <div class="sm-article">&lt;article&gt;</div>
+                        </div>
+                        <div class="sm-figure">&lt;figure&gt; with &lt;figcaption&gt;</div>
+                    </div>
+                    <div class="sm-aside-block">&lt;aside&gt;</div>
+                </div>
+                <div class="sm-block sm-footer">&lt;footer&gt;</div>
+            </div>
+
+            <h3>The article Element</h3>
+
+            <p>The <strong>article element</strong> wraps content that could stand on its own. The test is simple: if you could pull this content out of the page and republish it on a different site without losing meaning, it belongs in an <code>&lt;article&gt;</code>.</p>
+
+            <p>Articles can be nested inside other elements (such as <code>main</code> or <code>section</code>) and can even contain other articles (such as a list of comments inside a blog post).</p>
+
+            <div class="syntax-box">
+                <h4>An article Element</h4>
+                <pre><span class="tag">&lt;article&gt;</span>
+    <span class="tag">&lt;h2&gt;</span>How to Choose the Right Running Shoes<span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;p&gt;</span>The right pair of shoes makes the
+       difference between an enjoyable run...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Start by understanding your foot type...<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/article&gt;</span></pre>
+            </div>
+
+            <h3>The aside Element</h3>
+
+            <p>The <strong>aside element</strong> contains content tangentially related to its surroundings. Aside content adds context but isn't essential to understanding the main flow. Sidebars, "did you know" boxes, related-posts panels, and pull quotes are all good uses.</p>
+
+            <div class="syntax-box">
+                <h4>An aside Inside main Content</h4>
+                <pre><span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;article&gt;</span>
+        <span class="tag">&lt;h2&gt;</span>The Forest Hike<span class="tag">&lt;/h2&gt;</span>
+        <span class="tag">&lt;p&gt;</span>The trailhead sits at the end of a quiet road...<span class="tag">&lt;/p&gt;</span>
+
+        <span class="tag">&lt;aside&gt;</span>
+            <span class="tag">&lt;h3&gt;</span>Quick Tip<span class="tag">&lt;/h3&gt;</span>
+            <span class="tag">&lt;p&gt;</span>Bring twice the water you think you'll need.<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/aside&gt;</span>
+
+        <span class="tag">&lt;p&gt;</span>The first mile is the hardest...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
+<span class="tag">&lt;/main&gt;</span></pre>
+            </div>
+
+            <h3>The section Element</h3>
+
+            <p>The <strong>section element</strong> groups thematically related content. Each section should have its own heading. Think of a section as a chapter within a larger document.</p>
+
+            <div class="warning-box">
+                <strong>Section is not a generic container.</strong> If you just need a div to attach styles or layout to, use <code>&lt;div&gt;</code>. Reserve <code>&lt;section&gt;</code> for content that has a clear thematic identity, ideally with its own heading.
+            </div>
+
+            <div class="syntax-box">
+                <h4>Multiple section Elements on a Page</h4>
+                <pre><span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;section&gt;</span>
+        <span class="tag">&lt;h2&gt;</span>Our Story<span class="tag">&lt;/h2&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Prairie Bakery opened in 2014...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+
+    <span class="tag">&lt;section&gt;</span>
+        <span class="tag">&lt;h2&gt;</span>Our Bakers<span class="tag">&lt;/h2&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Each loaf is shaped by hand by one of our four bakers...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+
+    <span class="tag">&lt;section&gt;</span>
+        <span class="tag">&lt;h2&gt;</span>Visit Us<span class="tag">&lt;/h2&gt;</span>
+        <span class="tag">&lt;p&gt;</span>We're open Tuesday through Saturday...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+<span class="tag">&lt;/main&gt;</span></pre>
+            </div>
+
+            <h3>The figure and figcaption Elements</h3>
+
+            <p>The <strong>figure element</strong> wraps an image, chart, diagram, code listing, or any other self-contained visual that the main content refers to. The <strong>figcaption element</strong> holds the caption for the figure.</p>
+
+            <p>Together they create a single semantic unit. A screen reader announces them as a group, and you can move the entire figure (image plus caption) anywhere in the page without separating the two.</p>
+
+            <div class="syntax-box">
+                <h4>A figure with a figcaption</h4>
+                <pre><span class="tag">&lt;figure&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"images/sourdough-loaf.jpg"</span>
+         <span class="attr">alt</span>=<span class="string">"Freshly baked sourdough loaf with golden crust"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;figcaption&gt;</span>
+        Our signature country sourdough,
+        baked in a wood-fired oven for 45 minutes.
+    <span class="tag">&lt;/figcaption&gt;</span>
+<span class="tag">&lt;/figure&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Each figure stands alone.</strong> If you want to caption two images separately, wrap each in its own <code>&lt;figure&gt;</code>. Don't put two images inside a single figure unless the caption applies to the pair as a unit.
+            </div>
+
+            <!-- CSS Grid Layout -->
+            <h2>🎛️ CSS Grid Layout</h2>
+
+            <p>The <strong>CSS Grid Layout</strong> is a modern way to lay out content in rows and columns. It was created by the W3C Working Group as a more reliable replacement for the older float-based layout techniques. Grid gives you exact control over both dimensions: how wide each column is, how tall each row is, and which cell each item belongs in.</p>
+
+            <h3>Why Grid Replaces Float</h3>
+
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <h4>🌊 Float-Based Layout</h4>
+                    <p>Originally invented for wrapping text around images. Repurposed for layout, but never quite designed for it. Requires hacks like clearfix to control overflow.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>🎯 Grid Layout</h4>
+                    <p>Designed specifically for two-dimensional layouts. Define the grid once and items snap into position. No clearing needed, no surprise overflows.</p>
+                </div>
+            </div>
+
+            <h3>The Grid Mental Model</h3>
+
+            <p>To use Grid, picture your page as a grid of rows and columns. The container tells the grid how many columns and rows it has, and each child element takes up one cell by default. The container is called the <strong>grid container</strong>; its children are <strong>grid items</strong>.</p>
+
+            <div class="syntax-box">
+                <h4>Activating Grid on a Container</h4>
+                <pre><span class="selector">.gallery</span> <span class="punct">{</span>
+    <span class="property">display</span><span class="punct">:</span> <span class="value">grid</span><span class="punct">;</span>
+    <span class="property">grid-template-columns</span><span class="punct">:</span> <span class="value">1fr 1fr 1fr</span><span class="punct">;</span>
+    <span class="property">gap</span><span class="punct">:</span> <span class="value">20px</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <h3>Common Grid Properties</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>display: grid</code></td>
+                        <td>Turns the element into a grid container.</td>
+                    </tr>
+                    <tr>
+                        <td><code>grid-template-columns</code></td>
+                        <td>Defines the columns of the grid (number, widths).</td>
+                    </tr>
+                    <tr>
+                        <td><code>grid-template-rows</code></td>
+                        <td>Defines the rows of the grid (number, heights).</td>
+                    </tr>
+                    <tr>
+                        <td><code>gap</code></td>
+                        <td>Sets the space between grid cells (also <code>row-gap</code> and <code>column-gap</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>grid-column</code></td>
+                        <td>Tells a specific item how many columns to span.</td>
+                    </tr>
+                    <tr>
+                        <td><code>grid-row</code></td>
+                        <td>Tells a specific item how many rows to span.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Column Width Values</h3>
+
+            <p>The values you can use for <code>grid-template-columns</code> determine how the columns share the available space.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>200px</code></td>
+                        <td>A fixed-width column of exactly 200 pixels.</td>
+                    </tr>
+                    <tr>
+                        <td><code>1fr</code></td>
+                        <td>One fraction of the remaining space. <code>1fr 1fr</code> means two equal columns.</td>
+                    </tr>
+                    <tr>
+                        <td><code>auto</code></td>
+                        <td>The column expands to fit its content.</td>
+                    </tr>
+                    <tr>
+                        <td><code>repeat(3, 1fr)</code></td>
+                        <td>Shorthand for <code>1fr 1fr 1fr</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>minmax(200px, 1fr)</code></td>
+                        <td>At least 200 pixels, but expands to take a fraction of remaining space.</td>
+                    </tr>
+                    <tr>
+                        <td><code>repeat(auto-fit, minmax(200px, 1fr))</code></td>
+                        <td>Pack as many 200-pixel-minimum columns as fit, expanding to fill the row.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Live Grid Examples</h3>
+
+            <div class="grid-demo">
+                <h5>📐 Three equal columns: <code>grid-template-columns: 1fr 1fr 1fr</code></h5>
+                <div class="demo-grid grid-3-equal">
+                    <div class="grid-cell">1fr</div>
+                    <div class="grid-cell">1fr</div>
+                    <div class="grid-cell">1fr</div>
+                </div>
+            </div>
+
+            <div class="grid-demo">
+                <h5>📐 Fixed sidebar plus fluid content: <code>grid-template-columns: 200px 1fr</code></h5>
+                <div class="demo-grid grid-fixed">
+                    <div class="grid-cell alt">200px</div>
+                    <div class="grid-cell">1fr</div>
+                </div>
+            </div>
+
+            <div class="grid-demo">
+                <h5>📐 Left sidebar, large center, right sidebar: <code>grid-template-columns: 1fr 2fr 1fr</code></h5>
+                <div class="demo-grid grid-mixed">
+                    <div class="grid-cell">1fr</div>
+                    <div class="grid-cell alt2">2fr</div>
+                    <div class="grid-cell">1fr</div>
+                </div>
+            </div>
+
+            <div class="grid-demo">
+                <h5>📐 Responsive without media queries: <code>repeat(auto-fit, minmax(120px, 1fr))</code></h5>
+                <div class="demo-grid grid-responsive">
+                    <div class="grid-cell">1</div>
+                    <div class="grid-cell alt">2</div>
+                    <div class="grid-cell alt2">3</div>
+                    <div class="grid-cell">4</div>
+                    <div class="grid-cell alt">5</div>
+                </div>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px; margin-bottom: 0;">Resize the page width to see this row reflow automatically.</p>
+            </div>
+
+            <h3>A Multi-Column Layout with Grid</h3>
+
+            <div class="syntax-box">
+                <h4>Three-Column Layout, Mobile-First</h4>
+                <pre><span class="comment">/* Mobile: single column */</span>
+<span class="selector">.cards</span> <span class="punct">{</span>
+    <span class="property">display</span><span class="punct">:</span> <span class="value">grid</span><span class="punct">;</span>
+    <span class="property">grid-template-columns</span><span class="punct">:</span> <span class="value">1fr</span><span class="punct">;</span>
+    <span class="property">gap</span><span class="punct">:</span> <span class="value">20px</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Tablet: two columns */</span>
+<span class="keyword">@media</span> <span class="keyword">only</span> screen <span class="keyword">and</span> <span class="punct">(</span><span class="property">min-width</span><span class="punct">:</span> <span class="value">768px</span><span class="punct">) {</span>
+    <span class="selector">.cards</span> <span class="punct">{</span>
+        <span class="property">grid-template-columns</span><span class="punct">:</span> <span class="value">1fr 1fr</span><span class="punct">;</span>
+    <span class="punct">}</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Desktop: three columns */</span>
+<span class="keyword">@media</span> <span class="keyword">only</span> screen <span class="keyword">and</span> <span class="punct">(</span><span class="property">min-width</span><span class="punct">:</span> <span class="value">1024px</span><span class="punct">) {</span>
+    <span class="selector">.cards</span> <span class="punct">{</span>
+        <span class="property">grid-template-columns</span><span class="punct">:</span> <span class="value">repeat(3, 1fr)</span><span class="punct">;</span>
+    <span class="punct">}</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <h3>Spanning Multiple Columns</h3>
+
+            <p>By default, each grid item takes one cell. To make an item span multiple columns or rows, use the <code>grid-column</code> property.</p>
+
+            <div class="syntax-box">
+                <h4>A Featured Card That Spans Two Columns</h4>
+                <pre><span class="selector">.featured</span> <span class="punct">{</span>
+    <span class="property">grid-column</span><span class="punct">:</span> <span class="value">span 2</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Opacity -->
+            <h2>🌫️ Opacity</h2>
+
+            <p>The <strong>opacity property</strong> makes an element partially transparent. The value ranges from 0 (completely invisible) to 1 (completely opaque). Useful for fade effects, hover states, and softening overlays.</p>
+
+            <div class="opacity-row">
+                <div class="op-card" style="opacity: 1.0;">opacity: 1.0</div>
+                <div class="op-card" style="opacity: 0.75;">opacity: 0.75</div>
+                <div class="op-card" style="opacity: 0.5;">opacity: 0.5</div>
+                <div class="op-card" style="opacity: 0.25;">opacity: 0.25</div>
+                <div class="op-card" style="opacity: 0.1;">opacity: 0.1</div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Opacity Examples</h4>
+                <pre><span class="selector">.fade-in-thumbnail</span> <span class="punct">{</span>
+    <span class="property">opacity</span><span class="punct">:</span> <span class="value">0.7</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">.fade-in-thumbnail:hover</span> <span class="punct">{</span>
+    <span class="property">opacity</span><span class="punct">:</span> <span class="value">1.0</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Opacity affects everything inside.</strong> When you set opacity on a container, every child element inherits the same transparency. Text, images, borders, all of them. To make only the background transparent and keep text fully opaque, use a color value with alpha (such as <code>rgba(0, 0, 0, 0.5)</code>) instead of the <code>opacity</code> property.
+            </div>
+
+            <!-- Box Shadow -->
+            <h2>📦 Box Shadow</h2>
+
+            <p>The <strong>box-shadow property</strong> adds a drop shadow to an element. Shadows create depth, draw attention, and signal that an element is "above" the rest of the page. Cards, buttons, modals, and any element that should feel elevated benefit from shadow.</p>
+
+            <div class="shadow-grid">
+                <div class="shadow-box sh-1">subtle</div>
+                <div class="shadow-box sh-2">soft</div>
+                <div class="shadow-box sh-3">prominent</div>
+                <div class="shadow-box sh-4">inset</div>
+                <div class="shadow-box sh-5">glow</div>
+            </div>
+
+            <h3>Box Shadow Anatomy</h3>
+
+            <p>The <code>box-shadow</code> property takes up to five values, in this order:</p>
+
+            <div class="syntax-box">
+                <h4>The Anatomy of a Box Shadow</h4>
+                <pre><span class="selector">.card</span> <span class="punct">{</span>
+    <span class="property">box-shadow</span><span class="punct">:</span> <span class="value">0 4px 12px 0 rgba(0,0,0,0.15)</span><span class="punct">;</span>
+    <span class="comment">/*           ↑ ↑   ↑    ↑  ↑                  */</span>
+    <span class="comment">/*    h-offset  v-offset blur spread  color    */</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>What It Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Horizontal offset</strong></td>
+                        <td>How far right (positive) or left (negative) the shadow sits.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vertical offset</strong></td>
+                        <td>How far down (positive) or up (negative) the shadow sits.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Blur radius</strong></td>
+                        <td>How soft the shadow edges are. Zero means a hard edge.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Spread radius</strong></td>
+                        <td>How much larger the shadow is than the element itself. Optional.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Color</strong></td>
+                        <td>Any CSS color, often <code>rgba</code> for transparency.</td>
+                    </tr>
+                    <tr>
+                        <td><code>inset</code></td>
+                        <td>Optional keyword that makes the shadow appear <em>inside</em> the element.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Subtle shadows look professional.</strong> A small offset (2 to 6 pixels), a generous blur (10 to 20 pixels), and a low-opacity black is the classic "Material design" recipe. Heavy, sharp shadows tend to look dated.
+            </div>
+
+            <!-- Text Shadow -->
+            <h2>✏️ Text Shadow</h2>
+
+            <p>The <strong>text-shadow property</strong> applies a shadow to text rather than to a box. The syntax is similar to <code>box-shadow</code>, but text-shadow has no spread value and no inset option.</p>
+
+            <div class="syntax-box">
+                <h4>Text Shadow Examples</h4>
+                <pre><span class="comment">/* Subtle drop shadow under the headline */</span>
+<span class="selector">h1</span> <span class="punct">{</span>
+    <span class="property">text-shadow</span><span class="punct">:</span> <span class="value">2px 2px 4px rgba(0,0,0,0.3)</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Glowing text effect */</span>
+<span class="selector">.glow</span> <span class="punct">{</span>
+    <span class="property">text-shadow</span><span class="punct">:</span> <span class="value">0 0 8px #6D28D9, 0 0 16px #6D28D9</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* White outline on a dark photo overlay */</span>
+<span class="selector">.hero-text</span> <span class="punct">{</span>
+    <span class="property">text-shadow</span><span class="punct">:</span> <span class="value">1px 1px 2px black</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <div class="warning-box">
+                <strong>Don't overdo it.</strong> Heavy text shadows hurt readability. Use them for headings or short labels over busy backgrounds, never for body text.
+            </div>
+
+            <!-- Box Sizing -->
+            <h2>📐 Box Sizing</h2>
+
+            <p>The <strong>box-sizing property</strong> changes how the browser calculates an element's total width and height. By default, the width you set on an element only applies to the content area. Padding and border get added <em>on top</em>, making the element bigger than expected.</p>
+
+            <h3>The Default Behavior is Confusing</h3>
+
+            <p>Suppose you set <code>width: 200px</code>, <code>padding: 20px</code>, and <code>border: 2px solid</code>. Most people expect the element to be 200 pixels wide. The default behavior makes it 244 pixels wide (200 content + 40 padding + 4 border). That's why <code>box-sizing</code> exists.</p>
+
+            <div class="sizing-compare">
+                <div class="sizing-card">
+                    <h5>📦 content-box (default)</h5>
+                    <p style="font-size:0.9rem;color:#666;margin-bottom:0;">Width refers to the content only. Padding and border are added on top.</p>
+                    <div class="sizing-box-outer" style="width: 244px;">
+                        <div class="sizing-padding">
+                            <div class="sizing-content">200px content</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem;color:#999;margin-top:8px;margin-bottom:0;">Actual element width: 244px</p>
+                </div>
+                <div class="sizing-card">
+                    <h5>✅ border-box</h5>
+                    <p style="font-size:0.9rem;color:#666;margin-bottom:0;">Width refers to the entire element. Padding and border are included.</p>
+                    <div class="sizing-box-outer" style="width: 200px;">
+                        <div class="sizing-padding">
+                            <div class="sizing-content">~156px content</div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem;color:#999;margin-top:8px;margin-bottom:0;">Actual element width: 200px</p>
+                </div>
+            </div>
+
+            <h3>The Universal box-sizing Reset</h3>
+
+            <p>Almost every modern site applies <code>border-box</code> sizing globally. The result is widths that always behave the way you'd expect them to.</p>
+
+            <div class="syntax-box">
+                <h4>The Standard Modern Reset</h4>
+                <pre><span class="comment">/* Apply border-box to every element */</span>
+<span class="selector">*</span> <span class="punct">{</span>
+    <span class="property">box-sizing</span><span class="punct">:</span> <span class="value">border-box</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <div class="success-box">
+                <strong>Set this once, forget about it.</strong> Putting <code>box-sizing: border-box</code> on every element at the top of your stylesheet eliminates an entire category of layout bugs. Writing <code>width: 100%</code> always means the element fills its container, no matter what padding or border it has.
+            </div>
+
+            <!-- Other Visual Effects -->
+            <h2>🎨 Putting Visual Effects Together</h2>
+
+            <div class="effects-grid">
+                <div class="effect-card">
+                    <div class="effect-demo" style="opacity: 0.6;">opacity</div>
+                    <span class="effect-label">opacity: 0.6</span>
+                </div>
+                <div class="effect-card">
+                    <div class="effect-demo" style="box-shadow: 0 10px 25px rgba(109,40,217,0.4);">box-shadow</div>
+                    <span class="effect-label">box-shadow</span>
+                </div>
+                <div class="effect-card">
+                    <div class="effect-demo" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">text-shadow</div>
+                    <span class="effect-label">text-shadow</span>
+                </div>
+                <div class="effect-card">
+                    <div class="effect-demo" style="border-radius: 50%;">rounded</div>
+                    <span class="effect-label">border-radius: 50%</span>
+                </div>
+            </div>
+
+            <p>These four properties (opacity, box-shadow, text-shadow, and border-radius) appear constantly in modern interfaces. Mastering them gives you a small toolkit that produces a surprising range of visual effects.</p>
+
+            <!-- Structural Pseudo-Classes -->
+            <h2>🎯 Structural Pseudo-Classes</h2>
+
+            <p>Earlier you learned dynamic pseudo-classes (<code>:hover</code>, <code>:active</code>, etc.). HTML 5 also makes heavy use of <strong>structural pseudo-classes</strong>, which target elements based on their position among siblings.</p>
+
+            <h3>Common Structural Pseudo-Classes</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pseudo-Class</th>
+                        <th>Matches</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>:first-child</code></td>
+                        <td>The first child of its parent.</td>
+                    </tr>
+                    <tr>
+                        <td><code>:last-child</code></td>
+                        <td>The last child of its parent.</td>
+                    </tr>
+                    <tr>
+                        <td><code>:nth-child(n)</code></td>
+                        <td>The nth child of its parent (counting all children).</td>
+                    </tr>
+                    <tr>
+                        <td><code>:nth-of-type(n)</code></td>
+                        <td>The nth child of its <em>type</em> (counting only matching elements).</td>
+                    </tr>
+                    <tr>
+                        <td><code>:first-of-type</code></td>
+                        <td>The first element of its type within its parent.</td>
+                    </tr>
+                    <tr>
+                        <td><code>:last-of-type</code></td>
+                        <td>The last element of its type within its parent.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>nth-of-type vs nth-child</h3>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>🔢 :nth-child(n)</h4>
+                    <p>Counts every sibling, regardless of element type. <code>p:nth-child(2)</code> matches a paragraph only if it happens to be the second child of its parent.</p>
+                </div>
+                <div class="comparison-item good">
+                    <h4>🎯 :nth-of-type(n)</h4>
+                    <p>Counts only siblings of the same type. <code>p:nth-of-type(2)</code> matches the second paragraph among the parent's children, regardless of what other elements are there.</p>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>Striped Article Backgrounds</h4>
+                <pre><span class="comment">/* Every odd-numbered article gets a tinted background */</span>
+<span class="selector">article:nth-of-type(odd)</span> <span class="punct">{</span>
+    <span class="property">background-color</span><span class="punct">:</span> <span class="value">#F5F3FF</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* The third article gets special emphasis */</span>
+<span class="selector">article:nth-of-type(3)</span> <span class="punct">{</span>
+    <span class="property">border-left</span><span class="punct">:</span> <span class="value">4px solid #6D28D9</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Favicon -->
+            <h2>🌐 Adding a Favicon</h2>
+
+            <p>A <strong>favicon</strong> (short for "favorite icon") is a small image that appears in the browser tab next to a page's title. Favicons also appear in bookmarks, history lists, and the home-screen icons of mobile bookmarks.</p>
+
+            <div class="favicon-demo">
+                <div class="browser-tab">
+                    <div class="favicon-img">P</div>
+                    <span>Prairie Bakery</span>
+                </div>
+            </div>
+
+            <h3>Why Use a Favicon</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>🏷️ Brand Recognition</h4>
+                    <p>A favicon makes your site instantly identifiable in a sea of open browser tabs.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📚 Bookmark Visibility</h4>
+                    <p>Bookmark menus show only the favicon and a short title. A distinctive favicon helps visitors find their way back.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📱 Home Screen Icon</h4>
+                    <p>When a visitor saves your site to their phone home screen, the favicon (or a larger version of it) becomes the app-style icon.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>✨ Professional Polish</h4>
+                    <p>Sites without favicons look unfinished. The blank tab icon signals an amateur build.</p>
+                </div>
+            </div>
+
+            <h3>Favicon File Formats</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.png</code></td>
+                        <td>Most common. Supports transparency. Pick 32 by 32 or 64 by 64 pixels for crisp display.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.gif</code></td>
+                        <td>Older format. Smaller file size but limited colors and lower quality.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.ico</code></td>
+                        <td>The classic favicon format. Can contain multiple sizes in one file.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.svg</code></td>
+                        <td>Scales perfectly at any size. Supported by modern browsers.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Adding a Favicon to a Site</h3>
+
+            <p>The favicon is added with a <code>&lt;link&gt;</code> element in the <code>&lt;head&gt;</code>. Many sites also place a copy of the favicon file in the root folder so browsers can find it automatically.</p>
+
+            <div class="syntax-box">
+                <h4>The Favicon Link</h4>
+                <pre><span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Prairie Bakery<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"icon"</span>
+          <span class="attr">type</span>=<span class="string">"image/png"</span>
+          <span class="attr">href</span>=<span class="string">"images/favicon.png"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Make your own favicon.</strong> Create a square image in any photo editor, simplify it down to a recognizable icon, and export it as PNG at 32 by 32 or 64 by 64 pixels. Several free online tools also generate favicon files in multiple sizes from a single source image.
+            </div>
+
+            <!-- Validation Reminder -->
+            <h2>✅ Validating the Improved Site</h2>
+
+            <p>After adding new semantic elements, grid layouts, and visual effects, validate every page. Each new feature is another opportunity for a typo, an unclosed tag, or a duplicate id.</p>
+
+            <ul>
+                <li><strong>HTML files:</strong> validate at <code>validator.w3.org</code>.</li>
+                <li><strong>CSS files:</strong> validate at <code>jigsaw.w3.org/css-validator</code>.</li>
+                <li><strong>Mobile-friendliness:</strong> test with the search engine mobile-friendly tools.</li>
+                <li><strong>Manual review:</strong> open every page in a real browser at multiple viewport sizes and click every link.</li>
+            </ul>
+
+            <!-- Best Practices -->
+            <h2>✨ Best Practices</h2>
+
+            <div class="highlight-box">
+                <h4>Habits for modern page layouts</h4>
+                <ul>
+                    <li><strong>Reach for semantic elements first.</strong> Use <code>article</code>, <code>aside</code>, <code>section</code>, and <code>figure</code> wherever they fit. Save <code>div</code> for purely structural grouping.</li>
+                    <li><strong>Pair every figure with a figcaption</strong> when the visual needs explanation.</li>
+                    <li><strong>Use Grid for two-dimensional layouts.</strong> Float was for wrapping text around images, not laying out pages.</li>
+                    <li><strong>Apply <code>* { box-sizing: border-box; }</code> globally.</strong> It eliminates a whole class of width-calculation surprises.</li>
+                    <li><strong>Use opacity for fades, alpha colors for backgrounds.</strong> Don't put opacity on a parent if you want the children to stay opaque.</li>
+                    <li><strong>Keep shadows subtle.</strong> A small offset, a soft blur, and a low-opacity color outperform heavy black drops.</li>
+                    <li><strong>Don't apply text-shadow to body copy.</strong> It hurts readability. Reserve it for headings or labels.</li>
+                    <li><strong>Add a favicon to every site.</strong> A blank tab icon makes a site look unfinished.</li>
+                    <li><strong>Validate after major changes.</strong> Catching errors in the validator beats hunting them later.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Reference -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Core Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>article element</td>
+                            <td>Semantic element for self-contained, reusable content such as a blog post or product card</td>
+                        </tr>
+                        <tr>
+                            <td>aside element</td>
+                            <td>Semantic element for content tangentially related to its surroundings</td>
+                        </tr>
+                        <tr>
+                            <td>section element</td>
+                            <td>Semantic element for a thematic grouping of content with its own heading</td>
+                        </tr>
+                        <tr>
+                            <td>figure element</td>
+                            <td>Semantic element wrapping a self-contained visual referenced by the main flow</td>
+                        </tr>
+                        <tr>
+                            <td>figcaption element</td>
+                            <td>Caption or legend for a figure</td>
+                        </tr>
+                        <tr>
+                            <td>CSS Grid Layout</td>
+                            <td>A two-dimensional layout system that arranges items in rows and columns</td>
+                        </tr>
+                        <tr>
+                            <td>Grid container</td>
+                            <td>An element with <code>display: grid</code> that establishes a grid for its children</td>
+                        </tr>
+                        <tr>
+                            <td>Grid item</td>
+                            <td>A direct child of a grid container</td>
+                        </tr>
+                        <tr>
+                            <td><code>grid-template-columns</code></td>
+                            <td>CSS property that defines the columns of a grid</td>
+                        </tr>
+                        <tr>
+                            <td><code>grid-template-rows</code></td>
+                            <td>CSS property that defines the rows of a grid</td>
+                        </tr>
+                        <tr>
+                            <td><code>fr</code> unit</td>
+                            <td>A fraction of remaining grid space</td>
+                        </tr>
+                        <tr>
+                            <td><code>gap</code></td>
+                            <td>CSS property for the space between grid cells</td>
+                        </tr>
+                        <tr>
+                            <td><code>opacity</code></td>
+                            <td>CSS property setting an element's transparency from 0 to 1</td>
+                        </tr>
+                        <tr>
+                            <td><code>box-shadow</code></td>
+                            <td>CSS property that adds a drop shadow to an element</td>
+                        </tr>
+                        <tr>
+                            <td><code>text-shadow</code></td>
+                            <td>CSS property that adds a shadow to text</td>
+                        </tr>
+                        <tr>
+                            <td><code>box-sizing</code></td>
+                            <td>CSS property that controls how width and height are calculated</td>
+                        </tr>
+                        <tr>
+                            <td><code>content-box</code></td>
+                            <td>Default box-sizing where width applies to content only; padding and border are added on top</td>
+                        </tr>
+                        <tr>
+                            <td><code>border-box</code></td>
+                            <td>Box-sizing where width includes padding and border</td>
+                        </tr>
+                        <tr>
+                            <td>Structural pseudo-class</td>
+                            <td>A pseudo-class that targets elements by their position among siblings</td>
+                        </tr>
+                        <tr>
+                            <td><code>:nth-of-type(n)</code></td>
+                            <td>Pseudo-class matching the nth sibling of the same element type</td>
+                        </tr>
+                        <tr>
+                            <td>Favicon</td>
+                            <td>A small image displayed in browser tabs and bookmarks for a website</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Design Quick Guides</a></p>
+            <p>Responsive Web Design Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
