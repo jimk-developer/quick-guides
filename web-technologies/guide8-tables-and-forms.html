@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <title>Guide 8: Creating Tables and Forms</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Sans+Pro:wght@400;600;700&family=Merriweather:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D97706;
+            --primary-dark: #B45309;
+            --accent: #06B6D4;
+            --success: #107C10;
+            --danger: #D83B01;
+            --warning: #FFB900;
+            --bg-dark: #1E1E1E;
+            --bg-light: #F3F3F3;
+            --text-dark: #252525;
+            --text-light: #FAFAFA;
+            --code-bg: #2D2D30;
+            --border: #E1E1E1;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px 20px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            color: #B4B4B4;
+        }
+
+        main {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px var(--shadow);
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin: 50px 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            margin: 35px 0 18px 0;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin: 0 0 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .highlight-box h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%);
+            border-left: 5px solid var(--accent);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .tip-box::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FFE4B5 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .warning-box::before {
+            content: "⚠️ ";
+            font-size: 1.2rem;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 25px 0;
+        }
+
+        .success-box::before {
+            content: "✅ ";
+            font-size: 1.2rem;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #F5F5F5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #D4D4D4;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        pre .tag { color: #569CD6; }
+        pre .attr { color: #9CDCFE; }
+        pre .string { color: #CE9178; }
+        pre .comment { color: #6A9955; }
+        pre .text { color: #D4D4D4; }
+        pre .selector { color: #D7BA7D; }
+        pre .property { color: #9CDCFE; }
+        pre .value { color: #CE9178; }
+        pre .punct { color: #D4D4D4; }
+        pre .keyword { color: #C586C0; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #F8F9FA;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(217, 119, 6, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            margin-bottom: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .syntax-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .syntax-box h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .syntax-box pre {
+            margin: 0;
+            background: #1E1E1E;
+        }
+
+        .quick-ref {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .quick-ref h3 {
+            color: #FCD34D;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .quick-ref table {
+            background: #2D2D30;
+            box-shadow: none;
+        }
+
+        .quick-ref th {
+            background: #3E3E42;
+        }
+
+        .quick-ref td {
+            color: #D4D4D4;
+            border-color: #3E3E42;
+        }
+
+        .quick-ref tr:hover {
+            background: #383838;
+        }
+
+        .quick-ref code {
+            background: #1E1E1E;
+            color: #9CDCFE;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .comparison-item h4 {
+            margin-top: 0;
+        }
+
+        .comparison-item.good {
+            border-left: 4px solid var(--success);
+        }
+
+        .comparison-item.bad {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Table anatomy diagram */
+        .table-anatomy {
+            background: #FEF3C7;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .anatomy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            background: white;
+            box-shadow: none;
+        }
+
+        .anatomy-table caption {
+            caption-side: top;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .anatomy-table th, .anatomy-table td {
+            padding: 12px 15px;
+            border: 1px solid #DDD;
+            text-align: left;
+        }
+
+        .anatomy-table thead th {
+            background: var(--primary);
+            color: white;
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 0.95rem;
+        }
+
+        .anatomy-labels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .anatomy-labels .lbl {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .anatomy-labels .lbl strong {
+            color: var(--primary-dark);
+            display: block;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Styled table demo */
+        .demo-table {
+            margin: 0;
+        }
+
+        .demo-table thead th {
+            background: var(--primary-dark);
+        }
+
+        .demo-table tbody tr:nth-of-type(even) {
+            background: #FFFBEB;
+        }
+
+        /* Border styles comparison */
+        .border-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .border-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .border-card h5 {
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        table.bd-separate {
+            border-collapse: separate;
+            border-spacing: 5px;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        table.bd-collapse {
+            border-collapse: collapse;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        table.bd-separate th,
+        table.bd-separate td,
+        table.bd-collapse th,
+        table.bd-collapse td {
+            border: 2px solid var(--primary);
+            padding: 10px;
+        }
+
+        table.bd-separate th,
+        table.bd-collapse th {
+            background: var(--primary);
+            color: white;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        /* Form input demo */
+        .form-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .form-demo .fd-row {
+            margin-bottom: 16px;
+        }
+
+        .form-demo label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-demo input[type="text"],
+        .form-demo input[type="email"],
+        .form-demo input[type="tel"],
+        .form-demo input[type="password"],
+        .form-demo input[type="date"],
+        .form-demo select,
+        .form-demo textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #DDD;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: white;
+        }
+
+        .form-demo input:focus,
+        .form-demo select:focus,
+        .form-demo textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(217,119,6,0.2);
+        }
+
+        .form-demo .fd-checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+        }
+
+        .form-demo .fd-checkbox-row input {
+            width: auto;
+        }
+
+        .form-demo .fd-checkbox-row label {
+            display: inline;
+            font-weight: 400;
+            margin: 0;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .form-demo button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-demo button:hover {
+            background: var(--primary-dark);
+        }
+
+        .form-demo button.reset {
+            background: #6B7280;
+        }
+
+        .form-demo button.reset:hover {
+            background: #4B5563;
+        }
+
+        .form-demo fieldset {
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 0;
+            background: white;
+        }
+
+        .form-demo legend {
+            color: var(--primary-dark);
+            font-weight: 700;
+            padding: 0 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Get vs Post comparison */
+        .method-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .method-card {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 20px;
+            border-top: 5px solid var(--primary);
+        }
+
+        .method-card h4 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .method-url {
+            background: #1E1E1E;
+            color: #9CDCFE;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            margin: 8px 0;
+            word-break: break-all;
+        }
+
+        /* Input type showcase */
+        .input-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .input-type-card {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .input-type-card h5 {
+            margin-bottom: 8px;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .input-type-card .it-demo {
+            margin-bottom: 8px;
+        }
+
+        .input-type-card .it-demo input,
+        .input-type-card .it-demo select,
+        .input-type-card .it-demo textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #DDD;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .input-type-card .it-demo .check-row {
+            display: flex;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .input-type-card p {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Mobile table approach */
+        .mobile-table-demo {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+
+        .mobile-table-demo .mt-row {
+            background: white;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .mobile-table-demo .mt-row .mt-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }
+
+        .mobile-table-demo .mt-row .mt-value {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #FCD34D;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .border-demo {
+                grid-template-columns: 1fr;
+            }
+
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Guide 8: Creating Tables and Forms</h1>
+        <p>Table Elements, Table Styling, Form Controls, Input Types, Labels, and Submit Buttons</p>
+    </header>
+
+    <div class="container">
+        <main>
+
+            <!-- Learning Objectives -->
+            <h2>🎯 Learning Objectives</h2>
+
+            <p>By the end of this guide, you will be able to:</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📊 Plan and Code Tables</h4>
+                    <p>Identify when a table is the right tool, then build one with rows, headers, and data cells.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🏷️ Add Captions and Headers</h4>
+                    <p>Use the caption element and table header cells to make tables readable and accessible.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎨 Style Tables</h4>
+                    <p>Apply CSS to control borders, spacing, alternating rows, and hover effects.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📱 Make Tables Responsive</h4>
+                    <p>Adapt tabular data for narrow mobile viewports without losing readability.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📝 Build Forms</h4>
+                    <p>Use the form and input elements to collect information from visitors.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>✅ Pick Input Controls</h4>
+                    <p>Choose the right input type (text, email, password, tel, date, checkbox, radio).</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📋 Use Labels and Fieldsets</h4>
+                    <p>Pair labels with controls and group related fields with fieldset and legend.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🚀 Submit Form Data</h4>
+                    <p>Add Submit and Reset buttons, and understand the difference between get and post.</p>
+                </div>
+            </div>
+
+            <!-- Tables Introduction -->
+            <h2>📊 Discovering Tables</h2>
+
+            <p>An HTML <strong>table</strong> presents information in rows and columns. Tables are the right tool whenever you have data that compares well in a grid: a class schedule, a price list, a nutrition label, a sports standings table, a product feature comparison.</p>
+
+            <h3>Table Anatomy</h3>
+
+            <p>Every table is made of the same building blocks. Knowing the names is essential because each one has its own HTML element.</p>
+
+            <div class="table-anatomy">
+                <table class="anatomy-table">
+                    <caption>Class Schedule</caption>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Watercolor Basics</td>
+                            <td>Tuesday</td>
+                            <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Pottery Workshop</td>
+                            <td>Saturday</td>
+                            <td>10:00 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="anatomy-labels">
+                    <div class="lbl"><strong>caption</strong>The table title</div>
+                    <div class="lbl"><strong>row</strong>A horizontal series of cells</div>
+                    <div class="lbl"><strong>column</strong>A vertical series of cells</div>
+                    <div class="lbl"><strong>cell</strong>A single intersection</div>
+                    <div class="lbl"><strong>header cell</strong>Identifies a row or column</div>
+                    <div class="lbl"><strong>data cell</strong>Holds an actual value</div>
+                </div>
+            </div>
+
+            <h3>Core Table Elements</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;table&gt;</code></td>
+                        <td>Wraps the whole table.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;caption&gt;</code></td>
+                        <td>The title of the table. Goes immediately after the opening table tag. Centered by default.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;thead&gt;</code></td>
+                        <td>Groups the header rows of the table.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;tbody&gt;</code></td>
+                        <td>Groups the body rows of the table.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;tfoot&gt;</code></td>
+                        <td>Groups the footer rows (such as totals).</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;tr&gt;</code></td>
+                        <td>Defines a single table row.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;th&gt;</code></td>
+                        <td>A header cell. Bold and centered by default. Identifies a row or column.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;td&gt;</code></td>
+                        <td>A data cell. Holds an actual value.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>th vs. thead.</strong> These look similar but mean different things. <code>&lt;th&gt;</code> is a single header cell. <code>&lt;thead&gt;</code> is a wrapper around an entire group of header rows. A table has many <code>&lt;th&gt;</code> elements, but at most one <code>&lt;thead&gt;</code>.
+            </div>
+
+            <h3>A Basic Table</h3>
+
+            <div class="syntax-box">
+                <h4>Building a Simple Table</h4>
+                <pre><span class="tag">&lt;table&gt;</span>
+    <span class="tag">&lt;caption&gt;</span>Bakery Hours<span class="tag">&lt;/caption&gt;</span>
+    <span class="tag">&lt;thead&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Day<span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Open<span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Close<span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/thead&gt;</span>
+    <span class="tag">&lt;tbody&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Tuesday<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>7:00 AM<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>2:00 PM<span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Wednesday<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>7:00 AM<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>2:00 PM<span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span></pre>
+            </div>
+
+            <h3>The 1990s Layout Misuse</h3>
+
+            <p>In the late 1990s, before CSS was widely supported, web designers used tables to lay out entire pages: headers, sidebars, columns, and footers were all forced into table rows and cells. The HTML was bloated, inaccessible to screen readers, and a nightmare to maintain.</p>
+
+            <div class="warning-box">
+                <strong>Never use tables for layout.</strong> Tables are for tabular data. Period. For page layouts, use CSS Grid or Flexbox. Misusing tables hurts accessibility (screen readers announce them as tables) and search engine optimization (search engines expect tabular content inside tables).
+            </div>
+
+            <h3>When to Use a Table</h3>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>✅ Good Table Uses</h4>
+                    <ul style="margin: 8px 0 0 20px; padding: 0;">
+                        <li>Class schedules</li>
+                        <li>Price lists</li>
+                        <li>Nutrition information</li>
+                        <li>Sports standings</li>
+                        <li>Comparison charts</li>
+                        <li>Financial data</li>
+                    </ul>
+                </div>
+                <div class="comparison-item bad">
+                    <h4>❌ Wrong Tool</h4>
+                    <ul style="margin: 8px 0 0 20px; padding: 0;">
+                        <li>Page layout</li>
+                        <li>Image galleries</li>
+                        <li>Card grids</li>
+                        <li>Navigation menus</li>
+                        <li>Form layouts</li>
+                        <li>Multi-column text</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Planning a Table</h3>
+
+            <div class="highlight-box">
+                <h4>Sketch Before You Code</h4>
+                <ol>
+                    <li><strong>Identify the data.</strong> What rows and columns are essential? What can you cut?</li>
+                    <li><strong>Decide what's a header.</strong> Header cells go in the top row, in the leftmost column, or both.</li>
+                    <li><strong>Plan for mobile.</strong> Will this table fit on a phone? If not, plan an alternative layout for narrow screens before you start coding.</li>
+                    <li><strong>Add a caption.</strong> Even short tables benefit from a clear title.</li>
+                </ol>
+            </div>
+
+            <!-- Styling Tables -->
+            <h2>🎨 Styling Tables</h2>
+
+            <p>Default browser styles for tables are spartan. A few CSS properties transform a plain table into something readable and attractive.</p>
+
+            <h3>Common Table CSS Properties</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>border</code></td>
+                        <td>Adds borders to the table, rows, or cells.</td>
+                    </tr>
+                    <tr>
+                        <td><code>border-collapse</code></td>
+                        <td>Combines adjacent cell borders into a single line, or keeps them separate.</td>
+                    </tr>
+                    <tr>
+                        <td><code>border-spacing</code></td>
+                        <td>Distance between cells when borders are separated.</td>
+                    </tr>
+                    <tr>
+                        <td><code>padding</code></td>
+                        <td>Space between cell content and cell edges. Apply to <code>th</code> and <code>td</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>text-align</code></td>
+                        <td>Horizontal alignment of cell content (left, center, right).</td>
+                    </tr>
+                    <tr>
+                        <td><code>vertical-align</code></td>
+                        <td>Vertical alignment within a cell (top, middle, bottom).</td>
+                    </tr>
+                    <tr>
+                        <td><code>background-color</code></td>
+                        <td>Background color, often used for header rows or alternating data rows.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Border Styles: Separated vs. Collapsed</h3>
+
+            <p>The <code>border-collapse</code> property has two main values that produce very different looks.</p>
+
+            <div class="border-demo">
+                <div class="border-card">
+                    <h5>border-collapse: separate (default)</h5>
+                    <table class="bd-separate">
+                        <tr><th>A</th><th>B</th></tr>
+                        <tr><td>1</td><td>2</td></tr>
+                        <tr><td>3</td><td>4</td></tr>
+                    </table>
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 10px; margin-bottom: 0;">Each cell has its own border with space between adjacent cells.</p>
+                </div>
+                <div class="border-card">
+                    <h5>border-collapse: collapse</h5>
+                    <table class="bd-collapse">
+                        <tr><th>A</th><th>B</th></tr>
+                        <tr><td>1</td><td>2</td></tr>
+                        <tr><td>3</td><td>4</td></tr>
+                    </table>
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 10px; margin-bottom: 0;">Adjacent cell borders merge into single lines.</p>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>A Polished Table Style</h4>
+                <pre><span class="selector">table</span> <span class="punct">{</span>
+    <span class="property">border-collapse</span><span class="punct">:</span> <span class="value">collapse</span><span class="punct">;</span>
+    <span class="property">width</span><span class="punct">:</span> <span class="value">100%</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">th, td</span> <span class="punct">{</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">12px 16px</span><span class="punct">;</span>
+    <span class="property">text-align</span><span class="punct">:</span> <span class="value">left</span><span class="punct">;</span>
+    <span class="property">border-bottom</span><span class="punct">:</span> <span class="value">1px solid #ddd</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">th</span> <span class="punct">{</span>
+    <span class="property">background-color</span><span class="punct">:</span> <span class="value">#B45309</span><span class="punct">;</span>
+    <span class="property">color</span><span class="punct">:</span> <span class="value">white</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Striped rows for easier scanning */</span>
+<span class="selector">tbody tr:nth-of-type(even)</span> <span class="punct">{</span>
+    <span class="property">background-color</span><span class="punct">:</span> <span class="value">#FFFBEB</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="comment">/* Highlight on hover */</span>
+<span class="selector">tbody tr:hover</span> <span class="punct">{</span>
+    <span class="property">background-color</span><span class="punct">:</span> <span class="value">#FEF3C7</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <h3>The Result: A Live Styled Table</h3>
+
+            <table class="demo-table">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Spots Left</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Watercolor Basics</td>
+                        <td>Tuesday</td>
+                        <td>6:00 PM</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Pottery Workshop</td>
+                        <td>Saturday</td>
+                        <td>10:00 AM</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Acrylic Painting</td>
+                        <td>Thursday</td>
+                        <td>7:00 PM</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>Sketching Outdoors</td>
+                        <td>Sunday</td>
+                        <td>9:00 AM</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="font-size: 0.9rem; color: #666;">Hover over a row to see the highlight effect. Notice the alternating row backgrounds.</p>
+
+            <h3>Responsive Tables</h3>
+
+            <p>Tables present a particular challenge on phones. A table with five or six columns simply won't fit on a 320-pixel screen without horizontal scrolling. Several patterns address this.</p>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📜 Horizontal Scroll</h4>
+                    <p>Wrap the table in a div with <code>overflow-x: auto</code>. Visitors can swipe sideways to see all columns. Simplest solution; works for most data.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔄 Stacked Cards</h4>
+                    <p>On mobile, display each row as a vertical card with labels next to each value. Each "row" becomes its own block.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎯 Hide Columns</h4>
+                    <p>Use CSS to hide the least important columns on small screens, keeping only the essential ones visible.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📊 Reformat as Chart</h4>
+                    <p>Long numerical tables are sometimes more useful as a chart on mobile. Show the chart on phones and the full table on tablets and desktops.</p>
+                </div>
+            </div>
+
+            <h4>The Stacked-Card Pattern</h4>
+
+            <p>Here's how a four-column table might display when transformed into stacked cards on mobile:</p>
+
+            <div class="mobile-table-demo">
+                <div class="mt-row">
+                    <div class="mt-value"><span class="mt-label">Class:</span> Watercolor Basics</div>
+                    <div class="mt-value"><span class="mt-label">Day:</span> Tuesday</div>
+                    <div class="mt-value"><span class="mt-label">Time:</span> 6:00 PM</div>
+                    <div class="mt-value"><span class="mt-label">Spots:</span> 4</div>
+                </div>
+                <div class="mt-row">
+                    <div class="mt-value"><span class="mt-label">Class:</span> Pottery Workshop</div>
+                    <div class="mt-value"><span class="mt-label">Day:</span> Saturday</div>
+                    <div class="mt-value"><span class="mt-label">Time:</span> 10:00 AM</div>
+                    <div class="mt-value"><span class="mt-label">Spots:</span> 2</div>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>The Simplest Responsive Table: Horizontal Scroll</h4>
+                <pre><span class="comment">&lt;!-- Wrap the table in a scrolling container --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"table-scroll"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;table&gt;</span> ... <span class="tag">&lt;/table&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">/* CSS */</span>
+<span class="selector">.table-scroll</span> <span class="punct">{</span>
+    <span class="property">overflow-x</span><span class="punct">:</span> <span class="value">auto</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Forms Introduction -->
+            <h2>📝 Creating Webpage Forms</h2>
+
+            <p>A <strong>form</strong> is a section of a webpage that collects information from the visitor. Contact forms, search boxes, login screens, sign-up flows, surveys, and checkout pages all use HTML forms. Whenever a visitor types something into a website, they're filling out a form.</p>
+
+            <h3>What Forms Collect</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📇 Contact Information</h4>
+                    <p>Name, email, phone, mailing address.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔐 Account Credentials</h4>
+                    <p>Username, password, security questions.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🛒 Purchases and Orders</h4>
+                    <p>Cart items, shipping info, payment details.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📊 Feedback and Surveys</h4>
+                    <p>Ratings, opinions, multiple-choice answers, open comments.</p>
+                </div>
+            </div>
+
+            <h3>The form Element</h3>
+
+            <p>Every form starts with a <code>&lt;form&gt;</code> element. This element wraps all the controls (input fields, buttons, etc.) and tells the browser what to do when the form is submitted.</p>
+
+            <div class="syntax-box">
+                <h4>The Skeleton of a Form</h4>
+                <pre><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="string">"/contact-process"</span> <span class="attr">method</span>=<span class="string">"post"</span><span class="tag">&gt;</span>
+    <span class="comment">&lt;!-- input controls go here --&gt;</span>
+
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+            </div>
+
+            <h3>Common Form Attributes</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>action</code></td>
+                        <td>The URL where the browser sends form data when submitted. The server-side script that receives the data.</td>
+                    </tr>
+                    <tr>
+                        <td><code>method</code></td>
+                        <td>How the browser sends the data: <code>get</code> or <code>post</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>Identifies this form when there's more than one on a page.</td>
+                    </tr>
+                    <tr>
+                        <td><code>autocomplete</code></td>
+                        <td>Whether the browser should suggest values from past form submissions.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The get Method vs. the post Method</h3>
+
+            <div class="method-grid">
+                <div class="method-card">
+                    <h4>📨 method="get"</h4>
+                    <p>Form data appears in the URL as query parameters.</p>
+                    <div class="method-url">/search?term=sourdough&category=bread</div>
+                    <p style="font-size:0.9rem;color:#666;margin:0;"><strong>Use for:</strong> searches, filters, and any data the visitor would want to bookmark or share.</p>
+                </div>
+                <div class="method-card">
+                    <h4>📤 method="post"</h4>
+                    <p>Form data is sent in the body of the HTTP request, hidden from the URL.</p>
+                    <div class="method-url">/contact-process</div>
+                    <p style="font-size:0.9rem;color:#666;margin:0;"><strong>Use for:</strong> form submissions that change something on the server (sign-ups, orders, contact messages).</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Never use get for sensitive data.</strong> Passwords, credit card numbers, and personal information should always go through <code>post</code>. URLs are saved in browser history, server logs, and HTTP referrer headers.
+            </div>
+
+            <!-- Input Element -->
+            <h2>🎛️ Input Controls</h2>
+
+            <p>The <strong>input element</strong> is the workhorse of HTML forms. A single <code>&lt;input&gt;</code> tag can be a text box, a checkbox, a radio button, a date picker, or a submit button, depending on the value of its <code>type</code> attribute.</p>
+
+            <h3>Common Input Attributes</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>type</code></td>
+                        <td>Determines what kind of input control to render.</td>
+                    </tr>
+                    <tr>
+                        <td><code>name</code></td>
+                        <td>The key under which the value is sent to the server. Required for the value to be included in the submission.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id</code></td>
+                        <td>Unique identifier for the control. Used to associate a label with the input.</td>
+                    </tr>
+                    <tr>
+                        <td><code>value</code></td>
+                        <td>The starting value of the control, or for buttons, the text on the button.</td>
+                    </tr>
+                    <tr>
+                        <td><code>placeholder</code></td>
+                        <td>Hint text shown in an empty text field. Disappears when the visitor starts typing.</td>
+                    </tr>
+                    <tr>
+                        <td><code>maxlength</code></td>
+                        <td>Maximum number of characters the user can enter.</td>
+                    </tr>
+                    <tr>
+                        <td><code>size</code></td>
+                        <td>Visible width of a text input in characters.</td>
+                    </tr>
+                    <tr>
+                        <td><code>required</code></td>
+                        <td>The form won't submit unless this control has a value.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The Input Types</h3>
+
+            <p>The <code>type</code> attribute changes everything about an input. Here are the most common values, each shown in action.</p>
+
+            <div class="input-types-grid">
+                <div class="input-type-card">
+                    <h5>type="text"</h5>
+                    <div class="it-demo">
+                        <input type="text" placeholder="Single-line text">
+                    </div>
+                    <p>A single-line text box. The default if you don't specify a type.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="email"</h5>
+                    <div class="it-demo">
+                        <input type="email" placeholder="you@example.com">
+                    </div>
+                    <p>Like text, but validates that the value looks like an email address. Mobile keyboards show an @ key.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="tel"</h5>
+                    <div class="it-demo">
+                        <input type="tel" placeholder="(555) 555-1234">
+                    </div>
+                    <p>Phone number input. Mobile keyboards show a numeric keypad.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="password"</h5>
+                    <div class="it-demo">
+                        <input type="password" value="hidden123">
+                    </div>
+                    <p>Masks the typed characters as dots or asterisks. Doesn't add encryption; only hides the display.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="date"</h5>
+                    <div class="it-demo">
+                        <input type="date">
+                    </div>
+                    <p>A date picker. Browsers display a calendar widget. The value is always in YYYY-MM-DD format regardless of locale.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="number"</h5>
+                    <div class="it-demo">
+                        <input type="number" value="1" min="1" max="10">
+                    </div>
+                    <p>A numeric input with up/down spinners. Use <code>min</code> and <code>max</code> attributes to restrict the range.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="checkbox"</h5>
+                    <div class="it-demo check-row">
+                        <label><input type="checkbox" checked> Email me</label>
+                        <label><input type="checkbox"> Text me</label>
+                    </div>
+                    <p>An on/off toggle. Multiple checkboxes can be selected at once.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="radio"</h5>
+                    <div class="it-demo check-row">
+                        <label><input type="radio" name="size" checked> Small</label>
+                        <label><input type="radio" name="size"> Large</label>
+                    </div>
+                    <p>One-of-many selector. Radio buttons with the same <code>name</code> form a group; only one can be selected.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="submit"</h5>
+                    <div class="it-demo">
+                        <input type="submit" value="Send Message">
+                    </div>
+                    <p>The Submit button. Sends the form to the server when clicked.</p>
+                </div>
+                <div class="input-type-card">
+                    <h5>type="reset"</h5>
+                    <div class="it-demo">
+                        <input type="reset" value="Clear Form">
+                    </div>
+                    <p>The Reset button. Clears all controls back to their initial values.</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Radio buttons must share a name.</strong> Radio buttons only behave as a single-choice group when they all have the same <code>name</code> attribute. Different names mean separate groups, and the visitor can pick one from each.
+            </div>
+
+            <!-- Textarea -->
+            <h3>The textarea Element</h3>
+
+            <p>The <code>&lt;textarea&gt;</code> element creates a multi-line text input. Unlike <code>&lt;input&gt;</code>, textarea is a paired tag, with the default text between the opening and closing tags. The visible size is set with the <code>rows</code> and <code>cols</code> attributes.</p>
+
+            <div class="syntax-box">
+                <h4>A Textarea</h4>
+                <pre><span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"comments"</span><span class="tag">&gt;</span>Comments<span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;textarea</span> <span class="attr">id</span>=<span class="string">"comments"</span>
+          <span class="attr">name</span>=<span class="string">"comments"</span>
+          <span class="attr">rows</span>=<span class="string">"5"</span>
+          <span class="attr">cols</span>=<span class="string">"40"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/textarea&gt;</span></pre>
+            </div>
+
+            <!-- Select -->
+            <h3>The select Element</h3>
+
+            <p>The <code>&lt;select&gt;</code> element creates a dropdown menu. Each choice is an <code>&lt;option&gt;</code> element nested inside.</p>
+
+            <div class="syntax-box">
+                <h4>A Dropdown Menu</h4>
+                <pre><span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"flavor"</span><span class="tag">&gt;</span>Flavor<span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;select</span> <span class="attr">id</span>=<span class="string">"flavor"</span> <span class="attr">name</span>=<span class="string">"flavor"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">""</span><span class="tag">&gt;</span>Choose one<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"vanilla"</span><span class="tag">&gt;</span>Vanilla<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"chocolate"</span><span class="tag">&gt;</span>Chocolate<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"strawberry"</span><span class="tag">&gt;</span>Strawberry<span class="tag">&lt;/option&gt;</span>
+<span class="tag">&lt;/select&gt;</span></pre>
+            </div>
+
+            <div class="tip-box">
+                <strong>Pre-select with the selected attribute.</strong> Add <code>selected</code> to whichever <code>&lt;option&gt;</code> should be the default choice when the form first appears. If you don't, the first option is selected.
+            </div>
+
+            <!-- Labels -->
+            <h2>🏷️ Labels: The Most Important Element</h2>
+
+            <p>The <strong>label element</strong> attaches a text label to a form control. Labels matter for three reasons: clicking the label focuses the control (especially useful for small checkboxes), screen readers announce the label when the visitor reaches the control, and the form is much easier to use overall.</p>
+
+            <h3>Two Ways to Associate a Label</h3>
+
+            <div class="comparison">
+                <div class="comparison-item good">
+                    <h4>🎯 Explicit (preferred)</h4>
+                    <p>Use a <code>for</code> attribute on the label that matches the <code>id</code> of the input.</p>
+                    <pre><span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"email"</span><span class="tag">&gt;</span>Email<span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">id</span>=<span class="string">"email"</span><span class="tag">&gt;</span></pre>
+                </div>
+                <div class="comparison-item good">
+                    <h4>🎁 Implicit</h4>
+                    <p>Wrap the input inside the label.</p>
+                    <pre><span class="tag">&lt;label&gt;</span>
+    Email
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"email"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/label&gt;</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <strong>Always pair a label with every form control.</strong> Submit buttons and reset buttons are the only exception (they have their text on the button itself). Every other input, textarea, and select needs a label.
+            </div>
+
+            <!-- Fieldset and Legend -->
+            <h2>📋 Grouping with fieldset and legend</h2>
+
+            <p>The <strong>fieldset element</strong> groups related form controls together. The <strong>legend element</strong> provides a caption for the group. Together they make complex forms easier to scan and understand.</p>
+
+            <p>Common groupings include "Contact Information", "Shipping Address", "Account Preferences", and so on. Visually, fieldset draws a thin border around the group, and legend appears as a label that breaks through the top border.</p>
+
+            <div class="syntax-box">
+                <h4>A Fieldset with Legend</h4>
+                <pre><span class="tag">&lt;fieldset&gt;</span>
+    <span class="tag">&lt;legend&gt;</span>Newsletter Preferences<span class="tag">&lt;/legend&gt;</span>
+
+    <span class="tag">&lt;label&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"weekly"</span><span class="tag">&gt;</span>
+        Weekly recipe roundup
+    <span class="tag">&lt;/label&gt;</span>
+
+    <span class="tag">&lt;label&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"events"</span><span class="tag">&gt;</span>
+        Class and event announcements
+    <span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;/fieldset&gt;</span></pre>
+            </div>
+
+            <!-- Live Form Demo -->
+            <h2>🎬 A Complete Form Example</h2>
+
+            <p>Here is a working contact form using everything covered in this guide. Each input is fully functional. Try filling it out (it doesn't actually submit anywhere).</p>
+
+            <div class="form-demo">
+                <fieldset>
+                    <legend>Contact Information</legend>
+                    <div class="fd-row">
+                        <label for="demo-name">Name</label>
+                        <input type="text" id="demo-name" name="name" placeholder="Jane Smith" required>
+                    </div>
+                    <div class="fd-row">
+                        <label for="demo-email">Email</label>
+                        <input type="email" id="demo-email" name="email" placeholder="jane@example.com" required>
+                    </div>
+                    <div class="fd-row">
+                        <label for="demo-phone">Phone</label>
+                        <input type="tel" id="demo-phone" name="phone" placeholder="(555) 555-1234">
+                    </div>
+                </fieldset>
+
+                <div class="fd-row" style="margin-top: 20px;">
+                    <label for="demo-topic">What can we help with?</label>
+                    <select id="demo-topic" name="topic">
+                        <option value="">Choose one</option>
+                        <option value="catering">Catering inquiry</option>
+                        <option value="classes">Cooking classes</option>
+                        <option value="general">General question</option>
+                    </select>
+                </div>
+
+                <div class="fd-row">
+                    <label>How would you like us to reach you?</label>
+                    <div class="fd-checkbox-row">
+                        <input type="checkbox" id="demo-byemail" name="byemail">
+                        <label for="demo-byemail">Email</label>
+                    </div>
+                    <div class="fd-checkbox-row">
+                        <input type="checkbox" id="demo-byphone" name="byphone">
+                        <label for="demo-byphone">Phone call</label>
+                    </div>
+                    <div class="fd-checkbox-row">
+                        <input type="checkbox" id="demo-bytext" name="bytext">
+                        <label for="demo-bytext">Text message</label>
+                    </div>
+                </div>
+
+                <div class="fd-row">
+                    <label for="demo-message">Your message</label>
+                    <textarea id="demo-message" name="message" rows="4" placeholder="Tell us what you're looking for..."></textarea>
+                </div>
+
+                <button type="submit" onclick="event.preventDefault(); alert('In a real form, this would send the data to the server. Form submission is disabled in this demo.');">Send Message</button>
+                <button type="reset" class="reset" onclick="event.preventDefault();">Clear Form</button>
+            </div>
+
+            <h3>The HTML Behind That Form</h3>
+
+            <div class="syntax-box">
+                <h4>Original Code for an Original Contact Form</h4>
+                <pre><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="string">"/contact-process"</span> <span class="attr">method</span>=<span class="string">"post"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;fieldset&gt;</span>
+        <span class="tag">&lt;legend&gt;</span>Contact Information<span class="tag">&lt;/legend&gt;</span>
+
+        <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"name"</span><span class="tag">&gt;</span>Name<span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+        <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"email"</span><span class="tag">&gt;</span>Email<span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+        <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"phone"</span><span class="tag">&gt;</span>Phone<span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"tel"</span> <span class="attr">id</span>=<span class="string">"phone"</span> <span class="attr">name</span>=<span class="string">"phone"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/fieldset&gt;</span>
+
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"topic"</span><span class="tag">&gt;</span>What can we help with?<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;select</span> <span class="attr">id</span>=<span class="string">"topic"</span> <span class="attr">name</span>=<span class="string">"topic"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">""</span><span class="tag">&gt;</span>Choose one<span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"catering"</span><span class="tag">&gt;</span>Catering inquiry<span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"classes"</span><span class="tag">&gt;</span>Cooking classes<span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="string">"general"</span><span class="tag">&gt;</span>General question<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;/select&gt;</span>
+
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"message"</span><span class="tag">&gt;</span>Your message<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;textarea</span> <span class="attr">id</span>=<span class="string">"message"</span> <span class="attr">name</span>=<span class="string">"message"</span> <span class="attr">rows</span>=<span class="string">"4"</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Send Message<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"reset"</span><span class="tag">&gt;</span>Clear Form<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+            </div>
+
+            <!-- Styling Forms -->
+            <h2>💅 Styling Forms</h2>
+
+            <p>Default browser form styles look dated. A small amount of CSS modernizes them and makes the form match the rest of your site.</p>
+
+            <h3>Common Form Styling Targets</h3>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h4>📐 Consistent Sizing</h4>
+                    <p>Set a standard <code>padding</code> and <code>font-size</code> on all inputs, textareas, and selects. Browser defaults vary widely; a uniform size makes the form feel intentional.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🎯 Focus States</h4>
+                    <p>Style the <code>:focus</code> state with a colored border or shadow so visitors can see clearly which control is active.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>🔘 Button Styling</h4>
+                    <p>Submit buttons get the brand color. Reset buttons (when used) get a more neutral color so they don't compete with the primary action.</p>
+                </div>
+                <div class="concept-card">
+                    <h4>📏 Mobile Layout</h4>
+                    <p>Stack labels above inputs on phones. On tablets and desktops, you can place them side by side if there's room.</p>
+                </div>
+            </div>
+
+            <div class="syntax-box">
+                <h4>A Modern Form Style</h4>
+                <pre><span class="selector">input, textarea, select</span> <span class="punct">{</span>
+    <span class="property">width</span><span class="punct">:</span> <span class="value">100%</span><span class="punct">;</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">10px 14px</span><span class="punct">;</span>
+    <span class="property">border</span><span class="punct">:</span> <span class="value">2px solid #ddd</span><span class="punct">;</span>
+    <span class="property">border-radius</span><span class="punct">:</span> <span class="value">6px</span><span class="punct">;</span>
+    <span class="property">font-size</span><span class="punct">:</span> <span class="value">1rem</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">input:focus, textarea:focus, select:focus</span> <span class="punct">{</span>
+    <span class="property">outline</span><span class="punct">:</span> <span class="value">none</span><span class="punct">;</span>
+    <span class="property">border-color</span><span class="punct">:</span> <span class="value">#D97706</span><span class="punct">;</span>
+    <span class="property">box-shadow</span><span class="punct">:</span> <span class="value">0 0 0 3px rgba(217,119,6,0.2)</span><span class="punct">;</span>
+<span class="punct">}</span>
+
+<span class="selector">button[type="submit"]</span> <span class="punct">{</span>
+    <span class="property">background</span><span class="punct">:</span> <span class="value">#D97706</span><span class="punct">;</span>
+    <span class="property">color</span><span class="punct">:</span> <span class="value">white</span><span class="punct">;</span>
+    <span class="property">padding</span><span class="punct">:</span> <span class="value">12px 30px</span><span class="punct">;</span>
+    <span class="property">border</span><span class="punct">:</span> <span class="value">none</span><span class="punct">;</span>
+    <span class="property">border-radius</span><span class="punct">:</span> <span class="value">6px</span><span class="punct">;</span>
+    <span class="property">cursor</span><span class="punct">:</span> <span class="value">pointer</span><span class="punct">;</span>
+    <span class="property">font-weight</span><span class="punct">:</span> <span class="value">600</span><span class="punct">;</span>
+<span class="punct">}</span></pre>
+            </div>
+
+            <!-- Best Practices -->
+            <h2>✨ Best Practices</h2>
+
+            <div class="highlight-box">
+                <h4>Habits for tables and forms</h4>
+                <ul>
+                    <li><strong>Use tables only for tabular data.</strong> Never for layout.</li>
+                    <li><strong>Add a caption to every table.</strong> Even short tables benefit from a clear title.</li>
+                    <li><strong>Mark up header cells with <code>&lt;th&gt;</code>.</strong> Screen readers depend on this to navigate the data.</li>
+                    <li><strong>Pair a label with every form control.</strong> Required for accessibility and for usability.</li>
+                    <li><strong>Use the right input type.</strong> Email, tel, date, and number give visitors better keyboards on mobile and built-in validation.</li>
+                    <li><strong>Group related inputs with fieldset and legend.</strong> Especially in forms with more than five fields.</li>
+                    <li><strong>Use post for sensitive data.</strong> Never put passwords or personal info in a URL with get.</li>
+                    <li><strong>Style focus states.</strong> Visitors should always see clearly which input has keyboard focus.</li>
+                    <li><strong>Plan tables for mobile from the start.</strong> Decide upfront whether to scroll, stack, hide, or chart.</li>
+                    <li><strong>Validate every page after adding forms.</strong> Forms introduce many new attributes and unique IDs that need checking.</li>
+                </ul>
+            </div>
+
+            <!-- Quick Reference -->
+            <h2>📚 Quick Reference</h2>
+
+            <div class="quick-ref">
+                <h3>Core Vocabulary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Table</td>
+                            <td>An HTML element that displays data in rows and columns</td>
+                        </tr>
+                        <tr>
+                            <td>Row</td>
+                            <td>A horizontal line of cells in a table</td>
+                        </tr>
+                        <tr>
+                            <td>Column</td>
+                            <td>A vertical line of cells in a table</td>
+                        </tr>
+                        <tr>
+                            <td>Cell</td>
+                            <td>A single intersection of a row and column</td>
+                        </tr>
+                        <tr>
+                            <td>Header cell</td>
+                            <td>A cell that identifies a row or column, marked up with <code>&lt;th&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Data cell</td>
+                            <td>A cell that holds an actual value, marked up with <code>&lt;td&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Table caption</td>
+                            <td>The title of the table, marked up with <code>&lt;caption&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Table border</td>
+                            <td>A line drawn around or between table cells</td>
+                        </tr>
+                        <tr>
+                            <td>Table header</td>
+                            <td>The group of header rows, wrapped in <code>&lt;thead&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Form</td>
+                            <td>A section of a webpage that collects information from the visitor</td>
+                        </tr>
+                        <tr>
+                            <td>Input control</td>
+                            <td>A form element where the visitor enters or selects data</td>
+                        </tr>
+                        <tr>
+                            <td>Data input control</td>
+                            <td>An input control whose purpose is to collect a piece of information</td>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
+                            <td>A text label associated with a form control</td>
+                        </tr>
+                        <tr>
+                            <td><code>name</code> attribute</td>
+                            <td>The key under which a form control's value is sent to the server</td>
+                        </tr>
+                        <tr>
+                            <td><code>id</code> attribute</td>
+                            <td>A unique identifier used to associate a label with its control</td>
+                        </tr>
+                        <tr>
+                            <td><code>value</code> attribute</td>
+                            <td>The starting value of a control or the text on a button</td>
+                        </tr>
+                        <tr>
+                            <td><code>maxlength</code></td>
+                            <td>Maximum number of characters a text input accepts</td>
+                        </tr>
+                        <tr>
+                            <td><code>size</code></td>
+                            <td>Visible width of a text input in characters</td>
+                        </tr>
+                        <tr>
+                            <td>Text input control</td>
+                            <td>A single-line text box (<code>type="text"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Password control</td>
+                            <td>A text input that masks the typed characters (<code>type="password"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Email control</td>
+                            <td>A text input for email addresses (<code>type="email"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Tel control</td>
+                            <td>A text input for phone numbers (<code>type="tel"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Date control</td>
+                            <td>A date picker input (<code>type="date"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Checkbox control</td>
+                            <td>An on/off toggle (<code>type="checkbox"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Radio control</td>
+                            <td>A one-of-many selector (<code>type="radio"</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Select control</td>
+                            <td>A dropdown menu (<code>&lt;select&gt;</code> with <code>&lt;option&gt;</code> children)</td>
+                        </tr>
+                        <tr>
+                            <td>Textarea control</td>
+                            <td>A multi-line text input (<code>&lt;textarea&gt;</code>)</td>
+                        </tr>
+                        <tr>
+                            <td>Submit button</td>
+                            <td>A button that sends the form to the server</td>
+                        </tr>
+                        <tr>
+                            <td>Reset button</td>
+                            <td>A button that clears the form back to its starting values</td>
+                        </tr>
+                        <tr>
+                            <td>Fieldset element</td>
+                            <td>Groups related form controls together</td>
+                        </tr>
+                        <tr>
+                            <td>Legend</td>
+                            <td>The caption for a fieldset</td>
+                        </tr>
+                        <tr>
+                            <td>get method</td>
+                            <td>Sends form data as URL query parameters</td>
+                        </tr>
+                        <tr>
+                            <td>post method</td>
+                            <td>Sends form data in the body of the HTTP request</td>
+                        </tr>
+                        <tr>
+                            <td>Script</td>
+                            <td>A program on the server (referenced by the action attribute) that processes form data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <footer>
+            <p><a href="index.html">← Back to Web Design Quick Guides</a></p>
+            <p>Responsive Web Design Quick Reference Guide</p>
+        </footer>
+    </div>
+</body>
+
+</html>
